@@ -1,0 +1,41 @@
+package com.lilithslegacy.game.character.body.valueEnums;
+
+/**
+ * @author Innoxia
+ * @version 0.3.7.2
+ * @since 0.1.83
+ */
+public enum OrificeModifier {
+
+    PUFFY("puffy", ""),
+
+    RIBBED("internally-ribbed", ""),
+
+    TENTACLED("tentacled", ""),
+
+    MUSCLE_CONTROL("internally-muscled", "Prevents this orifice from ever being regarded as 'too loose', no matter how slender an insertion nor how loose its capacity might be.");
+
+
+    private final String name;
+    private final String description;
+
+    OrificeModifier(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isSpecialEffects() {
+        return !description.isEmpty();
+    }
+
+    public String getDescription() {
+        if (description.isEmpty()) {
+            return "No gameplay effect.";
+        }
+        return description;
+    }
+}

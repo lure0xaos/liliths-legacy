@@ -46,7 +46,8 @@ If the jar does not run:
 1. In the right column, click "New".
 1. Choose "Java Application", and click "OK".
 1. A Wizard will open, click "Search" next to the "Main Class" Box.
-1. Another Window will open, there will be one matching item called "Main - com.lilithsthrone.main" Select this and click "OK".
+1. Another Window will open, there will be one matching item called "Main - com.lilithslegacy.main" Select this and
+   click "OK".
 1. Click "OK".
 1. Click "Apply" and "Close".
 1. Try Exporting again.
@@ -55,7 +56,7 @@ If this does not help.
 
 1. Click [Project -> Clean] and wait for this to finish.
 1. Select the Project in the Package Explorer.
-1. Open the tree, and locate [src -> com.lilithsthrone.main -> Main.java].
+1. Open the tree, and locate [src -> com.lilithslegacy.main -> Main.java].
 1. Right click on this file and choose [Run As -> 1 Java Application] 
 1. The program should now launch, you can play like this, or close it now.
 1. Try exporting again, but in the Launch Configuration there should be a new one added. Choose this.
@@ -160,7 +161,8 @@ Your IDE should now load the project tree with resources, sources, etc. and gene
 1. For the default quick start, press [Ctrl + Shift + A] and search for "Edit Configurations". Open the action with that name.
 1. In the dialogue, click the "+" in the top left corner and choose "Application".
 1. Pick a name for the configuration that you will recognize (e.g. "Build and run").
-1. Click the "..." next to the "Main class" text field and search for "Main". Pick the class with that name (com.lilithsthrone.main) and click "OK".
+1. Click the "..." next to the "Main class" text field and search for "Main". Pick the class with that name (
+   com.lilithslegacy.main) and click "OK".
 1. Click "Apply" and/or "OK".
 
 You should now be able to build and run the game using the new run configuration (which should be selected by default). The default hotkey is [Shift + F10].

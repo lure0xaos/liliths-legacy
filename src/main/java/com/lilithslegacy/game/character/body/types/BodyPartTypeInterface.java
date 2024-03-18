@@ -1,0 +1,176 @@
+package com.lilithslegacy.game.character.body.types;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.lilithslegacy.game.character.GameCharacter;
+import com.lilithslegacy.game.character.body.Body;
+import com.lilithslegacy.game.character.body.coverings.AbstractBodyCoveringType;
+import com.lilithslegacy.game.character.body.tags.BodyPartTag;
+import com.lilithslegacy.game.character.race.AbstractRace;
+import com.lilithslegacy.game.inventory.clothing.BodyPartClothingBlock;
+import com.lilithslegacy.game.inventory.enchanting.TFModifier;
+
+/**
+ * @author Innoxia
+ * @version 0.4.0
+ * @since 0.1.0
+ */
+public interface BodyPartTypeInterface {
+
+    default boolean isAvailableForSelfTransformMenu(GameCharacter gc) {
+        return true;
+    }
+
+    boolean isDefaultPlural(GameCharacter gc);
+
+    /**
+     * @return Pronoun for this body part. (They, it)
+     */
+    default String getPronoun(GameCharacter gc) {
+        if (isDefaultPlural(gc)) {
+            return "they";
+        } else {
+            return "it";
+        }
+    }
+
+    /**
+     * @return Determiner for this body part. (Returns an empty string if a default 'a' or 'an' should be used.)
+     */
+    String getDeterminer(GameCharacter gc);
+
+    /**
+     * @return The default name of this body part.
+     */
+    default String getName(GameCharacter gc) {
+        if (isDefaultPlural(gc)) {
+            return getNamePlural(gc);
+        } else {
+            return getNameSingular(gc);
+        }
+    }
+
+    /**
+     * @return The singular name of this body part.
+     */
+    String getNameSingular(GameCharacter gc);
+
+    /**
+     * @return The plural name of this body part.
+     */
+    String getNamePlural(GameCharacter gc);
+
+    /**
+     * @return The name of this body part with its descriptor.
+     */
+    default String getName(boolean withDescriptor, GameCharacter gc) {
+        return (!getDescriptor(gc).isEmpty() ? getDescriptor(gc) + " " : "") + getName(gc);
+    }
+
+    /**
+     * A 1-word descriptor that best describes this body part.
+     */
+    String getDescriptor(GameCharacter gc);
+
+    /**
+     * <b>BodyCoveringType when assigned to a character should be checked through their appropriate methods!</b>
+     *
+     * @param body The body that this covering type is a part of.
+     * @return The type of skin that is covering this body part.
+     */
+    AbstractBodyCoveringType getBodyCoveringType(Body body);
+
+    /**
+     * <b>BodyCoveringType when assigned to a character should be checked through their appropriate methods!</b>
+     */
+    default AbstractBodyCoveringType getBodyCoveringType(GameCharacter gc) {
+        return getBodyCoveringType(gc.getBody());
+    }
+
+    /**
+     * @return The race of this body part.
+     */
+    AbstractRace getRace();
+
+    /**
+     * @return The TFModifier for this body part.
+     */
+    default TFModifier getTFModifier() {
+        return TFModifier.NONE;
+    }
+
+    default List<BodyPartTag> getTags() {
+        return new ArrayList<>();
+    }
+
+    default TFModifier getTFTypeModifier(List<? extends BodyPartTypeInterface> types) {
+        switch (types.indexOf(this)) {
+            case 0:
+                return TFModifier.TF_TYPE_1;
+            case 1:
+                return TFModifier.TF_TYPE_2;
+            case 2:
+                return TFModifier.TF_TYPE_3;
+            case 3:
+                return TFModifier.TF_TYPE_4;
+            case 4:
+                return TFModifier.TF_TYPE_5;
+            case 5:
+                return TFModifier.TF_TYPE_6;
+            case 6:
+                return TFModifier.TF_TYPE_7;
+            case 7:
+                return TFModifier.TF_TYPE_8;
+            case 8:
+                return TFModifier.TF_TYPE_9;
+            case 9:
+                return TFModifier.TF_TYPE_10;
+            default:
+                return TFModifier.NONE;
+        }
+    }
+
+    //TODO
+//	/** @return The description of this body part as seen in the character view screen. */
+//	public String getBodyDescription(GameCharacter owner);
+
+    //TODO
+//	/** @return The description of this body part being changed. */
+//	public String getTransformationDescription(GameCharacter owner);
+
+    default String getTransformationNameOverride() {
+        return null;
+    }
+
+    /**
+     * @return The name that should be used when describing this body part in the context of transformations.
+     */
+    default String getTransformName() {
+        if (getTransformationNameOverride() != null) {
+            return getTransformationNameOverride();
+        }
+        if (getRace() == null) {
+            return "";
+        }
+        return getRace().getDefaultTransformName();
+    }
+
+    /**
+     * @return A BodyPartClothingBlock object which defines how this BodyPartInterface is blocking InventorySlots. Returns null if it doesn't affect inventorySlots in any way.
+     */
+    default BodyPartClothingBlock getBodyPartClothingBlock() {
+        return null;
+    }
+
+    /**
+     * Checks, if the given BodyPartType is in the list of BodyPartTypes
+     *
+     * @param values The list of BodyPartTypes to match the type against
+     * @return true, if the type is among the list.
+     */
+    default boolean isOneOf(BodyPartTypeInterface... values) {
+        return Arrays.asList(values).contains(this);
+    }
+}
