@@ -1,0 +1,16 @@
+/data/
+/build/
+/.idea/
+.*
+!.gitignore
+*.bak
+*~
+*.old
+*.class
+*.log
+*.iml
+*.jar
+desktop.ini
+
+# Ignore all generic character images
+res/images/characters/generic/

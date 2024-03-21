@@ -1,0 +1,414 @@
+package com.lilithslegacy.game.character.npc.fields;
+
+import java.time.Month;
+import java.util.List;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import com.lilithslegacy.game.Game;
+import com.lilithslegacy.game.character.CharacterImportSetting;
+import com.lilithslegacy.game.character.EquipClothingSetting;
+import com.lilithslegacy.game.character.GameCharacter;
+import com.lilithslegacy.game.character.body.coverings.BodyCoveringType;
+import com.lilithslegacy.game.character.body.coverings.Covering;
+import com.lilithslegacy.game.character.body.types.BreastType;
+import com.lilithslegacy.game.character.body.types.EarType;
+import com.lilithslegacy.game.character.body.types.EyeType;
+import com.lilithslegacy.game.character.body.types.HairType;
+import com.lilithslegacy.game.character.body.valueEnums.AreolaeSize;
+import com.lilithslegacy.game.character.body.valueEnums.AssSize;
+import com.lilithslegacy.game.character.body.valueEnums.BodyHair;
+import com.lilithslegacy.game.character.body.valueEnums.BodySize;
+import com.lilithslegacy.game.character.body.valueEnums.BreastShape;
+import com.lilithslegacy.game.character.body.valueEnums.Capacity;
+import com.lilithslegacy.game.character.body.valueEnums.ClitorisSize;
+import com.lilithslegacy.game.character.body.valueEnums.CupSize;
+import com.lilithslegacy.game.character.body.valueEnums.HairLength;
+import com.lilithslegacy.game.character.body.valueEnums.HairStyle;
+import com.lilithslegacy.game.character.body.valueEnums.HipSize;
+import com.lilithslegacy.game.character.body.valueEnums.LabiaSize;
+import com.lilithslegacy.game.character.body.valueEnums.LipSize;
+import com.lilithslegacy.game.character.body.valueEnums.NippleSize;
+import com.lilithslegacy.game.character.body.valueEnums.OrificeElasticity;
+import com.lilithslegacy.game.character.body.valueEnums.OrificePlasticity;
+import com.lilithslegacy.game.character.body.valueEnums.TongueLength;
+import com.lilithslegacy.game.character.body.valueEnums.Wetness;
+import com.lilithslegacy.game.character.effects.Perk;
+import com.lilithslegacy.game.character.effects.PerkCategory;
+import com.lilithslegacy.game.character.effects.PerkManager;
+import com.lilithslegacy.game.character.fetishes.Fetish;
+import com.lilithslegacy.game.character.fetishes.FetishDesire;
+import com.lilithslegacy.game.character.gender.Gender;
+import com.lilithslegacy.game.character.npc.NPC;
+import com.lilithslegacy.game.character.persona.NameTriplet;
+import com.lilithslegacy.game.character.persona.Occupation;
+import com.lilithslegacy.game.character.persona.PersonalityTrait;
+import com.lilithslegacy.game.character.persona.SexualOrientation;
+import com.lilithslegacy.game.character.race.RaceStage;
+import com.lilithslegacy.game.character.race.Subspecies;
+import com.lilithslegacy.game.combat.DamageType;
+import com.lilithslegacy.game.dialogue.DialogueNode;
+import com.lilithslegacy.game.inventory.CharacterInventory;
+import com.lilithslegacy.game.inventory.InventorySlot;
+import com.lilithslegacy.game.inventory.clothing.AbstractClothing;
+import com.lilithslegacy.game.inventory.clothing.ClothingType;
+import com.lilithslegacy.game.inventory.item.AbstractItem;
+import com.lilithslegacy.game.inventory.weapon.AbstractWeapon;
+import com.lilithslegacy.game.inventory.weapon.WeaponType;
+import com.lilithslegacy.main.Main;
+import com.lilithslegacy.utils.Util;
+import com.lilithslegacy.utils.Util.Value;
+import com.lilithslegacy.utils.colours.PresetColour;
+import com.lilithslegacy.world.WorldType;
+import com.lilithslegacy.world.places.PlaceType;
+
+/**
+ * @author Innoxia
+ * @version 0.4
+ * @since 0.4
+ */
+public class Astrapi extends NPC {
+
+    public Astrapi() {
+        this(false);
+    }
+
+    public Astrapi(boolean isImported) {
+        super(isImported, new NameTriplet("Astrapi"), "Grigori",
+                "The younger sister of the only two centaurs brave enough to keep their Dominion-to-Elis transport business running, Astrapi has the body of a Greek goddess, and a fiery, indomitable personality to match.",
+                29, Month.AUGUST, 15,
+                20, Gender.F_V_B_FEMALE, Subspecies.CENTAUR, RaceStage.PARTIAL_FULL,
+                new CharacterInventory(10),
+                WorldType.EMPTY, PlaceType.GENERIC_HOLDING_CELL,
+                true);
+
+        this.setGenericName("buff centauress");
+
+        if (!isImported) {
+            this.setPlayerKnowsName(false);
+        }
+    }
+
+    @Override
+    public void loadFromXML(Element parentElement, Document doc, CharacterImportSetting... settings) {
+        loadNPCVariablesFromXML(this, null, parentElement, doc, settings);
+        if (Main.isVersionOlderThan(Game.loadingVersion, "0.4.0.5")) {
+            this.equipClothing();
+            this.setStartingBody(true);
+            this.setPlayerKnowsName(false);
+            this.setupPerks(true);
+        }
+        if (Main.isVersionOlderThan(Game.loadingVersion, "0.4.0.6")) {
+            this.setHomeLocation(WorldType.EMPTY, PlaceType.GENERIC_HOLDING_CELL);
+        }
+        if (Main.isVersionOlderThan(Game.loadingVersion, "0.4.1")) {
+            this.setFetishDesire(Fetish.FETISH_ARMPIT_RECEIVING, FetishDesire.THREE_LIKE);
+        }
+        if (Main.isVersionOlderThan(Game.loadingVersion, "0.4.5.5")) {
+            this.setHeight(215);
+        }
+        if (Main.isVersionOlderThan(Game.loadingVersion, "0.4.7.2")) {
+            this.setupPerks(true);
+        }
+    }
+
+    @Override
+    public void setupPerks(boolean autoSelectPerks) {
+        this.completePerkReset();
+
+        this.addSpecialPerk(Perk.SPECIAL_HEALTH_FANATIC);
+        this.addSpecialPerk(Perk.SPECIAL_RANGED_EXPERT);
+
+        PerkManager.initialisePerks(this,
+                Util.newArrayListOfValues(
+                        Perk.RANGED_DAMAGE),
+                Util.newHashMapOfValues(
+                        new Value<>(PerkCategory.PHYSICAL, 1),
+                        new Value<>(PerkCategory.LUST, 0),
+                        new Value<>(PerkCategory.ARCANE, 0)));
+    }
+
+    @Override
+    public void setStartingBody(boolean setPersona) {
+        // Persona:
+        if (setPersona) {
+            this.setPersonalityTraits(
+                    PersonalityTrait.CONFIDENT,
+                    PersonalityTrait.BRAVE,
+                    PersonalityTrait.INNOCENT);
+
+            this.setSexualOrientation(SexualOrientation.AMBIPHILIC);
+
+            this.setHistory(Occupation.NPC_TAUR_TRANSPORT);
+
+            this.clearFetishes();
+            this.clearFetishDesires();
+
+            this.addFetish(Fetish.FETISH_EXHIBITIONIST);
+            this.addFetish(Fetish.FETISH_ORAL_GIVING);
+            this.addFetish(Fetish.FETISH_BREASTS_SELF);
+
+            this.setFetishDesire(Fetish.FETISH_DENIAL_SELF, FetishDesire.THREE_LIKE);
+            this.setFetishDesire(Fetish.FETISH_CUM_ADDICT, FetishDesire.THREE_LIKE);
+            this.setFetishDesire(Fetish.FETISH_SUBMISSIVE, FetishDesire.THREE_LIKE);
+            this.setFetishDesire(Fetish.FETISH_ARMPIT_RECEIVING, FetishDesire.THREE_LIKE);
+
+            this.setFetishDesire(Fetish.FETISH_MASOCHIST, FetishDesire.ZERO_HATE);
+        }
+
+
+        // Body:
+
+        // Core:
+        this.setHeight(215);
+        this.setFemininity(50);
+        this.setMuscle(90);
+        this.setBodySize(BodySize.THREE_LARGE.getMedianValue());
+        // Parts changes:
+        this.setHairType(HairType.HUMAN);
+        this.setEarType(EarType.HUMAN);
+        this.setEyeType(EyeType.HUMAN);
+        this.setBreastCrotchType(BreastType.HORSE_MORPH);
+        this.setBreastCrotchSize(CupSize.C);
+
+        // Coverings:
+        this.setEyeCovering(new Covering(BodyCoveringType.EYE_HUMAN, PresetColour.EYE_AMBER));
+        this.setEyeCovering(new Covering(BodyCoveringType.EYE_HORSE_MORPH, PresetColour.EYE_AMBER));
+        this.setSkinCovering(new Covering(BodyCoveringType.HUMAN, PresetColour.SKIN_OLIVE), true);
+        this.setSkinCovering(new Covering(BodyCoveringType.HORSE_HAIR, PresetColour.COVERING_TAN), true);
+
+        this.setSkinCovering(new Covering(BodyCoveringType.ANUS, PresetColour.SKIN_DARK), false);
+        this.setSkinCovering(new Covering(BodyCoveringType.VAGINA, PresetColour.SKIN_DARK), false);
+
+        this.setHairCovering(new Covering(BodyCoveringType.HAIR_HUMAN, PresetColour.COVERING_SANDY), true);
+        this.setHairCovering(new Covering(BodyCoveringType.HAIR_HORSE_HAIR, PresetColour.COVERING_SANDY), true);
+        this.setHairLength(HairLength.THREE_SHOULDER_LENGTH.getMedianValue());
+        this.setHairStyle(HairStyle.WAVY);
+
+        this.setHairCovering(new Covering(BodyCoveringType.BODY_HAIR_HORSE_HAIR, PresetColour.COVERING_DIRTY_BLONDE), false);
+        this.setHairCovering(new Covering(BodyCoveringType.BODY_HAIR_HUMAN, PresetColour.COVERING_DIRTY_BLONDE), false);
+        this.setUnderarmHair(BodyHair.ZERO_NONE);
+        this.setAssHair(BodyHair.ZERO_NONE);
+        this.setPubicHair(BodyHair.ZERO_NONE);
+        this.setFacialHair(BodyHair.ZERO_NONE);
+
+//		this.setFootNailPolish(new Covering(BodyCoveringType.MAKEUP_NAIL_POLISH_FEET, PresetColour.COVERING_PURPLE));
+//		this.setHandNailPolish(new Covering(BodyCoveringType.MAKEUP_NAIL_POLISH_HANDS, PresetColour.COVERING_PURPLE));
+//		this.setBlusher(new Covering(BodyCoveringType.MAKEUP_BLUSHER, PresetColour.COVERING_BLACK));
+//		this.setLipstick(new Covering(BodyCoveringType.MAKEUP_LIPSTICK, PresetColour.COVERING_PURPLE));
+//		this.setEyeLiner(new Covering(BodyCoveringType.MAKEUP_EYE_LINER, PresetColour.COVERING_BLACK));
+//		this.setEyeShadow(new Covering(BodyCoveringType.MAKEUP_EYE_SHADOW, PresetColour.COVERING_PURPLE));
+
+        // Face:
+        this.setFaceVirgin(false);
+        this.setLipSize(LipSize.TWO_FULL);
+        this.setFaceCapacity(Capacity.FIVE_ROOMY, true);
+        // Throat settings and modifiers
+        this.setTongueLength(TongueLength.ZERO_NORMAL.getMedianValue());
+        // Tongue modifiers
+
+        // Chest:
+        this.setNippleVirgin(true);
+        this.setBreastSize(CupSize.D.getMeasurement());
+        this.setBreastShape(BreastShape.PERKY);
+        this.setNippleSize(NippleSize.THREE_LARGE);
+        this.setAreolaeSize(AreolaeSize.THREE_LARGE);
+        // Nipple settings and modifiers
+
+        // Ass:
+        this.setAssVirgin(false);
+        this.setAssBleached(false);
+        this.setAssSize(AssSize.THREE_NORMAL);
+        this.setHipSize(HipSize.THREE_GIRLY);
+        this.setAssCapacity(Capacity.TWO_TIGHT, true);
+        this.setAssWetness(Wetness.ZERO_DRY);
+        // Horse-like modifiers:
+//		this.addAssOrificeModifier(OrificeModifier.PUFFY);
+//		this.addAssOrificeModifier(OrificeModifier.MUSCLE_CONTROL);
+
+        // Penis:
+//		this.setPenisVirgin(false);
+//		this.setPenisGirth(PenetrationGirth.FOUR_GIRTHY);
+//		this.setPenisSize(46);
+//		this.setTesticleSize(TesticleSize.FOUR_HUGE);
+//		this.setPenisCumStorage(500);
+//		this.setPenisCumExpulsion(85);
+//		this.fillCumToMaxStorage();
+//		this.setTesticleCount(2);
+//		// Horse-like modifiers:
+//		this.clearPenisModifiers();
+//		this.addPenisModifier(PenetrationModifier.FLARED);
+//		this.addPenisModifier(PenetrationModifier.VEINY);
+//		this.addPenisModifier(PenetrationModifier.SHEATHED);
+//		this.addCumModifier(FluidModifier.MUSKY);
+
+        // Vagina:
+        this.setVaginaVirgin(false);
+        this.setVaginaClitorisSize(ClitorisSize.ZERO_AVERAGE);
+        this.setVaginaLabiaSize(LabiaSize.TWO_AVERAGE);
+        this.setVaginaSquirter(false);
+        this.setVaginaCapacity(Capacity.THREE_SLIGHTLY_LOOSE, true);
+        this.setVaginaWetness(Wetness.TWO_MOIST);
+        this.setVaginaElasticity(OrificeElasticity.TWO_FIRM.getValue());
+        this.setVaginaPlasticity(OrificePlasticity.FOUR_ACCOMMODATING.getValue());
+
+        // Feet:
+        // Foot shape
+    }
+
+    @Override
+    public void equipClothing(List<EquipClothingSetting> settings) {
+        this.clearNonEquippedInventory(false);
+        this.unequipAllClothingIntoVoid(true, true);
+
+        this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_head_sweatband", PresetColour.CLOTHING_BLUE_GREY, false), true, this);
+        this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.WRIST_WRISTBANDS, PresetColour.CLOTHING_BLUE_GREY, false), true, this);
+
+        this.setPiercedEar(true);
+
+        this.setEssenceCount(100);
+    }
+
+    /**
+     * Equips sports bra and weapon, ready for transport.
+     */
+    public void applySportsBra(boolean equip) {
+        if (equip) {
+            // Bra:
+            AbstractClothing bra = null;
+            for (AbstractClothing c : this.getAllClothingInInventory().keySet()) {
+                if (c.getClothingType() == ClothingType.getClothingTypeFromId("innoxia_chest_sports_bra")) {
+                    bra = c;
+                    break;
+                }
+            }
+            if (bra != null) {
+                this.equipClothingFromInventory(bra, true, this, this);
+            } else {
+                this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_chest_sports_bra", PresetColour.CLOTHING_BLACK, false), true, this);
+            }
+
+            // Weapon:
+            AbstractWeapon bow = null;
+            for (AbstractWeapon w : this.getAllWeaponsInInventory().keySet()) {
+                if (w.getWeaponType() == WeaponType.getWeaponTypeFromId("innoxia_bow_recurve")) {
+                    bow = w;
+                    break;
+                }
+            }
+            if (bow != null) {
+                this.equipMainWeaponFromInventory(bow, this);
+            } else {
+                this.equipMainWeaponFromNowhere(Main.game.getItemGen().generateWeapon("innoxia_bow_recurve", DamageType.FIRE));
+            }
+
+        } else {
+            // Bra:
+            AbstractClothing bra = this.getClothingInSlot(InventorySlot.CHEST);
+            if (bra != null) {
+                this.unequipClothingIntoInventory(bra, true, this);
+            }
+
+            // Weapon:
+            AbstractWeapon bow = this.getMainWeapon(0);
+            if (bow != null) {
+                this.unequipWeapon(InventorySlot.WEAPON_MAIN_1, bow, false, false);
+            }
+        }
+    }
+
+    @Override
+    public boolean isUnique() {
+        return true;
+    }
+
+    @Override
+    public String getArtworkFolderName() {
+        if (Main.game.isUdderContentEnabled()) {
+            if (this.isVisiblyPregnant()) {
+                return "AstrapiCrotchBoobsPregnant";
+            }
+            return "AstrapiCrotchBoobs";
+        } else {
+            if (this.isVisiblyPregnant()) {
+                return "AstrapiPregnant";
+            }
+            return "Astrapi";
+        }
+    }
+
+    @Override
+    public String getSpeechColour() {
+        if (Main.game.isLightTheme()) {
+            return "#918365";
+        }
+        return "#ddc79a";
+    }
+
+    @Override
+    public boolean isFeminine() {
+        return true;
+    }
+
+    @Override
+    public void changeFurryLevel() {
+    }
+
+    @Override
+    public DialogueNode getEncounterDialogue() {
+        return null;
+    }
+
+    @Override
+    public void dailyUpdate() {
+        if (Main.game.getDialogueFlags().hasFlag("innoxia_astrapi_not_shaving")) {
+            if (this.getUnderarmHair().getValue() < BodyHair.FOUR_NATURAL.getValue()) {
+                this.setUnderarmHair(BodyHair.getBodyHairFromValue(this.getUnderarmHair().getValue() + 1));
+            }
+
+        } else {
+            this.setUnderarmHair(BodyHair.ZERO_NONE);
+        }
+    }
+
+    @Override
+    public void endSex() {
+    }
+
+    @Override
+    public boolean isAbleToBeImpregnated() {
+        return Main.game.getDialogueFlags().hasFlag("innoxia_astrapi_impregnation_talk");
+    }
+
+    @Override
+    public Value<Boolean, String> getItemUseEffects(AbstractItem item, GameCharacter itemOwner, GameCharacter user, GameCharacter target) {
+        if (user.isPlayer() && !target.isPlayer() && item.isTypeOneOf("innoxia_pills_fertility", "innoxia_pills_broodmother")) {
+            if (!Main.game.getDialogueFlags().hasFlag("innoxia_astrapi_impregnation_talk")) {
+                itemOwner.removeItem(item);
+                return new Value<>(false,
+                        "<p>"
+                                + "Producing a " + item.getColour(0).getName() + " " + item.getName(false, false) + " from your inventory, you pop it out of its plastic wrapper before handing it over to Astrapi."
+                                + " Seeing what it is you're trying to get her to swallow, she laughs and tosses the pill away, saying, "
+                                + " [astrapi.speech(I'm not interested in getting pregnant. Nice try, though!)]"
+                                + "</p>");
+
+            } else {
+                itemOwner.useItem(item, this, false);
+                String returnText = "Producing a " + item.getName(false, false) + " from your inventory, you pop it out of its plastic wrapper before handing it over to Astrapi."
+                        + " Seeing what it is you're trying to get her to swallow, she laughs and swallows the little " + item.getColour(0).getName() + " pill, before saying,";
+                if (this.isVisiblyPregnant()) {
+                    returnText += " [astrapi.speechNoEffects(~Mmm!~ Well, I mean, I'm clearly already pregnant, but whatever...)]";
+                } else {
+                    returnText += " [astrapi.speechNoEffects(~Mmm!~ Fine, you can go ahead and get me knocked up, if that's what'll make you happy...)]";
+                }
+                return new Value<>(true,
+                        "<p>"
+                                + returnText
+                                + "</p>");
+            }
+        }
+        return super.getItemUseEffects(item, itemOwner, user, target);
+    }
+
+}
