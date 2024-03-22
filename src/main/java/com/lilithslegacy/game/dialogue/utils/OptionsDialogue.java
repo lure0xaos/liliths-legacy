@@ -92,11 +92,6 @@ public class OptionsDialogue {
                     + "This game is a text-based erotic RPG, and contains a lot of graphic sexual content. You must agree to the game's disclaimer before playing this game!"
                     + "</p>"
                     + "<p>"
-                    + "You can visit my blog (https://lilithsthrone.blogspot.co.uk) to check on development progress (use the 'Blog' button below to open the blog in your default browser)."
-                    + " [style.italicsMinorBad(<b>Note:</b> Intrusive age verification is being rolled out on blogspot, so I will likely create a new blog soon.)]"
-                    + "</p>"
-                    + "<p style='text-align:center'>"
-                    + "<b>Please use either my blog or github to get the latest official version of Lilith's Legacy!</b>"
                     + "</p>"
                     + getJavaVersionInformation()
                     + (Toolkit.getDefaultToolkit().getScreenSize().getHeight() < 800
@@ -2224,13 +2219,7 @@ public class OptionsDialogue {
 
             UtilText.nodeContentSB.append(
                     "<p>"
-                            + "Thank you for playing " + Main.GAME_NAME + ", I hope you enjoy it just as much as I do making it!"
-                            + " Thank you so much to all of you who offer financial support! Thanks to you, I'm able to spend more time working on " + Main.GAME_NAME + ", and I promise that I'll make this game the very best that I can!"
-                            + "</p>"
-                            + "<p style='text-align:center;'>"
-                            + Main.GAME_NAME + " has been created by:<br/>"
-                            + "<b style='color:#9b78fa;'>Innoxia</b>"
-                            + "<br/><br/>"
+                            + "Thank you for playing " + Main.GAME_NAME
                             + "Artists whose character art can be found in the game:<br/>");
 
             for (Artist artist : Artwork.allArtists) {
