@@ -711,6 +711,7 @@ public class MiscController {
     }
 
     public static void initInfoTooltipListeners() {
+        if (Game.informationTooltips.isEmpty()) Main.mainController.getTooltip().hide();
         for (Map.Entry<String, TooltipInformationEventListener> entry : Game.informationTooltips.entrySet()) {
             String id = entry.getKey();
             if (MainController.document.getElementById(id) != null) {

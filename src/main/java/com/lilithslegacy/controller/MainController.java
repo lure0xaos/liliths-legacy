@@ -1090,6 +1090,8 @@ public class MainController implements Initializable {
     static Map<Document, List<EventListenerData>> EventListenerDataMap = new HashMap<>();
 
     private void unbindListeners(Document document) {
+        removeTooltipDocumentListener(document);
+        getTooltip().hide();
         cookieManager.getCookieStore().removeAll();
         if (document != null) {
             for (EventListenerData data : EventListenerDataMap.get(document)) {
@@ -1102,6 +1104,16 @@ public class MainController implements Initializable {
 
             EventListenerDataMap.remove(document);
         }
+    }
+
+    private static void addTooltipDocumentListener(Document document) {
+        if (document != null)
+            ((EventTarget) document.getDocumentElement()).addEventListener("mouseleave", hideTooltipListener, true);
+    }
+
+    private static void removeTooltipDocumentListener(Document document) {
+        if (document != null)
+            ((EventTarget) document.getDocumentElement()).removeEventListener("mouseleave", hideTooltipListener, true);
     }
 
     static void addEventListener(Document document, String ID, String type, EventListener listener, boolean useCapture) {
@@ -1277,6 +1289,9 @@ public class MainController implements Initializable {
     private void manageMainListeners() {
         document = (Document) webEngine.executeScript("document");
         EventListenerDataMap.put(document, new ArrayList<>());
+
+        addTooltipDocumentListener(document);
+        addCapturingEventListener(document, "RESPONSE_BOX", "mouseleave", hideTooltipListener, true);
 
         if (flashMessageColour != null && flashMessageText != null) {
             Main.game.flashMessage(flashMessageColour, flashMessageText);
@@ -1808,6 +1823,8 @@ public class MainController implements Initializable {
         documentButtonsLeft = (Document) webEngineButtonsLeft.executeScript("document");
         EventListenerDataMap.put(documentButtonsLeft, new ArrayList<>());
 
+        addTooltipDocumentListener(documentButtonsLeft);
+
         KeyCodeWithModifiers hotKey;
         if (((EventTarget) documentButtonsLeft.getElementById("mainMenu")) != null) {
             MainController.addCapturingEventListener(documentButtonsLeft, "mainMenu", "click", menuButtonListener, true);
@@ -1849,6 +1866,8 @@ public class MainController implements Initializable {
     private void manageButtonRightListeners() {
         documentButtonsRight = (Document) webEngineButtonsRight.executeScript("document");
         EventListenerDataMap.put(documentButtonsRight, new ArrayList<>());
+
+        addTooltipDocumentListener(documentButtonsRight);
 
         boolean quickSaveAvailable = Main.isQuickSaveAvailable() && Main.game.isInNewWorld();
         boolean quickLoadAvailable = Main.isLoadGameAvailable(Main.getQuickSaveName()) && Main.game.isInNewWorld();
@@ -1948,6 +1967,8 @@ public class MainController implements Initializable {
     private void manageAttributeListeners() {
         documentAttributes = (Document) webEngineAttributes.executeScript("document");
         EventListenerDataMap.put(documentAttributes, new ArrayList<>());
+
+        addTooltipDocumentListener(documentAttributes);
 
         // Map:
         if (((EventTarget) documentAttributes.getElementById("upButton")) != null) {
@@ -2374,6 +2395,8 @@ public class MainController implements Initializable {
         documentRight = (Document) webEngineRight.executeScript("document");
         EventListenerDataMap.put(documentRight, new ArrayList<>());
 
+        addTooltipDocumentListener(documentRight);
+
         Map<InventorySlot, List<AbstractClothing>> concealedSlots = new HashMap<>();
 
         if (RenderingEngine.getCharacterToRender() != null) {
@@ -2753,14 +2776,15 @@ public class MainController implements Initializable {
      * @return the calculated height of the tooltip content
      */
     public int setTooltipContent(String content) {
+        String htmlContent;
         if (Main.getProperties().hasValue(PropertyValue.fadeInText)) {
-            content = "<div class='tooltip-animation' style='width: 100%;'>" + content + "</div>";
+            htmlContent = "<div class='tooltip-animation' style='width: 100%;'>" + content + "</div>";
         }
-        content = "<div id='sizing-box' style='width: 100%;'>" + content + "</div>";
+        htmlContent = "<div id='sizing-box' style='width: 100%;'>" + content + "</div>";
         if (useJavascriptToSetContent) {
-            setWebEngineContent(webEngineTooltip, content);
+            setWebEngineContent(webEngineTooltip, htmlContent);
         } else {
-            webEngineTooltip.loadContent(content);
+            webEngineTooltip.loadContent(htmlContent);
         }
         int height = 0;
         try {
@@ -2769,6 +2793,11 @@ public class MainController implements Initializable {
         } catch (Exception e) {
             System.getLogger("").log(System.Logger.Level.ERROR, "Failed to locate the tooltip sizing box!");
             System.getLogger("").log(System.Logger.Level.ERROR, e);
+        }
+        if (height == 0 || content == null || content.trim().isEmpty()) {
+            tooltip.hide();
+        } else {
+            if (!tooltip.isShowing()) tooltip.show(Main.primaryStage);
         }
         return height;
     }

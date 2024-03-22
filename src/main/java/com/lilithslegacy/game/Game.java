@@ -3956,6 +3956,7 @@ public class Game implements XMLSaving {
 
     public void setContent(Response response, boolean allowTimeProgress, Colour flashMessageColour, String flashMessageText) {
         informationTooltips = new HashMap<>();
+        Main.mainController.getTooltip().hide();
 
         DialogueNode node = response.getNextDialogue();
         if (node != null || response instanceof ResponseCombat || response instanceof ResponseSex || response instanceof ResponseEffectsOnly || response instanceof ResponseTrade) {
