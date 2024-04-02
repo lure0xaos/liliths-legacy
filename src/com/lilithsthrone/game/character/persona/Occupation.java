@@ -59,6 +59,8 @@ public enum Occupation {
 	NPC_TAVERN_OWNER(Perk.JOB_NPC_SHOP_MANAGER, "tavern owner", "[npc.NameIs] the owner of a tavern.", OccupationTag.HAS_PREREQUISITES),
 	NPC_FARMER(Perk.JOB_NPC_FARMER, "farmer", "[npc.NameIs] a farmer.", OccupationTag.HAS_PREREQUISITES),
 	
+	NPC_JOURNALIST(Perk.JOB_NPC_JOURNALIST, "journalist", "[npc.NameIs] a journalist.", OccupationTag.HAS_PREREQUISITES),
+	
 	REINDEER_OVERSEER(Perk.JOB_NPC_REINDEER_OVERSEER, "overseer", "[npc.NameIs] an overseer of one of the reindeer workgangs which migrate to Dominion during the winter.", OccupationTag.HAS_PREREQUISITES),
 
 	NPC_SLIME_QUEEN(Perk.JOB_NPC_SLIME_QUEEN, "slime queen", "[npc.NameHas] titled herself as the 'slime queen', and is responsible for transforming a significant number of Submission's citizens into slimes.", OccupationTag.HAS_PREREQUISITES),

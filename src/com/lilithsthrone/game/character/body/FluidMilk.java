@@ -534,7 +534,7 @@ public class FluidMilk implements FluidInterface {
 	}
 	
 	public float getValuePerMl() {
-		return 0.01f;
+		return 0.01f * type.getValueModifier();
 	}
 
 	public boolean isCrotchMilk() {

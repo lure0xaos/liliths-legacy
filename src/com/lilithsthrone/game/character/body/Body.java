@@ -2278,8 +2278,10 @@ public class Body implements XMLSaving {
 		}
 		
 		if(Main.getProperties().hasValue(PropertyValue.ageContent)) {
-			sb.append(" [npc.She] [npc.verb(appear)] to be "+
-					(owner.getAppearsAsAge()==AgeCategory.SIXTIES_PLUS?"":"in [npc.her] ")+
+			sb.append(" [npc.She] [npc.verb(appear)] to be "
+					+(owner.getAppearsAsAge()==AgeCategory.SIXTIES_PLUS
+						?""
+						:"in [npc.her] ")+
 					"<span style='color:"+owner.getAppearsAsAge().getColour().toWebHexString()+";'>"+owner.getAppearsAsAge().getName()+"</span>.");
 		}
 		sb.append("</p>");
@@ -5092,10 +5094,12 @@ public class Body implements XMLSaving {
 		
 		descriptionSB.append(viewedVagina.getType().getBodyDescription(owner));
 		
-		if(owner.isVaginaEggLayer()) {
-			descriptionSB.append(" Due to the configuration of [npc.her] reproductive organs, [npc.she] [style.colourEgg([npc.verb(lay)] eggs instead of giving birth to live young)].");
-		} else {
-			descriptionSB.append(" Due to the configuration of [npc.her] reproductive organs, [npc.she] [style.colourSex([npc.verb(give)] birth to live young)].");
+		if(owner.isImpregnationPhysicallyPossible()) {
+			if(owner.isVaginaEggLayer()) {
+				descriptionSB.append(" Due to the configuration of [npc.her] reproductive organs, [npc.she] [style.colourEgg([npc.verb(lay)] eggs instead of giving birth to live young)].");
+			} else {
+				descriptionSB.append(" Due to the configuration of [npc.her] reproductive organs, [npc.she] [style.colourSex([npc.verb(give)] birth to live young)].");
+			}
 		}
 		
 		if(owner.isFeral()) {

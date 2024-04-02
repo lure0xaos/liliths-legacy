@@ -90,6 +90,7 @@ import com.lilithsthrone.game.dialogue.utils.EnchantmentDialogue;
 import com.lilithsthrone.game.dialogue.utils.GiftDialogue;
 import com.lilithsthrone.game.dialogue.utils.InventoryDialogue;
 import com.lilithsthrone.game.dialogue.utils.InventoryInteraction;
+import com.lilithsthrone.game.dialogue.utils.MiscDialogue;
 import com.lilithsthrone.game.dialogue.utils.OptionsDialogue;
 import com.lilithsthrone.game.dialogue.utils.PhoneDialogue;
 import com.lilithsthrone.game.dialogue.utils.SpellManagement;
@@ -512,6 +513,7 @@ public class MainController implements Initializable {
 						
 						if(event.getCode()==KeyCode.END && Main.DEBUG){
 
+							
 //							System.out.println(Main.sex.getSexPace(Main.game.getPlayer()));
 //							System.out.println(Main.sex.isSexPaceForced(Main.game.getPlayer()));
 							
@@ -1332,7 +1334,11 @@ public class MainController implements Initializable {
 			}
 		}
 		
-		if (currentNode.equals(BodyChanging.BODY_CHANGING_ASS)
+		if(currentNode.equals(MiscDialogue.DOLL_BROCHURE)
+				|| currentNode.equals(MiscDialogue.DOLL_BROCHURE_INTERNAL)) {
+			MiscController.initDollBrochureListeners();
+			
+		} else if (currentNode.equals(BodyChanging.BODY_CHANGING_ASS)
 				|| currentNode.equals(ScarlettsShop.HELENAS_SHOP_CUSTOM_SLAVE_BODY_ASS)) {
 			CreationController.initAnusCapacityListeners();
 			CreationController.initAnusDepthListeners();

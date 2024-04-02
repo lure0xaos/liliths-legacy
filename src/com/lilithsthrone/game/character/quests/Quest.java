@@ -840,6 +840,23 @@ public enum Quest {
 			return "Lilaya gave you permission to use the empty rooms to house your friends and family, on the condition that you pay for the expenses that are incurred.";
 		}
 	},
+
+	// Doll sotrage:
+	
+	SIDE_DOLL_STORAGE_ASK_FOR_SPACE(QuestType.SIDE, 1, 5) {
+		@Override
+		public String getName() {
+			return "Where do the dolls go?";
+		}
+		@Override
+		public String getDescription() {
+			return "Although Lilaya's mansion is full of empty rooms in which dolls could be stored, you'd better ask her for permission before bringing any home...";
+		}
+		@Override
+		public String getCompletedDescription() {
+			return "Lilaya gave you permission to use the empty rooms to store any dolls you buy.";
+		}
+	},
 	
 	// Other:
 	

@@ -1927,11 +1927,19 @@ public class CharacterUtils {
 			if(character.getBirthMonth() == Month.FEBRUARY) { // Don't set a character's birthday to a leap day as otherwise it ends up causing messy issues.
 				dayOfMonth = Math.min(dayOfMonth, 28);
 			}
-			character.setBirthday(LocalDateTime.of(Main.game.getDateNow().getYear()-(AgeCategory.getAgeFromPreferences(character.getGender())-GameCharacter.MINIMUM_AGE), character.getBirthMonth(), dayOfMonth, 12, 0));
+			if(character.getSubspeciesOverride()!=null && character.getSubspeciesOverride().isDoesNotAge()) {
+				character.setBirthday(LocalDateTime.of(Main.game.getDateNow().getYear()-(Util.random.nextInt(101)-GameCharacter.MINIMUM_AGE), character.getBirthMonth(), dayOfMonth, 12, 0));
+			} else {
+				character.setBirthday(LocalDateTime.of(Main.game.getDateNow().getYear()-(AgeCategory.getAgeFromPreferences(character.getGender())-GameCharacter.MINIMUM_AGE), character.getBirthMonth(), dayOfMonth, 12, 0));
+			}
 			character.setConceptionDate(character.getBirthday().minusDays(15+Util.random.nextInt(30)));
 			
-			if(character.getSubspeciesOverrideRace()==Race.DEMON || character.getRace()==Race.HARPY) {
-				character.setAgeAppearanceDifferenceToAppearAsAge(18+Util.random.nextInt(9));
+			if(character.getRace()==Race.HARPY) {
+				character.setAgeAppearanceDifferenceToAppearAsAge(Math.min(character.getAgeValue(), 18+Util.random.nextInt(9)));
+			}
+			if(character.getSubspeciesOverride()!=null && character.getSubspeciesOverride().isDoesNotAge()) {
+				character.setAgeAppearanceAbsolute(Math.min(character.getAgeValue(), 18+Util.random.nextInt(19))); // Range of real age to 36
+				//System.out.println("Override: "+character.getAgeAppearanceAbsolute()+", "+character.getAgeValue());
 			}
 		}
 		

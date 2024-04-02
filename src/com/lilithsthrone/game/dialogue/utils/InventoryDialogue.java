@@ -1672,6 +1672,9 @@ public class InventoryDialogue {
 								} else if (!item.isAbleToBeUsed(inventoryNPC)) {
 									return new Response(Util.capitaliseSentence(item.getItemType().getUseName()) +" (partner)", item.getUnableToBeUsedDescription(inventoryNPC), null);
 									
+								} else if(inventoryNPC.isAsleep()) {
+									return new Response(Util.capitaliseSentence(item.getItemType().getUseName())+" (partner)", UtilText.parse(inventoryNPC, "You cannot use this while [npc.nameIsFull] asleep!"), null);
+									
 								} else if(item.getItemType().isFetishGiving()) {
 									return new Response(
 											Util.capitaliseSentence(item.getItemType().getUseName()) +" (partner)",
@@ -1687,6 +1690,9 @@ public class InventoryDialogue {
 											Main.sex.setUsingItemText(inventoryNPC.getItemUseEffects(item, owner, Main.game.getPlayer(), inventoryNPC).getValue());
 											resetPostAction();
 											Main.mainController.openInventory();
+//											if(inventoryNPC.isAsleep()) {
+//												Main.sex.addCharacterWoken(inventoryNPC);
+//											}
 											Main.sex.endSexTurn(SexActionUtility.PLAYER_USE_ITEM);
 											Main.sex.setSexStarted(true);
 										}
@@ -1707,6 +1713,9 @@ public class InventoryDialogue {
 											Main.sex.setUsingItemText(inventoryNPC.getItemUseEffects(item, owner, Main.game.getPlayer(), inventoryNPC).getValue());
 											resetPostAction();
 											Main.mainController.openInventory();
+//											if(inventoryNPC.isAsleep()) {
+//												Main.sex.addCharacterWoken(inventoryNPC);
+//											}
 											Main.sex.endSexTurn(SexActionUtility.PLAYER_USE_ITEM);
 											Main.sex.setSexStarted(true);
 										}
@@ -1722,6 +1731,9 @@ public class InventoryDialogue {
 											Main.sex.setUsingItemText(inventoryNPC.getItemUseEffects(item, owner, Main.game.getPlayer(), inventoryNPC).getValue());
 											resetPostAction();
 											Main.mainController.openInventory();
+//											if(inventoryNPC.isAsleep()) {
+//												Main.sex.addCharacterWoken(inventoryNPC);
+//											}
 											Main.sex.endSexTurn(SexActionUtility.PLAYER_USE_ITEM);
 											Main.sex.setSexStarted(true);
 										}

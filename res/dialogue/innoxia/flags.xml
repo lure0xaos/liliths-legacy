@@ -8,6 +8,8 @@
 		i.e. 'elis_berries_found' will be identified as 'innoxia_elis_berries_found' during the game's runtime. -->
 	
 	<!-- Misc. encounters etc.: -->
+		<!-- For tracking whether or not the current dialogue is taking place in a friend's apartment (or in a room in the mansion) -->
+			<flag dailyReset="false">friendly_occupant_apartment</flag>
 		<!-- Alleyway attackers -->
 			<flag dailyReset="false">alleyway_submission_tattooed_pussy</flag>
 			<flag dailyReset="false">alleyway_submission_tattooed_ass</flag>
@@ -53,6 +55,21 @@
 		
 		<!-- Lovienne's Luxuries: -->
 			<flag dailyReset="false">sex_shop_display_on</flag>
+			<flag dailyReset="false">sex_shop_talk_background</flag>
+			<flag dailyReset="false">sex_shop_talk_lovienne</flag>
+			
+			<flag dailyReset="false">sex_shop_tour_obedience</flag>
+			<flag dailyReset="false">sex_shop_tour_power</flag>
+			<flag dailyReset="false">sex_shop_tour_silicone</flag>
+			<flag dailyReset="false">sex_shop_tour_realism</flag>
+			<flag dailyReset="false">sex_shop_saellatrix_following</flag>
+			<flag resetHour="8">sex_shop_daily_tour</flag>
+			<flag dailyReset="false">sex_shop_had_factory_tour</flag>
+			
+			<flag dailyReset="false">sex_shop_dolls_unlocked</flag>
+			<flag dailyReset="false">sex_shop_tour_question_toy_machines</flag>
+			<flag dailyReset="false">sex_shop_tour_question_doll_storage</flag>
+			
 			<flag dailyReset="false">sex_shop_oral_offer</flag>
 			<flag dailyReset="false">sex_shop_choker_snapped</flag>
 			<flag dailyReset="false">sex_shop_choker_survived</flag>
@@ -384,8 +401,11 @@
 	
 	
 	<!-- You can ignore this section, I just use it to track the ids of saved long values (using [#flags.setSavedLong(id, value)] calls)
+	
 	meraxis_duel_player_wins (Meraxis duel player wins)
 	meraxis_duel_player_losses (Meraxis duel player losses)
+	
+	saellatrix_tour_start (Saellatrix factory tour timer)
 	
 	evelyx_work_level (The level of the player when working for Evelyx, from 0 to 2)
 	evelyx_work_hours (The number of hours that the player has worked in the current session during Evelyx milking)

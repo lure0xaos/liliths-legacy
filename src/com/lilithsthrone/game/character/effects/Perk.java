@@ -584,7 +584,24 @@ public class Perk {
 					+ "#ENDIF");
 		}
 	};
-
+	
+	public static AbstractPerk JOB_NPC_JOURNALIST = new AbstractPerk(20,
+			true,
+			"Walk the Line",
+			PerkCategory.JOB,
+			"perks/jobs/npc_journalist",
+			Util.newArrayListOfValues(PresetColour.CLOTHING_DESATURATED_BROWN, PresetColour.CLOTHING_BLACK, PresetColour.CLOTHING_WHITE),
+			Util.newHashMapOfValues(
+					new Value<>(Attribute.HEALTH_MAXIMUM, 5),
+					new Value<>(Attribute.CRITICAL_DAMAGE, 5)),
+			null,
+			null, null, null) {
+		@Override
+		public String getDescription(GameCharacter owner) {
+			return UtilText.parse(owner, "In a society where only the state's version of the news is permitted, journalists need to walk a very fine line...");
+		}
+	};
+	
 	public static AbstractPerk JOB_NPC_OFFICE_WORKER = new AbstractPerk(20,
 			true,
 			"It's just good business",
@@ -2110,6 +2127,35 @@ public class Perk {
 		}
 	};
 
+	public static AbstractPerk HEAVY_SLEEPER = new AbstractPerk(60,
+			true,
+			"heavy sleeper",
+			PerkCategory.PHYSICAL,
+			"statusEffects/sleeping",
+			PresetColour.SLEEP_HEAVY,
+			Util.newHashMapOfValues(),
+			Util.newArrayListOfValues(
+					"Will not wake during [style.colourSex(gentle)] sex",
+					"[style.boldExcellent(10x)] [style.colourHealth(health)] and [style.colourMana(aura)] regeneration rate")) {
+		@Override
+		public String applyPerkGained(GameCharacter character) {
+			return UtilText.parsePlayerThought("");
+		}
+		@Override
+		public String applyPerkLost(GameCharacter character) {
+			return UtilText.parsePlayerThought("");
+		}
+		@Override
+		public String getDescription(GameCharacter owner) {
+			if(owner!=null) {
+				return UtilText.parse(owner,
+						"[npc.Name] [npc.verb(sleep)] very deeply, with even shouting and physically shaking [npc.herHim] often not being enough to wake [npc.herHim] up."
+							+" [npc.SheIs] so unresponsive while sleeping that a gentle partner could get away with having sex with [npc.herHim] without causing [npc.herHim] to wake...");
+			}
+			return "";
+		}
+	};
+	
 	// Arcane:
 	
 	public static AbstractPerk ARCANE_CRITICALS = new AbstractPerk(60,
@@ -6386,7 +6432,8 @@ public class Perk {
 			Util.newHashMapOfValues(
 					new Value<>(Attribute.RESISTANCE_POISON, 50)),
 			Util.newArrayListOfValues(
-					"[style.colourExcellent(Unaffected)] by fluid addictions, psychoactive substances, and alcohol")) {
+					"[style.colourExcellent(Unaffected)] by fluid addictions, psychoactive substances, and alcohol",
+					"Orifices have [style.colourExcellent(unlimited)] depth")) {
 		@Override
 		public String getDescription(GameCharacter owner) {
 			return UtilText.parse(owner,
@@ -6420,7 +6467,7 @@ public class Perk {
 			PresetColour.RACE_DOLL,
 			Util.newHashMapOfValues(),
 			Util.newArrayListOfValues(
-					"Can [style.colourTerrible(never)] use <span style='color:"+SexPace.SUB_RESISTING.getColour().toWebHexString()+";'>resist</span> actions in [style.colourSex(sex scenes)]",
+					"Can [style.colourTerrible(never)] <span style='color:"+SexPace.SUB_RESISTING.getColour().toWebHexString()+";'>resist</span> in [style.colourSex(sex scenes)]",
 					"Does not object to <span style='color:"+SexPace.SUB_RESISTING.getColour().toWebHexString()+";'>sadistic</span> sex actions",
 					"Orientation always [style.colourAndrogynous(ambiphilic)]")) {
 		@Override
@@ -6536,7 +6583,7 @@ public class Perk {
 			Util.newArrayListOfValues(PresetColour.BASE_PINK, PresetColour.GENERIC_ARCANE),
 			Util.newHashMapOfValues(),
 			Util.newArrayListOfValues(
-					"Does not need to eat or drink",
+					"Does not need to eat, drink, nor sleep",
 					"Gain [style.colourExcellent(1000)] "+Attribute.HEALTH_MAXIMUM.getColouredName("span")+" while exposed to an arcane storm"),
 			null, null, null) {
 		@Override

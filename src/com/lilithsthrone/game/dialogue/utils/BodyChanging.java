@@ -314,6 +314,8 @@ public class BodyChanging {
 		
 		if (isDebugMenu()) {
 			return allRaces;
+		} else if (target.isDoll()) {
+			return Util.newArrayListOfValues(Race.NONE, target.getFleshSubspecies().getRace());
 		} else if (isHalfDemon()) {
 			if (forceDemon) {
 				return Util.newArrayListOfValues(Race.DEMON);
@@ -435,14 +437,14 @@ public class BodyChanging {
 	private static boolean isNonHumanHalfDemon() {
 		return getTarget().getHalfDemonSubspecies().getRace() == Race.HUMAN;
 	}
-	
+
 	private static String getSelfTransformDescription(String area) {
 		if(ScarlettsShop.isSlaveCustomisationMenu()) {
 			return "";
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append("<div class='container-full-width' style='text-align:center;'>");
 			if(isDemonTFMenu()) {
 				sb.append(UtilText.parse(getTarget(), "<i>[npc.Name] can harness the power of [npc.her] demonic form to self-transform aspects of [npc.her] "+area+".</i>"));
@@ -452,48 +454,48 @@ public class BodyChanging {
 
 			} else if(isDebugMenu()) {
 				sb.append(UtilText.parse(getTarget(), "<i>[npc.Name] can harness the power of the debugging tool to self-transform aspects of [npc.her] "+area+".</i>"));
-				
+
 			} else if(getTarget().isDoll()) {
 				sb.append(UtilText.parse(getTarget(), "<i>With the D.E.C.K.'s cable plugged into the port on the rear of [npc.namePos] neck, you're able to customise [npc.her] "+area+"...</i>"));
-				
+
 			} else {
 				sb.append(UtilText.parse(getTarget(), "<i>[npc.Name] can take advantage of [npc.her] morphable, slimy body to self-transform aspects of [npc.her] "+area+".</i>"));
 			}
 		sb.append("</div>");
-		
+
 		return sb.toString();
 	}
-	
+
 	public static final DialogueNode BODY_CHANGING_CORE = new DialogueNode("Core", "", true) {
 		@Override
 		public void applyPreParsingEffects() {
 			SuccubisSecrets.initCoveringsMap(getTarget());
 		}
-		
+
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
-			
+
 			if (ScarlettsShop.isSlaveCustomisationMenu()) {
 				SuccubisSecrets.initCoveringsMap(getTarget());
 			}
 			UtilText.nodeContentSB.append(getSelfTransformDescription("body"));
-			
+
 			UtilText.nodeContentSB.append(
 					"<div style='clear:left;'>"
 							+CharacterModificationUtils.getAgeAppearanceChoiceDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformFemininityChoiceDiv()
 							+CharacterModificationUtils.getHeightChoiceDiv()
 							+"</div>");
-			
+
 			if (getTarget().isElemental()) {
 				UtilText.nodeContentSB.append(
 						CharacterModificationUtils.getSelfTransformBodyMaterialChoiceDiv(getTarget()));
 			}
-			
+
 			UtilText.nodeContentSB.append(
 					"<div class='cosmetics-container' style='background:transparent;'>"
 							+CharacterModificationUtils.getBodySizeChoiceDiv()
@@ -503,19 +505,19 @@ public class BodyChanging {
 							+"<b style='color:"+getTarget().getBodyShape().toWebHexStringColour()+";'>"+Util.capitaliseSentence(getTarget().getBodyShape().getName(false))+"</b>")
 							+"</div>"
 							+"</div>");
-			
+
 			if (!getTarget().isDoll() || isDebugMenu()) {
 				UtilText.nodeContentSB.append(
 						"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformFaceChoiceDiv(getTFRaces(getTarget().getFaceRace(), false, false, true))
 								+CharacterModificationUtils.getSelfTransformBodyChoiceDiv(getTFRaces(getTarget().getTorsoType().getRace(), false, false, true))
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformArmChoiceDiv(getTFRaces(getTarget().getArmRace()))
 								+CharacterModificationUtils.getSelfTransformLegChoiceDiv(getTFRaces(getTarget().getLegRace()), isDebugMenu())
 								+"</div>");
-				
+
 				if (getTarget().isYouko()) {
 					UtilText.nodeContentSB.append(
 							"<div style='clear:left;'>"
@@ -528,13 +530,13 @@ public class BodyChanging {
 									+CharacterModificationUtils.getSelfTransformArmCountDiv()
 									+CharacterModificationUtils.getSelfTransformFootStructureChoiceDiv()
 									+"</div>"
-									
+
 									+"<div style='clear:left;'>"
 									+CharacterModificationUtils.getSelfTransformLegConfigurationChoiceDiv()
 									+CharacterModificationUtils.getSelfTransformGenitalArrangementChoiceDiv()
 									+"</div>");
 				}
-				
+
 				UtilText.nodeContentSB.append(
 						"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformTailChoiceDiv(
@@ -542,19 +544,19 @@ public class BodyChanging {
 								removeNoneFromTailChoices())
 								+CharacterModificationUtils.getSelfTransformTailLengthDiv()
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformTailCountDiv()
 								+CharacterModificationUtils.getSelfTransformTailGirthDiv()
 								+"</div>");
-				
+
 				if (!getTarget().isYouko()) {
 					UtilText.nodeContentSB.append(
 							"<div style='clear:left;'>"
 									+CharacterModificationUtils.getSelfTransformTentacleLengthDiv()
 									+CharacterModificationUtils.getSelfTransformTentacleGirthDiv()
 									+"</div>"
-									
+
 									+"<div style='clear:left;'>"
 									+CharacterModificationUtils.getSelfTransformWingChoiceDiv(
 									getTFRaces(Util.newArrayListOfValues(getTarget().getWingRace(), getTarget().getTorsoType().getRace()), isNonHumanHalfDemon(), false, false),
@@ -565,27 +567,32 @@ public class BodyChanging {
 			} else {
 				UtilText.nodeContentSB.append(
 						"<div style='clear:left;'>"
-								+CharacterModificationUtils.getSelfTransformFootStructureChoiceDiv()
+								+CharacterModificationUtils.getSelfTransformArmCountDiv()
 								+CharacterModificationUtils.getSelfTransformWingSizeDiv()
 								+"</div>"
-								
+
+								+"<div style='clear:left;'>"
+								+ CharacterModificationUtils.getSelfTransformFootStructureChoiceDiv()
+								+ CharacterModificationUtils.getSelfTransformLegConfigurationChoiceDiv()
+								+"</div>"
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformTailLengthDiv()
 								+CharacterModificationUtils.getSelfTransformTailGirthDiv()
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformTentacleLengthDiv()
 								+CharacterModificationUtils.getSelfTransformTentacleGirthDiv()
 								+"</div>");
 			}
-			
+
 			for (Entry<AbstractBodyCoveringType, Value<AbstractRace, List<String>>> entry : SuccubisSecrets.coveringsNamesMap.entrySet()) {
 				AbstractBodyCoveringType bct = entry.getKey();
 				AbstractRace race = entry.getValue().getKey();
-				
+
 				Value<String, String> titleDescription = SuccubisSecrets.getCoveringTitleDescription(target, bct, entry.getValue().getValue());
-				
+
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getKatesDivCoveringsNew(
 						false,
 						race,
@@ -595,165 +602,165 @@ public class BodyChanging {
 						true,
 						true));
 			}
-			
+
 			if (Main.game.isBodyHairEnabled() && (!getTarget().isDoll() || isDebugMenu())) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getKatesDivUnderarmHair(false, "Underarm hair",
 						UtilText.parse(getTarget(), "Change the amount of hair in [npc.namePos] underarms."))
-						
+
 						+CharacterModificationUtils.getKatesDivCoveringsNew(false, Race.NONE, getTarget().getUnderarmHairType().getType(), "Underarm hair colour",
 						UtilText.parse(getTarget(), "The colour of [npc.namePos] underarm hair."),
 						true, true));
 			}
-			
+
 			return UtilText.nodeContentSB.toString();
 		}
-		
+
 		@Override
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	public static final DialogueNode BODY_CHANGING_EYES = new DialogueNode("Eyes", "", true) {
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
-			
+
 			UtilText.nodeContentSB.append(getSelfTransformDescription("eyes"));
-			
+
 			if (!getTarget().isDoll() || isDebugMenu()) {
 				UtilText.nodeContentSB.append(
 						"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformEyeChoiceDiv(
 								getTFRaces(getTarget().getEyeRace(), true, false, false)));
-				
+
 				if (!getTarget().isYouko() || isDebugMenu()) {
 					UtilText.nodeContentSB.append(CharacterModificationUtils.getSelfTransformEyeCountDiv());
 				}
-				
+
 				UtilText.nodeContentSB.append("</div>");
 			}
-			
+
 			UtilText.nodeContentSB.append(
 					"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformIrisChoiceDiv()
 							+CharacterModificationUtils.getSelfTransformPupilChoiceDiv()
 							+"</div>"
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false, getTarget().getEyeType().getRace(), getTarget().getCovering(getTarget().getEyeCovering()).getType(),
 							"Iris colour",
 							UtilText.parse(getTarget(), "The colour and pattern of [npc.namePos] irises."),
 							true, true)
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false, getTarget().getEyeType().getRace(), getTarget().getCovering(BodyCoveringType.EYE_PUPILS).getType(),
 							"Pupil colour",
 							UtilText.parse(getTarget(), "The colour and pattern of [npc.namePos] pupils."),
 							true, true)
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false, getTarget().getEyeType().getRace(), getTarget().getCovering(BodyCoveringType.EYE_SCLERA).getType(),
 							"Sclerae colour",
 							UtilText.parse(getTarget(), "The colour and pattern of [npc.namePos] sclerae."),
 							true, true));
-			
+
 			return UtilText.nodeContentSB.toString();
 		}
-		
+
 		@Override
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	public static final DialogueNode BODY_CHANGING_HAIR = new DialogueNode("Hair", "", true) {
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
-			
+
 			UtilText.nodeContentSB.append(getSelfTransformDescription("hair"));
-			
+
 			if (!getTarget().isDoll() || isDebugMenu()) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getSelfTransformHairChoiceDiv(
 						getTFRaces(getTarget().getHairRace())));
 			}
-			
+
 			UtilText.nodeContentSB.append(
 					"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformHairLengthDiv()
 							+CharacterModificationUtils.getNeckFluffDiv()
 							+"</div>"
-							
+
 							+CharacterModificationUtils.getSelfDivHairStyles("Hair Style", UtilText.parse(getTarget(), "Change [npc.namePos] hair style."))
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false, getTarget().getHairRace(),
 							getTarget().getCovering(getTarget().getHairCovering()).getType(), "Hair colour",
 							UtilText.parse(getTarget(), "Change the colour of [npc.her] hair."), true, true));
-			
+
 			return UtilText.nodeContentSB.toString();
 		}
-		
+
 		@Override
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	public static final DialogueNode BODY_CHANGING_HEAD = new DialogueNode("Head", "", true) {
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
-			
+
 			UtilText.nodeContentSB.append(getSelfTransformDescription("head and face"));
-			
+
 			if (!getTarget().isDoll() || isDebugMenu()) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getSelfTransformEarChoiceDiv(
 						getTFRaces(getTarget().getEarRace())));
 			}
-			
+
 			if (!getTarget().isYouko() || isDebugMenu()) {
 				if (!getTarget().isDoll() || isDebugMenu()) {
 					UtilText.nodeContentSB.append(
@@ -764,26 +771,26 @@ public class BodyChanging {
 									getTFRaces(getTarget().getAntennaRace()))
 									+"</div>");
 				}
-				
+
 				UtilText.nodeContentSB.append(
 						"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformHornSizeDiv()
 								+CharacterModificationUtils.getSelfTransformAntennaSizeDiv()
 								+"</div>");
-				
+
 				if (!getTarget().isDoll() || isDebugMenu()) {
 					UtilText.nodeContentSB.append(
 							"<div style='clear:left;'>"
 									+CharacterModificationUtils.getSelfTransformHornCountDiv()
 									+CharacterModificationUtils.getSelfTransformAntennaCountDiv()
 									+"</div>"
-									
+
 									+"<div style='clear:left;'>"
 									+CharacterModificationUtils.getSelfTransformHornsPerRowCountDiv()
 									+CharacterModificationUtils.getSelfTransformAntennaePerRowCountDiv()
 									+"</div>");
 				}
-				
+
 				if (getTarget().hasHorns()) {
 					UtilText.nodeContentSB.append(
 							CharacterModificationUtils.getKatesDivCoveringsNew(false, getTarget().getHornRace(),
@@ -792,261 +799,261 @@ public class BodyChanging {
 									true, true));
 				}
 			}
-			
+
 			UtilText.nodeContentSB.append(
 					CharacterModificationUtils.getSelfTransformLipSizeDiv()
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformThroatModifiersDiv()
 							+CharacterModificationUtils.getSelfTransformThroatWetnessDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformThroatCapacityDiv()
 							+CharacterModificationUtils.getSelfTransformThroatDepthDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformThroatElasticityDiv()
 							+CharacterModificationUtils.getSelfTransformThroatPlasticityDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformTongueSizeDiv()
 							+CharacterModificationUtils.getSelfTransformTongueModifiersDiv()
 							+"</div>"
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false, getTarget().getMouthType().getRace(), getTarget().getCovering(BodyCoveringType.MOUTH).getType(),
 							"Lip & Throat colour",
 							UtilText.parse(getTarget(),
 									"The natural colour of [npc.namePos] "+(getTarget().getFaceType() == FaceType.HARPY?"beak":"lips")+" (top options) and [npc.her] throat (bottom options)."
 											+"Lipstick can be used to conceal [npc.her] natural lip colour."),
 							true, true)
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false, getTarget().getTongueType().getRace(), getTarget().getCovering(BodyCoveringType.TONGUE).getType(),
 							"Tongue colour",
 							(getTarget().isPlayer()
 									?"The colour of your tongue."
 									:UtilText.parse(getTarget(), "The colour of [npc.namePos] tongue.")),
 							true, true));
-			
+
 			if (Main.game.isFacialHairEnabled() && (!getTarget().isFeminine() || Main.game.isFemaleFacialHairEnabled())) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getKatesDivFacialHair(false, "Beard length",
 						UtilText.parse(getTarget(), "Change the length of [npc.namePos] beard."))
-						
+
 						+CharacterModificationUtils.getKatesDivCoveringsNew(false, Race.NONE, getTarget().getFacialHairType().getType(), "Beard colour",
 						UtilText.parse(getTarget(), "The colour of [npc.namePos] beard."),
 						true, true));
 			}
-			
+
 			return UtilText.nodeContentSB.toString();
 		}
-		
+
 		@Override
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	public static final DialogueNode BODY_CHANGING_ASS = new DialogueNode("Ass", "", true) {
-		
+
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
-			
+
 			UtilText.nodeContentSB.append(getSelfTransformDescription("ass and hips"));
-			
+
 			if (!getTarget().isDoll() || isDebugMenu()) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getSelfTransformAssChoiceDiv(
 						getTFRaces(getTarget().getAssRace(), true, false, false)));
 			}
-			
+
 			UtilText.nodeContentSB.append(
 					"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformAssSizeDiv()
 							+CharacterModificationUtils.getSelfTransformHipSizeDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformAnusModifiersDiv()
 							+CharacterModificationUtils.getSelfTransformAnusWetnessDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformAnusCapacityDiv()
 							+CharacterModificationUtils.getSelfTransformAnusDepthDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformAnusElasticityDiv()
 							+CharacterModificationUtils.getSelfTransformAnusPlasticityDiv()
 							+"</div>"
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 							getTarget().getAssRace(),
 							getTarget().getCovering(BodyCoveringType.ANUS).getType(),
 							"Anus Colour",
 							UtilText.parse(getTarget(), "Change the colour of [npc.namePos] asshole."),
 							true, true));
-			
+
 			if (Main.game.isAssHairEnabled() && (!getTarget().isDoll() || isDebugMenu())) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getKatesDivAssHair(false, "Ass hair",
 						UtilText.parse(getTarget(), "Change the amount of hair around [npc.namePos] anus."))
-						
+
 						+CharacterModificationUtils.getKatesDivCoveringsNew(false, Race.NONE, getTarget().getAssHairType().getType(), "Ass hair colour",
 						UtilText.parse(getTarget(), "The colour of [npc.namePos] ass hair."),
 						true, true));
 			}
-			
+
 			return UtilText.nodeContentSB.toString();
 		}
-		
+
 		@Override
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	public static final DialogueNode BODY_CHANGING_BREASTS = new DialogueNode("Breasts", "", true) {
-		
+
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
-			
+
 			UtilText.nodeContentSB.append(getSelfTransformDescription("breasts"));
-			
+
 			if (!getTarget().isDoll() || isDebugMenu()) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getSelfTransformBreastChoiceDiv(
 						getTFRaces(getTarget().getBreastRace(), true, false, false)));
 			}
-			
+
 			UtilText.nodeContentSB.append(
 					"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformBreastSizeDiv()
 							+CharacterModificationUtils.getSelfTransformBreastShapeDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformBreastRowsDiv()
 							+CharacterModificationUtils.getSelfTransformNippleModifiersDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformLactationDiv()
 							+CharacterModificationUtils.getSelfTransformLactationRegenerationDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformLactationFlavourDiv()
 							+CharacterModificationUtils.getSelfTransformLactationModifiersDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformNippleCountDiv()
 							+CharacterModificationUtils.getSelfTransformNippleShapeDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformNippleSizeDiv()
 							+CharacterModificationUtils.getSelfTransformAreolaeSizeDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformNippleCapacityDiv()
 							+CharacterModificationUtils.getSelfTransformNippleDepthDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformNippleElasticityDiv()
 							+CharacterModificationUtils.getSelfTransformNipplePlasticityDiv()
 							+"</div>"
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 							getTarget().getBreastRace(),
 							getTarget().getCovering(BodyCoveringType.NIPPLES).getType(),
 							"Nipple Colour",
 							UtilText.parse(getTarget(), "Change the colour of [npc.namePos] nipples."),
 							true, true)
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 							Race.NONE,
 							getTarget().getCovering(BodyCoveringType.MILK).getType(),
 							"Milk Colour",
 							UtilText.parse(getTarget(), "Change the colour of [npc.namePos] [npc.milk]."),
 							true, true));
-			
+
 			return UtilText.nodeContentSB.toString();
 		}
-		
+
 		@Override
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	public static final DialogueNode BODY_CHANGING_VAGINA = new DialogueNode("Vagina", "", true) {
-		
+
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
-			
+
 			UtilText.nodeContentSB.append(getSelfTransformDescription("vagina"));
-			
-			if (!getTarget().isDoll() || isDebugMenu()) {
+
+			//if (!getTarget().isDoll() || isDebugMenu()) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getSelfTransformVaginaChoiceDiv(
 						getTFRaces(getTarget().getVaginaRace(), true, false, false)));
-			}
-			
+			//}
+
 			if (getTarget().hasVagina()) {
 				UtilText.nodeContentSB.append(
 						CharacterModificationUtils.getSelfTransformGirlcumFlavourDiv()
 								+CharacterModificationUtils.getSelfTransformGirlcumModifiersDiv());
-				
+
 				if (!getTarget().isDoll() || isDebugMenu()) {
 					UtilText.nodeContentSB.append(
 							"<div style='clear:left;'>"
@@ -1064,7 +1071,7 @@ public class BodyChanging {
 									+CharacterModificationUtils.getSelfTransformLabiaSizeDiv()
 									+"</div>");
 				}
-				
+
 				UtilText.nodeContentSB.append(
 						"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformVaginaModifiersDiv()
@@ -1094,67 +1101,67 @@ public class BodyChanging {
 								+CharacterModificationUtils.getSelfTransformVaginaUrethraElasticityDiv()
 								+CharacterModificationUtils.getSelfTransformVaginaUrethraPlasticityDiv()
 								+"</div>"
-								
+
 								+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 								getTarget().getVaginaRace(),
 								getTarget().getCovering(BodyCoveringType.VAGINA).getType(),
 								"Vagina Colour",
 								UtilText.parse(getTarget(), "Change the colour of [npc.namePos] vagina."),
 								true, true)
-								
+
 								+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 								Race.NONE,
 								getTarget().getCovering(BodyCoveringType.GIRL_CUM).getType(),
 								"Girlcum Colour",
 								UtilText.parse(getTarget(), "Change the colour of [npc.namePos] [npc.girlcum]."),
 								true, true));
-				
+
 				if (Main.game.isPubicHairEnabled() && (!getTarget().isDoll() || isDebugMenu())) {
 					UtilText.nodeContentSB.append(CharacterModificationUtils.getKatesDivPubicHair(false, "Pubic hair",
 							UtilText.parse(getTarget(), "Change the amount of hair around [npc.namePos] genitals."))
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false, Race.NONE, getTarget().getPubicHairType().getType(), "Pubic hair colour",
 							UtilText.parse(getTarget(), "The colour of [npc.namePos] pubic hair."),
 							true, true));
 				}
 			}
-			
+
 			return UtilText.nodeContentSB.toString();
 		}
-		
+
 		@Override
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	public static final DialogueNode BODY_CHANGING_PENIS = new DialogueNode("Penis", "", true) {
-		
+
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
-			
+
 			UtilText.nodeContentSB.append(getSelfTransformDescription("penis"));
-			
-			if (!getTarget().isDoll() || isDebugMenu()) {
+
+			//if (!getTarget().isDoll() || isDebugMenu()) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getSelfTransformPenisChoiceDiv(
 						getTFRaces(getTarget().getPenisRace(), true, false, false), false));
-			}
+			//}
 			
 			if (getTarget().hasPenis()) {
 				UtilText.nodeContentSB.append(

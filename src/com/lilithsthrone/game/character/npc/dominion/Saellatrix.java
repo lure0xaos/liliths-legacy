@@ -61,6 +61,7 @@ import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.markings.Tattoo;
 import com.lilithsthrone.game.character.markings.TattooWriting;
 import com.lilithsthrone.game.character.npc.NPC;
+import com.lilithsthrone.game.character.npc.misc.BasicDoll;
 import com.lilithsthrone.game.character.npc.misc.GenericSexualPartner;
 import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.persona.Occupation;
@@ -131,6 +132,9 @@ public class Saellatrix extends NPC {
 		if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.9")) {
 			this.setStartingBody(true);
 		}
+		if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.9.1")) {
+			this.addFetish(Fetish.FETISH_SADIST);
+		}
 	}
 
 	@Override
@@ -163,18 +167,18 @@ public class Saellatrix extends NPC {
 			this.addFetish(Fetish.FETISH_BONDAGE_APPLIER);
 			this.addFetish(Fetish.FETISH_ORAL_GIVING);
 			this.addFetish(Fetish.FETISH_BREASTS_SELF);
+			this.addFetish(Fetish.FETISH_SADIST);
 
 			this.setFetishDesire(Fetish.FETISH_KINK_GIVING, FetishDesire.THREE_LIKE);
 			this.setFetishDesire(Fetish.FETISH_PENIS_GIVING, FetishDesire.THREE_LIKE);
 			this.setFetishDesire(Fetish.FETISH_ANAL_GIVING, FetishDesire.THREE_LIKE);
 			this.setFetishDesire(Fetish.FETISH_MASTURBATION, FetishDesire.THREE_LIKE);
-			this.setFetishDesire(Fetish.FETISH_SADIST, FetishDesire.THREE_LIKE);
 			this.setFetishDesire(Fetish.FETISH_TRANSFORMATION_GIVING, FetishDesire.THREE_LIKE);
 			this.setFetishDesire(Fetish.FETISH_SIZE_QUEEN, FetishDesire.THREE_LIKE);
 		}
 		
 		// Body:
-		this.setAgeAppearanceDifferenceToAppearAsAge(38);
+		this.setAgeAppearanceAbsolute(38);
 		this.setLegType(LegType.DEMON_COMMON);
 		this.setHornType(HornType.STRAIGHT);
 		this.setHornLength(HornLength.TWO_LONG.getMedianValue());
@@ -343,9 +347,22 @@ public class Saellatrix extends NPC {
 		return true;
 	}
 	
+	public void incrementDollsSold(int increment) {
+		if(!Main.game.getDialogueFlags().hasSavedLong("saellatrix_dolls_sold")) {
+			Main.game.getDialogueFlags().setSavedLong("saellatrix_dolls_sold", 3109);
+		}
+		Main.game.getDialogueFlags().incrementSavedLong("saellatrix_dolls_sold", increment);
+	}
+	
+	public int getDollsSold() {
+		return (int) Main.game.getDialogueFlags().getSavedLong("saellatrix_dolls_sold");
+	}
+	
 	@Override
 	public void dailyUpdate() {
 		clearNonEquippedInventory(false);
+		
+		incrementDollsSold(1+Util.random.nextInt(4));
 		
 		for(AbstractWeaponType wt : WeaponType.getAllWeapons()) {
 			if(wt.getItemTags().contains(ItemTag.SOLD_BY_FINCH)
@@ -392,6 +409,9 @@ public class Saellatrix extends NPC {
 			if(Main.sex.getInitialSexManager() == SexManagerLoader.getSexManagerFromId("innoxia_dominion_sex_shop_saellatrix_blowjob") && this.getClothingInSlot(InventorySlot.NECK)==null) {
 				Main.game.getDialogueFlags().setFlag("innoxia_sex_shop_choker_snapped", true);
 			}
+		}
+		if(Main.game.getDialogueFlags().hasFlag("innoxia_sex_shop_saellatrix_following")) {
+			this.setLocation(Main.game.getPlayer());
 		}
 	}
 	
@@ -500,8 +520,19 @@ public class Saellatrix extends NPC {
 	}
 	
 	public void initDemoDoll() {
-		if(!isPlayerVisited()) {
-			NPC doll = new GenericSexualPartner(false);
+		boolean initDoll = false;
+		if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.9.2")) {
+			// Remove old GenericSexualPartner doll so it can be replaced with BasicDoll:
+			List<NPC> characters = Main.game.getCharactersPresent(WorldType.getWorldTypeFromId("innoxia_dominion_sex_shop"), PlaceType.getPlaceTypeFromId("innoxia_dominion_sex_shop_display"));
+			for(NPC npc : new ArrayList<>(characters)) {
+				if(npc instanceof GenericSexualPartner && npc.getGenericName().equals("demo doll")) {
+					Main.game.banishNPC(npc);
+					initDoll = true;
+				}
+			}
+		}
+		if(!isPlayerVisited() || initDoll) {
+			NPC doll = new BasicDoll(false);
 			doll.setBody(Gender.F_V_B_FEMALE, Subspecies.HUMAN, RaceStage.HUMAN, true);
 			doll.setBodyMaterial(BodyMaterial.SILICONE);
 			doll.setPlayerKnowsName(false);
@@ -509,6 +540,8 @@ public class Saellatrix extends NPC {
 			doll.setSurname("#01734");
 			doll.setGenericName("demo doll");
 			doll.setDescription("The demo doll works in Lovienne's Luxuries, providing oral sex to potential customers.");
+
+			doll.setBirthday(doll.getBirthday().minusDays((365*4) + Util.random.nextInt(365))); // Creation date is 4-5 years before encounter
 			
 			doll.setPetName(Main.game.getPlayer(), "master");
 			
@@ -546,5 +579,37 @@ public class Saellatrix extends NPC {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public boolean isFactoryTourTimeUp() {
+		return isFactoryTourTimeUp(0);
+	}
+	
+	public boolean isFactoryTourTimeUp(int additionalSecondsPassed) { // additionalSecondsPassed will normally be 30 to account for dialogue seconds passed, as the seconds are not incremented until after preParsingEffects, in which this method is used
+		long secondsAtStart = Main.game.getDialogueFlags().getSavedLong("saellatrix_tour_start");
+		long secondsRemaining = (10 * 60) - (Main.game.getSecondsPassed() - secondsAtStart) - additionalSecondsPassed; 
+		return secondsRemaining<=0;
+	}
+	
+	public String getFactoryTimeRemaining(int extraSeconds) {
+		if(!Main.game.getDialogueFlags().hasFlag("innoxia_sex_shop_saellatrix_following")) {
+			return "";
+		}
+		
+		long secondsAtStart = Main.game.getDialogueFlags().getSavedLong("saellatrix_tour_start");
+		long secondsRemaining = (10 * 60) - (Main.game.getSecondsPassed() - secondsAtStart) - extraSeconds;
+		int minutes = (int) (secondsRemaining/60);
+		int seconds = (int) (secondsRemaining%60);
+		
+		return "<p style='text-align:center;'>"
+					+ "Tour time remaining: "
+					+ (minutes>=2
+							?"[style.colourMinorGood("
+							:"[style.colourMinorBad(")
+					+ String.format("%02d", minutes)
+					+ ":"
+					+ String.format("%02d", seconds)
+					+")]"
+				+ "</p>";
 	}
 }

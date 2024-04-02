@@ -260,6 +260,10 @@ public class Subspecies {
 		public boolean isWinged() {
 			return true;
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 
 	// DEMON:
@@ -327,6 +331,10 @@ public class Subspecies {
 		public boolean isWinged() {
 			return true;
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 	
 	public static AbstractSubspecies LILIN = new AbstractSubspecies(false,
@@ -391,6 +399,10 @@ public class Subspecies {
 		}
 		@Override
 		public boolean isWinged() {
+			return true;
+		}
+		@Override
+		public boolean isDoesNotAge() {
 			return true;
 		}
 	};
@@ -577,6 +589,10 @@ public class Subspecies {
 		public boolean isWinged() {
 			return true;
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 	
 	public static AbstractSubspecies HALF_DEMON = new AbstractSubspecies(false,
@@ -735,6 +751,10 @@ public class Subspecies {
 		public boolean isWinged() {
 			return true;
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 	
 	public static AbstractSubspecies IMP = new AbstractSubspecies(false,
@@ -815,6 +835,10 @@ public class Subspecies {
 		public boolean isWinged() {
 			return true;
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 	
 	public static AbstractSubspecies IMP_ALPHA = new AbstractSubspecies(false,
@@ -893,6 +917,10 @@ public class Subspecies {
 		}
 		@Override
 		public boolean isWinged() {
+			return true;
+		}
+		@Override
+		public boolean isDoesNotAge() {
 			return true;
 		}
 	};
@@ -1936,6 +1964,10 @@ public class Subspecies {
 			}
 			return 0;
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 
 	public static AbstractSubspecies FOX_ASCENDANT_ARCTIC = new AbstractSubspecies(false,
@@ -2063,6 +2095,10 @@ public class Subspecies {
 				}
 			}
 			return 0;
+		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
 		}
 	};
 	
@@ -2201,6 +2237,10 @@ public class Subspecies {
 				}
 			}
 			return 0;
+		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
 		}
 	};
 	
@@ -5273,6 +5313,10 @@ public class Subspecies {
 			}
 			return body.getFleshSubspecies().getFeralAttributes(body);
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 
 	// DOLLS:
@@ -5311,7 +5355,7 @@ public class Subspecies {
 					new Value<>(PerkCategory.ARCANE, 1)),
 			PresetColour.RACE_DOLL,
 			SubspeciesPreference.ZERO_NONE,
-			"A lifelike rubber doll, which has been enchanted so as to be able to move, speak, and obey commands.",
+			"A lifelike silicone doll, which has been enchanted so as to be able to move, speak, and obey commands.",
 			null,
 			Util.newHashMapOfValues(), null, Util.newArrayListOfValues(
 					SubspeciesFlag.HIDDEN_FROM_PREFERENCES)) {
@@ -5407,9 +5451,9 @@ public class Subspecies {
 		@Override
 		public String getSVGStringDesaturated(GameCharacter character) {
 			if(character==null) {
-				return Subspecies.HUMAN.getSVGStringDesaturated(null);
+				return Subspecies.HUMAN.getDollSVGStringDesaturated(null);
 			}
-			return character.getBody().getFleshSubspecies().getSVGStringDesaturated(character);
+			return character.getBody().getFleshSubspecies().getDollSVGStringDesaturated(character);
 		}
 		@Override
 		public int getSubspeciesWeighting(Body body, AbstractRace race) {
@@ -5423,6 +5467,10 @@ public class Subspecies {
 				return super.getFeralAttributes(body);
 			}
 			return body.getFleshSubspecies().getFeralAttributes(body);
+		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
 		}
 	};
 	
@@ -5511,6 +5559,10 @@ public class Subspecies {
 		public boolean isWinged() {
 			return true;
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 	
 	public static AbstractSubspecies ELEMENTAL_EARTH = new AbstractSubspecies(false,
@@ -5592,6 +5644,10 @@ public class Subspecies {
 		}
 		@Override
 		public boolean isWinged() {
+			return true;
+		}
+		@Override
+		public boolean isDoesNotAge() {
 			return true;
 		}
 	};
@@ -5676,6 +5732,10 @@ public class Subspecies {
 		public boolean isWinged() {
 			return true;
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 
 	public static AbstractSubspecies ELEMENTAL_AIR = new AbstractSubspecies(false,
@@ -5758,6 +5818,10 @@ public class Subspecies {
 		public boolean isWinged() {
 			return true;
 		}
+		@Override
+		public boolean isDoesNotAge() {
+			return true;
+		}
 	};
 
 	public static AbstractSubspecies ELEMENTAL_ARCANE = new AbstractSubspecies(true,
@@ -5838,6 +5902,10 @@ public class Subspecies {
 		}
 		@Override
 		public boolean isWinged() {
+			return true;
+		}
+		@Override
+		public boolean isDoesNotAge() {
 			return true;
 		}
 	};

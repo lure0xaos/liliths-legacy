@@ -1366,14 +1366,14 @@ public class TooltipInformationEventListener implements EventListener {
 								+ Util.capitaliseSentence(slaveJob.getName(owner))
 							+ "</div>");
 
-			tooltipSB.append("<div class='description' style='height:28px; text-align:center;'>"
+			tooltipSB.append("<div class='description' style='min-height:28px; height:28px; text-align:center;'>"
 								+ "[style.boldStamina(Hourly Stamina Cost:)]"
-								+ (slaveJob.getHourlyStaminaDrain()>0
+								+ (slaveJob.getHourlyStaminaDrain(owner)>0
 										?" [style.boldBad("
-										:" [style.boldGood(")+slaveJob.getHourlyStaminaDrain()+")]"
+										:" [style.boldGood(")+slaveJob.getHourlyStaminaDrain(owner)+")]"
 							+ "</div>");
 			
-			tooltipSB.append("<div class='description' style='height:64px'>");
+			tooltipSB.append("<div class='description' style='min-height:64px; height:64px;'>");
 				tooltipSB.append(slaveJob.getDescription());
 				if(slaveJob==SlaveJob.IDLE) {
 					tooltipSB.append("<br/>");
@@ -1382,7 +1382,7 @@ public class TooltipInformationEventListener implements EventListener {
 			tooltipSB.append("</div>");
 
 			for(SlaveJobFlag flag : slaveJob.getFlags()) {
-				tooltipSB.append("<div class='description' style='height:48px'>"
+				tooltipSB.append("<div class='description' style='min-height:48px; height:48px;'>"
 									+ "<b style='color:"+flag.getColour().toWebHexString()+";'>"+flag.getName()+":</b> "+flag.getDescription()
 								+ "</div>");
 				yIncrease++;

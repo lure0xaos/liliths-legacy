@@ -73,7 +73,7 @@
 		[ghost.speech(All the serious gangs are wearing SWORD gear,)] Ghost replies with a weary smirk on her face. [ghost.speech(Too many Enforcer quartermasters over the years have become very wealthy while marking down an abnormally high amount of equipment as being 'destroyed in the line of duty'. The gang we're going to be dealing with tonight will think that we're a serious rival operation from Dominion.)]
 	</p>
 	#IF(pc.hasQuestInLine(QUEST_LINE_SIDE_WES, QUEST_WES_3_WES))
-		[hammer.speech(I heard some fox in 1st Battalion put a stop to that in Dominion. Was a local boy from around here too. Good on him,)] Hammer says. Recognising the fact that he's talking about Wes, you tell the Enforcers that you helped the fox-boy he's talking about. Hammer gives an approving nod in response, before grunting, [hammer.seepch(Good to hear that there's still at least one guy who's doing something about the corruption in Dominion.)]
+		[hammer.speech(I heard some fox in 1st Battalion put a stop to that in Dominion. Was a local boy from around here too. Good on him,)] Hammer says. Recognising the fact that he's talking about Wes, you tell the Enforcers that you helped the fox-boy he's talking about. Hammer gives an approving nod in response, before grunting, [hammer.speech(Good to hear that there's still at least one guy who's doing something about the corruption in Dominion.)]
 	#ENDIF
 	<p>
 		Thinking that it must be challenging to come up against gangs who have the same kit as them, you ask the Enforcers if the proliferation of SWORD equipment to gangs makes their job a lot harder.

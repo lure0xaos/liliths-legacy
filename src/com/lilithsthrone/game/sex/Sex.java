@@ -185,6 +185,7 @@ public class Sex {
 	private GameCharacter characterPerformingAction;
 	private GameCharacter characterOrgasming;
 	private GameCharacter characterLayingEggs; // Usually null, but if there is an ongoing egg-laying orgasm action, this variable is set to the character who is laying eggs
+	private Set<GameCharacter> charactersWoken; // Characters who have been woken up during the turn and who now require the SLEEPING_WOKEN_UP action to be used
 	
 	private Value<GameCharacter, Value<GameCharacter, AbstractClothing>> clothingSelfEquipInformation; // The character self-equipping clothing, the character targeted, and the clothing being equipped.
 	private Value<GameCharacter, Value<GameCharacter, AbstractClothing>> clothingEquipInformation; // The character equipping clothing, the character targeted, and the clothing being equipped.
@@ -263,6 +264,8 @@ public class Sex {
 	private Set<GameCharacter> charactersDeniedOrgasm;
 	private Map<GameCharacter, SexControl> forcedSexControlMap;
 	private Set<GameCharacter> charactersBannedFromRapePlay;
+	private Map<GameCharacter, Map<CoverableArea, Set<String>>> areasKnownByCharactersAtStartOfSexMap;
+	
 
 	private Set<GameCharacter> charactersGrewCock;
 	private Set<GameCharacter> heavyLipstickUsedCharacter; // For tracking which characters have their 'heavy' lipstick removed at the end of sex.
@@ -395,12 +398,15 @@ public class Sex {
 				}
 			}
 		}
+
+		charactersImmobilised = new HashMap<>(sexManager.getStartingCharactersImmobilised());
 		
 		initialSexManager = sexManager;
 		setSexManager(sexManager);
 		characterPerformingAction = Main.game.getPlayer();
 		characterOrgasming = null;
 		characterLayingEggs = null;
+		charactersWoken = new HashSet<>();
 		
 		itemUseInformation = null;
 		itemUseDenials = new HashMap<>();
@@ -455,10 +461,15 @@ public class Sex {
 		areasExposed = new HashMap<>();
 		requestsBlocked = new HashMap<>();
 		positioningRequestsBlocked = new HashMap<>();
+		areasKnownByCharactersAtStartOfSexMap = new HashMap<>();
 		for(GameCharacter character : Main.sex.getAllParticipants()) {
 			areasExposed.put(character, new ArrayList<>());
 			requestsBlocked.put(character, new ArrayList<>());
 			positioningRequestsBlocked.put(character, new ArrayList<>());
+			areasKnownByCharactersAtStartOfSexMap.put(character, new HashMap<>());
+			for(Entry<CoverableArea, Set<String>> e : character.getAreasKnownByCharactersMap().entrySet()) {
+				areasKnownByCharactersAtStartOfSexMap.get(character).put(e.getKey(), new HashSet<>(e.getValue()));
+			}
 		}
 		
 		positionRequest = null;
@@ -467,7 +478,6 @@ public class Sex {
 		charactersRequestingKnot = new HashSet<>();
 		charactersRequestingPullout = new HashMap<>();
 		
-		charactersImmobilised = new HashMap<>(sexManager.getStartingCharactersImmobilised());
 		charactersBannedFromPositioning = new HashSet<>();
 		
 		charactersSelfActionsBlocked = new HashSet<>();
@@ -646,6 +656,77 @@ public class Sex {
 		
 		sexSB.append(calculateWetAreas(true));
 		
+		// Immobilisation text:
+		for(Entry<ImmobilisationType, Map<GameCharacter, Set<GameCharacter>>> immobilisationData : getCharactersImmobilised().entrySet()) {
+			ImmobilisationType immobilisationType = immobilisationData.getKey();
+			Set<GameCharacter> immobilisedCharacters = immobilisationData.getValue().entrySet().iterator().next().getValue();
+			if(immobilisationType==null || immobilisedCharacters==null || immobilisedCharacters.isEmpty()) {
+				continue;
+			}
+			List<String> names = new ArrayList<>();
+			for(GameCharacter immobilisedCharacter : immobilisedCharacters) {
+				names.add(UtilText.parse(immobilisedCharacter, "[npc.name]"));
+			}
+
+			sexSB.append("<p style='text-align:center;'>[style.italicsTerrible(");
+				switch(immobilisationType) {
+					case CHAINS:
+					case ROPE:
+						sexSB.append("Thanks to the "+(immobilisationType==ImmobilisationType.CHAINS?"chains":"ropes")+" which have been added to this cell, ");
+						sexSB.append(Util.stringsToStringList(names, false));
+						if(names.size()>1) {
+							sexSB.append(" are");
+						} else {
+							sexSB.append(" is");
+						}
+						sexSB.append(" bound and unable to move!");
+						break;
+					case COMMAND:
+						sexSB.append("Having been ordered to do so, ");
+						sexSB.append(Util.stringsToStringList(names, false));
+						if(names.size()>1) {
+							sexSB.append(" are");
+						} else {
+							sexSB.append(" is");
+						}
+						sexSB.append(" remaining frozen in place!");
+						break;
+					case SLEEP:
+						sexSB.append("As ");
+						if(names.size()>1) {
+							sexSB.append(" they are deep sleepers, ");
+						} else {
+							sexSB.append(UtilText.parse(immobilisedCharacters.iterator().next(), "[npc.sheIs] a deep sleeper, "));
+						}
+						sexSB.append(Util.stringsToStringList(names, false));
+						if(names.size()>1) {
+							sexSB.append(" remain");
+						} else {
+							sexSB.append(UtilText.parse(immobilisedCharacters.iterator().next()," [npc.verb(remain)]"));
+						}
+						sexSB.append(" asleep!");
+						sexSB.append("<br/>");
+						if(names.size()>1) {
+							sexSB.append("They ");
+						} else {
+							sexSB.append(UtilText.parse(immobilisedCharacters.iterator().next(), "[npc.She] "));
+						}
+						sexSB.append("will wake up if any dominant pace is not gentle, or if");
+						if(names.size()>1) {
+							sexSB.append(" their throats are penetrated!");
+						} else {
+							sexSB.append(UtilText.parse(immobilisedCharacters.iterator().next(), " [npc.her] throat is penetrated!"));
+						}
+						break;
+					case COCOON:
+					case TAIL_CONSTRICTION:
+					case TENTACLE_RESTRICTION:
+					case WITCH_SEAL:
+						break;
+				}
+			sexSB.append(")]</p>");
+		}
+		
 		charactersBannedFromRemovingSelfClothing = new HashSet<>();
 		charactersBannedFromRemovingOthersClothing = new HashSet<>();
 		for(GameCharacter character : Main.sex.getAllParticipants()) {
@@ -756,7 +837,7 @@ public class Sex {
 		}
 
 		// Add known areas, so NPCs don't react to already-naked characters as though they are only just seeing them:
-
+		
 		for(GameCharacter character : Main.sex.getAllParticipants()) {
 			for(GameCharacter character2 : Main.sex.getAllParticipants()) {
 				if(!character.equals(character2)) {
@@ -1514,7 +1595,7 @@ public class Sex {
 				}
 				if(getNumberOfOrgasms(participant) > 0
 						&& Main.game.isInNewWorld()
-						&& !Main.game.getPlayer().isDoll()) {
+						&& !participant.isDoll()) {
 					if(participant.hasStatusEffect(StatusEffect.RECOVERING_AURA)) {
 
 						int orgasmCount = Main.sex.getNumberOfOrgasms(participant);
@@ -2213,6 +2294,10 @@ public class Sex {
 												null,
 												SexParticipantType.NORMAL) {
 													@Override
+													public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
+														return true;
+													}
+													@Override
 													public SexActionLimitation getLimitation() {
 														return SexActionLimitation.PLAYER_ONLY;
 													}
@@ -2220,27 +2305,22 @@ public class Sex {
 													public String getActionTitle() {
 														return UtilText.parse(character, "[npc.Name]");
 													}
-											
 													@Override
 													public String getActionDescription() {
 														return UtilText.parse(character, "Set [npc.name] as the active partner. (You can also do this by clicking on their name in the side bar.)");
 													}
-											
 													@Override
 													public String getDescription() {
 														return "";
 													}
-											
 													@Override
 													public String getFluidFlavourDescription(GameCharacter performing, GameCharacter receiving) {
 														return "";
 													}
-													
 													@Override
 													public SexActionCategory getCategory() {
 														return SexActionCategory.CHARACTER_SWITCH;
 													}
-													
 													@Override
 													public void applyEffects() {
 														Main.sex.setTargetedPartner(Main.game.getPlayer(), character);
@@ -3210,12 +3290,14 @@ public class Sex {
 		
 		if(!areasExposed.get(characterBeingExposed).contains(CoverableArea.ANUS) && isAnyCharacterAbleToSeeArea(characterBeingExposed, charactersReacting, InventorySlot.ANUS)) {
 			if(characterBeingExposed.isCoverableAreaVisible(CoverableArea.ANUS)) {
+				boolean knowsArea = isAreaKnownByCharacterAtStartOfSex(characterBeingExposed, CoverableArea.ANUS, Main.game.getPlayer());
+				String revealReaction = sexManager.getAssRevealReaction(characterBeingExposed, charactersReacting, false);
 				exposedSB.append(UtilText.parse(characterBeingExposed,
 						formatCoverableAreaBecomingExposed(
 								(atStartOfSex
 										?"[npc.NamePos] [npc.asshole+] was already exposed before starting sex!"
 										:"[npc.NamePos] [npc.asshole+] is now exposed!")))
-						+ sexManager.getAssRevealReaction(characterBeingExposed, charactersReacting, false)
+						+ (Main.getProperties().fullExposureDescriptions==0 || (Main.getProperties().fullExposureDescriptions==1 && knowsArea)?"":revealReaction)
 						+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaOrifice.ANUS)));
 				areasExposed.get(characterBeingExposed).add(CoverableArea.ANUS);
 			}
@@ -3223,12 +3305,14 @@ public class Sex {
 		if(!areasExposed.get(characterBeingExposed).contains(CoverableArea.PENIS) && isAnyCharacterAbleToSeeArea(characterBeingExposed, charactersReacting, InventorySlot.PENIS)) {
 			if(characterBeingExposed.isCoverableAreaVisible(CoverableArea.PENIS)) {
 				if(characterBeingExposed.hasPenis()) {
+					boolean knowsArea = isAreaKnownByCharacterAtStartOfSex(characterBeingExposed, CoverableArea.PENIS, Main.game.getPlayer());
+					String revealReaction = sexManager.getPenisRevealReaction(characterBeingExposed, charactersReacting);
 					exposedSB.append(UtilText.parse(characterBeingExposed,
 							formatCoverableAreaBecomingExposed(
 									(atStartOfSex
 											?"[npc.NamePos] [npc.cock+] was already exposed before starting sex!"
 											:"[npc.NamePos] [npc.cock+] is now exposed!")))
-							+ sexManager.getPenisRevealReaction(characterBeingExposed, charactersReacting)
+							+ (Main.getProperties().fullExposureDescriptions==0 || (Main.getProperties().fullExposureDescriptions==1 && knowsArea)?"":revealReaction)
 							+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaPenetration.PENIS)));
 				}
 				areasExposed.get(characterBeingExposed).add(CoverableArea.PENIS);
@@ -3237,12 +3321,14 @@ public class Sex {
 		if(!areasExposed.get(characterBeingExposed).contains(CoverableArea.VAGINA) && isAnyCharacterAbleToSeeArea(characterBeingExposed, charactersReacting, InventorySlot.VAGINA)) {
 			if(characterBeingExposed.isCoverableAreaVisible(CoverableArea.VAGINA)) {
 				if(characterBeingExposed.hasVagina()) {
+					boolean knowsArea = isAreaKnownByCharacterAtStartOfSex(characterBeingExposed, CoverableArea.VAGINA, Main.game.getPlayer());
+					String revealReaction = sexManager.getVaginaRevealReaction(characterBeingExposed, charactersReacting);
 					exposedSB.append(UtilText.parse(characterBeingExposed,
 							formatCoverableAreaBecomingExposed(
 									(atStartOfSex
 											?"[npc.NamePos] [npc.pussy+] was already exposed before starting sex!"
 											:"[npc.NamePos] [npc.pussy+] is now exposed!")))
-							+ sexManager.getVaginaRevealReaction(characterBeingExposed, charactersReacting)
+							+ (Main.getProperties().fullExposureDescriptions==0 || (Main.getProperties().fullExposureDescriptions==1 && knowsArea)?"":revealReaction)
 							+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaOrifice.VAGINA))
 							+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaPenetration.CLIT)));
 
@@ -3263,24 +3349,28 @@ public class Sex {
 		if(!areasExposed.get(characterBeingExposed).contains(CoverableArea.NIPPLES) && isAnyCharacterAbleToSeeArea(characterBeingExposed, charactersReacting, InventorySlot.NIPPLE)) {
 			if(characterBeingExposed.isCoverableAreaVisible(CoverableArea.NIPPLES)
 					&& (!characterBeingExposed.isFeral() || characterBeingExposed.getFeralAttributes().isBreastsPresent())) {
+				boolean knowsArea = isAreaKnownByCharacterAtStartOfSex(characterBeingExposed, CoverableArea.NIPPLES, Main.game.getPlayer());
+				String revealReaction = sexManager.getBreastsRevealReaction(characterBeingExposed, charactersReacting);
 				exposedSB.append(UtilText.parse(characterBeingExposed,
 						formatCoverableAreaBecomingExposed(
 								(atStartOfSex
 										?"[npc.NamePos] [npc.nipples+] were already exposed before starting sex!"
 										:"[npc.NamePos] [npc.nipples+] are now exposed!")))
-							+ sexManager.getBreastsRevealReaction(characterBeingExposed, charactersReacting)
+							+ (Main.getProperties().fullExposureDescriptions==0 || (Main.getProperties().fullExposureDescriptions==1 && knowsArea)?"":revealReaction)
 							+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaOrifice.NIPPLE)));
 				areasExposed.get(characterBeingExposed).add(CoverableArea.NIPPLES);
 			}
 		}
 		if(!areasExposed.get(characterBeingExposed).contains(CoverableArea.BREASTS_CROTCH) && characterBeingExposed.hasBreastsCrotch() && isAnyCharacterAbleToSeeArea(characterBeingExposed, charactersReacting, InventorySlot.STOMACH)) {
 			if(characterBeingExposed.isCoverableAreaVisible(CoverableArea.BREASTS_CROTCH)) {
+				boolean knowsArea = isAreaKnownByCharacterAtStartOfSex(characterBeingExposed, CoverableArea.BREASTS_CROTCH, Main.game.getPlayer());
+				String revealReaction = sexManager.getBreastsCrotchRevealReaction(characterBeingExposed, charactersReacting);
 				exposedSB.append(UtilText.parse(characterBeingExposed,
 						formatCoverableAreaBecomingExposed(
 								(atStartOfSex
 										?"[npc.NamePos] [npc.crotchBoobs+] were already exposed before starting sex!"
 										:"[npc.NamePos] [npc.crotchBoobs+] are now exposed!")))
-							+ sexManager.getBreastsCrotchRevealReaction(characterBeingExposed, charactersReacting)
+							+ (Main.getProperties().fullExposureDescriptions==0 || (Main.getProperties().fullExposureDescriptions==1 && knowsArea)?"":revealReaction)
 							+ formatCoverableAreaGettingWet(getLubricationDescription(characterBeingExposed, SexAreaOrifice.NIPPLE_CROTCH)));
 				areasExposed.get(characterBeingExposed).add(CoverableArea.BREASTS_CROTCH);
 			}
@@ -4453,8 +4543,9 @@ public class Sex {
 		}
 		if(isCharacterBannedFromPositioning(characterWantingToChangePosition)
 				|| Main.sex.isCharacterForbiddenByOthersFromPositioning(characterWantingToChangePosition)
-				|| Main.sex.isDom(characterWantingToChangePosition)==Main.sex.isDom(Main.sex.getTargetedPartner(characterWantingToChangePosition))) {
-			return false; // Don't allow position changing if the character/target are sub/sub or dom/dom, as it can break positioning.
+				|| Main.sex.isDom(characterWantingToChangePosition)==Main.sex.isDom(Main.sex.getTargetedPartner(characterWantingToChangePosition)) // Don't allow position changing if the character/target are sub/sub or dom/dom, as it can break positioning.
+				) {
+			return false; 
 		}
 		
 		return Main.sex.getInitialSexManager().isPositionChangingAllowed(characterWantingToChangePosition);
@@ -4532,6 +4623,13 @@ public class Sex {
 		return positioningRequestsBlocked.get(character).contains(position);
 	}
 
+	private boolean isAreaKnownByCharacterAtStartOfSex(GameCharacter characterRevealed, CoverableArea area, GameCharacter characterKnowing) {
+		if(characterKnowing.equals(characterRevealed) || (!characterRevealed.isPlayer() && Main.game.isConcealedSlotsReveal())) {
+			return true;
+		}
+		return areasKnownByCharactersAtStartOfSexMap.get(characterRevealed).get(area).contains(characterKnowing.getId());
+	}
+	
 	/**
 	 * @param targeter The character whose target is to be found.
 	 * @return The character that the 'targeter' is currently focusing on.
@@ -4989,6 +5087,21 @@ public class Sex {
 	
 	public void setCharacterLayingEggs(GameCharacter characterLayingEggs) {
 		this.characterLayingEggs = characterLayingEggs;
+	}
+
+	public Set<GameCharacter> getCharactersWoken() {
+		return charactersWoken;
+	}
+	
+	/**
+	 * If the <code>characterWoken</code> is asleep, then they are added to the charactersWoken list, which will trigger the SLEEPING_WOKEN_UP sex action to be used at the next opportunity
+	 */
+	public void addCharacterWoken(GameCharacter characterWoken) {
+		charactersWoken.add(characterWoken);
+	}
+
+	public void removeCharacterWoken(GameCharacter characterWoken) {
+		charactersWoken.remove(characterWoken);
 	}
 	
 	public Map<SexAreaInterface, Map<GameCharacter, Set<SexAreaInterface>>> getOngoingActionsMap(GameCharacter characterHavingOngoingActions) {
@@ -5647,6 +5760,21 @@ public class Sex {
 	public SexPace getSexPace(GameCharacter character) {
 		if(character==null) {
 			return null;
+		}
+		
+		// If sleeping, locked into normal pace:
+		if(character.isAsleep()) {
+			if(isDom(character)) {
+				System.err.println(UtilText.parse(character, "WARNING: Sleeping character ([npc.name]) is in dominant pace!"));
+			} else {
+				return SexPace.SUB_NORMAL;
+			}
+		}
+		// If any other character is sleeping, lock NPCs into gentle pace:
+		if(!character.isPlayer()
+				&& Main.sex.isDom(character)
+				&& Main.sex.getAllParticipants(false).stream().anyMatch(c->c.isAsleep())) {
+			return SexPace.DOM_GENTLE;
 		}
 		
 		if(forceSexPaceMap.containsKey(character)) {
