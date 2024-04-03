@@ -63,9 +63,17 @@
 		<imageName>socks.svg</imageName>
 		
 		<!-- The file paths for this clothing's image while equipped. The "slot" attribute determines the InventorySlot in which the defined file will be used.
-			- Example: When equipped to the "SOCK" slot, the sock will be displayed using the "sock.svg" file. When equipped to the "HAND" slot, it will instead use the "sock_hand.svg" file. Again, this file must be placed in the same folder location alongside this xml file. -->
+			- Example: When equipped to the "SOCK" slot, the sock will be displayed using the "sock.svg" file. When equipped to the "HAND" slot, it will instead use the "sock_hand.svg" file. Again, this file must be placed in the same folder location alongside this xml file.
+			This element supports parsing, with the character who's equipping the clothing using the parser tag 'npc', with an example to be seen below.
+			-->
 		<imageEquippedName slot="SOCK">socks.svg</imageEquippedName>
-		<imageEquippedName slot="HAND">socks_hand.svg</imageEquippedName>
+		<imageEquippedName slot="HAND"><![CDATA[
+			#IF(npc.hasArms())
+				socks_hand.svg
+			#ELSE
+				socks.svg
+			#ENDIF
+		]]></imageEquippedName>
 		
 		<!-- For an annotated example on how stickers are defined, please see the 'res/mods/innoxia/items/clothing/rentalMommy/rental_mommy.xml' file -->
 		<stickers/>
@@ -230,7 +238,9 @@
 		<!-- Custom pattern colours can be defined just like the customColours up above. -->
 		<customPatternColours/>
 		
-		<!-- These tags determine where in the world your clothing can be found, and what special attributes your clothing should have. Possible tags are found here: https://github.com/Innoxia/liliths-throne-public/blob/master/src/com/lilithsthrone/game/inventory/ItemTag.java -->
+		<!-- These tags determine where in the world your clothing can be found, and what special attributes your clothing should have.
+			There are several ItemTags which start with 'FITS', which are used to check for whether clothing is suitable for certain body parts (such as hoof or wing compatibility).
+			Possible tags are found here: https://github.com/Innoxia/liliths-throne-public/blob/master/src/com/lilithsthrone/game/inventory/ItemTag.java -->
 		<itemTags> <!-- itemTags without a 'slot' defined will have these tags added to every equippable slot. Should only be used for generic tags like those related to which vendors sell it. -->
 			<tag>NOT_FOR_SALE</tag>
 		</itemTags>
@@ -276,6 +286,7 @@
 	<!-- - Example: This is the equip text for when socks are equipped to the "SOCK" slot:-->
 	<replacementText slot="SOCK" type="REMOVE_OR_EQUIP">
 		<self>
+			<!-- These lines follow all of the standard parsing rules, which can be found in-game by accessing the debug menu (type 'buggy' during gameplay), and then selecting 'Open parser', then 'Help'/'Targets'/'Commands' -->
 			<![CDATA[[npc.Name] [npc.verb(pull)] the socks on to cover [npc.her] [npc.feet].]]>
 		</self>
 		<other>

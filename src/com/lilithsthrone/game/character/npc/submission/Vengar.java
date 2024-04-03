@@ -291,11 +291,18 @@ public class Vengar extends NPC {
 	public void equipClothing(List<EquipClothingSetting> settings) {
 		this.unequipAllClothingIntoVoid(true, true);
 		
-		if(this.isFeminine()) {
-			AbstractClothing cage = Main.game.getItemGen().generateClothing("innoxia_bdsm_ornate_chastity_cage", PresetColour.CLOTHING_PINK_LIGHT, PresetColour.CLOTHING_WHITE, PresetColour.CLOTHING_BRASS, false);
-			cage.setSealed(false);
-			this.equipClothingFromNowhere(cage, true, Main.game.getNpc(Roxy.class));
-			this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_buttPlugs_butt_plug_heart", PresetColour.CLOTHING_SILVER, PresetColour.CLOTHING_PINK_LIGHT, null, false), true, Main.game.getNpc(Roxy.class));
+		if(this.isSlave()) {
+			
+			if(this.isFeminine()) {
+				AbstractClothing cage = Main.game.getItemGen().generateClothing("innoxia_bdsm_ornate_chastity_cage", PresetColour.CLOTHING_PINK_LIGHT, PresetColour.CLOTHING_WHITE, PresetColour.CLOTHING_BRASS, false);
+				cage.setSealed(false);
+				this.equipClothingFromNowhere(cage, true, Main.game.getNpc(Roxy.class));
+				this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_buttPlugs_butt_plug_heart", PresetColour.CLOTHING_SILVER, PresetColour.CLOTHING_PINK_LIGHT, null, false), true, Main.game.getNpc(Roxy.class));
+				this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_bdsm_metal_collar", PresetColour.CLOTHING_PINK_LIGHT, PresetColour.CLOTHING_SILVER, PresetColour.CLOTHING_SILVER, false), true, Main.game.getNpc(Axel.class));
+				
+			} else {
+				this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_bdsm_metal_collar", PresetColour.CLOTHING_BLACK_STEEL, false), true, Main.game.getNpc(Axel.class));
+			}
 			
 		} else {
 			this.addTattoo(InventorySlot.WRIST, new Tattoo(TattooType.getTattooTypeFromId("innoxia_gang_rat_skull"), PresetColour.CLOTHING_BLACK, PresetColour.CLOTHING_BLACK, PresetColour.CLOTHING_BLACK, false, null, null));
@@ -307,7 +314,7 @@ public class Vengar extends NPC {
 			this.equipMainWeaponFromNowhere(Main.game.getItemGen().generateWeapon("innoxia_knuckleDusters_knuckle_dusters", DamageType.PHYSICAL));
 			this.equipOffhandWeaponFromNowhere(Main.game.getItemGen().generateWeapon("innoxia_knuckleDusters_knuckle_dusters", DamageType.PHYSICAL));
 			
-			this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.GROIN_BRIEFS, PresetColour.CLOTHING_BLUE_GREY, false), true, this);
+			this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_groin_briefs", PresetColour.CLOTHING_BLUE_GREY, false), true, this);
 			this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_stomach_sarashi", PresetColour.CLOTHING_BLACK, false), true, this);
 			
 			this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_hand_fingerless_gloves", PresetColour.CLOTHING_DESATURATED_BROWN, false), true, this);

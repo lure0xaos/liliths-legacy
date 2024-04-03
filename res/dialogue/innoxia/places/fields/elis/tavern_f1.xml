@@ -217,7 +217,7 @@
 				<index><![CDATA[1]]></index>
 				<responseTitle><![CDATA[Quick shower]]></responseTitle>
 				<responseTooltip><![CDATA[
-					Use your room's ensuite to take a quick shower.
+					Use your room's ensuite bathroom to take a quick shower.
 					<br/>[style.italicsGood(Cleans <b>a maximum of [style.fluid(500)]</b> of fluids from all orifices.)]
 					<br/>[style.italicsGood(This will clean <b>only</b> your currently equipped clothing.)]
 				]]></responseTooltip>
@@ -257,7 +257,7 @@
 				<secondsPassed minutes="true"><![CDATA[30]]></secondsPassed>
 				<effects><![CDATA[
 					[#game.appendToTextStartStringBuilder(game.parseFromFile('txt/places/fields/elis/tavern_f1', 'ROOM_PLAYER_BATH'))]
-					[#game.appendToTextStartStringBuilder(pc.applyWash(true, false, SE_CLEANED_BATH, 240+30))]
+					[#game.appendToTextStartStringBuilder(pc.applyWash(true, true, SE_CLEANED_BATH, 240+30))]
 				]]></effects>
 			</response>
 		</responses>

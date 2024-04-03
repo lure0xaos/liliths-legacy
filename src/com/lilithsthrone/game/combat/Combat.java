@@ -46,7 +46,7 @@ import com.lilithsthrone.utils.colours.PresetColour;
  * Call initialiseCombat() before using.
  *
  * @since 0.1.0
- * @version 0.4.2.1
+ * @version 0.4.9
  * @author Innoxia, Irbynx
  */
 public class Combat {
@@ -62,6 +62,7 @@ public class Combat {
 	private List<GameCharacter> activeCombatants; // A list of combatants who are still active in the fight. This is updated at the very end of each combat turn, and removes characters which have been defeated during the last turn.
 	
 	private float escapeChance = 0;
+	private boolean submitBlocked = false;
 	private Map<GameCharacter, Float> totalDamageTaken;
 	private int turn = 0;
 	private boolean attemptedEscape = false;
@@ -70,6 +71,8 @@ public class Combat {
 	private StringBuilder postCombatStringBuilder = new StringBuilder();
 	
 	private StringBuilder combatTurnResolutionStringBuilder = new StringBuilder();
+
+	private Map<GameCharacter, GameCharacter> preferredTargets;
 	
 	private Map<GameCharacter, Stack<Float>> manaBurnStack;
 	
@@ -96,13 +99,16 @@ public class Combat {
 
 	public void initialiseCombat(
 			List<NPC> allies,
+			boolean addElementalsToAllies,
 			NPC enemyLeader,
 			List<NPC> enemies,
 			Map<GameCharacter, String> openingDescriptions) {
 		initialiseCombat(allies,
+				addElementalsToAllies,
 				enemyLeader,
 				enemies,
 				openingDescriptions,
+				false,
 				false);
 	}
 	/**
@@ -114,10 +120,12 @@ public class Combat {
 	 */
 	public void initialiseCombat(
 			List<NPC> allies,
+			boolean addElementalsToAllies,
 			NPC enemyLeader,
 			List<NPC> enemies,
 			Map<GameCharacter, String> openingDescriptions,
-			boolean escapeBlocked) {
+			boolean escapeBlocked,
+			boolean submitBlocked) {
 		
 		// These should be set manually after initialising combat
 		playerPostVictoryDialogue = null;
@@ -133,6 +141,7 @@ public class Combat {
 		combatContent = new HashMap<>();
 		escapeDescriptionMap = new HashMap<>();
 		itemsToBeUsed = new HashMap<>();
+		preferredTargets = new HashMap<>();
 		manaBurnStack = new HashMap<>();
 		statusEffectsToApply = new HashMap<>();
 		
@@ -150,16 +159,18 @@ public class Combat {
 		resetWeaponsThrownDuringCombat(Main.game.getPlayer());
 		resetThrownWeaponsDepleted(Main.game.getPlayer());
 		
-		if(Main.game.getPlayer().isElementalSummoned()) {
-			this.addAlly(Main.game.getPlayer().getElemental());
-			Main.game.getPlayer().getElemental().setLocation(Main.game.getPlayer(), false);
-		}
-		if(allies!=null){
-			for(NPC ally : allies) {
-				this.addAlly(ally);
-				if(ally.isElementalSummoned()) {
-					this.addAlly(ally.getElemental());
-					ally.getElemental().setLocation(ally, false);
+		if(addElementalsToAllies) {
+			if(Main.game.getPlayer().isElementalSummoned()) {
+				this.addAlly(Main.game.getPlayer().getElemental());
+				Main.game.getPlayer().getElemental().setLocation(Main.game.getPlayer(), false);
+			}
+			if(allies!=null){
+				for(NPC ally : allies) {
+					this.addAlly(ally);
+					if(ally.isElementalSummoned()) {
+						this.addAlly(ally.getElemental());
+						ally.getElemental().setLocation(ally, false);
+					}
 				}
 			}
 		}
@@ -211,6 +222,8 @@ public class Combat {
 			}
 		}
 		
+		this.submitBlocked = submitBlocked;
+		
 		String startingEffect = "";
 		
 		if(Main.game.getPlayer().hasSpellUpgrade(SpellUpgrade.TELEPATHIC_COMMUNICATION_3)) {
@@ -226,11 +239,13 @@ public class Combat {
 			startingEffect = Spell.getBasicStatusEffectApplication(Main.game.getPlayer(), true, Util.newHashMapOfValues(new Value<>(StatusEffect.TELEPATHIC_COMMUNICATION, 10)));
 		}
 		
-		combatContent.get(Main.game.getPlayer()).add(
-				(Main.game.getPlayer().hasTrait(Perk.JOB_SOLDIER, true)
-					?"Any "+Attribute.HEALTH_MAXIMUM.getName()+" damage you deal in this first turn is [style.boldExcellent(doubled)] thanks to your"
-							+ " <b style='color:"+Perk.JOB_SOLDIER.getColour().toWebHexString()+";'>"+Perk.JOB_SOLDIER.getName(Main.game.getPlayer())+"</b> ability."
-					:""));
+		// Soldier:
+		if(Main.game.getPlayer().hasTrait(Perk.JOB_SOLDIER, true)) {
+			Main.game.getPlayer().addStatusEffect(StatusEffect.COMBAT_JOB_SOLDIER, 2);
+			combatContent.get(Main.game.getPlayer()).add(
+					"Any "+Attribute.HEALTH_MAXIMUM.getName()+" damage you deal in this first turn is [style.boldExcellent(doubled)] thanks to your"
+						+ " <b style='color:"+Perk.JOB_SOLDIER.getColour().toWebHexString()+";'>"+Perk.JOB_SOLDIER.getName(Main.game.getPlayer())+"</b> ability.");
+		}
 		
 		combatContent.get(Main.game.getPlayer()).add(
 				openingDescriptions!=null && openingDescriptions.containsKey(Main.game.getPlayer())
@@ -258,13 +273,14 @@ public class Combat {
 				combatant.addStatusEffect(StatusEffect.TELEPATHIC_COMMUNICATION, 11);
 				startingEffect = Spell.getBasicStatusEffectApplication(combatant, true, Util.newHashMapOfValues(new Value<>(StatusEffect.TELEPATHIC_COMMUNICATION, 10)));
 			}
-			
-			combatContent.get(combatant).add(UtilText.parse(combatant,
-					(combatant.hasTrait(Perk.JOB_SOLDIER, true)
-						?"Any "+Attribute.HEALTH_MAXIMUM.getName()+" damage [npc.name] deals in this first turn is [style.boldExcellent(doubled)] thanks to [npc.her]"
-								+ " <b style='color:"+Perk.JOB_SOLDIER.getColour().toWebHexString()+";'>"+Perk.JOB_SOLDIER.getName(combatant)+"</b> ability."
-						:"")
-					));
+
+			// Soldier:
+			if(combatant.hasTrait(Perk.JOB_SOLDIER, true)) {
+				combatant.addStatusEffect(StatusEffect.COMBAT_JOB_SOLDIER, 2);
+				combatContent.get(combatant).add(UtilText.parse(combatant,
+						"Any "+Attribute.HEALTH_MAXIMUM.getName()+" damage [npc.name] deals in this first turn is [style.boldExcellent(doubled)] thanks to [npc.her]"
+								+ " <b style='color:"+Perk.JOB_SOLDIER.getColour().toWebHexString()+";'>"+Perk.JOB_SOLDIER.getName(combatant)+"</b> ability."));
+			}
 			
 			combatContent.get(combatant).add(UtilText.parse(combatant,
 					openingDescriptions!=null && openingDescriptions.containsKey(combatant)
@@ -279,6 +295,7 @@ public class Combat {
 			combatContent.get(combatant).add(startingEffect);
 		}
 		
+		Main.game.getPlayer().calculateStatusEffects(0); // Calculate status effects to make sure combat SEs are initialised before selecting moves
 		Main.game.getPlayer().resetSelectedMoves();
 		Main.game.getPlayer().resetMoveCooldowns();
 		applyNewTurnShielding(Main.game.getPlayer());
@@ -289,6 +306,7 @@ public class Combat {
 		Main.game.setInCombat(true);
 		
 		for(NPC npc : allCombatants) {
+			npc.calculateStatusEffects(0); // Calculate status effects to make sure combat SEs are initialised before selecting moves
 			combatTurnResolutionStringBuilder.append(getCharactersTurnDiv(npc, getTurn()==0?"Preparation":"", combatContent.get(npc)));
 			
 			npc.resetSelectedMoves();
@@ -314,7 +332,11 @@ public class Combat {
 			predictionContent.put(npc, npc.getMovesPredictionString(npcEnemies, npcAllies));
 		}
 		
-		Main.mainController.openInventory();
+		// I don't know why openInventory() was being called here, so I commented it out in v0.4.6.8. It caused a bug that was hard to reproduce but which threw this error:
+			//Exception in thread "JavaFX Application Thread" java.lang.NullPointerException
+			//at com.lilithsthrone.rendering.RenderingEngine.getInventoryIconsForPage(RenderingEngine.java:954)
+			//at com.lilithsthrone.rendering.RenderingEngine.getInventoryDiv(RenderingEngine.java:797)
+//		Main.mainController.openInventory();
 	}
 
 	public void setCharacterTurnContent(GameCharacter character, List<String> descriptions) {
@@ -953,11 +975,15 @@ public class Combat {
 								:index-7;
 					
 					if(index==9) {
-						return new Response("Submit",
-								(getEnemies(Main.game.getPlayer()).size()==1
-									?"Surrender this fight to your opponent, allowing them to do whatever they want to you."
-									:"Surrender this fight to your enemies, allowing them to do whatever they want to you."),
-								SUBMIT);
+						if(Main.combat.isSubmitBlocked()) {
+							return new Response("Submit", "You cannot submit in this combat scene!", null);
+						} else {
+							return new Response("Submit",
+									(getEnemies(Main.game.getPlayer()).size()==1
+										?"Surrender this fight to your opponent, allowing them to do whatever they want to you."
+										:"Surrender this fight to your enemies, allowing them to do whatever they want to you."),
+									SUBMIT);
+						}
 						
 					} else if(index==10) {
 						if (escapeChance == 0) {
@@ -1030,7 +1056,7 @@ public class Combat {
 							CombatBehaviour behaviour = CombatBehaviour.values()[i-1];
 							
 							if(targetedAlly.isPlayer()) {
-								return new Response(Util.capitaliseSentence(behaviour.getName()), UtilText.parse(targetedAlly, "You cannot issue commands to yourself!"), null);
+								return new Response(Util.capitaliseSentence(behaviour.getName()), "You cannot issue commands to yourself!", null);
 							}
 							return new Response(
 									Util.capitaliseSentence(behaviour.getName()),
@@ -1075,6 +1101,111 @@ public class Combat {
 								}
 							};
 						}
+					}
+					// Change targets:
+					if(index==CombatBehaviour.values().length+1) {
+						if(targetedAlly.isPlayer()) {
+							return new Response("Cycle target", "You cannot issue commands to yourself!", null);
+						}
+						return new Response(
+								"Cycle target",
+								UtilText.parse(targetedAlly, "Tell [npc.name] to change [npc.her] target. [npc.She] is currently targeting [style.colourBad("
+									+ (getPreferredTarget(targetedAlly)==null
+										?" whoever [npc.she] wants"
+										:UtilText.parse(getPreferredTarget(targetedAlly), " [npc.name]"))
+									+")].")
+									+costDescription,
+								ENEMY_ATTACK) {
+							@Override
+							public void effects() {
+								// Sets up NPC ally/enemy lists that include player
+								List<GameCharacter> npcAllies= getAllies(targetedAlly);
+								List<GameCharacter> npcEnemies = getEnemies(targetedAlly);
+								npcAllies.removeIf((character)->isCombatantDefeated(character));
+								npcEnemies.removeIf((character)->isCombatantDefeated(character));
+								
+								// Figures out the new moves
+								int i = 0;
+								for(Value<GameCharacter, AbstractCombatMove> move : targetedAlly.getSelectedMoves()) {
+									move.getValue().performOnDeselection(i,
+											targetedAlly,
+											move.getKey(),
+											new ArrayList<>(npcEnemies),
+											new ArrayList<>(npcAllies));
+									targetedAlly.setCooldown(move.getValue().getIdentifier(), 0);
+									i++;
+								}
+								
+								// Set the preferred target:
+								int currentTargetIndex = 0;
+								if(getPreferredTarget(targetedAlly)!=null) {
+									currentTargetIndex = enemies.indexOf(getPreferredTarget(targetedAlly));
+								}
+								List<GameCharacter> enemiesDoubled = new ArrayList<>(enemies);
+								enemiesDoubled.addAll(enemies);
+								for(int enemyIdx=0; enemyIdx<enemiesDoubled.size(); enemyIdx++) {
+									GameCharacter enemyAtIndex = enemiesDoubled.get(enemyIdx);
+									if(!isCombatantDefeated(enemyAtIndex) && getPreferredTarget(targetedAlly)!=enemyAtIndex && (enemyIdx>currentTargetIndex || getPreferredTarget(targetedAlly)==null)) {
+										setPreferredTarget(targetedAlly, enemyAtIndex);
+										break;
+									}
+								}
+								
+								targetedAlly.resetSelectedMoves();
+								targetedAlly.setRemainingAP(targetedAlly.getMaxAP(), npcEnemies, npcAllies);
+								targetedAlly.selectMoves(npcEnemies, npcAllies);
+								
+								predictionContent.put(targetedAlly, targetedAlly.getMovesPredictionString(npcEnemies, npcAllies));
+							}
+						};
+					}
+					// Clear target:
+					if(index==CombatBehaviour.values().length+2) {
+						if(targetedAlly.isPlayer()) {
+							return new Response("Clear target", "You cannot issue commands to yourself!", null);
+						}
+						if(getPreferredTarget(targetedAlly)==null) {
+							return new Response("Clear target", UtilText.parse(targetedAlly, "[npc.Name] is already targeting whoever [npc.she] wants!"), null);
+						}
+						return new Response(
+								"Clear target",
+								UtilText.parse(targetedAlly, "Tell [npc.name] to target whoever [npc.she] wants. [npc.She] is currently targeting [style.colourBad("
+									+ (getPreferredTarget(targetedAlly)==null
+										?" whoever [npc.she] wants"
+										:UtilText.parse(getPreferredTarget(targetedAlly), " [npc.name]"))
+									+")].")
+									+costDescription,
+								ENEMY_ATTACK) {
+							@Override
+							public void effects() {
+								// Sets up NPC ally/enemy lists that include player
+								List<GameCharacter> npcAllies= getAllies(targetedAlly);
+								List<GameCharacter> npcEnemies = getEnemies(targetedAlly);
+								npcAllies.removeIf((character)->isCombatantDefeated(character));
+								npcEnemies.removeIf((character)->isCombatantDefeated(character));
+								
+								// Figures out the new moves
+								int i = 0;
+								for(Value<GameCharacter, AbstractCombatMove> move : targetedAlly.getSelectedMoves()) {
+									move.getValue().performOnDeselection(i,
+											targetedAlly,
+											move.getKey(),
+											new ArrayList<>(npcEnemies),
+											new ArrayList<>(npcAllies));
+									targetedAlly.setCooldown(move.getValue().getIdentifier(), 0);
+									i++;
+								}
+								
+								// Set the preferred target:
+								setPreferredTarget(targetedAlly, null);
+								
+								targetedAlly.resetSelectedMoves();
+								targetedAlly.setRemainingAP(targetedAlly.getMaxAP(), npcEnemies, npcAllies);
+								targetedAlly.selectMoves(npcEnemies, npcAllies);
+								
+								predictionContent.put(targetedAlly, targetedAlly.getMovesPredictionString(npcEnemies, npcAllies));
+							}
+						};
 					}
 				}
 				
@@ -1128,8 +1259,8 @@ public class Combat {
 			} else if(index==14) {
 				return new Response("Reset",
 						Main.game.getPlayer().getSelectedMoves().size()==0
-								?""
-								:".",
+								?"You cannot reset your selected moves as you haven't selected any yet!"
+								:"Resets your selected moves, allowing you to choose different ones for this turn of combat.",
 							Main.game.getPlayer().getSelectedMoves().size()==0
 								?null
 								:ENEMY_ATTACK) {
@@ -1202,7 +1333,13 @@ public class Combat {
 			@Override
 			public void effects() {
 				Main.game.getPlayer().selectMove(Main.game.getPlayer().getSelectedMoves().size(), move, moveTarget, pcEnemies, pcAllies);
-				predictionContent.get(Main.game.getPlayer()).add(move.getPrediction(selectedMoveIndex, Main.game.getPlayer(), moveTarget, pcEnemies, pcAllies));
+				// Reset prediction content as this selected move may have altered the prediction of previous moves:
+				predictionContent.put(Main.game.getPlayer(), new ArrayList<>());
+				int i=0;
+				for(Value<GameCharacter, AbstractCombatMove> selectedMove : Main.game.getPlayer().getSelectedMoves()) {
+					predictionContent.get(Main.game.getPlayer()).add(selectedMove.getValue().getPrediction(i, Main.game.getPlayer(), selectedMove.getKey(), pcEnemies, pcAllies));
+					i++;
+				}
 			}
 			@Override
 			public Colour getHighlightColour() {
@@ -1427,7 +1564,7 @@ public class Combat {
 		for(GameCharacter character : getAllCombatants(true)) {
 			combatContent.put(character, new ArrayList<>());
 		}
-		for(int i=0;i<3;i++) {
+		for(int i=0;i<order.length;i++) {
 			for(GameCharacter character : combatants) {
 				if(attackCharacter(character)) {
 					List<GameCharacter> npcAllies = getAllies(character);
@@ -1699,6 +1836,7 @@ public class Combat {
 				if(appliedSe.getEffect().getEffectInterval()<=0 || ((turn-appliedSe.getLastTimeAppliedEffect())>appliedSe.getEffect().getEffectInterval())) {
 					if(appliedSe.getEffect().getEffectInterval()<=0) {
 						s.append(se.applyEffect(character, 1, appliedSe.getSecondsPassed()));
+						
 					} else {
 						for(int i=0; i<((Main.game.getSecondsPassed()-appliedSe.getLastTimeAppliedEffect())/appliedSe.getEffect().getEffectInterval()); i++) {
 							if(s.length()>0) {
@@ -1719,7 +1857,9 @@ public class Combat {
 //				if(!effectString.isEmpty()) {
 //					endTurnStatusEffectText.append("<p><b style='color: " + se.getColour().toWebHexString() + "'>" + Util.capitaliseSentence(se.getName(character)) + ":</b> " + effectString+ "</p>");
 //				}
-				character.setCombatStatusEffectDuration(se, character.getStatusEffectDuration(se) - 1);
+				if(character.getStatusEffectDuration(se)>=0) { // Don't decrement below -1
+					character.setCombatStatusEffectDuration(se, character.getStatusEffectDuration(se) - 1);
+				}
 				if (character.getStatusEffectDuration(se) == 0) { // Do not remove special effects (i.e. ones set at -1 duration)
 					effectsToRemove.add(se);
 				}
@@ -1741,7 +1881,7 @@ public class Combat {
 	}
 	
 	/**
-	 * @return The enemy NPC which the player is targeting. Use COmbatMove's getPreferredTarget for NPC targeting.
+	 * @return The enemy NPC which the player is targeting. Use CombatMove's getPreferredTarget for NPC targeting.
 	 */
 	public GameCharacter getTargetedCombatant() {
 		return targetedEnemy;
@@ -2010,6 +2150,27 @@ public class Combat {
 	public Map<GameCharacter, Stack<Float>> getManaBurnStack() {
 		return manaBurnStack;
 	}
+
+	/**
+	 * Set target to null to remove preferred targeting behaviour.
+	 */
+	public void setPreferredTarget(GameCharacter character, GameCharacter target) {
+		if(target==null) {
+			preferredTargets.remove(character);
+		} else {
+			preferredTargets.put(character, target);
+		}
+	}
+	
+	/**
+	 * Will typically be null, unless a target has been manually set. If the preferred target is defeated, this will return null.
+	 */
+	public GameCharacter getPreferredTarget(GameCharacter character) {
+		if(!preferredTargets.containsKey(character) || isCombatantDefeated(preferredTargets.get(character))) {
+			return null;
+		}
+		return preferredTargets.get(character);
+	}
 	
 	public void addStatusEffectToApply(GameCharacter target, AbstractStatusEffect effect, int duration) {
 		statusEffectsToApply.get(target).put(effect, duration);
@@ -2036,5 +2197,9 @@ public class Combat {
 
 	public void setPlayerPostDefeatDialogue(DialogueNode playerPostDefeatDialogue) {
 		this.playerPostDefeatDialogue = playerPostDefeatDialogue;
+	}
+
+	public boolean isSubmitBlocked() {
+		return submitBlocked;
 	}
 }

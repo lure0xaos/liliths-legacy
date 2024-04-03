@@ -1487,7 +1487,7 @@ public class EnforcerAlleywayDialogue {
 							:"Continue",
 						UtilText.parse(getCriminalInTile(),
 							Main.game.getPlayer().isHasSlaverLicense()
-								?"Tell the Enforcers that you're not interested in gaining [npc.name] as you slave and leave them to go and enslave [npc.herHim] by themselves."
+								?"Tell the Enforcers that you're not interested in gaining [npc.name] as your slave, leaving them to enslave [npc.herHim] by themselves."
 								:"Leave the Enforcers to track down and enslave [npc.name] and continue on your way..."),
 						Main.game.getDefaultDialogue(false)) {
 					@Override
@@ -1695,9 +1695,9 @@ public class EnforcerAlleywayDialogue {
 								false, false,
 								new SMGeneric(
 										Util.newArrayListOfValues(Main.game.getPlayer()),
-										Util.newArrayListOfValues(getEnforcerSubordinate()),
+										Util.newArrayListOfValues(getEnforcerLeader(), getEnforcerSubordinate()),
 										null,
-										Util.newArrayListOfValues(getEnforcerLeader())),
+										null),
 								AFTER_SEX_VICTORY,
 								UtilText.parseFromXMLFile("encounters/dominion/enforcerAlleyway", "AFTER_COMBAT_VICTORY_RAPE_THREESOME", getEnforcers()));
 						
@@ -1708,9 +1708,9 @@ public class EnforcerAlleywayDialogue {
 								true, false,
 								new SMGeneric(
 										Util.newArrayListOfValues(Main.game.getPlayer()),
-										Util.newArrayListOfValues(getEnforcerSubordinate()),
+										Util.newArrayListOfValues(getEnforcerLeader(), getEnforcerSubordinate()),
 										null,
-										Util.newArrayListOfValues(getEnforcerLeader())),
+										null),
 								AFTER_SEX_VICTORY,
 								UtilText.parseFromXMLFile("encounters/dominion/enforcerAlleyway", "AFTER_COMBAT_VICTORY_SEX_THREESOME", getEnforcers()));
 					}

@@ -15,11 +15,14 @@ import com.lilithsthrone.game.character.quests.QuestLine;
 import com.lilithsthrone.game.dialogue.DialogueFlagValue;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.places.dominion.lilayashome.Lab;
+import com.lilithsthrone.game.dialogue.places.dominion.lilayashome.LilayaDiningHallDialogue;
 import com.lilithsthrone.game.dialogue.places.dominion.lilayashome.LilayaMilkingRoomDialogue;
 import com.lilithsthrone.game.dialogue.places.dominion.lilayashome.LilayaOfficeDialogue;
+import com.lilithsthrone.game.dialogue.places.dominion.lilayashome.LilayaSlaveLoungeDialogue;
 import com.lilithsthrone.game.dialogue.places.dominion.lilayashome.LilayaSpa;
 import com.lilithsthrone.game.dialogue.places.dominion.lilayashome.RoomArthur;
 import com.lilithsthrone.game.occupantManagement.MilkingRoom;
+import com.lilithsthrone.game.occupantManagement.slave.SlavePermissionSetting;
 import com.lilithsthrone.game.sex.ImmobilisationType;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Units;
@@ -142,7 +145,7 @@ public class PlaceUpgrade {
 		
 		@Override
 		protected Value<Boolean, String> getExtraConditionalAvailability(Cell cell) {
-			if(Main.game.getPlayer().isQuestProgressLessThan(QuestLine.MAIN, Quest.MAIN_1_J_ARTHURS_ROOM)
+			if(Main.game.getPlayer().isQuestProgressLessThan(QuestLine.MAIN, Quest.MAIN_2_A_INTO_THE_DEPTHS)
 					|| !Main.game.getWorlds().get(WorldType.LILAYAS_HOUSE_GROUND_FLOOR).getCells(LILAYA_ARTHUR_ROOM).isEmpty()
 					|| !Main.game.getWorlds().get(WorldType.LILAYAS_HOUSE_FIRST_FLOOR).getCells(LILAYA_ARTHUR_ROOM).isEmpty()) {
 				return new Value<>(false, "");
@@ -175,7 +178,50 @@ public class PlaceUpgrade {
 			return new Value<>(true, "");
 		}
 	};
+
+	//**** DOLL CLOSET ****//
 	
+	public static final AbstractPlaceUpgrade LILAYA_DOLL_CLOSET = new AbstractPlaceUpgrade(true,
+			PresetColour.GENERIC_ARCANE,
+			"Doll Closet",
+			"Rose will clear all of the furniture out this room, allowing it to be used as a storage room for any sex dolls you own.",
+			"This room has been converted into a suitable place for storing your sex dolls.",
+			"You've had this room completely cleared, thereby enabling it to act as a storage room for any sex dolls you own.",
+			250,
+			0,
+			0,
+			12,
+			0,
+			0,
+			null) {
+		@Override
+		public String getSVGOverride() {
+			return AbstractPlaceType.getSVGOverride("dominion/lilayasHome/roomDoll", PresetColour.RACE_DOLL, PresetColour.BASE_WHITE, PresetColour.BASE_WHITE);
+		}
+		@Override
+		protected Value<Boolean, String> getExtraConditionalAvailability(Cell cell) {
+			if(cell.getPlace().getPlaceUpgrades().contains(LILAYA_ARTHUR_ROOM)) {
+				return new Value<>(false, "");
+			}
+			if(!Main.game.getPlayer().isQuestCompleted(QuestLine.SIDE_DOLL_STORAGE)) {
+				return new Value<>(false, "To install a doll closet, you'd need to first get Lilaya's permission to make the upgrade.");
+			}
+			if(!Main.game.getCharactersTreatingCellAsHome(cell).isEmpty()) {
+				return new Value<>(false, "This room needs to be unoccupied in order to purchase this modification.");
+			}
+			return super.getExtraConditionalAvailability(cell);
+		}
+		
+		@Override
+		public void applyInstallationEffects(Cell c) {
+			GenericPlace place = c.getPlace();
+			for(AbstractPlaceUpgrade upgrade : PlaceUpgrade.getAllPlaceUpgrades()) {
+				if(upgrade != LILAYA_DOLL_CLOSET) {
+					place.removePlaceUpgrade(c, upgrade);
+				}
+			}
+		}
+	};
 	
 	//**** GUEST ROOM ****//
 	
@@ -538,7 +584,7 @@ public class PlaceUpgrade {
 			"Lilaya has asked you if you'd consider installing one of her experimental devices in this room; a so-called 'obedience trainer'."
 					+ " This particular addition takes the form of a large, glowing crystal that is to be placed in the centre of the room."
 					+ " Whenever the room's occupant thinks a disobedient thought, the crystal will shoot out a shocking bolt of arcane energy, thereby training a slave's obedience in the most intrusive fashion imaginable.",
-			"You've installed one one of Lilaya's experimental devices in this room; a so-called 'obedience trainer'."
+			"You've installed one of Lilaya's experimental devices in this room; a so-called 'obedience trainer'."
 					+ " This particular addition takes the form of a large, glowing crystal that has been placed in the centre of the room."
 					+ " Whenever the room's occupant thinks a disobedient thought, the crystal shoots out a shocking bolt of arcane energy, thereby training a slave's obedience in the most intrusive fashion imaginable.",
 			"One of Lilaya's experimental devices, a so-called 'obedience trainer', has been installed in the middle of this room."
@@ -631,7 +677,7 @@ public class PlaceUpgrade {
 			"-",
 			0,
 			0,
-			10,
+			0,
 			4,
 			-0.15f,
 			0.2f,
@@ -673,7 +719,7 @@ public class PlaceUpgrade {
 					+ " Providing this cell's slaves with such uncomfortable places to sleep is definitely reinforcing the fact that they're nothing but your property, but at the same time, they're starting to dislike you more...",
 			100,
 			25,
-			-5,
+			0,
 			0,
 			-0.1f,
 			0.2f,
@@ -903,7 +949,7 @@ public class PlaceUpgrade {
 					+ " Although they're far more comfortable than regular milking machines, they appear to be designed more for show than practicality, and while your slaves are sure to be happy, milk output is a lot lower than normal.",
 			2500,
 			500,
-			250,
+			500,
 			0,
 			1f,
 			0.5f,
@@ -934,7 +980,7 @@ public class PlaceUpgrade {
 					+ " Although they're sure to maximise milk output, and profits, these machines aren't exactly the most comfortable of devices to be strapped in to, and any slaves assigned to be milked in here are sure to hate you for it...",
 			1500,
 			500,
-			100,
+			1000,
 			0,
 			-1f,
 			0.5f,
@@ -957,7 +1003,7 @@ public class PlaceUpgrade {
 			"The standard suction cups on each machine have been replaced with aftermarket 'Lact-o-Cups', which are doubling the maximum amount of milk extracted per hour.",
 			500,
 			100,
-			10,
+			200,
 			0,
 			0,
 			0,
@@ -972,7 +1018,7 @@ public class PlaceUpgrade {
 			"The standard cock-milking tubes on each machine have been replaced with aftermarket 'Succ-u-Buses', which are doubling the maximum amount of cum extracted per hour.",
 			500,
 			100,
-			10,
+			200,
 			0,
 			0,
 			0,
@@ -987,7 +1033,7 @@ public class PlaceUpgrade {
 			"The standard vaginal pumps on each machine have been replaced with aftermarket 'Vibro-Pumps', which are doubling the maximum amount of girlcum extracted per hour.",
 			500,
 			100,
-			10,
+			200,
 			0,
 			0,
 			0,
@@ -1282,7 +1328,109 @@ public class PlaceUpgrade {
 			return super.getExtraConditionalAvailability(cell);
 		}
 	};
+
+	//**** DINING HALL UPGRADES ****//
 	
+	public static final AbstractPlaceUpgrade LILAYA_DINING_HALL = new AbstractPlaceUpgrade(true,
+			PresetColour.BASE_ORANGE_LIGHT,
+			"Dining Hall",
+			"Lilaya and Rose eat their meals in the lab, and as such the mansion lacks a dedicated dining hall."
+					+ " A suitably grand table and a dozen or so chairs would fix that...",
+			"This room has been converted into a dining hall, complete with a long, wooden table and a dozen chairs.",
+			"This room has been converted into a dining hall, complete with a long, wooden table and a dozen chairs."
+					+ " Although Lilaya and Rose are likely going to continue with their habit of eating in the lab, there's nothing stopping you from making use of this room.",
+			6000,
+			250,
+			50,
+			0,
+			0,
+			0,
+			null) {
+		@Override
+		public DialogueNode getRoomDialogue(Cell c) {
+			return LilayaDiningHallDialogue.ROOM_DINING_HALL;
+		}
+		@Override
+		public String getSVGOverride() {
+			return AbstractPlaceType.getSVGOverride("dominion/lilayasHome/roomDining", PresetColour.BASE_ORANGE_LIGHT);
+		}
+		@Override
+		protected Value<Boolean, String> getExtraConditionalAvailability(Cell cell) {
+			if(cell.getPlace().getPlaceUpgrades().contains(LILAYA_ARTHUR_ROOM)) {
+				return new Value<>(false, "");
+			}
+//			if(!Main.game.getWorlds().get(WorldType.LILAYAS_HOUSE_GROUND_FLOOR).getCells(LILAYA_DINING_HALL).isEmpty()
+//					|| !Main.game.getWorlds().get(WorldType.LILAYAS_HOUSE_FIRST_FLOOR).getCells(LILAYA_DINING_HALL).isEmpty()) {
+//				return new Value<>(false, "There's no need for more than one dining hall.");
+//			}
+			if(!Main.game.getCharactersTreatingCellAsHome(cell).isEmpty()) {
+				return new Value<>(false, "This room needs to be unoccupied in order to purchase this modification.");
+			}
+			return super.getExtraConditionalAvailability(cell);
+		}
+		
+		@Override
+		public void applyInstallationEffects(Cell c) {
+			GenericPlace place = c.getPlace();
+			for(AbstractPlaceUpgrade upgrade : PlaceUpgrade.getAllPlaceUpgrades()) {
+				if(upgrade != LILAYA_DINING_HALL) {
+					place.removePlaceUpgrade(c, upgrade);
+				}
+			}
+		}
+	};
+
+	//**** SLAVE LOUNGE UPGRADES ****//
+	
+	public static final AbstractPlaceUpgrade LILAYA_SLAVE_LOUNGE = new AbstractPlaceUpgrade(true,
+			PresetColour.BASE_GREEN_LIME,
+			"Slave lounge",
+			"As well as using their individual rooms, your slaves will also sometimes choose to go to a slave lounge to relax."
+					+ " Converting this room into a slave lounge will allow your slaves to come here during their time off.",
+			"This room has been converted into a lounge for your slaves."
+					+ " When not sleeping or at work, and provided that they have the '"+SlavePermissionSetting.GENERAL_HOUSE_FREEDOM.getName()+"' permission, they might choose to come here to relax for an hour or so.",
+			"This room has been converted into a lounge for your slaves."
+					+ " When not sleeping or at work, and provided that they have the '"+SlavePermissionSetting.GENERAL_HOUSE_FREEDOM.getName()+"' permission, they might choose to come here to relax for an hour or so.",
+			5000,
+			250,
+			50,
+			0,
+			0.5f,
+			0,
+			null) {
+		@Override
+		public DialogueNode getRoomDialogue(Cell c) {
+			return LilayaSlaveLoungeDialogue.ROOM_SLAVE_LOUNGE;
+		}
+		@Override
+		public String getSVGOverride() {
+			return AbstractPlaceType.getSVGOverride("dominion/lilayasHome/roomSlaveLounge", PresetColour.BASE_GREEN_LIME);
+		}
+		@Override
+		protected Value<Boolean, String> getExtraConditionalAvailability(Cell cell) {
+			if(cell.getPlace().getPlaceUpgrades().contains(LILAYA_ARTHUR_ROOM)) {
+				return new Value<>(false, "");
+			}
+//			if(!Main.game.getWorlds().get(WorldType.LILAYAS_HOUSE_GROUND_FLOOR).getCells(LILAYA_DINING_HALL).isEmpty()
+//					|| !Main.game.getWorlds().get(WorldType.LILAYAS_HOUSE_FIRST_FLOOR).getCells(LILAYA_DINING_HALL).isEmpty()) {
+//				return new Value<>(false, "There's no need for more than one slave lounge.");
+//			}
+			if(!Main.game.getCharactersTreatingCellAsHome(cell).isEmpty()) {
+				return new Value<>(false, "This room needs to be unoccupied in order to purchase this modification.");
+			}
+			return super.getExtraConditionalAvailability(cell);
+		}
+		
+		@Override
+		public void applyInstallationEffects(Cell c) {
+			GenericPlace place = c.getPlace();
+			for(AbstractPlaceUpgrade upgrade : PlaceUpgrade.getAllPlaceUpgrades()) {
+				if(upgrade != LILAYA_SLAVE_LOUNGE) {
+					place.removePlaceUpgrade(c, upgrade);
+				}
+			}
+		}
+	};
 	
 	private static ArrayList<AbstractPlaceUpgrade> coreRoomUpgrades;
 	private static ArrayList<AbstractPlaceUpgrade> guestRoomUpgrades;
@@ -1293,6 +1441,8 @@ public class PlaceUpgrade {
 	private static ArrayList<AbstractPlaceUpgrade> milkingRoomUpgrades;
 	private static ArrayList<AbstractPlaceUpgrade> officeUpgrades;
 	private static ArrayList<AbstractPlaceUpgrade> spaUpgrades;
+	private static ArrayList<AbstractPlaceUpgrade> diningHallUpgrades;
+	private static ArrayList<AbstractPlaceUpgrade> slaveLoungeUpgrades;
 	
 	public static ArrayList<AbstractPlaceUpgrade> getCoreRoomUpgrades() {
 		return coreRoomUpgrades;
@@ -1329,19 +1479,32 @@ public class PlaceUpgrade {
 	public static ArrayList<AbstractPlaceUpgrade> getSpaUpgrades() {
 		return spaUpgrades;
 	}
+
+	public static ArrayList<AbstractPlaceUpgrade> getDiningHallUpgrades() {
+		return diningHallUpgrades;
+	}
+
+	public static ArrayList<AbstractPlaceUpgrade> getSlaveLoungeUpgrades() {
+		return slaveLoungeUpgrades;
+	}
 	
 	
 	static {
 		coreRoomUpgrades = Util.newArrayListOfValues(
+				PlaceUpgrade.LILAYA_DOLL_CLOSET,
 				PlaceUpgrade.LILAYA_GUEST_ROOM,
-				PlaceUpgrade.LILAYA_SPA,
 				
 				PlaceUpgrade.LILAYA_SLAVE_ROOM,
 				PlaceUpgrade.LILAYA_SLAVE_ROOM_DOUBLE,
 				PlaceUpgrade.LILAYA_SLAVE_ROOM_QUADRUPLE,
-
+				
+				PlaceUpgrade.LILAYA_SLAVE_LOUNGE,
+				
+				PlaceUpgrade.LILAYA_SPA,
+				
 				PlaceUpgrade.LILAYA_OFFICE,
 				PlaceUpgrade.LILAYA_MILKING_ROOM,
+				PlaceUpgrade.LILAYA_DINING_HALL,
 				
 				PlaceUpgrade.LILAYA_ARTHUR_ROOM);
 
@@ -1425,6 +1588,12 @@ public class PlaceUpgrade {
 //				PlaceUpgrade.LILAYA_SPA_SAUNA,
 //				PlaceUpgrade.LILAYA_SPA_POOL,
 				PlaceUpgrade.LILAYA_SPA_BAR);
+		
+		diningHallUpgrades = Util.newArrayListOfValues(
+				PlaceUpgrade.LILAYA_EMPTY_ROOM);
+		
+		slaveLoungeUpgrades = Util.newArrayListOfValues(
+				PlaceUpgrade.LILAYA_EMPTY_ROOM);
 	}
 	
 

@@ -2,7 +2,6 @@ package com.lilithsthrone.game.character.npc.misc;
 
 import com.lilithsthrone.controller.xmlParsing.XMLUtil;
 import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.game.character.Litter;
 import com.lilithsthrone.game.character.body.Body;
 import com.lilithsthrone.game.character.body.valueEnums.*;
 import com.lilithsthrone.game.character.gender.Gender;
@@ -10,6 +9,7 @@ import com.lilithsthrone.game.character.gender.GenderPronoun;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.persona.Name;
 import com.lilithsthrone.game.character.persona.NameTriplet;
+import com.lilithsthrone.game.character.pregnancy.Litter;
 import com.lilithsthrone.game.character.race.*;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.npcDialogue.offspring.GenericOffspringDialogue;
@@ -209,7 +209,7 @@ public class OffspringSeed implements XMLSaving {
 			this.setSurname(surnames[Util.random.nextInt(surnames.length)]);
 		}
 
-		setName(Name.getRandomTriplet(getRace()));
+		setName(Name.getRandomTriplet(this.getSubspecies()));
 		
 		this.setMother(mother);
 		
@@ -301,7 +301,7 @@ public class OffspringSeed implements XMLSaving {
 			String nameMasculine = nameElement.getAttribute("nameMasculine");
 			String nameAndrogynous = nameElement.getAttribute("nameAndrogynous");
 			String nameFeminine = nameElement.getAttribute("nameFeminine");
-			NameTriplet backup = Name.getRandomTriplet(Race.HUMAN);
+			NameTriplet backup = Name.getRandomTriplet(Subspecies.HUMAN);
 			os.setName(new NameTriplet(
 					nameMasculine.isEmpty()?backup.getMasculine():nameMasculine,
 					nameAndrogynous.isEmpty()?backup.getAndrogynous():nameAndrogynous,
@@ -567,6 +567,9 @@ public class OffspringSeed implements XMLSaving {
 	
 	public AbstractSubspecies getSubspecies() { return subspecies; }
 	
+	public boolean isFeral() {
+		return getBody().isFeral();
+	}
 	public boolean isFeminine() {
 		return body==null || body.isFeminine();
 	}

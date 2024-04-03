@@ -23,6 +23,23 @@ import com.lilithsthrone.world.places.PlaceType;
  * @author Innoxia
  */
 public class WorldType {
+
+	public static AbstractWorldType EMPTY = new AbstractWorldType(WorldRegion.MISC,
+			"Empty (Holding world)",
+			PresetColour.BASE_BROWN,
+			false,
+			true,
+			TeleportPermissions.NONE,
+			"/com/lilithsthrone/res/map/empty.png",
+			PlaceType.WORLD_MAP_DOMINION,
+			PlaceType.GENERIC_EMPTY_TILE,
+			Util.newHashMapOfValues(
+					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
+					new Value<>(new Color(0xff0000), PlaceType.GENERIC_EMPTY_TILE),
+					new Value<>(new Color(0xffff00), PlaceType.GENERIC_HOLDING_CELL),
+					new Value<>(new Color(0x0080ff), PlaceType.GENERIC_MUSEUM),
+					new Value<>(new Color(0xff00ff), PlaceType.GENERIC_CLUB_HOLDING_CELL))) {
+	};
 	
 	public static AbstractWorldType WORLD_MAP = new AbstractWorldType(WorldRegion.MISC,
 			"Lilith's Realm",
@@ -103,8 +120,12 @@ public class WorldType {
 					
 					new Value<>(new Color(0x000000), PlaceType.DOMINION_DEMON_HOME_GATE),
 					new Value<>(new Color(0xff80ff), PlaceType.DOMINION_DEMON_HOME),
-					new Value<>(new Color(0xff9100), PlaceType.DOMINION_DEMON_HOME_ARTHUR),
+					new Value<>(new Color(0xff9100), PlaceType.DOMINION_DEMON_HOME_ARTHUR),//TODO remove???
+					new Value<>(new Color(0xff40bf), PlaceType.DOMINION_DEMON_HOME_SEX_SHOP),
+					
 					new Value<>(new Color(0x8000ff), PlaceType.DOMINION_CITY_HALL),
+					new Value<>(new Color(0x7f4040), PlaceType.DOMINION_BANK),
+					
 					new Value<>(new Color(0xff00ff), PlaceType.DOMINION_LILITHS_TOWER),
 					
 					new Value<>(new Color(0x8080ff), PlaceType.DOMINION_EXIT_WEST),
@@ -130,19 +151,6 @@ public class WorldType {
 		public int getMajorAreaIndex() {
 			return 1;
 		}
-	};
-	
-	public static AbstractWorldType EMPTY = new AbstractWorldType(WorldRegion.MISC,
-			"Empty (Holding world)",
-			PresetColour.BASE_BROWN,
-			false,
-			true,
-			TeleportPermissions.NONE,
-			"/com/lilithsthrone/res/map/empty.png", PlaceType.WORLD_MAP_DOMINION, PlaceType.GENERIC_EMPTY_TILE, Util.newHashMapOfValues(
-					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
-					new Value<>(new Color(0xff0000), PlaceType.GENERIC_EMPTY_TILE),
-					new Value<>(new Color(0xffff00), PlaceType.GENERIC_HOLDING_CELL),
-					new Value<>(new Color(0x0080ff), PlaceType.GENERIC_MUSEUM))) {
 	};
 
 	public static AbstractWorldType MUSEUM = new AbstractWorldType(WorldRegion.OLD_WORLD,
@@ -192,7 +200,7 @@ public class WorldType {
 	};
 	
 	public static AbstractWorldType LILAYAS_HOUSE_GROUND_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
-			"Lilaya's Home GF",
+			"Lilaya's Home F0",
 			PresetColour.BASE_BLUE_LIGHT,
 			true,
 			false,
@@ -222,7 +230,7 @@ public class WorldType {
 	};
 	
 	public static AbstractWorldType LILAYAS_HOUSE_FIRST_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
-			"Lilaya's Home 1F",
+			"Lilaya's Home F1",
 			PresetColour.BASE_BLUE_LIGHT,
 			true,
 			false,
@@ -248,7 +256,7 @@ public class WorldType {
 	};
 	
 	public static AbstractWorldType ZARANIX_HOUSE_FIRST_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
-			"Zaranix's Home 1F",
+			"Zaranix's Home F1",
 			PresetColour.BASE_CRIMSON,
 			false,
 			false,
@@ -271,7 +279,7 @@ public class WorldType {
 	};
 	
 	public static AbstractWorldType ZARANIX_HOUSE_GROUND_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
-			"Zaranix's Home GF",
+			"Zaranix's Home F0",
 			PresetColour.BASE_CRIMSON,
 			false,
 			false,
@@ -345,7 +353,11 @@ public class WorldType {
 					
 					new Value<>(new Color(0x21bfc5), PlaceType.SLAVER_ALLEY_MARKET_STALL_EXCLUSIVE),
 					new Value<>(new Color(0x004080), PlaceType.SLAVER_ALLEY_MARKET_STALL_BULK),
-					new Value<>(new Color(0x008080), PlaceType.SLAVER_ALLEY_CAFE),
+					
+					new Value<>(new Color(0x008000), PlaceType.SLAVER_ALLEY_CAFE),
+					new Value<>(new Color(0x006600), PlaceType.SLAVER_ALLEY_CAFE_2),
+					new Value<>(new Color(0x004d00), PlaceType.SLAVER_ALLEY_CAFE_3),
+					new Value<>(new Color(0x003300), PlaceType.SLAVER_ALLEY_CAFE_4),
 					
 					new Value<>(new Color(0xbfff00), PlaceType.SLAVER_ALLEY_BOUNTY_HUNTERS),
 					
@@ -603,7 +615,7 @@ public class WorldType {
 	
 	
 	public static AbstractWorldType ANGELS_KISS_GROUND_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
-			"Angel's Kiss GF",
+			"Angel's Kiss F0",
 			PresetColour.BASE_MAGENTA,
 			false,
 			false,
@@ -622,7 +634,7 @@ public class WorldType {
 	};
 	
 	public static AbstractWorldType ANGELS_KISS_FIRST_FLOOR = new AbstractWorldType(WorldRegion.DOMINION,
-			"Angel's Kiss 1F",
+			"Angel's Kiss F1",
 			PresetColour.BASE_MAGENTA,
 			false,
 			false,
@@ -850,7 +862,7 @@ public class WorldType {
 			PresetColour.BASE_PURPLE,
 			false,
 			false,
-			TeleportPermissions.OUTGOING_ONLY,
+			TeleportPermissions.NONE,
 			"/com/lilithsthrone/res/map/submission/lyssiethsPalace/groundFloor.png", PlaceType.WORLD_MAP_DOMINION, PlaceType.LYSSIETH_PALACE_ENTRANCE, Util.newHashMapOfValues(
 					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
 					new Value<>(new Color(0x808080), PlaceType.LYSSIETH_PALACE_CORRIDOR),
@@ -878,7 +890,7 @@ public class WorldType {
 			"Imp Fortress A",
 			PresetColour.BASE_CRIMSON,
 			false,
-			true,
+			false,
 			TeleportPermissions.OUTGOING_ONLY,
 			"/com/lilithsthrone/res/map/submission/impFortress/fortress1Map.png", PlaceType.WORLD_MAP_DOMINION, PlaceType.FORTRESS_ALPHA_ENTRANCE, Util.newHashMapOfValues(
 					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
@@ -899,7 +911,7 @@ public class WorldType {
 			"Imp Citadel",
 			PresetColour.BASE_PURPLE,
 			false,
-			true,
+			false,
 			TeleportPermissions.OUTGOING_ONLY,
 			"/com/lilithsthrone/res/map/submission/impFortress/fortress2Map.png", PlaceType.WORLD_MAP_DOMINION, PlaceType.FORTRESS_DEMON_ENTRANCE, Util.newHashMapOfValues(
 					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
@@ -926,7 +938,7 @@ public class WorldType {
 			"Imp Fortress F",
 			PresetColour.BASE_PINK,
 			false,
-			true,
+			false,
 			TeleportPermissions.OUTGOING_ONLY,
 			"/com/lilithsthrone/res/map/submission/impFortress/fortress3Map.png", PlaceType.WORLD_MAP_DOMINION, PlaceType.FORTRESS_FEMALES_ENTRANCE, Util.newHashMapOfValues(
 					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
@@ -947,7 +959,7 @@ public class WorldType {
 			"Imp Fortress M",
 			PresetColour.BASE_BLUE,
 			false,
-			true,
+			false,
 			TeleportPermissions.OUTGOING_ONLY,
 			"/com/lilithsthrone/res/map/submission/impFortress/fortress4Map.png", PlaceType.WORLD_MAP_DOMINION, PlaceType.FORTRESS_MALES_ENTRANCE, Util.newHashMapOfValues(
 					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
@@ -974,6 +986,7 @@ public class WorldType {
 					new Value<>(new Color(0xFFFFFF), PlaceType.GENERIC_IMPASSABLE),
 
 					new Value<>(new Color(0x00ff00), PlaceType.BAT_CAVERN_ENTRANCE),
+					new Value<>(new Color(0xffff00), PlaceType.BAT_CAVERN_SHAFT),
 					
 					new Value<>(new Color(0x008080), PlaceType.BAT_CAVERN_DARK),
 					new Value<>(new Color(0x808080), PlaceType.BAT_CAVERN_LIGHT),
@@ -994,7 +1007,7 @@ public class WorldType {
 	};
 
 	public static AbstractWorldType SLIME_QUEENS_LAIR_GROUND_FLOOR = new AbstractWorldType(WorldRegion.SUBMISSION,
-			"Slime Queen's Tower GF",
+			"Slime Queen's Tower F0",
 			PresetColour.BASE_PINK,
 			false,
 			false,
@@ -1020,7 +1033,7 @@ public class WorldType {
 	};
 
 	public static AbstractWorldType SLIME_QUEENS_LAIR_FIRST_FLOOR = new AbstractWorldType(WorldRegion.SUBMISSION,
-			"Slime Queen's Tower 1F",
+			"Slime Queen's Tower F1",
 			PresetColour.BASE_PINK,
 			false,
 			false,

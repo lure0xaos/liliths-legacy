@@ -491,7 +491,7 @@ public class CMBasicAttack {
     	@Override
         public float getWeight(GameCharacter source, List<GameCharacter> enemies, List<GameCharacter> allies) {
         	float weight = super.getWeight(source, enemies, allies);
-        	if(!source.hasPerkAnywhereInTree(Perk.UNARMED_TRAINING)
+        	if(!source.hasPerkAnywhereInTree(Perk.MARTIAL_ARTIST)
         			&& source.getEquippedMoves().contains(CombatMove.getCombatMoveFromId("strike"))
         			&& source.getMainWeapon(0)!=null
         			&& source.getOffhandWeapon(0)==null) {
@@ -1211,6 +1211,16 @@ public class CMBasicAttack {
         		}
         	}
         }
+
+        @Override
+        public List<String> getCritRequirements(GameCharacter source, GameCharacter target, List<GameCharacter> enemies, List<GameCharacter> allies) {
+        	return Util.newArrayListOfValues("This is the only move that's being used.");
+        }
+        
+        @Override
+        public boolean canCrit(int turnIndex, GameCharacter source, GameCharacter target, List<GameCharacter> enemies, List<GameCharacter> allies) {
+    		return source.getSelectedMoves().stream().anyMatch(move->move.getValue()==BASIC_TWIN_STRIKE) && source.getSelectedMoves().size()==1;
+        }
     };
     
     public static AbstractCombatMove BASIC_BLOCK = new AbstractCombatMove(CombatMoveCategory.BASIC,
@@ -1340,7 +1350,7 @@ public class CMBasicAttack {
     				isCrit?"[npc2.Name] [npc2.verb(feel)] incredibly turned-on!":""));
             
     		if(source.hasStatusEffect(StatusEffect.TELEPATHIC_COMMUNICATION_POWER_OF_SUGGESTION)) {
-    			Main.combat.addStatusEffectToApply(target, StatusEffect.TELEPATHIC_COMMUNICATION_POWER_OF_SUGGESTION_TARGETED, 3);
+    			Main.combat.addStatusEffectToApply(target, StatusEffect.TELEPATHIC_COMMUNICATION_POWER_OF_SUGGESTION_TARGETED, 2);
     			sb.append(Spell.getBasicStatusEffectApplication(target, false, Util.newHashMapOfValues(new Value<>(StatusEffect.TELEPATHIC_COMMUNICATION_POWER_OF_SUGGESTION_TARGETED, 2))));
     		}
     		

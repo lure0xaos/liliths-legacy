@@ -1,25 +1,22 @@
 package com.lilithsthrone.game.character.npc.dominion;
 
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lilithsthrone.game.character.fetishes.Fetish;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.lilithsthrone.game.character.CharacterImportSetting;
 import com.lilithsthrone.game.character.EquipClothingSetting;
-import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.valueEnums.LegConfiguration;
 import com.lilithsthrone.game.character.effects.Perk;
+import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.npc.NPCGenerationFlag;
-import com.lilithsthrone.game.character.npc.misc.GenericSexualPartner;
 import com.lilithsthrone.game.character.persona.Name;
 import com.lilithsthrone.game.character.persona.Occupation;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
@@ -38,7 +35,6 @@ import com.lilithsthrone.game.inventory.CharacterInventory;
 import com.lilithsthrone.game.inventory.outfit.OutfitType;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
-import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.Season;
 import com.lilithsthrone.world.Weather;
 import com.lilithsthrone.world.WorldType;
@@ -96,7 +92,7 @@ public class DominionAlleywayAttacker extends NPC {
 				}
 				if(s==Subspecies.REINDEER_MORPH) {
 					if(Main.game.getSeason()==Season.WINTER && Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.hasSnowedThisWinter)) {
-						AbstractSubspecies.addToSubspeciesMap((int) ((canalSpecies?500:10000)* SubspeciesSpawnRarity.THREE_UNCOMMON.getChanceMultiplier()), gender, s, availableRaces);
+						AbstractSubspecies.addToSubspeciesMap((int) ((canalSpecies?500:10000)* SubspeciesSpawnRarity.FIVE.getChanceMultiplier()), gender, s, availableRaces);
 					}
 					
 				} else {
@@ -129,7 +125,7 @@ public class DominionAlleywayAttacker extends NPC {
 			
 			setSexualOrientation(RacialBody.valueOfRace(this.getRace()).getSexualOrientation(gender));
 			
-			setName(Name.getRandomTriplet(this.getRace()));
+			setName(Name.getRandomTriplet(this.getSubspecies()));
 			this.setPlayerKnowsName(false);
 			setDescription(UtilText.parse(this,
 					"[npc.Name] is a resident of Dominion, who, for reasons of [npc.her] own, prowls the back alleys in search of victims to prey upon."));
@@ -154,12 +150,13 @@ public class DominionAlleywayAttacker extends NPC {
 			
 			resetInventory(true);
 			inventory.setMoney(10 + Util.random.nextInt(getLevel()*10) + 1);
-			Main.game.getCharacterUtils().generateItemsInInventory(this);
+			Main.game.getCharacterUtils().generateItemsInInventory(this, true, true, true);
 			
 			if(!Arrays.asList(generationFlags).contains(NPCGenerationFlag.NO_CLOTHING_EQUIP)) {
 				this.equipClothing(EquipClothingSetting.getAllClothingSettings());
 			}
 			Main.game.getCharacterUtils().applyMakeup(this, true);
+			Main.game.getCharacterUtils().applyTattoos(this, true);
 			if((Arrays.asList(generationFlags).contains(NPCGenerationFlag.DIRTY) || hasFetish(Fetish.FETISH_CUM_ADDICT)) && Math.random() < 0.1) {
 				Main.game.getCharacterUtils().applyDirtiness(this);
 			}
@@ -193,7 +190,7 @@ public class DominionAlleywayAttacker extends NPC {
 	public void equipClothing(List<EquipClothingSetting> settings) {
 		this.incrementMoney((int) (this.getInventory().getNonEquippedValue() * 0.5f));
 		this.clearNonEquippedInventory(false);
-		Main.game.getCharacterUtils().generateItemsInInventory(this);
+		Main.game.getCharacterUtils().generateItemsInInventory(this, true, true, true);
 		
 		if(this.getHistory()==Occupation.NPC_PROSTITUTE) {
 			Main.game.getCharacterUtils().equipClothingFromOutfitType(this, OutfitType.PROSTITUTE, settings);
@@ -205,46 +202,6 @@ public class DominionAlleywayAttacker extends NPC {
 	@Override
 	public boolean isUnique() {
 		return false;
-	}
-	
-	@Override
-	public void hourlyUpdate() {
-		if(this.getHistory()==Occupation.NPC_PROSTITUTE
-				&& Main.game.isLipstickMarkingEnabled()
-				&& !this.isSlave()
-				&& !Main.game.getPlayer().getFriendlyOccupants().contains(this.getId())
-				&& this.getLipstick().getPrimaryColour()!=PresetColour.COVERING_NONE) {
-			this.addHeavyMakeup(BodyCoveringType.MAKEUP_LIPSTICK);
-		}
-		if(this.getHistory()==Occupation.NPC_PROSTITUTE && this.getLocationPlace().getPlaceType().equals(PlaceType.ANGELS_KISS_BEDROOM)) { //TODO need to move this to Angel's Kiss
-			// Remove client:
-			List<NPC> charactersPresent = new ArrayList<>(Main.game.getCharactersPresent(this.getWorldLocation(), this.getLocation()));
-			charactersPresent.removeAll(Main.game.getPlayer().getCompanions());
-			if(charactersPresent.size()>1) {
-				for(NPC npc : charactersPresent) {
-					if(npc instanceof GenericSexualPartner) {
-//						System.out.println("partner removed for "+this.getName());
-//						System.out.println(npc.getId());
-						Main.game.banishNPC(npc);
-					}
-				}
-				
-			} else if(Math.random()<0.33f) { // Add client:
-				GenericSexualPartner partner;
-//				System.out.println("partner generated for "+this.getNameIgnoresPlayerKnowledge()+" "+this.getLocation().toString()+", "+this.getLocationPlace().getPlaceType().getName());
-				
-				if(Math.random()<0.25f) {
-					partner = new GenericSexualPartner(Gender.F_P_V_B_FUTANARI, this.getWorldLocation(), this.getLocation(), false);
-				} else {
-					partner = new GenericSexualPartner(Gender.M_P_MALE, this.getWorldLocation(), this.getLocation(), false);
-				}
-				try {
-					Main.game.addNPC(partner, false, true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 	
 	@Override

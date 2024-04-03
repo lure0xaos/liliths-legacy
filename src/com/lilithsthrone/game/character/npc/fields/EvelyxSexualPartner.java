@@ -1,6 +1,7 @@
 package com.lilithsthrone.game.character.npc.fields;
 
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,12 +13,14 @@ import com.lilithsthrone.game.character.CharacterImportSetting;
 import com.lilithsthrone.game.character.EquipClothingSetting;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.valueEnums.LegConfiguration;
+import com.lilithsthrone.game.character.fetishes.AbstractFetish;
+import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.persona.Name;
 import com.lilithsthrone.game.character.persona.PersonalityTrait;
+import com.lilithsthrone.game.character.persona.SexualOrientation;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
-import com.lilithsthrone.game.character.race.RacialBody;
 import com.lilithsthrone.game.character.race.Subspecies;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
@@ -90,9 +93,9 @@ public class EvelyxSexualPartner extends NPC {
 				}
 			}
 			
-			setSexualOrientation(RacialBody.valueOfRace(this.getRace()).getSexualOrientation(gender));
+			setSexualOrientation(SexualOrientation.AMBIPHILIC);
 	
-			setName(Name.getRandomTriplet(this.getRace()));
+			setName(Name.getRandomTriplet(this.getSubspecies()));
 			this.setPlayerKnowsName(false);
 			setDescription(UtilText.parse(this,
 					"[npc.Name] is a resident of the Foloi Fields, who travels to Evelyx's Dairy to pay for sex with one of the farm's cows."));
@@ -106,6 +109,13 @@ public class EvelyxSexualPartner extends NPC {
 			
 			Main.game.getCharacterUtils().addFetishes(this);
 			
+			// Remove negative fetish desires as otherwise they might conflict with the sex type
+			for(AbstractFetish fetish : new ArrayList<>(this.getFetishes(false))) {
+				if(this.getFetishDesire(fetish).isNegative()) {
+					this.setFetishDesire(fetish, FetishDesire.TWO_NEUTRAL);
+				}
+			}
+			
 			// BODY RANDOMISATION:
 			
 			Main.game.getCharacterUtils().randomiseBody(this, true);
@@ -117,6 +127,7 @@ public class EvelyxSexualPartner extends NPC {
 
 			this.equipClothing(EquipClothingSetting.getAllClothingSettings());
 			Main.game.getCharacterUtils().applyMakeup(this, true);
+			Main.game.getCharacterUtils().applyTattoos(this, true);
 			
 			// Set starting attributes based on the character's race
 			initPerkTreeAndBackgroundPerks();

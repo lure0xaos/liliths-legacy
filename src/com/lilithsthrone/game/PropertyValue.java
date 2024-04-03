@@ -37,6 +37,8 @@ public enum PropertyValue {
 	autoSexStrip(false),
 	autoSexClothingManagement(true),
 
+	rapePlayAtSexStart(false),
+	
 	companionContent(false),
 
 	badEndContent(true),
@@ -57,13 +59,15 @@ public enum PropertyValue {
 	nonConContent(true, true),
 	incestContent(true, true),
 	lactationContent(true, true),
+	udderContent(true, true),
 	urethralContent(false, true),
 	analContent(true, true),
 	footContent(true, true),
 	armpitContent(true, true),
 	nipplePenContent(true, true),
 	gapeContent(true, true),
-	feralContent(true, true),
+	feralContent(true, true), // No associated fetish yet
+	muskContent(true, true), // No associated fetish yet
 	
 	cumRegenerationContent(true),
 	penetrationLimitations(true),
@@ -80,6 +84,7 @@ public enum PropertyValue {
 
 	spittingEnabled(true),
 	opportunisticAttackers(true),
+	offspringEncounters(true),
 	
 	// Game properties:
 	levelUpHightlight(false),

@@ -48,7 +48,6 @@ import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.inventory.CharacterInventory;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
-import com.lilithsthrone.game.inventory.clothing.ClothingType;
 import com.lilithsthrone.game.inventory.clothing.DisplacementType;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.Pattern;
@@ -79,7 +78,7 @@ public class Belle extends NPC {
 				WorldType.EMPTY, PlaceType.GENERIC_EMPTY_TILE,
 				true);
 		if(!isImported) {
-			this.hourlyUpdate();
+			this.hourlyUpdate(0);
 		}
 	}
 	
@@ -220,7 +219,7 @@ public class Belle extends NPC {
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_bdsm_wrist_bracelets", PresetColour.CLOTHING_PINK_LIGHT, PresetColour.CLOTHING_STEEL, null, false), InventorySlot.ANKLE, true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_leg_micro_skirt_pleated", PresetColour.CLOTHING_PINK_LIGHT, PresetColour.CLOTHING_BLACK, null, false), true, this);
 		
-		AbstractClothing thong = Main.game.getItemGen().generateClothing(ClothingType.GROIN_CROTCHLESS_THONG, PresetColour.CLOTHING_PINK_LIGHT, false);
+		AbstractClothing thong = Main.game.getItemGen().generateClothing("innoxia_groin_crotchless_thong", PresetColour.CLOTHING_PINK_LIGHT, false);
 		thong.setPattern(Pattern.getPatternIdByName("polka_dots_small"));
 		thong.setPatternColour(0, PresetColour.CLOTHING_WHITE);
 		thong.setPatternColour(1, PresetColour.CLOTHING_PINK);
@@ -250,7 +249,7 @@ public class Belle extends NPC {
 	}
 
 	@Override
-	public void hourlyUpdate() {
+	public void hourlyUpdate(int hour) {
 		if(!Main.game.isInSex()) {
 			this.useItem(Main.game.getItemGen().generateItem("innoxia_pills_sterility"), this, false);
 		}

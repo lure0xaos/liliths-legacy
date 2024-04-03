@@ -223,7 +223,7 @@ public class Lyssieth extends NPC {
 		
 		// Body:
 		this.setSubspeciesOverride(Subspecies.ELDER_LILIN);
-		this.setAgeAppearanceDifferenceToAppearAsAge(45);
+		this.setAgeAppearanceAbsolute(45);
 //		this.setTailType(TailType.DEMON_COMMON);
 //		this.setWingType(WingType.DEMON_COMMON);
 //		this.setHornType(HornType.CURLED);
@@ -359,7 +359,7 @@ public class Lyssieth extends NPC {
 		
 		children.add(Main.game.getNpc(Lilaya.class));
 		children.add(Main.game.getNpc(DarkSiren.class));
-		if(Main.game.getPlayer().getSubspeciesOverrideRace()==Race.DEMON) {
+		if(Main.game.getDialogueFlags().hasFlag("innoxia_child_of_lyssieth")) {
 			children.add(Main.game.getPlayer());
 		}
 		
@@ -428,6 +428,9 @@ public class Lyssieth extends NPC {
 		Main.game.getPlayer().setSkinCovering(new Covering(BodyCoveringType.VAGINA, PresetColour.SKIN_RED_DARK, PresetColour.SKIN_RED_DARK), false);
 		Main.game.getPlayer().setSkinCovering(new Covering(BodyCoveringType.PENIS, PresetColour.SKIN_RED, PresetColour.SKIN_RED_DARK), false);
 		Main.game.getPlayer().setSkinCovering(new Covering(BodyCoveringType.MOUTH, PresetColour.SKIN_RED, PresetColour.SKIN_RED_DARK), false);
+		
+		// Change perk to demon version:
+		Main.game.getPlayer().handleDemonicTransformationPerkEffects();
 	}
 	
 	public void setDaughterToFullDemon(Class<? extends NPC> daughterClass) {
@@ -889,10 +892,15 @@ public class Lyssieth extends NPC {
 						return new SexType(SexParticipantType.NORMAL, SexAreaPenetration.TONGUE, SexAreaOrifice.VAGINA);
 					}
 				}
+				
 			} else if((Main.sex.getSexPositionSlot(this)==SexSlotLyingDown.SIXTY_NINE || Main.sex.getSexPositionSlot(Main.game.getPlayer())==SexSlotLyingDown.SIXTY_NINE)
 					&& !this.hasPenis()) {
-				if(Main.sex.getTurn()%2==0) {
-					return new SexType(SexParticipantType.NORMAL, SexAreaPenetration.TONGUE, SexAreaOrifice.VAGINA);
+				if(Main.sex.getOngoingCharactersUsingAreas(this, SexAreaOrifice.VAGINA, SexAreaPenetration.TONGUE).contains(target)) {
+					if(target.hasPenis()) {
+						return new SexType(SexParticipantType.NORMAL, SexAreaOrifice.MOUTH, SexAreaPenetration.PENIS);
+					} else {
+						return new SexType(SexParticipantType.NORMAL, SexAreaPenetration.TONGUE, SexAreaOrifice.VAGINA);
+					}
 				} else {
 					return new SexType(SexParticipantType.NORMAL, SexAreaOrifice.VAGINA, SexAreaPenetration.TONGUE);
 				}
@@ -957,7 +965,7 @@ public class Lyssieth extends NPC {
 		
 		// Body:
 		this.setSubspeciesOverride(Subspecies.ELDER_LILIN);
-		this.setAgeAppearanceDifferenceToAppearAsAge(45);
+		this.setAgeAppearanceAbsolute(45);
 		this.setTailType(TailType.DEMON_COMMON);
 		this.setTailGirth(PenetrationGirth.FOUR_GIRTHY);
 		this.setWingType(WingType.DEMON_COMMON);
@@ -1059,7 +1067,7 @@ public class Lyssieth extends NPC {
 	
 	public static boolean isPlayersMommy() {
 		return Main.game.getPlayer().hasFetish(Fetish.FETISH_INCEST)
-				&& (Main.game.getPlayer().getSubspeciesOverrideRace()==Race.DEMON || (Main.game.isInSex() && Main.sex.getSexManager() instanceof SMLyssiethDemonTF));
+				&& (Main.game.getDialogueFlags().hasFlag("innoxia_child_of_lyssieth") || (Main.game.isInSex() && Main.sex.getSexManager() instanceof SMLyssiethDemonTF));
 	}
 	
 	@Override
@@ -1409,7 +1417,7 @@ public class Lyssieth extends NPC {
 			} else {
 				sb.append("<p>"
 							+ "Upon hearing your ear-splitting wail, [npc.name] stops thrusting forwards, and with her hot, throbbing cock still stuffed in your asshole, [npc.she] teases,"
-							+ " [npc.speechNoExtraEffects(~Mmm!~ It's nice knowing that my cock's the first one that's been up your ass.. You're going to become a horny little buttslut, I can just tell..."
+							+ " [npc.speechNoExtraEffects(~Mmm!~ It's nice knowing that my cock's the first one that's been up your ass... You're going to become a horny little buttslut, I can just tell..."
 							+ " ~Ooh!~ Now beg for my cock, like a good little anal-loving slut, and I'll give you the rest of it.)]"
 						+ "</p>");
 

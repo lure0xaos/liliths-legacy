@@ -67,11 +67,11 @@ import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.effects.PerkCategory;
 import com.lilithsthrone.game.character.effects.PerkManager;
 import com.lilithsthrone.game.character.effects.StatusEffect;
+import com.lilithsthrone.game.character.fetishes.AbstractFetish;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.markings.Tattoo;
-import com.lilithsthrone.game.character.markings.TattooType;
 import com.lilithsthrone.game.character.markings.TattooWriting;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.persona.NameTriplet;
@@ -191,7 +191,7 @@ public class Evelyx extends NPC {
 		
 		
 		// Body:
-		this.setAgeAppearanceDifferenceToAppearAsAge(18);
+		this.setAgeAppearanceAbsolute(18);
 		this.setTailType(TailType.DEMON_COMMON);
 		this.setWingType(WingType.NONE);
 		this.setLegType(LegType.DEMON_HOOFED);
@@ -206,7 +206,7 @@ public class Evelyx extends NPC {
 		
 		// Coverings:
 		this.setEyeCovering(new Covering(BodyCoveringType.EYE_DEMON_COMMON, PresetColour.EYE_ORANGE));
-		this.setSkinCovering(new Covering(BodyCoveringType.DEMON_COMMON, PresetColour.COVERING_BLUE_LIGHT), true);
+		this.setSkinCovering(new Covering(BodyCoveringType.DEMON_COMMON, PresetColour.SKIN_BLUE_LIGHT), true);
 		
 		this.setSkinCovering(new Covering(BodyCoveringType.HORN, CoveringPattern.OMBRE, CoveringModifier.SMOOTH, PresetColour.COVERING_BLACK, false, PresetColour.COVERING_ORANGE, false), false);
 		this.setSkinCovering(new Covering(BodyCoveringType.VAGINA, CoveringPattern.ORIFICE_VAGINA, PresetColour.COVERING_ORANGE, false, PresetColour.COVERING_ORANGE, false), false);
@@ -269,7 +269,7 @@ public class Evelyx extends NPC {
 		this.unequipAllClothingIntoVoid(true, true);
 
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_groin_lacy_thong", PresetColour.CLOTHING_ORANGE, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.CHEST_FULLCUP_BRA, PresetColour.CLOTHING_ORANGE, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_chest_fullcup_bra", PresetColour.CLOTHING_ORANGE, false), true, this);
 		
 		AbstractClothing scrunchie = Main.game.getItemGen().generateClothing("norin_hair_accessories_hair_scrunchie", PresetColour.CLOTHING_ORANGE, false);
 		scrunchie.setPattern("none");
@@ -493,7 +493,7 @@ public class Evelyx extends NPC {
 		}
 		
 		// Crotch boobs:
-		if(crotchBoobs && ((Main.getProperties().getUddersLevel()==1 && worker.isTaur()) || (Main.getProperties().getUddersLevel()==2 && worker.getRace().getRacialBody().getBreastCrotchType()!=BreastType.NONE))) {
+		if(crotchBoobs && Main.game.isUdderContentEnabled() && (worker.isTaur() || worker.getRace().getRacialBody().getBreastCrotchType()!=BreastType.NONE)) {
 			boolean applyCrotchBoobs = !worker.hasBreastsCrotch();
 			if(!anyTransformationAvailable) {
 				anyTransformationAvailable = applyCrotchBoobs;
@@ -606,7 +606,7 @@ public class Evelyx extends NPC {
 		StringBuilder sbAppliedTransformation = new StringBuilder();
 		boolean anyFetishChangesAvailable = false;
 		
-		Map<Fetish, String> fetishesToBeAdded = new HashMap<>();
+		Map<AbstractFetish, String> fetishesToBeAdded = new HashMap<>();
 		
 		// Trainee values:
 		fetishesToBeAdded.put(Fetish.FETISH_LACTATION_SELF, "Cows should love to be milked.");
@@ -629,7 +629,7 @@ public class Evelyx extends NPC {
 			fetishesToBeAdded.put(Fetish.FETISH_SIZE_QUEEN, "No insertion is too big for a good cow.");
 		}
 		
-		for(Entry<Fetish, String> fetishToAdd : fetishesToBeAdded.entrySet()) {
+		for(Entry<AbstractFetish, String> fetishToAdd : fetishesToBeAdded.entrySet()) {
 			boolean applyFetish = !worker.hasFetish(fetishToAdd.getKey());
 			if(!anyFetishChangesAvailable) {
 				anyFetishChangesAvailable = applyFetish;
@@ -925,7 +925,7 @@ public class Evelyx extends NPC {
 	public void applyCowTattoo(GameCharacter worker, boolean slave) {
 		worker.addTattoo(InventorySlot.ANUS,
 				new Tattoo(
-					TattooType.NONE,
+					"innoxia_misc_none",
 					PresetColour.CLOTHING_BLACK,
 					null,
 					null,
@@ -1230,7 +1230,7 @@ public class Evelyx extends NPC {
 		princess.setFetishDesire(Fetish.FETISH_SUBMISSIVE, FetishDesire.ZERO_HATE);
 		
 		// Body:
-		princess.setAgeAppearanceDifferenceToAppearAsAge(32);
+		princess.setAgeAppearanceAbsolute(32);
 		princess.setBody(Gender.F_P_V_B_FUTANARI, Subspecies.DEMON, RaceStage.GREATER, false);
 		princess.setWingType(WingType.NONE);
 		princess.setHornType(HornType.CURVED);
@@ -1344,7 +1344,7 @@ public class Evelyx extends NPC {
 		princess.equipMainWeaponFromNowhere(Main.game.getItemGen().generateWeapon("innoxia_axe_battle", DamageType.FIRE));
 		
 		princess.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_neck_velvet_choker", PresetColour.CLOTHING_BLACK, false), true, princess);
-		princess.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.NIPPLE_TAPE_CROSSES, PresetColour.CLOTHING_BLACK, false), true, princess);
+		princess.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_nipple_tape_crosses", PresetColour.CLOTHING_BLACK, false), true, princess);
 		princess.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_hand_wraps", PresetColour.CLOTHING_BLACK, false), true, princess);
 		
 		AbstractClothing ring = Main.game.getItemGen().generateClothing("innoxia_finger_gemstone_ring_unisex", PresetColour.CLOTHING_PLATINUM, PresetColour.CLOTHING_RED_VERY_DARK, null, false);

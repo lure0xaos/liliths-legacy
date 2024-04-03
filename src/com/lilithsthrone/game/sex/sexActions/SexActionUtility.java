@@ -11,6 +11,7 @@ import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.item.AbstractItem;
 import com.lilithsthrone.game.inventory.item.AbstractItemType;
 import com.lilithsthrone.game.sex.ArousalIncrease;
+import com.lilithsthrone.game.sex.ImmobilisationType;
 import com.lilithsthrone.game.sex.SexParticipantType;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotGeneric;
 import com.lilithsthrone.game.sex.sexActions.baseActionsMisc.PositioningMenu;
@@ -238,16 +239,13 @@ public class SexActionUtility {
 		public String getActionTitle() {
 			return "Use item";
 		}
-
 		@Override
 		public String getActionDescription() {
 			return "See what items you could use.";
 		}
-		
 		@Override
 		public String getDescription() {
 			return Main.sex.getUsingItemText();
-				
 		}
 	};
 	
@@ -259,12 +257,21 @@ public class SexActionUtility {
 			null,
 			SexParticipantType.NORMAL) {
 		private Value<AbstractClothing, String> getSexClothingBeingUsed() {
-			return ((NPC) Main.sex.getCharacterPerformingAction()).getSexClothingToSelfEquip(Main.sex.getClothingSelfEquipInformation().getValue().getKey(), false);
+			return getSexClothingBeingUsed(Main.sex.getCharacterPerformingAction());
+		}
+		private Value<AbstractClothing, String> getSexClothingBeingUsed(GameCharacter performer) {
+			return ((NPC)performer).getSexClothingToSelfEquip(Main.sex.getClothingSelfEquipInformation().getValue().getKey(), false);
+		}
+		@Override
+		public boolean isQuickSexRequirementsMet(GameCharacter performer) {
+			return !performer.isPlayer()
+					&& Main.sex.isCanRemoveSelfClothing(performer);
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !Main.sex.getCharacterPerformingAction().isPlayer()
-					&& getSexClothingBeingUsed()!=null;
+					&& getSexClothingBeingUsed()!=null
+					&& Main.sex.isCanRemoveSelfClothing(Main.sex.getCharacterPerformingAction());
 		}
 		@Override
 		public String getActionTitle() {
@@ -289,6 +296,53 @@ public class SexActionUtility {
 		}
 	};
 
+	public static final SexAction PARTNER_EQUIP_CLOTHING = new SexAction(
+			SexActionType.SPECIAL,
+			ArousalIncrease.ZERO_NONE,
+			ArousalIncrease.ZERO_NONE,
+			CorruptionLevel.ZERO_PURE,
+			null,
+			SexParticipantType.NORMAL) {
+		private Value<AbstractClothing, String> getSexClothingBeingUsed() {
+			return getSexClothingBeingUsed(Main.sex.getCharacterPerformingAction());
+		}
+		private Value<AbstractClothing, String> getSexClothingBeingUsed(GameCharacter performer) {
+			return ((NPC) performer).getSexClothingToEquip(Main.sex.getClothingEquipInformation().getValue().getKey(), false);
+		}
+		@Override
+		public boolean isQuickSexRequirementsMet(GameCharacter performer) {
+			return !performer.isPlayer()
+					&& Main.sex.isCanRemoveOthersClothing(performer, null);
+		}
+		@Override
+		public boolean isBaseRequirementsMet() {
+			return !Main.sex.getCharacterPerformingAction().isPlayer()
+					&& getSexClothingBeingUsed()!=null
+					&& Main.sex.isCanRemoveOthersClothing(Main.sex.getCharacterPerformingAction(), getSexClothingBeingUsed().getKey());
+		}
+		@Override
+		public String getActionTitle() {
+			if(getSexClothingBeingUsed()!=null) {
+				return "Equip "+getSexClothingBeingUsed().getKey().getName();
+			}
+			return "Equip clothing";
+		}
+		@Override
+		public String getActionDescription() {
+			return "";
+		}
+		@Override
+		public String getDescription() {
+			return getSexClothingBeingUsed().getValue();
+		}
+		@Override
+		public String applyEffectsString() {
+			return "<p>"
+						+ Main.sex.getClothingEquipInformation().getValue().getKey().equipClothingFromInventory(getSexClothingBeingUsed().getKey(), true, Main.sex.getCharacterPerformingAction(), Main.sex.getCharacterPerformingAction())
+					+ "</p>";
+		}
+	};
+	
 	public static final SexAction PARTNER_USE_ITEM = new SexAction(
 			SexActionType.SPECIAL,
 			ArousalIncrease.ZERO_NONE,
@@ -379,6 +433,10 @@ public class SexActionUtility {
 			AbstractItem item = Main.sex.getItemUseInformation().getValue().getValue();
 			return Main.sex.getItemUseInformation().getKey().useItem(item, Main.game.getPlayer(), false, false); // Append full use + effects
 		}
+		@Override
+		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
+			return true;
+		}
 	};
 
 	public static final SexAction PLAYER_REFUSE_ITEM_FROM_PARTNER = new SexAction(
@@ -413,7 +471,11 @@ public class SexActionUtility {
 		public void applyEffects() {
 			// Make sure that this character is tracked as having refused this item (so that it can be checked and not offered again in the NPC.getSexItemToUse() method):
 			Main.sex.addItemUseDenial(Main.sex.getItemUseInformation().getKey(), Main.game.getPlayer(), Main.sex.getItemUseInformation().getValue().getValue().getItemType());
-		}	
+		}
+		@Override
+		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
+			return true;
+		}
 	};
 	
 	public static final SexAction CLOTHING_REMOVAL = new SexAction(

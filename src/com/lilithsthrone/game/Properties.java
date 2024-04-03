@@ -23,6 +23,7 @@ import org.w3c.dom.NodeList;
 import com.lilithsthrone.controller.xmlParsing.XMLUtil;
 import com.lilithsthrone.game.character.body.valueEnums.AgeCategory;
 import com.lilithsthrone.game.character.body.valueEnums.CupSize;
+import com.lilithsthrone.game.character.fetishes.AbstractFetish;
 import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.gender.AndrogynousIdentification;
 import com.lilithsthrone.game.character.gender.Gender;
@@ -96,14 +97,22 @@ public class Properties {
 	public int halfDemonSpawnRate = 5;
 	
 	public int multiBreasts = 1;
-	public static String[] multiBreastsLabels = new String[] {"Off", "Furry-only", "On"};
+	public static String[] multiBreastsLabels = new String[] {"Never", "Off", "Furry-only", "On"};
 	public static String[] multiBreastsDescriptions = new String[] {
-			"Randomly-generated NPCs will never have multiple rows of breasts.",
-			"Randomly-generated NPCs will only have multiple rows of breasts if they have furry skin. (Default setting.)",
-			"Randomly-generated NPCs will have multiple rows of breasts if their breast type is furry (starts at 'Minor morph' level)."};
+			"Randomly-generated NPCs will never have multiple rows of breasts, and most unique NPCs will no longer have multi-boobs."
+				+"<br/><i>Characters will no longer gain additional breasts via transformations.</i>",
+				
+			"Randomly-generated NPCs will never have multiple rows of breasts."
+				+"<br/><i>Characters can always gain additional breasts via transformations after they've spawned.</i>",
+				
+			"Randomly-generated NPCs will only have multiple rows of breasts if they have furry skin. (Default setting.)"
+				+"<br/><i>Characters can always gain additional breasts via transformations after they've spawned.</i>",
+				
+			"Randomly-generated NPCs will have multiple rows of breasts if their breast type is furry (starts at 'Minor morph' level)."
+				+"<br/><i>Characters can always gain additional breasts via transformations after they've spawned.</i>"};
 	
 	/** 0=off, 1=taur-only, 2=on*/
-	public int udders = 1;
+	private int udders = 1;
 	public static String[] uddersLabels = new String[] {"Off", "Taur-only", "On"};
 	public static String[] uddersDescriptions = new String[] {
 			"Neither randomly-generated taurs nor anthro-morphs will ever have udders or crotch-boobs.",
@@ -123,6 +132,15 @@ public class Properties {
 			"There will be no options to bypass sex action corruption requirements, you are limited in your actions based on your corruption and fetishes.",
 			"Sex action corruption requirements may be bypassed if your corruption level is one level below the required corruption level of the action, but you will gain corruption if you do so.",
 			"All sex action corruption requirements may be bypassed, but you will gain corruption if you do so."};
+
+	public int fullExposureDescriptions = 2;
+	public static String[] fullExposureDescriptionsLabels = new String[] {"Never", "Once", "Always"};
+	public static String[] getFullExposureDescriptionsDescriptions = new String[] {
+			"Full descriptions for revealed body parts will never be shown during sex.",
+			"Full descriptions for revealed body parts will only be shown during sex if it's your first time seeing them.",
+			"Full descriptions for revealed body parts will always be shown during sex."};
+	
+	public int pregnancyDuration = 1;
 	
 	public int forcedTFPercentage = 40;
 	public int forcedFetishPercentage = 0;
@@ -148,6 +166,15 @@ public class Properties {
 	public int penisSizePreference = 0;
 	public int trapPenisSizePreference = -70;
 	
+	private int clothingFemininityLevel = 3;
+	public Colour[] clothingFemininityColours = new Colour[] {PresetColour.GENERIC_BAD, PresetColour.MASCULINE, PresetColour.FEMININE, PresetColour.GENERIC_GOOD};
+	public String[] clothingFemininityTitles = new String[] {"None", "Masculine", "Feminine", "All"};
+	public String[] clothingFemininityDescriptions = new String[] {
+			"No clothing will have a femininity value associated with it, allowing clothing of all types to be worn by any character without penalty.",
+			"Only clothing which is marked as 'masculine' will retain its femininty value, resulting in masculine characters being able to wear any clothing without penalty.",
+			"Only clothing which is marked as 'feminine' will retain its femininty value, resulting in feminine characters being able to wear any clothing without penalty.",
+			"All clothing will have their intended femininity values, resulting in a negative status effect for characters who wear clothing that's either too masculine or too feminine for them."};
+	
 	public Set<PropertyValue> values;
 
 	// Difficulty settings
@@ -169,7 +196,7 @@ public class Properties {
 	public Map<Gender, Integer> genderPreferencesMap;
 	
 	public Map<SexualOrientation, Integer> orientationPreferencesMap;
-	public EnumMap<Fetish, Integer> fetishPreferencesMap;
+	public Map<AbstractFetish, Integer> fetishPreferencesMap;
 
 	public Map<PronounType, Map<AgeCategory, Integer>> agePreferencesMap;
 	
@@ -313,6 +340,8 @@ public class Properties {
 			createXMLElementWithValue(doc, settings, "udders", String.valueOf(udders));
 			createXMLElementWithValue(doc, settings, "autoSaveFrequency", String.valueOf(autoSaveFrequency));
 			createXMLElementWithValue(doc, settings, "bypassSexActions", String.valueOf(bypassSexActions));
+			createXMLElementWithValue(doc, settings, "fullExposureDescriptions", String.valueOf(fullExposureDescriptions));
+			createXMLElementWithValue(doc, settings, "pregnancyDuration", String.valueOf(pregnancyDuration));
 			createXMLElementWithValue(doc, settings, "forcedTFPercentage", String.valueOf(forcedTFPercentage));
 			createXMLElementWithValue(doc, settings, "randomRacePercentage", String.valueOf(randomRacePercentage)); 
 
@@ -331,6 +360,8 @@ public class Properties {
 			createXMLElementWithValue(doc, settings, "udderSizePreference", String.valueOf(udderSizePreference));
 			createXMLElementWithValue(doc, settings, "penisSizePreference", String.valueOf(penisSizePreference));
 			createXMLElementWithValue(doc, settings, "trapPenisSizePreference", String.valueOf(trapPenisSizePreference));
+
+			createXMLElementWithValue(doc, settings, "clothingFemininityLevel", String.valueOf(clothingFemininityLevel));
 			
 			createXMLElementWithValue(doc, settings, "forcedFetishPercentage", String.valueOf(forcedFetishPercentage));
 
@@ -463,12 +494,12 @@ public class Properties {
 			// Fetish preferences:
 			Element fetishPreferences = doc.createElement("fetishPreferences");
 			properties.appendChild(fetishPreferences);
-			for (Fetish f : Fetish.values()) {
+			for (AbstractFetish f : Fetish.getAllFetishes()) {
 				Element element = doc.createElement("preference");
 				fetishPreferences.appendChild(element);
 				
 				Attr fetish = doc.createAttribute("fetish");
-				fetish.setValue(f.toString());
+				fetish.setValue(Fetish.getIdFromFetish(f));
 				element.setAttributeNode(fetish);
 				
 				Attr value = doc.createAttribute("value");
@@ -720,6 +751,15 @@ public class Properties {
 					if(Main.isVersionOlderThan(versionNumber, "0.4.1.5")) {
 						values.add(PropertyValue.vestigialMultiBreasts);
 					}
+					if(Main.isVersionOlderThan(versionNumber, "0.4.6.5")) {
+						values.add(PropertyValue.udderContent);
+					}
+					if(Main.isVersionOlderThan(versionNumber, "0.4.6.9")) {
+						values.add(PropertyValue.offspringEncounters);
+					}
+					if(Main.isVersionOlderThan(versionNumber, "0.4.7.7")) {
+						values.add(PropertyValue.muskContent);
+					}
 					
 					
 				} else {
@@ -832,6 +872,12 @@ public class Properties {
 				
 				if(element.getElementsByTagName("multiBreasts").item(0)!=null) {
 					multiBreasts = Integer.valueOf(((Element)element.getElementsByTagName("multiBreasts").item(0)).getAttribute("value"));
+					if(Main.isVersionOlderThan(versionNumber, "0.4.7.10")) {
+						multiBreasts++; // TO account for the addition of 'Never' in 0.4.7.9
+						if(multiBreasts>=multiBreastsLabels.length) {
+							multiBreasts = multiBreastsLabels.length-1;
+						}
+					}
 				} else {
 					multiBreasts = 1;
 				}
@@ -854,6 +900,20 @@ public class Properties {
 					bypassSexActions = 2;
 				}
 
+				if(element.getElementsByTagName("fullExposureDescriptions").item(0)!=null) {
+					fullExposureDescriptions = Integer.valueOf(((Element)element.getElementsByTagName("fullExposureDescriptions").item(0)).getAttribute("value"));
+				} else {
+					fullExposureDescriptions = 2;
+				}
+				
+				if(element.getElementsByTagName("clothingFemininityLevel").item(0)!=null) {
+					clothingFemininityLevel = Integer.valueOf(((Element)element.getElementsByTagName("clothingFemininityLevel").item(0)).getAttribute("value"));
+				}
+				
+				if(element.getElementsByTagName("pregnancyDuration").item(0)!=null) {
+					pregnancyDuration = Integer.valueOf(((Element)element.getElementsByTagName("pregnancyDuration").item(0)).getAttribute("value"));
+				}
+				
 				if(element.getElementsByTagName("forcedTFPercentage").item(0)!=null) {
 					forcedTFPercentage = Integer.valueOf(((Element)element.getElementsByTagName("forcedTFPercentage").item(0)).getAttribute("value"));
 				}
@@ -1036,7 +1096,7 @@ public class Properties {
 						
 						try {
 							if(!e.getAttribute("fetish").isEmpty()) {
-								fetishPreferencesMap.put(Fetish.valueOf(e.getAttribute("fetish")), Integer.valueOf(e.getAttribute("value")));
+								fetishPreferencesMap.put(Fetish.getFetishFromId(e.getAttribute("fetish")), Integer.valueOf(e.getAttribute("value")));
 							}
 						} catch(IllegalArgumentException ex){
 							System.err.println("loadPropertiesFromXML() error: fetishPreferences preference");
@@ -1259,8 +1319,10 @@ public class Properties {
 	public void resetContentOptions() {
 		autoSaveFrequency = 0;
 		bypassSexActions = 2;
+		fullExposureDescriptions = 2;
 		multiBreasts = 1;
 		udders = 1;
+		pregnancyDuration = 1;
 		forcedTFPercentage = 40;
 		forcedFetishPercentage = 40;
 		setForcedFetishTendency(ForcedFetishTendency.NEUTRAL);
@@ -1285,6 +1347,8 @@ public class Properties {
 		udderSizePreference = 0;
 		penisSizePreference = 0;
 		trapPenisSizePreference = -70;
+		
+		clothingFemininityLevel = 3;
 
 		skinColourPreferencesMap = new LinkedHashMap<>();
 		for(Entry<Colour, Integer> entry : PresetColour.getHumanSkinColoursMap().entrySet()) {
@@ -1549,8 +1613,8 @@ public class Properties {
 	}
 
 	public void resetFetishPreferences() {
-		fetishPreferencesMap = new EnumMap<>(Fetish.class);
-		for(Fetish f : Fetish.values()) {
+		fetishPreferencesMap = new HashMap<>();
+		for(AbstractFetish f : Fetish.getAllFetishes()) {
 			fetishPreferencesMap.put(f, f.getFetishPreferenceDefault().getValue());
 		}
 	}
@@ -1587,6 +1651,23 @@ public class Properties {
 
 	public void setForcedFetishTendency(ForcedFetishTendency forcedFetishTendency) {
 		this.forcedFetishTendency = forcedFetishTendency;
+	}
+
+	/**
+	 * 0 = None
+	 * <br/>
+	 * 1 = Masculine only
+	 * <br/>
+	 * 2 = Feminine only
+	 * <br/>
+	 * 3 = All
+	 */
+	public int getClothingFemininityLevel() {
+		return clothingFemininityLevel;
+	}
+
+	public void setClothingFemininityLevel(int clothingFemininityLevel) {
+		this.clothingFemininityLevel = clothingFemininityLevel;
 	}
 	
 	public float getRandomRacePercentage() {

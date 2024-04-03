@@ -79,7 +79,7 @@ public class Daphne extends NPC {
 				WorldType.EMPTY, PlaceType.GENERIC_EMPTY_TILE,
 				true);
 		if(!isImported) {
-			this.hourlyUpdate();
+			this.hourlyUpdate(0);
 		}
 	}
 	
@@ -212,7 +212,7 @@ public class Daphne extends NPC {
 		
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_leg_micro_skirt_belted", PresetColour.CLOTHING_DESATURATED_BROWN_DARK, PresetColour.CLOTHING_BRASS, null, false), true, this);
 		
-		AbstractClothing panties = Main.game.getItemGen().generateClothing(ClothingType.GROIN_CROTCHLESS_PANTIES, PresetColour.CLOTHING_DESATURATED_BROWN_DARK, false);
+		AbstractClothing panties = Main.game.getItemGen().generateClothing("innoxia_groin_crotchless_panties", PresetColour.CLOTHING_DESATURATED_BROWN_DARK, false);
 		panties.setPattern(Pattern.getPatternIdByName("polka_dots_big"));
 		panties.setPatternColour(0, PresetColour.CLOTHING_DESATURATED_BROWN_DARK);
 		panties.setPatternColour(1, PresetColour.CLOTHING_DESATURATED_BROWN);
@@ -236,7 +236,7 @@ public class Daphne extends NPC {
 	}
 
 	@Override
-	public void hourlyUpdate() {
+	public void hourlyUpdate(int hour) {
 		if(!Main.game.isInSex()) {
 			this.useItem(Main.game.getItemGen().generateItem("innoxia_pills_sterility"), this, false);
 		}

@@ -77,7 +77,13 @@ public class SubmissionAttacker extends NPC {
 			
 			// RACE & NAME:
 			
-			int slimeChance = Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.slimeQueenHelped) && Main.game.getPlayer().isQuestCompleted(QuestLine.SIDE_SLIME_QUEEN) ? 2000 : 800;
+			int slimeChance = 800;
+			if(Main.game.getDialogueFlags().hasFlag(DialogueFlagValue.slimeQueenHelped) && Main.game.getPlayer().isQuestCompleted(QuestLine.SIDE_SLIME_QUEEN)) {
+				slimeChance *= 3; // Increase chance of encountering slime if the player helped the slime queen (which results in more slimes being in Submission)
+				
+			} else if(!Main.game.getPlayer().isQuestProgressGreaterThan(QuestLine.SIDE_SLIME_QUEEN, Quest.SLIME_QUEEN_ONE)) {
+				slimeChance *= 4; // Increase chance of encountering slime if the player is at the start of the slime quest
+			}
 			
 			Map<AbstractSubspecies, Integer> availableRaces = new HashMap<>();
 			for(AbstractSubspecies s : Subspecies.getAllSubspecies()) {
@@ -117,7 +123,7 @@ public class SubmissionAttacker extends NPC {
 			
 			setSexualOrientation(RacialBody.valueOfRace(this.getRace()).getSexualOrientation(gender));
 	
-			setName(Name.getRandomTriplet(this.getRace()));
+			setName(Name.getRandomTriplet(this.getSubspecies()));
 			this.setPlayerKnowsName(false);
 			setDescription(UtilText.parse(this,
 					"[npc.Name] is a resident of Submission, who prowls the tunnels looking for strangers to mug and assault..."));
@@ -149,10 +155,11 @@ public class SubmissionAttacker extends NPC {
 			
 			resetInventory(true);
 			inventory.setMoney(10 + Util.random.nextInt(getLevel()*10) + 1);
-			Main.game.getCharacterUtils().generateItemsInInventory(this);
+			Main.game.getCharacterUtils().generateItemsInInventory(this, true, true, true);
 	
 			equipClothing(EquipClothingSetting.getAllClothingSettings());
 			Main.game.getCharacterUtils().applyMakeup(this, true);
+			Main.game.getCharacterUtils().applyTattoos(this, true);
 
 			if(hasFetish(Fetish.FETISH_CUM_ADDICT) && Math.random() < 0.1) {
 				Main.game.getCharacterUtils().applyDirtiness(this);
@@ -183,7 +190,7 @@ public class SubmissionAttacker extends NPC {
 	public void equipClothing(List<EquipClothingSetting> settings) {
 		this.incrementMoney((int) (this.getInventory().getNonEquippedValue() * 0.5f));
 		this.clearNonEquippedInventory(false);
-		Main.game.getCharacterUtils().generateItemsInInventory(this);
+		Main.game.getCharacterUtils().generateItemsInInventory(this, true, true, true);
 		
 		Main.game.getCharacterUtils().equipClothingFromOutfitType(this, OutfitType.MUGGER, settings);
 	}

@@ -41,9 +41,9 @@
 		#IF(monica.isVisiblyPregnant() && monica.getPregnantLitter().getFather().equals(pc))
 			<p>
 				#IF(!monica.isCharacterReactedToPregnancy(pc))
-					Returning Monica's greeting, you [pc.step] past the exiting customers and head on over to the cow-girl's counter. As you approach, you suddenly notice that the cow-girl's belly is visibly swollen, and as she sees what it you're looking at, she brushes her hand through her hand and laughs, [monica.speech(Haha, yeah, you kind of got me pregnant... I haven't been sexually active with anyone else for a long time, so it had to have been you... I wonder if my boobs are going to get bigger from this?)]
+					Returning Monica's greeting, you [pc.step] past the exiting customers and head on over to the cow-girl's counter. As you approach, you suddenly notice that the cow-girl's belly is visibly swollen, and as she sees what you're looking at, she brushes her hand through her hand and laughs, [monica.speech(Haha, yeah, you kind of got me pregnant... I haven't been sexually active with anyone else for a long time, so it had to have been you... I wonder if my boobs are going to get bigger from this?)]
 				#ELSE
-					Returning Monica's greeting, you [pc.step] past the exiting customers and head on over to the cow-girl's counter. As you approach, you see that the cow-girl's belly is still visibly swollen, and as she sees what it you're looking at, she brushes her hand through her hand and laughs, [monica.speech(Haha, yeah, I'm still pregnant, thanks to you...)]
+					Returning Monica's greeting, you [pc.step] past the exiting customers and head on over to the cow-girl's counter. As you approach, you see that the cow-girl's belly is still visibly swollen, and as she sees what you're looking at, she brushes her hand through her hand and laughs, [monica.speech(Haha, yeah, I'm still pregnant, thanks to you...)]
 				#ENDIF
 			</p>
 			<p>
@@ -164,7 +164,7 @@
 		</p>
 		#IF(pc.isQuestCompleted(QUEST_LINE_ROMANCE_MONICA))
 			<p>
-				Continuing to grope her huge breasts, she bites her lip and steps a little closer to you, before teasing, [monica.speech(Thanks to you, my nightly milking milking is now every bit as pleasurable as it used to be. Thanks for getting my breast pump back for me, [pc.name], I'm really, really grateful...)]
+				Continuing to grope her huge breasts, she bites her lip and steps a little closer to you, before teasing, [monica.speech(Thanks to you, my nightly milking is now every bit as pleasurable as it used to be. Thanks for getting my breast pump back for me, [pc.name], I'm really, really grateful...)]
 			</p>
 			<p>
 				From her behaviour, it's clear that Monica is attracted to you, and after giving you a coy look, she teases,
@@ -376,6 +376,44 @@
 	</p>
 	<p>
 		Responding in the affirmative, you say goodbye to Monica, before [pc.stepping] out of her room and leaving her to deal with her bottled milk. Heading down the stairs, you pass through her store and show yourself out into Wall's End, before looking around the shopping precinct and wondering where to go next...
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="CLOTHING_TALK_FABRIC"><![CDATA[
+	<p>
+		Taking a look around you, you suddenly remember your quest for fabric and ask Monica if she could sell you some fabric. The busty cow-girl makes a show of considering your question when you ask about it, and after placing a finger on her chin to make an exaggerated thinking expression, she playfully replies, [monica.speech(Hmm... Yes, I suppose I could order in some fabric for you. How come? Are you looking to get something custom made? Or are you looking to muscle in on my business?)]
+	</p>
+	<p>
+		You explain that you need the fabric to fix up a certain friend's stall, and since she brought it up, you actually are also looking to get something custom made. Monica's ears swivel forward as she hears this, and she excitedly asks, [monica.speech(Oh? Like what?)]
+	</p>
+	<p>
+		You mention that the same stall needs a new sign, but you're not really sure how to go about getting one printed. [monica.speech(Well, printing is one way to do it, or...)] she pauses for a moment before continuing with an up-seller's twinkle in her eye, [monica.speech(...an embroidery would be much more eye-catching, not to mention long-lasting. Maybe with metallic thread?)]
+	</p>
+	<p>
+		Well, you <i>do</i> want to make it a nice surprise for Eisek. When you assent to an embroidered sign, Monica fishes a small notepad from her considerable bust and begins writing down the description you give of what form it should take.
+	</p>
+	<p>
+		[monica.speech(I'll need about three days to get this ready and it'll probably run you around two and a half thousand flames,)] she says as you finish your order, [monica.speech(Do feel free to stop by in the meantime.)]
+	</p>
+	<p>
+		With two items down, you look out the window at the smithy across the cobblestone path. You'll need some wooden poles to hold up the awning, preferably the sort that can be folded up. Maybe they can help?
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="CLOTHING_TALK_PICKUP_ORDER"><![CDATA[
+	<p>
+		Monica lights up when you mention the custom order you placed, and cheerfully says, [monica.speech(Oh yes, they just arrived this morning! I think you'll like them a lot!)]
+	</p>
+	<p>
+		The busty cow-girl places a bolt of green fabric and a folded piece of canvas next to each other on the counter. You carefully unfold the canvas to find an embroidered, stylised depiction of many different types of fruits and vegetables carried by an avalanche descending the side of a mountain, while in the corner letters sewn in metallic blue thread proclaim "ALPINE PRODUCE". Whatever your trepidations about how Eisek may react to this tapestry of a sign, the craftsmanship is beyond reproach.
+	</p>
+	<p>
+		You must have been staring for a while, since in the corner of your mind you hear Monica ask, [monica.speech(Well? Do you like it?)]
+	</p>
+	<p>
+		You answer affirmatively as you fold up the canvas and hand over the payment. With a teasing smile on her face, Monica giggles, [monica.speech(Your friend is very lucky you came to me. Now, is there anything else I can do for you?)]
 	</p>
 	]]>
 	</htmlContent>

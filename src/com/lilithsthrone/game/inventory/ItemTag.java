@@ -8,7 +8,7 @@ import com.lilithsthrone.utils.Util;
 
 /**
  * @since 0.2.1
- * @version 0.3.9.5
+ * @version 0.4.5.5
  * @author Innoxia
  */
 public enum ItemTag {
@@ -21,10 +21,21 @@ public enum ItemTag {
 	
 	REINDEER_GIFT, // Can be found in the presents that the reindeer sell (who appear in Dominion during winter months).
 	SOLD_BY_RALPH, // Will also be used for any future consumable and miscellaneous item vendors.
-	SOLD_BY_NYAN, // Clothing
+	SOLD_BY_NYAN, // Clothing (is added to all clothing vendors)
+	SOLD_BY_MONICA, // Clothing (is added to Elis only)
 	SOLD_BY_KATE, // Jewellery
 	SOLD_BY_FINCH, // BDSM and sex-related stuff
 	SOLD_BY_VICKY, // Weapons
+	SOLD_BY_EISEK, // Produce
+
+	// Items with these tags can randomly spawn in encounters in the commented area
+	// Please note that due to legacy issues, clothing and weapons only use the 'DOMINION_ALLEYWAY_SPAWN' tag to determine whether or not it can randomly spawn in any area.
+		// This will liekly be changed at a later date, so please use the appropriate area spawn tag for your clothing/weapon, even though it does nothing for now
+	ALL_AREAS_SPAWN, // Every area in the game
+	DOMINION_ALLEYWAY_SPAWN, // Dominion
+	SUBMISSION_TUNNEL_SPAWN, // Submission (excluding Bat Caverns)
+	BAT_CAVERNS_SPAWN, // Bat Caverns
+	ELIS_ALLEYWAY_SPAWN, // Foloi Fields
 	
 	SPELL_BOOK,
 	SPELL_SCROLL,
@@ -32,13 +43,21 @@ public enum ItemTag {
 	ATTRIBUTE_TF_ITEM,
 	RACIAL_TF_ITEM,
 	MISC_TF_ITEM, // Fetish or non-racial body part transformations
-	BOOK, 
+	BOOK,
 	GIFT,
-	DOMINION_ALLEYWAY_SPAWN,
-	SUBMISSION_TUNNEL_SPAWN,
-	BAT_CAVERNS_SPAWN,
-	ALCOHOLIC, // For easy detection of alcoholic items in some scenes
 
+	// These three all remove 'thirst quenched', 'thirst quenched (junk food)', and 'thirst quenched (quality food)' and then apply their related status effect
+	DRINK, // Drink items apply the 'thirst quenched' status effect upon use
+	DRINK_POOR, // Basic drink items apply the 'thirst quenched (basic)' status effect upon use
+	DRINK_QUALITY, // Quality drink items apply the 'thirst quenched (quality)' status effect upon use
+	
+	// These three all remove 'recently eaten', 'recently eaten (junk food)', and 'recently eaten (quality food)' and then apply their related status effect
+	FOOD, // Food items apply the 'recently eaten' status effect upon use
+	FOOD_POOR, // Junk food items apply the 'recently eaten (junk)' status effect upon use
+	FOOD_QUALITY, // Quality food items apply the 'recently eaten (quality)' status effect upon use
+	
+	ALCOHOLIC, // For easy detection of alcoholic items in some scenes
+	
 	// To mark consumables as containing caffeine, with the number representing the equivalent alcoholic level to be applied to spider-morphs
 	// Only one of these should be applied to an item
 	CAFFEINATED_005(Util.newArrayListOfValues("[style.boldMinorBad(Adds)] 5% to [style.boldAlcohol(intoxication level)] for [style.boldSpider(spider-morphs)]"), false),
@@ -72,6 +91,19 @@ public enum ItemTag {
 	
 	//-------------- WEAPONS & CLOTHING --------------//
 	
+	// ----- Weapon-specific tags: ----- //
+	WEAPON_FERAL_EQUIPPABLE( // Allows ferals to equip this weapon (as they cannot equip weapons by default)
+			Util.newArrayListOfValues(
+					"[style.colourFeral(Can be equipped by ferals)]"),
+			false),
+	
+	WEAPON_BLADE, // Should be added to all weapons that use an arcane blade
+	
+	WEAPON_FIREARM, // Should be added to all weapons that should be considered to be a firearm
+	
+	WEAPON_UNARMED, // Should be added to all weapons that should use unarmed damage calculations instead of melee
+	//   ------------------------------ //
+	
 	/** Excludes this clothing from being randomly chosen to equip on an NPC in automatic outfit generation.
 	 *  Also excludes the clothing from randomly spawning as tile-exploration loot.
 	 *  This only really affects common-rarity clothing, as all clothing of a rarity higher than common are typically only able to be added to characters directly. */
@@ -100,17 +132,11 @@ public enum ItemTag {
 			Util.newArrayListOfValues(
 					"[style.colourSex(Cannot conceal any body parts)]"),
 			false),
-
-	WEAPON_FERAL_EQUIPPABLE( // Allows ferals to equip this weapon (as they cannot equip weapons by default)
-			Util.newArrayListOfValues(
-					"[style.colourFeral(Can be equipped by ferals)]"),
-			false),
 	
-	WEAPON_BLADE, // Should be added to all weapons that use an arcane blade
-	
-	WEAPON_UNARMED, // Should be added to all weapons that should use unarmed damage calculations instead of melee
+	IGNORE_HAIR_RESTRICTION, // If a piece of clothing has this tag, it can always be equipped into the HAIR slot, even if the equipping character has no hair.
 	
 	DRESS, // For helping to generate clothing in CharacterUtils
+	SWIMWEAR, // For helping to generate clothing in CharacterUtils
 
 	PROVIDES_KEY( // The person who equips this clothing will get an unlock key, making the unsealing cost 0
 			Util.newArrayListOfValues(
@@ -187,6 +213,17 @@ public enum ItemTag {
 			false),
 	
 	// These 'FITS' tags are used to check for whether clothing is suitable for certain body parts. They should be pretty self-explanatory.
+	// Mouths (mouth clothing fits all mouth types by default, which is why there's no need for 'FITS_MUZZLES' or 'FITS_BEAKS'):
+	FITS_MUZZLES_EXCLUSIVE(
+			Util.newArrayListOfValues(
+					"[style.colourFeral(Only fits muzzles)]"),
+			false),
+	FITS_BEAKS_EXCLUSIVE(
+			Util.newArrayListOfValues(
+					"[style.colourFeral(Only fits beaks)]"),
+			false),
+	
+	// legs:
 	FITS_HOOFS_EXCLUSIVE(
 			Util.newArrayListOfValues(
 					"[style.colourFeral(Only fits hoofs)]"),
@@ -205,6 +242,7 @@ public enum ItemTag {
 					"[style.colourFeral(Fits talons)]"),
 			false),
 	
+	// Arms:
 	FITS_FEATHERED_ARM_WINGS_EXCLUSIVE(
 			Util.newArrayListOfValues(
 					"[style.colourTfGeneric(Only fits feathered arm-wings)]"),
@@ -229,7 +267,8 @@ public enum ItemTag {
 			Util.newArrayListOfValues(
 					"[style.colourTfGeneric(Fits arm-wings)]"),
 			false),
-	
+
+	// Bodies:
 	FITS_NON_BIPED_BODY_HUMANOID(
 			Util.newArrayListOfValues(
 					"[style.colourHuman(Fits humanoid parts of non-biped bodies)]"),
@@ -253,7 +292,8 @@ public enum ItemTag {
 	FITS_AVIAN_BODY(
 			Util.newArrayListOfValues(
 					"[style.colourTfGeneric(Only fits avian bodies)]"),false), //bird-taurs
-	
+
+	// Feral status:
 	// These tags are non-exclusive, so clothing with them can additionally be equipped by non-ferals:
 	FITS_FERAL_ALL_BODY(
 			Util.newArrayListOfValues(

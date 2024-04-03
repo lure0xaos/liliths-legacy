@@ -366,6 +366,8 @@ public class DaddyDialogue {
 							Main.game.getTextStartStringBuilder().append(UtilText.parseFromXMLFile("characters/dominion/daddy", "REFUSE_AFTER_RETURN"));
 							Main.game.getDialogueFlags().setFlag(DialogueFlagValue.rudeToDaddy, false);
 							Main.game.getDialogueFlags().setSavedLong(Daddy.DADDY_RESET_TIMER_ID, Main.game.getSecondsPassed());
+							
+							Main.game.getPlayer().setLocation(WorldType.DOMINION, PlaceType.DOMINION_DEMON_HOME_DADDY);
 						}
 					};
 				}
@@ -860,6 +862,13 @@ public class DaddyDialogue {
 	};
 	
 	public static final DialogueNode DINNER_END = new DialogueNode("Temptation", "", true, true) {
+		@Override
+		public void applyPreParsingEffects() {
+			Main.game.getPlayer().applyFoodConsumed();
+			Main.game.getPlayer().applyDrinkConsumed();
+			Main.game.getNpc(Daddy.class).applyFoodConsumed();
+			Main.game.getNpc(Daddy.class).applyDrinkConsumed();
+		}
 		
 		@Override
 		public String getContent() {

@@ -164,6 +164,10 @@ public class HelenaHotel {
 				}
 				return super.getCharacterOrgasmBehaviour(character);
 			}
+			@Override
+			public boolean isPartnerWantingToStopSex(GameCharacter partner) {
+				return Main.sex.isSatisfiedFromOrgasms(partner, true);
+			}
 		};
 	}
 	
@@ -227,6 +231,10 @@ public class HelenaHotel {
 			@Override
 			public boolean isPlayerAbleToStopSex() {
 				return helenaToPlayerPreference==null;
+			}
+			@Override
+			public boolean isAbleToSkipSexScene() {
+				return true;
 			}
 			@Override
 			public boolean isPublicSex() {
@@ -995,6 +1003,13 @@ public class HelenaHotel {
 	};
 	
 	public static final DialogueNode DATE_RESTAURANT_END = new DialogueNode("", "", true, true) {
+		@Override
+		public void applyPreParsingEffects() {
+			Main.game.getPlayer().applyFoodConsumed(30);
+			Main.game.getPlayer().applyDrinkConsumed(30);
+			Main.game.getNpc(Helena.class).applyFoodConsumed(30);
+			Main.game.getNpc(Helena.class).applyDrinkConsumed(30);
+		}
 		@Override
 		public int getSecondsPassed() {
 			return 30*60;

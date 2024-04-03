@@ -44,7 +44,6 @@ import com.lilithsthrone.game.character.fetishes.Fetish;
 import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.gender.Gender;
 import com.lilithsthrone.game.character.markings.Tattoo;
-import com.lilithsthrone.game.character.markings.TattooType;
 import com.lilithsthrone.game.character.markings.TattooWriting;
 import com.lilithsthrone.game.character.markings.TattooWritingStyle;
 import com.lilithsthrone.game.character.npc.NPC;
@@ -179,7 +178,7 @@ public class FortressAlphaLeader extends NPC {
 		
 		
 		// Body:
-		this.setAgeAppearanceDifferenceToAppearAsAge(20);
+		this.setAgeAppearanceAbsolute(20);
 		this.setTailType(TailType.DEMON_COMMON);
 		this.setWingType(WingType.NONE);
 		this.setLegType(LegType.DEMON_COMMON);
@@ -265,8 +264,8 @@ public class FortressAlphaLeader extends NPC {
 	public void equipClothing(List<EquipClothingSetting> settings) {
 		this.unequipAllClothingIntoVoid(true, true);
 		
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.CHEST_SARASHI, PresetColour.CLOTHING_BLACK, false), true, this);
-		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.GROIN_THONG, PresetColour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_chest_sarashi", PresetColour.CLOTHING_BLACK, false), true, this);
+		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_groin_thong", PresetColour.CLOTHING_BLACK, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing("innoxia_sock_socks", PresetColour.CLOTHING_BLACK, false), true, this);
 		this.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.getClothingTypeFromId("innoxia_leg_distressed_jeans"), PresetColour.CLOTHING_BLACK, PresetColour.CLOTHING_GREY, PresetColour.CLOTHING_BRASS, false), true, this);
 		AbstractClothing jacket = Main.game.getItemGen().generateClothing("innoxia_torsoOver_womens_leather_jacket", PresetColour.CLOTHING_BLACK, false);
@@ -303,7 +302,7 @@ public class FortressAlphaLeader extends NPC {
 			this.clearTattoosAndScars();
 			
 			Tattoo tat = new Tattoo(
-					TattooType.TRIBAL,
+					"innoxia_symbol_tribal",
 					PresetColour.CLOTHING_BLACK,
 					PresetColour.CLOTHING_BLACK,
 					PresetColour.CLOTHING_BLACK,
@@ -313,7 +312,7 @@ public class FortressAlphaLeader extends NPC {
 			this.addTattoo(InventorySlot.GROIN, tat);
 			
 			tat = new Tattoo(
-					TattooType.TRIBAL,
+					"innoxia_symbol_tribal",
 					PresetColour.CLOTHING_BLACK,
 					PresetColour.CLOTHING_BLACK,
 					PresetColour.CLOTHING_BLACK,
@@ -323,7 +322,7 @@ public class FortressAlphaLeader extends NPC {
 			this.addTattoo(InventorySlot.TORSO_OVER, tat);
 
 			tat = new Tattoo(
-					TattooType.TRIBAL,
+					"innoxia_symbol_tribal",
 					PresetColour.CLOTHING_BLACK,
 					PresetColour.CLOTHING_BLACK,
 					PresetColour.CLOTHING_BLACK,
@@ -339,6 +338,14 @@ public class FortressAlphaLeader extends NPC {
 		return true;
 	}
 
+	@Override
+	public String getArtworkFolderName() {
+		if(this.isVisiblyPregnant()) {
+			return "FyrsiaPregnant";
+		}
+		return "Fyrsia";
+	}
+	
 	@Override
 	public String getDescription() {
 		if(this.isSlave()) {

@@ -457,7 +457,7 @@ public class RatWarrensCaptiveDialogue {
 	private static void applyPlayerMilkingPumps(boolean equip, List<InventorySlot> slots) {
 		GameCharacter player = Main.game.getPlayer();
 		if(equip) {
-			// It really doens't make any narrative sense for the game's lactation content setting to limit the entire purpose of Murk's milkers. Instead of preventing milking, the lactation content setting jsut limits descriptions of it.
+			// It really doesn't make any narrative sense for the game's lactation content setting to limit the entire purpose of Murk's milkers. Instead of preventing milking, the lactation content setting just limits descriptions of it.
 			if(slots.contains(InventorySlot.NIPPLE) && player.hasBreasts()) {
 				player.equipClothingFromNowhere(Main.game.getItemGen().generateClothing(ClothingType.getClothingTypeFromId("innoxia_milking_breast_pumps"), false), InventorySlot.NIPPLE, true, player);
 			}
@@ -823,6 +823,14 @@ public class RatWarrensCaptiveDialogue {
 
 	public static final DialogueNode CAPTIVE_DAY_1_TF_CHOICE = new DialogueNode("", "", true, true) {
 		@Override
+		public void applyPreParsingEffects() {
+			if(!Main.game.getPlayer().getTattoos().isEmpty()) {
+				Main.game.getPlayer().clearTattoos();
+				Main.game.getTextEndStringBuilder().append(UtilText.parseFromXMLFile("places/submission/ratWarrens/captive", "CAPTIVE_DAY_1_END_CLEAR_TATTOOS"));
+			}
+			Main.game.getTextEndStringBuilder().append(UtilText.parseFromXMLFile("places/submission/ratWarrens/captive", "CAPTIVE_DAY_1_END"));
+		}
+		@Override
 		public int getSecondsPassed() {
 			return 15*60;
 		}
@@ -866,6 +874,8 @@ public class RatWarrensCaptiveDialogue {
 					public void effects() {
 						Main.game.getTextStartStringBuilder().append(UtilText.parseFromXMLFile("places/submission/ratWarrens/captive", "CAPTIVE_DAY_1_MORNING_ENDURE", getMilkers()));
 						Main.game.getTextEndStringBuilder().append(incrementPlayerObedience(5));
+						Main.game.getPlayer().setMuskMarker(getMurk().getId());
+						Main.game.getTextEndStringBuilder().append(UtilText.parseFromXMLFile("places/submission/ratWarrens/captive", "CAPTIVE_DAY_1_MORNING_MUSK_APPLIED", getMilkers()));
 					}
 				};
 				
@@ -878,6 +888,8 @@ public class RatWarrensCaptiveDialogue {
 					public void effects() {
 						Main.game.getTextStartStringBuilder().append(UtilText.parseFromXMLFile("places/submission/ratWarrens/captive", "CAPTIVE_DAY_1_MORNING_COMPLIMENT", getMilkers()));
 						Main.game.getTextEndStringBuilder().append(incrementPlayerObedience(10));
+						Main.game.getPlayer().setMuskMarker(getMurk().getId());
+						Main.game.getTextEndStringBuilder().append(UtilText.parseFromXMLFile("places/submission/ratWarrens/captive", "CAPTIVE_DAY_1_MORNING_MUSK_APPLIED", getMilkers()));
 					}
 				};
 				
@@ -890,6 +902,8 @@ public class RatWarrensCaptiveDialogue {
 					public void effects() {
 						Main.game.getTextStartStringBuilder().append(UtilText.parseFromXMLFile("places/submission/ratWarrens/captive", "CAPTIVE_DAY_1_MORNING_RESIST", getMilkers()));
 						Main.game.getTextEndStringBuilder().append(incrementPlayerObedience(-10));
+						Main.game.getPlayer().setMuskMarker(getMurk().getId());
+						Main.game.getTextEndStringBuilder().append(UtilText.parseFromXMLFile("places/submission/ratWarrens/captive", "CAPTIVE_DAY_1_MORNING_MUSK_APPLIED", getMilkers()));
 					}
 				};
 				
@@ -971,6 +985,7 @@ public class RatWarrensCaptiveDialogue {
 		@Override
 		public void applyPreParsingEffects() {
 			getMurk().returnToHome();
+			Main.game.getPlayer().applyFoodConsumed(15);
 		}
 		@Override
 		public int getSecondsPassed() {
@@ -1493,6 +1508,7 @@ public class RatWarrensCaptiveDialogue {
 		@Override
 		public void applyPreParsingEffects() {
 			getMurk().returnToHome();
+			Main.game.getPlayer().applyFoodConsumed(15);
 		}
 		@Override
 		public int getSecondsPassed() {
@@ -2152,6 +2168,7 @@ public class RatWarrensCaptiveDialogue {
 			milker.calculateGenericSexEffects(false, true, getMurk(), new SexType(SexParticipantType.NORMAL, SexAreaOrifice.VAGINA, SexAreaPenetration.PENIS), GenericSexFlag.FORCE_CREAMPIE);
 			Main.game.getPlayer().addDirtySlot(InventorySlot.MOUTH);
 			getMurk().returnToHome();
+			Main.game.getPlayer().applyFoodConsumed(15);
 		}
 		@Override
 		public int getSecondsPassed() {

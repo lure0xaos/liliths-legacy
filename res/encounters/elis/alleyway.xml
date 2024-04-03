@@ -3,6 +3,7 @@
 	
 	<additionalPlaceTypeTriggers>
 		<placeType>innoxia_fields_elis_town_alley</placeType>
+		<placeType>innoxia_fields_elis_town_abandoned_bakery</placeType>
 	</additionalPlaceTypeTriggers>
 	
 	<possibleEncounters>
@@ -34,7 +35,7 @@
 		<encounter>
 			<name><![CDATA[a familiar face]]></name>
 			<chanceToTrigger opportunisticEncounter="true"><![CDATA[
-				#IF(game.isDayTime() || (!pc.getCell().getCharactersHomeIds().isEmpty() && !game.getNPCById(pc.getCell().getCharactersHomeIds().iterator().next()).isRelatedTo(pc)) || (pc.getCell().getCharactersHomeIds().isEmpty() && !game.isOffspringEncounterAvailable(WORLD_TYPE_innoxia_fields_elis_town, PLACE_TYPE_innoxia_fields_elis_town_alley)))
+				#IF(game.isDayTime() || (!pc.getCell().getCharactersHomeIds().isEmpty() && !game.getNPCById(pc.getCell().getCharactersHomeIds().iterator().next()).isRelatedTo(pc)) || (pc.getCell().getCharactersHomeIds().isEmpty() && (!game.isOffspringEncounterAvailable(WORLD_TYPE_innoxia_fields_elis_town, PLACE_TYPE_innoxia_fields_elis_town_alley) || !game.isOffspringEncountersEnabled())))
 					0
 				#ELSE
 					3

@@ -118,7 +118,7 @@
 			#IF(pc.hasCompanions() && com.isVisiblyPregnant())
 				#IF(pc.getPregnantLitter().isFatherId(npc.getId()))
 					#IF(com.getPregnantLitter().isFatherId(npc.getId()))
-						[npc.speech(Well, well, well, looks like I got you two sluts knocked up!)] [npc.name] sneers as [npc.she] looks down down at both your and [com.namePos] swollen bellies, [npc.speech(Seeing as I've laid claim to your wombs already, you horny breeding sluts should just submit for another good fucking right now!)]
+						[npc.speech(Well, well, well, looks like I got you two sluts knocked up!)] [npc.name] sneers as [npc.she] looks down at both your and [com.namePos] swollen bellies, [npc.speech(Seeing as I've laid claim to your wombs already, you horny breeding sluts should just submit for another good fucking right now!)]
 					#ELSE
 						[npc.speech(Well, well, well, looks like I got you knocked up, whore!)] [npc.name] sneers as [npc.she] looks down at your swollen belly, before glancing over at [com.name] and remarking, [npc.speech(I see your friend's been #IF(com.hasLegs())spreading [com.her] legs#ELSEgetting creampied#ENDIF as well! Hah! What a pair of sluts!)]
 					#ENDIF
@@ -325,8 +325,12 @@
 						 [pc.ass+],
 					#ENDIF
 					 flashing you a hungry glare as [npc.she] does so.
-					#IF(npc.hasStatusEffect(SE_WEATHER_STORM_VULNERABLE))
-						 With [npc.name] clearly being uncontrollably turned on by the arcane storm raging overhead, you find yourself just moments away from being fucked by the horny, mute [npc.race].
+					#IF(game.getCurrentWeather()==WEATHER_MAGIC_STORM)
+						#IF(npc.hasStatusEffect(SE_WEATHER_STORM_VULNERABLE))
+							 With [npc.name] clearly being uncontrollably turned on by the arcane storm raging overhead, you find yourself just moments away from being fucked by the horny, mute [npc.race].
+						#ELSE
+							 Although [npc.name] seems to be immune to the arousing effects of the ongoing arcane storm, you realise that [npc.sheHas] given up on doing anything else with you until after the storm has passed, and so you find yourself just moments away from being fucked by the horny, mute [npc.race].
+						#ENDIF
 					#ELSE
 						 With [npc.her] intentions clear, you find yourself just moments away from being fucked by the horny, mute [npc.race].
 					#ENDIF
@@ -346,8 +350,12 @@
 						 [pc.ass+],
 					#ENDIF
 					 sneering as [npc.she] does so,
-					#IF(npc.hasStatusEffect(SE_WEATHER_STORM_VULNERABLE))
-						 [npc.speech(This damn arcane storm's got me so turned on I can't think straight! All I need right now is to give you a good, hard fuck, [pc.name]!)]
+					#IF(game.getCurrentWeather()==WEATHER_MAGIC_STORM)
+						#IF(npc.hasStatusEffect(SE_WEATHER_STORM_VULNERABLE))
+							 [npc.speech(This damn arcane storm's got me so turned on I can't think straight! All I need right now is to give you a good, hard fuck, [pc.name]!)]
+						#ELSE
+							 [npc.speech(I don't get affected by arcane storms, but while it's raging there's going to be nobody about and nothing to do but fuck. So come on, [pc.name], submit to me and prepare to get a good, hard fuck!)]
+						#ENDIF
 					#ELSE
 						 [npc.speech(I'm feeling pretty horny at the moment, [pc.name]. I think I'll give you a good fuck.)]
 					#ENDIF
@@ -617,7 +625,7 @@
 					#ENDIF
 				</p>
 				<p>
-					[com.Name] smiles back at [npc.name], before confirming that [npc.sheIs] the one who got [com.herHim] pregnant. Stepping forwards, [npc.name] places one of [npc.her] [npc.hands] on [com.her] belly, smiling happily as [npc.she] tells [com.name] to take care of their children.
+					You smile back at [npc.name], before confirming that [npc.sheIs] the one who got you pregnant. Stepping forwards, [npc.name] places one of [npc.her] [npc.hands] on your belly, smiling happily as [npc.she] tells you to take care of your children.
 				</p>
 			#ELSE
 				<p>
@@ -1005,7 +1013,7 @@
 		Wanting to surprise [npc.name], you tell [npc.herHim] that instead of trying to convince [npc.her] with words, you'd prefer to directly show [npc.herHim] the room that you're offering [npc.herHim]. Agreeing to take a look, [npc.name] accompanies you back to the mansion which you call home, and as you lead [npc.herHim] up the front steps, [npc.she] gasps, [npc.speech(You live <i>here</i>? Wait... Doesn't Lyssieth's daughter live around here somewhere?)]
 	</p>
 	<p>
-		Turning to smirk at the [npc.race], you explain that this very building is Lilaya's mansion, and not only are you living here, but you also have free reign to invite anyone you please to come and live here with you. As you reach up to knock on the front door, [npc.name] lets out a low whistle and admits, [npc.speech(You know, I was prepared for something far smaller than my current apartment... I really wasn't expecting this... )]
+		Turning to smirk at the [npc.race], you explain that this very building is Lilaya's mansion, and not only are you living here, but you also have free rein to invite anyone you please to come and live here with you. As you reach up to knock on the front door, [npc.name] lets out a low whistle and admits, [npc.speech(You know, I was prepared for something far smaller than my current apartment... I really wasn't expecting this... )]
 	</p>
 	<p>
 		Before you can say anything in response, the front door swings open, and you're greeted by the familiar sight of the cat-girl maid, Rose. Taking a moment to look back and forth between you and [npc.name], she curtsies and says, [rose.speech(Welcome back, [pc.name]. I see you have company, would you like me to prepare a room?)]
@@ -1024,7 +1032,7 @@
 	
 	<htmlContent tag="DEMON_PEACEFUL_OFFER_ROOM_BACK_HOME"><![CDATA[
 	<p>
-		After just a minute, you find yourself opening the door to [npc.namePos] new room, and after leading [npc.herHim] inside, you turn towards [npc.herHim] and say, [pc.speech(Well, this is your room, [npc.name]. You've got an en suite bathroom over here, and if you put your dirty clothes in the laundry basket, they'll be cleaned for you for the next day.)]
+		After just a minute, you find yourself opening the door to [npc.namePos] new room, and after leading [npc.herHim] inside, you turn towards [npc.herHim] and say, [pc.speech(Well, this is your room, [npc.name]. You've got an ensuite bathroom over here, and if you put your dirty clothes in the laundry basket, they'll be cleaned for you for the next day.)]
 	</p>
 	<p>
 		Stepping forwards, [npc.name] smiles as [npc.she] remarks, [npc.speech(This is far better than my old apartment! Oh yes, I think I'll very much enjoy staying here...)]
@@ -1322,13 +1330,10 @@
 		[npc.Name] suddenly rocks forwards, pressing [npc.her] lips against yours as [npc.she] pulls you into a passionate kiss. [npc.Her] whining instantly stopped as you started to offer your body to [npc.herHim], and as [npc.she] grinds up against you, the only noises that come from [npc.her] mouth are deep, pleasurable moans.
 	</p>
 	<p>
-		Before you really know what's going on, [npc.sheIs] pulled you up to your feet, and as [npc.her] body presses up tightly against yours, you feel a strange bulge digging into your leg. Breaking off the kiss for a moment, you look down, and your eyes go wide as you see the distinctive shape of a massive erection between [npc.namePos] legs. You gulp as you remember what [npc.she] said just moments ago, and you realise that [npc.sheIs] growing [npc.herself] a cock to fuck you with.
+		Before you really know what's going on, the [npc.race] has pulled you up to your feet, and as [npc.her] body presses up tightly against yours, [npc.she] lets out a deep, erotic [npc.moan]. Breaking off the kiss for a moment, the [npc.race] lets out a playful laugh and teases, [npc.speech(A submissive little slut like you would never get to dominate me! If you didn't want to be my little fuck-toy, perhaps you should have just walked away!)]
 	</p>
 	<p>
-		Seeing what you're looking at, the [npc.race] lets out a playful laugh. [npc.speech(What? You didn't seriously think I'd let you fuck me, did you? You're the one who's offering to help here, remember?! If you didn't want to be my little fuck-toy, perhaps you should have just walked away!)]
-	</p>
-	<p>
-		Before you can respond, [npc.she] leans forwards and presses [npc.her] lips against yours once more, thrusting [npc.her] forked tongue into your mouth as [npc.she] lets out a happy moan. You're far too submissive to consider putting a stop to this, and you find yourself desperately kissing [npc.herHim] back as you resign yourself to your fate...
+		Before you can respond, [npc.she] leans forwards and presses [npc.her] lips against yours once more, thrusting [npc.her] [npc.tongue+] into your mouth as [npc.she] lets out another lewd, muffled [npc.moan]. You're far too submissive to consider putting a stop to this, and you find yourself desperately kissing [npc.herHim] back as you resign yourself to your fate...
 	</p>
 	]]>
 	</htmlContent>
@@ -1553,7 +1558,7 @@
 		[npc.speech(I hate you! <i>I hate you!</i>)] [npc.she] screams, tears running down [npc.her] face once more as [npc.she] fails to control [npc.her] emotions. Before you can say anything in your defence, [npc.she] turns around and sprints off at full speed, leaving you all alone once again...
 	</p>
 	<p style='text-align:center;'>
-		[style.italicsBad(After betraying [npc.namePos] trust in such a brutal manner, you can be sure that this was be the last time you'll ever see [npc.herHim].)]
+		[style.italicsBad(After betraying [npc.namePos] trust in such a brutal manner, you can be sure that you'll never see [npc.herHim] again...)]
 	</p>
 	]]>
 	</htmlContent>
@@ -2925,7 +2930,7 @@
 	]]>
 	</htmlContent>
 	
-	<htmlContent tag="SUBMITTED_REPEAT_WALKIES_ORAL_START"><![CDATA[
+	<htmlContent tag="SUBMITTED_REPEAT_WALKIES_ORAL_VAGINAL_START"><![CDATA[
 	<p>
 		Turned on at the thought of orally servicing [stranger.namePos] pussy in front of the nearby strangers, you lean over to give it a hot, wet lick. With a triumphant smirk quickly settling on [stranger.her] face, the [stranger.race] teases, [stranger.speech(Yeah, that's what I thought. You're just as much of a slutty bitch as you look.)]
 	</p>
@@ -2960,7 +2965,7 @@
 		Not at all interested in [stranger.namePos] cock, you turn away from [stranger.herHim] and remain seated outside the bistro. Grunting in disappointment, and to the sound of laughter from the other strangers who were watching, the [stranger.race] [stranger.walks] off and disappears from sight down a nearby alleyway.
 	</p>
 	<p>
-		After that, nothing eventful happens during the fifteen minutes you're left waiting for [npc.namePos] return. As [npc.she] makes [npc.her] eventual return and exits the bistro, the [npc.race] looks over at you with a a surprised look on [npc.her] face. Letting out a mocking laugh, [npc.she]
+		After that, nothing eventful happens during the fifteen minutes you're left waiting for [npc.namePos] return. As [npc.she] makes [npc.her] eventual return and exits the bistro, the [npc.race] looks over at you with a surprised look on [npc.her] face. Letting out a mocking laugh, [npc.she]
 		#IF(npc.isMute())
 			 gestures to imply that [npc.she]'d forgotten you were out here, before making a [npc.hand] movement to shoo you away.
 		#ELSE
@@ -2991,7 +2996,7 @@
 		#IF(npc.isMute())
 			Gesturing back towards the window of the bistro, [npc.she] implies through [npc.hand(true)] signals that [npc.she] was watching you the whole time. Flashing you another smirk, [npc.she] dismisses you with a wave of [npc.her] [npc.hand(true)] and [npc.walks] off down the alleyway, leaving you with little else to do but continue on your way...
 		#ELSE
-				[npc.speech(Couldn't resist [stranger.her] cock, huh, [pc.name]?)] [npc.she] asks, [npc.speech(Me and the other people inside were watching you get fucked through the windows. You're a dirty, horny whore, aren't you?)]
+				[npc.speech(Couldn't resist getting fucked by that [stranger.race], huh, [pc.name]?)] [npc.she] asks, [npc.speech(Me and the other people inside were watching the two of you through the windows. You're a dirty, horny whore, aren't you?)]
 			</p>
 			<p>
 				Not giving you any time in which to respond, [npc.name] dismisses you with a wave of [npc.her] [npc.hand(true)], before [npc.walking] off down the alleyway, leaving you with little else to do but continue on your way...

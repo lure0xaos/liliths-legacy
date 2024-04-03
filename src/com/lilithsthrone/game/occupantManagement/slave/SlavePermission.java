@@ -2,6 +2,7 @@ package com.lilithsthrone.game.occupantManagement.slave;
 
 import java.util.List;
 
+import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
@@ -45,13 +46,32 @@ public enum SlavePermission {
 					SlavePermissionSetting.SEX_IMPREGNATE),
 			false),
 
-	PREGNANCY(PresetColour.BASE_PURPLE_LIGHT,
+	PILLS(PresetColour.BASE_PURPLE_LIGHT,
+			"Pills",
+			Util.newArrayListOfValues(
+					SlavePermissionSetting.PILLS_PROMISCUITY_PILLS,
+					SlavePermissionSetting.PILLS_NO_PILLS,
+					SlavePermissionSetting.PILLS_VIXENS_VIRILITY,
+					SlavePermissionSetting.PILLS_BROODMOTHER),
+			true) {
+		@Override
+		public boolean isAvailableForCharacter(GameCharacter character) {
+			return !character.isDoll();
+		}
+	},
+
+	PREGNANCY(PresetColour.BASE_PINK,
 			"Pregnancy",
 			Util.newArrayListOfValues(
-					SlavePermissionSetting.PREGNANCY_PROMISCUITY_PILLS,
-					SlavePermissionSetting.PREGNANCY_NO_PILLS,
-					SlavePermissionSetting.PREGNANCY_VIXENS_VIRILITY),
-			true),
+					SlavePermissionSetting.PREGNANCY_MOTHERS_MILK,
+					SlavePermissionSetting.PREGNANCY_ALLOW_BIRTHING,
+					SlavePermissionSetting.PREGNANCY_ALLOW_EGG_LAYING),
+			false) {
+		@Override
+		public boolean isAvailableForCharacter(GameCharacter character) {
+			return !character.isDoll();
+		}
+	},
 	
 	DIET(PresetColour.BODY_SIZE_TWO,
 			"Diet",
@@ -61,7 +81,12 @@ public enum SlavePermission {
 					SlavePermissionSetting.FOOD_NORMAL,
 					SlavePermissionSetting.FOOD_PLUS,
 					SlavePermissionSetting.FOOD_LAVISH),
-			true),
+			true) {
+		@Override
+		public boolean isAvailableForCharacter(GameCharacter character) {
+			return !character.isDoll();
+		}
+	},
 
 	EXERCISE(PresetColour.MUSCLE_TWO,
 			"Exercise",
@@ -71,14 +96,32 @@ public enum SlavePermission {
 					SlavePermissionSetting.EXERCISE_NORMAL,
 					SlavePermissionSetting.EXERCISE_TRAINING,
 					SlavePermissionSetting.EXERCISE_BODY_BUILDING),
-			true),
+			true) {
+		@Override
+		public boolean isAvailableForCharacter(GameCharacter character) {
+			return !character.isDoll();
+		}
+	},
 	
 	CLEANLINESS(PresetColour.BASE_BLUE_LIGHT,
 			"Cleanliness",
 			Util.newArrayListOfValues(
 					SlavePermissionSetting.CLEANLINESS_WASH_CLOTHES,
 					SlavePermissionSetting.CLEANLINESS_WASH_BODY),
-			false);
+			false),
+	
+	SLEEPING(PresetColour.BASE_PURPLE_LIGHT,
+			"Sleeping",
+			Util.newArrayListOfValues(
+					SlavePermissionSetting.SLEEPING_DEFAULT,
+					SlavePermissionSetting.SLEEPING_NIGHT,
+					SlavePermissionSetting.SLEEPING_DAY),
+			true) {
+		@Override
+		public boolean isAvailableForCharacter(GameCharacter character) {
+			return !character.isDoll();
+		}
+	};
 	
 	private Colour colour;
 	private String name;
@@ -106,6 +149,10 @@ public enum SlavePermission {
 
 	public boolean isMutuallyExclusiveSettings() {
 		return mutuallyExclusiveSettings;
+	}
+	
+	public boolean isAvailableForCharacter(GameCharacter character) {
+		return true;
 	}
 	
 }
