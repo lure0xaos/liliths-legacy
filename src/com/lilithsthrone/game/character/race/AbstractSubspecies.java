@@ -67,6 +67,7 @@ public abstract class AbstractSubspecies {
 	private boolean shortStature;
 	private boolean bipedalSubspecies;
 	private boolean winged;
+	private boolean doesNotAge;
 
 	private Map<PersonalityTrait, Float> personalityChanceOverrides;
 	
@@ -113,11 +114,12 @@ public abstract class AbstractSubspecies {
 	
 	protected String SVGString;
 	protected String SVGStringUncoloured;
-        protected String SVGStringUncolouredNoBackground;
+	protected String SVGStringUncolouredNoBackground;
 	protected String SVGStringNoBackground;
 	protected String SVGStringDesaturated;
 	protected String slimeSVGString;
 	protected String dollSVGString;
+	protected String dollSVGStringDesaturated;
 	protected String halfDemonSVGString;
 	protected String demonSVGString;
 	
@@ -289,6 +291,7 @@ public abstract class AbstractSubspecies {
 		this.winged = false;
 		this.shortStature = false;
 		this.bipedalSubspecies = true;
+		this.doesNotAge = false;
 		
 		this.attributeItemId = attributeItemId;
 		this.transformativeItemId = transformativeItemId;
@@ -426,6 +429,7 @@ public abstract class AbstractSubspecies {
 				this.shortStature = Boolean.valueOf(coreElement.getMandatoryFirstOf("shortStature").getTextContent());
 				this.bipedalSubspecies = Boolean.valueOf(coreElement.getMandatoryFirstOf("bipedalSubspecies").getTextContent());
 				this.winged = coreElement.getOptionalFirstOf("winged").isPresent() ? Boolean.valueOf(coreElement.getMandatoryFirstOf("winged").getTextContent()) : false;
+				this.doesNotAge = coreElement.getOptionalFirstOf("doesNotAge").isPresent() ? Boolean.valueOf(coreElement.getMandatoryFirstOf("doesNotAge").getTextContent()) : false;
 				
 				personalityChanceOverrides = new HashMap<>();
 				if(coreElement.getOptionalFirstOf("personalityChances").isPresent()) {
@@ -1481,6 +1485,10 @@ public abstract class AbstractSubspecies {
 	public boolean isWinged() {
 		return winged;
 	}
+	
+	public boolean isDoesNotAge() {
+		return doesNotAge;
+	}
 
 	public boolean isAquatic() {
 		return getAffinity() == Affinity.AQUATIC;
@@ -1665,6 +1673,12 @@ public abstract class AbstractSubspecies {
 							?""
 							:"<div style='"+fullDivStyle+"'>"+SVGStringUncolouredNoBackground+"</div>"));
 				
+				dollSVGStringDesaturated = SvgUtil.colourReplacement(Subspecies.getIdFromSubspecies(this),
+						PresetColour.BASE_GREY,
+						PresetColour.BASE_GREY,
+						PresetColour.BASE_GREY,
+						"<div style='"+fullDivStyle+"'>" + SVGImages.SVG_IMAGE_PROVIDER.getRaceBackgroundDoll()+"</div>");
+				
 				halfDemonSVGString = SvgUtil.colourReplacement(Subspecies.getIdFromSubspecies(this),
 						PresetColour.RACE_HALF_DEMON,
 						PresetColour.RACE_HALF_DEMON,
@@ -1776,6 +1790,13 @@ public abstract class AbstractSubspecies {
 			initSVGStrings();
 		}
 		return getBipedBackground(dollSVGString, character, PresetColour.RACE_DOLL);
+	}
+
+	public String getDollSVGStringDesaturated(GameCharacter character) {
+		if(SVGString==null) {
+			initSVGStrings();
+		}
+		return getBipedBackground(dollSVGStringDesaturated, character, PresetColour.RACE_DOLL);
 	}
 
 	public String getHalfDemonSVGString(GameCharacter character) {

@@ -218,7 +218,7 @@ public class Minotallys extends NPC {
 		
 		// Body:
 		this.setSubspeciesOverride(Subspecies.LILIN);
-		this.setAgeAppearanceDifferenceToAppearAsAge(20);
+		this.setAgeAppearanceAbsolute(20);
 //		this.setTailType(TailType.DEMON_COMMON);
 //		this.setWingType(WingType.DEMON_COMMON);
 		this.setHornType(HornType.STRAIGHT);
@@ -438,7 +438,7 @@ public class Minotallys extends NPC {
 		
 		// Body:
 		this.setSubspeciesOverride(Subspecies.LILIN);
-		this.setAgeAppearanceDifferenceToAppearAsAge(25);
+		this.setAgeAppearanceAbsolute(25);
 		this.setTailType(TailType.DEMON_COMMON);
 		this.setTailGirth(PenetrationGirth.THREE_AVERAGE);
 		this.setWingType(WingType.DEMON_COMMON);

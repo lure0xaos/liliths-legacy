@@ -332,7 +332,7 @@
 					#ENDIF
 				</p>
 				<p>
-					[hammer.speech([pc.SheWill] be ready,)] Hammer grunts, before looking at you from behind his desk and saying, [hammer.speech(We've got other ops to plan, so we'll see you on Tuesday evening.)]
+					[hammer.speech([pc.She]'ll be ready,)] Hammer grunts, before looking at you from behind his desk and saying, [hammer.speech(We've got other ops to plan, so we'll see you on Tuesday evening.)]
 				</p>
 				<p>
 					It seems like you'll have to earn the Enforcers' trust before they'll be comfortable with you being here...

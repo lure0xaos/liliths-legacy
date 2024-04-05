@@ -650,6 +650,20 @@ public class OptionsController {
 				new Util.Value<>("AUTO_SEX_CLOTHING_MANAGEMENT", PropertyValue.autoSexClothingManagement),
 				new Util.Value<>("AUTO_SEX_CLOTHING_STRIP", PropertyValue.autoSexStrip),
 				new Util.Value<>("RAPE_PLAY_BY_DEFAULT", PropertyValue.rapePlayAtSexStart)));
+
+		String id = "";
+		for (int i = 0; i<3; i++) {
+			id = "FULL_EXPOSURE_DESCRIPTIONS_"+i;
+			if (MainController.document.getElementById(id) != null) {
+				int finalI = i;
+				((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e->{
+					Main.getProperties().fullExposureDescriptions = finalI;
+					Main.saveProperties();
+					Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+				}, false);
+				MainController.addTooltipListeners(id, new TooltipInformationEventListener().setInformation(Properties.fullExposureDescriptionsLabels[i], Properties.getFullExposureDescriptionsDescriptions[i]));
+			}
+		}
 	}
 	
 	public static void initBodiesListeners() {

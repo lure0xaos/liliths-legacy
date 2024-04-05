@@ -2735,6 +2735,64 @@ public class StatusEffect {
 	
 	// OTHER:
 
+	public static AbstractStatusEffect SLEEPING = new AbstractStatusEffect(80,
+			"sleeping",
+			"sleeping",
+			PresetColour.SLEEP,
+			false,
+			Util.newHashMapOfValues(new Value<>(Attribute.ACTION_POINTS, -5f)),
+			null) {
+		@Override
+		public String getDescription(GameCharacter target) {
+			if(target!=null) {
+				return UtilText.parse(target, "[npc.NameIsFull] asleep...");
+			}
+			return "";
+		}
+		@Override
+		public boolean isConditionsMet(GameCharacter target) {
+			return (target.isPlayer() && target.hasStatusEffect(SLEEPING_HEAVY))
+					|| (Main.game.isStarted()
+						&& target.isSleepingAtHour()
+						&& target.isAtHome()
+						&& target.isAffectedBySleepingStatusEffect()
+						&& (target.hasStatusEffect(SLEEPING) || !Main.game.getCharactersPresent().contains(target))
+						&& !target.hasTrait(Perk.HEAVY_SLEEPER, true));
+		}
+	};
+
+	public static AbstractStatusEffect SLEEPING_HEAVY = new AbstractStatusEffect(80,
+			"heavily sleeping",
+			"sleeping_heavy",
+			PresetColour.SLEEP_HEAVY,
+			PresetColour.GENERIC_TERRIBLE,
+			false,
+			Util.newHashMapOfValues(new Value<>(Attribute.ACTION_POINTS, -5f)),
+			Util.newArrayListOfValues("Will not wake during gentle sex")) {
+		@Override
+		public String getDescription(GameCharacter target) {
+			if(target!=null) {
+				return UtilText.parse(target, "[npc.NameIsFull] sleeping very deeply, and even shouting and physically shaking [npc.herHim] won't be enough to wake [npc.herHim] up."
+							+" [npc.SheIs] so unresponsive that a gentle partner could get away with having sex with [npc.herHim] without causing [npc.herHim] to wake...");
+			}
+			return "";
+		}
+		@Override
+		public boolean isConditionsMet(GameCharacter target) {
+			return (target.isPlayer() && target.hasStatusEffect(SLEEPING_HEAVY))
+					|| (Main.game.isStarted()
+						&& target.isSleepingAtHour()
+						&& target.isAtHome()
+						&& target.isAffectedBySleepingStatusEffect()
+						&& (target.hasStatusEffect(SLEEPING_HEAVY) || !Main.game.getCharactersPresent().contains(target))
+						&& target.hasTrait(Perk.HEAVY_SLEEPER, true));
+		}
+		@Override
+		public boolean isSexEffect() {
+			return false;
+		}
+	};
+	
 	public static AbstractStatusEffect WELL_RESTED = new AbstractStatusEffect(80,
 			"well rested",
 			"wellRested",
@@ -3991,6 +4049,7 @@ public class StatusEffect {
 							:target.getAgeValue()>=52)
 					&& (target.getSubspecies()==Subspecies.ANGEL || target.getSubspeciesOverride()==null) // Angels and demons are immune
 					&& !target.isElemental()
+					&& !target.isDoll()
 					&& !target.hasStatusEffect(StatusEffect.VIXENS_VIRILITY)
 					&& !target.hasStatusEffect(StatusEffect.BROODMOTHER_PILL);
 		}
@@ -7324,9 +7383,10 @@ public class StatusEffect {
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
 			return target.isWearingChastity()
-					 && !target.hasStatusEffect(CHASTITY_1)
-					 && !target.hasStatusEffect(CHASTITY_2)
-					 && !target.hasStatusEffect(CHASTITY_3);
+					&& !target.isDoll()
+					&& !target.hasStatusEffect(CHASTITY_1)
+					&& !target.hasStatusEffect(CHASTITY_2)
+					&& !target.hasStatusEffect(CHASTITY_3);
 		}
 		@Override
 		public boolean isSexEffect() {
@@ -9501,7 +9561,70 @@ public class StatusEffect {
 			return true;
 		}
 	};
-
+	
+	public static AbstractStatusEffect COMMAND_IMMOBILE_SEX = new AbstractStatusEffect(10,
+			"Immobile",
+			"immobilised_command",
+			PresetColour.BASE_WHITE,
+			PresetColour.BASE_RED,
+			PresetColour.BASE_WHITE,
+			false,
+			null,
+			Util.newArrayListOfValues("[style.colourTerrible(Cannot move!)]")) {
+		@Override
+		public String getDescription(GameCharacter target) {
+			Value<ImmobilisationType, GameCharacter> type = Main.sex.getImmobilisationType(target);
+			return UtilText.parse(target, type.getValue(), "[npc2.NameHasFull] commanded [npc.name] to remain completely motionless, and as such [npc.sheIsFull] totally immobile!");
+		}
+		@Override
+		public boolean isSexEffect() {
+			return true;
+		}
+		@Override
+		public boolean isConditionsMet(GameCharacter target) {
+			if(!Main.game.isInSex()) {
+				return false;
+			}
+			Value<ImmobilisationType, GameCharacter> type = Main.sex.getImmobilisationType(target);
+			return type!=null && type.getKey()==ImmobilisationType.COMMAND;
+		}
+		@Override
+		public boolean isRemoveAtEndOfSex() {
+			return true;
+		}
+	};
+	
+	public static AbstractStatusEffect SLEEP_SEX = new AbstractStatusEffect(10,
+			"Asleep",
+			"immobilised_sleep",
+			PresetColour.SLEEP_HEAVY,
+			false,
+			null,
+			Util.newArrayListOfValues(
+					"[style.colourTerrible(Cannot move!)]",
+					"Will [style.colourBad(wake)] if partner is not in gentle pace or if mouth is penetrated")) {
+		@Override
+		public String getDescription(GameCharacter target) {
+			return UtilText.parse(target, "[npc.NameIsFull] deeply asleep, and as long as the sex remains gentle, [npc.she] won't wake up!");
+		}
+		@Override
+		public boolean isSexEffect() {
+			return true;
+		}
+		@Override
+		public boolean isConditionsMet(GameCharacter target) {
+			if(!Main.game.isInSex()) {
+				return false;
+			}
+			Value<ImmobilisationType, GameCharacter> type = Main.sex.getImmobilisationType(target);
+			return type!=null && type.getKey()==ImmobilisationType.SLEEP;
+		}
+		@Override
+		public boolean isRemoveAtEndOfSex() {
+			return true;
+		}
+	};
+	
 	public static AbstractStatusEffect BANEFUL_FISSURE = new AbstractStatusEffect(10,
 			"Fissure's Fumes",
 			null,

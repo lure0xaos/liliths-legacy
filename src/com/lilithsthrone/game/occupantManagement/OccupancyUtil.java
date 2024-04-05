@@ -556,75 +556,77 @@ public class OccupancyUtil implements XMLSaving {
 					dailyEntry.addExtraEffect("[style.boldGood(Earned)] "+UtilText.formatAsMoney(dailyIncome.get(slave)));
 				}
 				
-				// Muscle:
-				if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_FORBIDDEN)) {
-					if(slave.getMuscleValue()>0) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_LOSS_LARGE, slave, true);
-					}
-					
-				} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_REST)) {
-					if(slave.getMuscleValue()>Muscle.ONE_LIGHTLY_MUSCLED.getMaximumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_LOSS, slave, true);
+				if(!slave.isDoll()) { // Dolls do not gain/lose muscle or body size
+					// Muscle:
+					if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_FORBIDDEN)) {
+						if(slave.getMuscleValue()>0) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_LOSS_LARGE, slave, true);
+						}
 						
-					} else if(slave.getMuscleValue()<Muscle.ONE_LIGHTLY_MUSCLED.getMinimumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_GAIN, slave, true);
-					}
-					
-				} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_NORMAL)) {
-					if(slave.getMuscleValue()>Muscle.TWO_TONED.getMaximumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_LOSS, slave, true);
+					} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_REST)) {
+						if(slave.getMuscleValue()>Muscle.ONE_LIGHTLY_MUSCLED.getMaximumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_LOSS, slave, true);
+							
+						} else if(slave.getMuscleValue()<Muscle.ONE_LIGHTLY_MUSCLED.getMinimumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_GAIN, slave, true);
+						}
 						
-					} else if(slave.getMuscleValue()<Muscle.TWO_TONED.getMinimumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_GAIN, slave, true);
-					}
-					
-				} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_TRAINING)) {
-					if(slave.getMuscleValue()>Muscle.THREE_MUSCULAR.getMaximumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_LOSS, slave, true);
+					} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_NORMAL)) {
+						if(slave.getMuscleValue()>Muscle.TWO_TONED.getMaximumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_LOSS, slave, true);
+							
+						} else if(slave.getMuscleValue()<Muscle.TWO_TONED.getMinimumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_GAIN, slave, true);
+						}
 						
-					} else if(slave.getMuscleValue()<Muscle.THREE_MUSCULAR.getMinimumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_GAIN, slave, true);
-					}
-					
-				} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_BODY_BUILDING)) {
-					if(slave.getMuscleValue()<100) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_GAIN_LARGE, slave, true);
-					}
-				}
-				
-				// Body size:
-				if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_DIET_EXTREME)) {
-					if(slave.getBodySizeValue()>0) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_LOSS_LARGE, slave, true);
-					}
-					
-				} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_DIET)) {
-					if(slave.getBodySizeValue()>BodySize.ONE_SLENDER.getMaximumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_LOSS, slave, true);
+					} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_TRAINING)) {
+						if(slave.getMuscleValue()>Muscle.THREE_MUSCULAR.getMaximumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_LOSS, slave, true);
+							
+						} else if(slave.getMuscleValue()<Muscle.THREE_MUSCULAR.getMinimumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_GAIN, slave, true);
+						}
 						
-					} else if(slave.getBodySizeValue()<BodySize.ONE_SLENDER.getMinimumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_GAIN, slave, true);
+					} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.EXERCISE_BODY_BUILDING)) {
+						if(slave.getMuscleValue()<100) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_MUSCLE_GAIN_LARGE, slave, true);
+						}
 					}
 					
-				} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_NORMAL)) {
-					if(slave.getBodySizeValue()>BodySize.TWO_AVERAGE.getMaximumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_LOSS, slave, true);
+					// Body size:
+					if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_DIET_EXTREME)) {
+						if(slave.getBodySizeValue()>0) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_LOSS_LARGE, slave, true);
+						}
 						
-					} else if(slave.getBodySizeValue()<BodySize.TWO_AVERAGE.getMinimumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_GAIN, slave, true);
-					}
-					
-				} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_PLUS)) {
-					if(slave.getBodySizeValue()>BodySize.THREE_LARGE.getMaximumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_LOSS, slave, true);
+					} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_DIET)) {
+						if(slave.getBodySizeValue()>BodySize.ONE_SLENDER.getMaximumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_LOSS, slave, true);
+							
+						} else if(slave.getBodySizeValue()<BodySize.ONE_SLENDER.getMinimumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_GAIN, slave, true);
+						}
 						
-					} else if(slave.getBodySizeValue()<BodySize.THREE_LARGE.getMinimumValue()) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_GAIN, slave, true);
-					}
-					
-				} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_LAVISH)) {
-					if(slave.getBodySizeValue()<100) {
-						dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_GAIN_LARGE, slave, true);
+					} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_NORMAL)) {
+						if(slave.getBodySizeValue()>BodySize.TWO_AVERAGE.getMaximumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_LOSS, slave, true);
+							
+						} else if(slave.getBodySizeValue()<BodySize.TWO_AVERAGE.getMinimumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_GAIN, slave, true);
+						}
+						
+					} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_PLUS)) {
+						if(slave.getBodySizeValue()>BodySize.THREE_LARGE.getMaximumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_LOSS, slave, true);
+							
+						} else if(slave.getBodySizeValue()<BodySize.THREE_LARGE.getMinimumValue()) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_GAIN, slave, true);
+						}
+						
+					} else if(slave.hasSlavePermissionSetting(SlavePermissionSetting.FOOD_LAVISH)) {
+						if(slave.getBodySizeValue()<100) {
+							dailyEntry.addTag(SlaveEventTag.DAILY_BODY_SIZE_GAIN_LARGE, slave, true);
+						}
 					}
 				}
 				
@@ -738,6 +740,10 @@ public class OccupancyUtil implements XMLSaving {
 					return events;
 					
 				case DINING_HALL:
+					//TODO
+					return events;
+					
+				case DOLL_STATUE:
 					//TODO
 					return events;
 					
@@ -1644,6 +1650,12 @@ public class OccupancyUtil implements XMLSaving {
 				descriptions = Util.newArrayListOfValues(UtilText.parse(slave, npc,
 								"When Lilaya left to take a break, [npc1.name] used the opportunity to have some "+paceName+" sex with [npc2.name] on one of the lab's tables.")
 								+ "<br/>[style.italicsSex("+sexDescription+")]");
+				break;
+			case DOLL_STATUE:
+				descriptions = Util.newArrayListOfValues(UtilText.parse(slave, npc,
+								"While stationed as a statue, [npc1.name] caught sight of [npc2.name],"
+									+ " and couldn't resist pulling [npc2.herHim] into an empty room for some "+paceName+" sex.")
+									+ "<br/>[style.italicsSex("+sexDescription+")]");
 				break;
 			case LIBRARY:
 				descriptions = Util.newArrayListOfValues(UtilText.parse(slave, npc,

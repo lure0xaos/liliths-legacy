@@ -2813,6 +2813,17 @@ public class OptionsDialogue {
 					"When enabled, submissive characters in sex who have the 'unwilling fuck-toy' fetish will be able to engage in rape-play without first being given permission to do so.",
 					Main.getProperties().hasValue(PropertyValue.rapePlayAtSexStart)));
 			
+			UtilText.nodeContentSB.append(getCustomContentPreferenceDivStart(PresetColour.BASE_PINK, "Full exposure descriptions", "Set how often revealed body parts are fully described during sex."));
+			for (int i = 2; i>=0; i--) {
+				UtilText.nodeContentSB.append("<div id='FULL_EXPOSURE_DESCRIPTIONS_"+i+"' class='normal-button"+(Main.getProperties().bypassSexActions == i?" selected":"")+"' style='width:calc(33% - 8px); margin-right:8px; text-align:center; float:right;'>"
+						+(Main.getProperties().fullExposureDescriptions == i
+						?"[style.boldGood("
+						:"[style.colourDisabled(")
+						+com.lilithsthrone.game.Properties.fullExposureDescriptionsLabels[i]+")]</div>");
+			}
+			UtilText.nodeContentSB.append("</div></div>");
+			
+			
 			return UtilText.nodeContentSB.toString();
 		}
 		

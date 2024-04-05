@@ -82,6 +82,7 @@ import com.lilithsthrone.game.character.npc.dominion.DominionClubNPC;
 import com.lilithsthrone.game.character.npc.dominion.Elle;
 import com.lilithsthrone.game.character.npc.dominion.EnforcerPatrol;
 import com.lilithsthrone.game.character.npc.dominion.Felicia;
+import com.lilithsthrone.game.character.npc.dominion.Fiammetta;
 import com.lilithsthrone.game.character.npc.dominion.Finch;
 import com.lilithsthrone.game.character.npc.dominion.Hannah;
 import com.lilithsthrone.game.character.npc.dominion.HarpyBimbo;
@@ -1119,6 +1120,7 @@ public class Game implements XMLSaving {
 							&& (!worldType.equals("EMPTY") || !Main.isVersionOlderThan(loadingVersion, "0.4.5.7"))
 							&& (!worldType.equals("SLAVER_ALLEY") || !Main.isVersionOlderThan(loadingVersion, "0.4.5.7"))
 							&& (!worldType.equals("innoxia_fields_elis_market") || !Main.isVersionOlderThan(loadingVersion, "0.4.8.7"))
+							&& (!worldType.equals("innoxia_dominion_sex_shop") || !Main.isVersionOlderThan(loadingVersion, "0.4.9.1"))
 							&& !worldType.equals("SUPPLIER_DEN") // Removed
 							&& !worldType.equals("JUNGLE") // Removed
 //                          && !worldType.equals("REBEL_BASE")
@@ -1199,6 +1201,9 @@ public class Game implements XMLSaving {
 				}
 				if(Main.isVersionOlderThan(loadingVersion, "0.4.7.11")) {
 					Main.game.getWorlds().put(WorldType.getWorldTypeFromId("innoxia_fields_elis_tavern_taur"), gen.worldGeneration(WorldType.getWorldTypeFromId("innoxia_fields_elis_tavern_taur")));
+				}
+				if(Main.isVersionOlderThan(loadingVersion, "0.4.9.1")) {
+					Main.game.getWorlds().put(WorldType.getWorldTypeFromId("innoxia_dominion_sex_shop"), gen.worldGeneration(WorldType.getWorldTypeFromId("innoxia_dominion_sex_shop")));
 				}
 				for(AbstractWorldType wt : WorldType.getAllWorldTypes()) {
 					if(Main.game.worlds.get(wt)==null) {
@@ -2049,6 +2054,14 @@ public class Game implements XMLSaving {
 						Main.game.getWorlds().get(WorldType.DOMINION).getCell(towerLoc).setPlace(new GenericPlace(PlaceType.DOMINION_DEMON_HOME_SEX_SHOP), false);
 					}
 				}
+				if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.9.2")) {
+					// Set all elementals to look the same age as their summoners:
+					for(NPC npc : Main.game.getAllNPCs()) {
+						if(npc instanceof Elemental) {
+							npc.setAgeAppearanceAbsolute(((Elemental)npc).getSummoner().getAppearsAsAgeValue());
+						}
+					}
+				}
 				
 				if(debug) {
 					System.out.println("New NPCs finished");
@@ -2380,6 +2393,11 @@ public class Game implements XMLSaving {
             
             // Lovienne's Luxuries:
 			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Saellatrix.class))) { addNPC(new Saellatrix(), false); addedNpcs.add(Saellatrix.class); }
+			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Fiammetta.class))) { addNPC(new Fiammetta(), false); addedNpcs.add(Fiammetta.class); }
+			if(addedNpcs.contains(Fiammetta.class)) {
+				getNpc(Fiammetta.class).setAffection(getNpc(Saellatrix.class), -100);
+				getNpc(Saellatrix.class).setAffection(getNpc(Fiammetta.class), -50);
+			}
 
 			// Zaranix's home:
 			if(!Main.game.NPCMap.containsKey(Main.game.getUniqueNPCId(Zaranix.class))) { addNPC(new Zaranix(), false); addedNpcs.add(Zaranix.class); }
@@ -2577,6 +2595,10 @@ public class Game implements XMLSaving {
 
 				Main.game.getNpc(Saellatrix.class).setAffection(Main.game.getNpc(Angelixx.class), AffectionLevel.NEGATIVE_THREE_STRONG_DISLIKE.getMedianValue());
 				Main.game.getNpc(Angelixx.class).setAffection(Main.game.getNpc(Saellatrix.class), AffectionLevel.NEGATIVE_TWO_DISLIKE.getMedianValue());
+			}
+			if(addedNpcs.contains(Saellatrix.class) || Main.isVersionOlderThan(Game.loadingVersion, "0.4.9.2")) {
+				Main.game.getNpc(Saellatrix.class).setAffection(Main.game.getNpc(Lilaya.class), AffectionLevel.POSITIVE_TWO_LIKE.getMedianValue());
+				Main.game.getNpc(Lilaya.class).setAffection(Main.game.getNpc(Saellatrix.class), AffectionLevel.POSITIVE_TWO_LIKE.getMedianValue());
 			}
 			if(addedNpcs.contains(Sleip.class)) {
 				getNpc(Sleip.class).setMother(getNpc(Angelixx.class));
@@ -2901,21 +2923,23 @@ public class Game implements XMLSaving {
 					npc.setBodyToGenderIdentity(false);
 				}
 				
-				// Prostitutes stay on slut pills to avoid pregnancies, and, if the NPC is male, to avoid knocking up their clients
-				if((!npc.isPregnant()
-						&& !npc.isSlave()
-						&& npc.getHistory()==Occupation.NPC_PROSTITUTE
-						&& !npc.hasStatusEffect(StatusEffect.PROMISCUITY_PILL)
-						&& !npc.getLocation().equals(Main.game.getPlayer().getLocation()))
-					|| (npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PILLS).contains(SlavePermissionSetting.PILLS_PROMISCUITY_PILLS))) {
-					npc.useItem(Main.game.getItemGen().generateItem("innoxia_pills_sterility"), npc, false);
-				}
-				
-				if(npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PILLS).contains(SlavePermissionSetting.PILLS_VIXENS_VIRILITY)) {
-					npc.useItem(Main.game.getItemGen().generateItem("innoxia_pills_fertility"), npc, false);
-				}
-				if(npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PILLS).contains(SlavePermissionSetting.PILLS_BROODMOTHER)) {
-					npc.useItem(Main.game.getItemGen().generateItem("innoxia_pills_broodmother"), npc, false);
+				if(!npc.isDoll()) { // Dolls do not need to take pills of any sort
+					// Prostitutes stay on slut pills to avoid pregnancies, and, if the NPC is male, to avoid knocking up their clients
+					if((!npc.isPregnant()
+							&& !npc.isSlave()
+							&& npc.getHistory()==Occupation.NPC_PROSTITUTE
+							&& !npc.hasStatusEffect(StatusEffect.PROMISCUITY_PILL)
+							&& !npc.getLocation().equals(Main.game.getPlayer().getLocation()))
+						|| (npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PILLS).contains(SlavePermissionSetting.PILLS_PROMISCUITY_PILLS))) {
+						npc.useItem(Main.game.getItemGen().generateItem("innoxia_pills_sterility"), npc, false);
+					}
+					
+					if(npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PILLS).contains(SlavePermissionSetting.PILLS_VIXENS_VIRILITY)) {
+						npc.useItem(Main.game.getItemGen().generateItem("innoxia_pills_fertility"), npc, false);
+					}
+					if(npc.isSlave() && npc.getSlavePermissionSettings().get(SlavePermission.PILLS).contains(SlavePermissionSetting.PILLS_BROODMOTHER)) {
+						npc.useItem(Main.game.getItemGen().generateItem("innoxia_pills_broodmother"), npc, false);
+					}
 				}
 			}
 			

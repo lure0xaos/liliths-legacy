@@ -103,9 +103,9 @@ public class DominionPlaces {
 								"<b style='color:"+PresetColour.GENERIC_GOOD.toWebHexString()+";'>[npc.NamePos] Apartment:</b><br/>"
 									+ "After moving out from Lilaya's home, [npc.name] has ended up living in an apartment building near to this location."));
 
-				if(npc.isSleepingAtHour(Main.game.getHourOfDay())) {
+				if(npc.isAsleep()) {
 					occupantSB.append(UtilText.parse(npc,
-							" If you wanted to, you could pay the [npc.race] a visit, but as [npc.sheIs] currently [style.colourSleep(sleeping)], [npc.she] will likely be annoyed at being woken up..."));
+							" If you wanted to, you could pay the [npc.race] a visit, but as [npc.sheIs] currently [style.colourSleep(sleeping)] you'll have to wake [npc.herHim] up..."));
 				} else {
 					occupantSB.append(UtilText.parse(npc, " If you wanted to, you could pay the [npc.race] a visit..."));
 				}
@@ -354,10 +354,6 @@ public class DominionPlaces {
 					@Override
 					public void effects() {
 						OccupantDialogue.initDialogue(npc, true, false);
-						if(npc.isSleepingAtHour(Main.game.getHourOfDay())) {
-							Main.game.appendToTextEndStringBuilder(UtilText.parse(npc, "<p style='text-align:center;'>[style.italicsMinorBad([npc.Name] doesn't appreciate being woken up...)]</p>"));
-							Main.game.appendToTextEndStringBuilder(npc.incrementAffection(Main.game.getPlayer(), -1));
-						}
 					}
 				});
 			}

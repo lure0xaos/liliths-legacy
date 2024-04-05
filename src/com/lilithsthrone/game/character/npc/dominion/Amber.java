@@ -122,7 +122,7 @@ public class Amber extends NPC {
 			resetBodyAfterVersion_2_10_5();
 		}
 		if(Main.isVersionOlderThan(Game.loadingVersion, "0.2.11")) {
-			this.setAgeAppearanceDifferenceToAppearAsAge(28);
+			this.setAgeAppearanceAbsolute(28);
 		}
 		if(this.getBodyMaterial()!=BodyMaterial.FLESH) {
 			this.setBodyMaterial(BodyMaterial.FLESH);
@@ -192,7 +192,7 @@ public class Amber extends NPC {
 		
 		// Body:
 		// Add full body reset as this method is called after leaving Zaranix's house:
-		this.setAgeAppearanceDifferenceToAppearAsAge(28);
+		this.setAgeAppearanceAbsolute(28);
 		this.setBody(Gender.F_P_V_B_FUTANARI, Subspecies.DEMON, RaceStage.GREATER, false);
 		this.setTailType(TailType.DEMON_HAIR_TIP);
 		this.setWingType(WingType.NONE);
