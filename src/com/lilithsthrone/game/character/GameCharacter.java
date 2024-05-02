@@ -7957,28 +7957,31 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public int getOrgasmsBeforeSatisfied() {
-		int increment = 0;
+		int goal = 1;
 		if(Main.game.isInSex()) {
 			for(GameCharacter character : Main.sex.getAllParticipants(false)) {
 				if(!character.equals(this) && character.hasTraitActivated(Perk.OBJECT_OF_DESIRE)) {
-					increment++;
+					goal++;
 					break; // Prevent this from stacking
 				}
 			}
 		}
 		
+		
 		if(!this.isPlayer()) {
 			if(this.getSubspeciesOverride()!=null && this.getSubspeciesOverride().equals(Subspecies.HALF_DEMON)) {
-				return 2+increment;
-			} else if(this.getRace().equals(Race.DEMON)) {
-				if(this.getSubspecies().equals(Subspecies.IMP) || this.getSubspecies().equals(Subspecies.IMP_ALPHA)) {
-					return 1+increment;
-				}
-				return 3+increment;
+				goal += 1;
+			} else if(this.getRace().equals(Race.DEMON) && !this.getSubspecies().equals(Subspecies.IMP) && !this.getSubspecies().equals(Subspecies.IMP_ALPHA)) {
+				goal += 2;
 			}
 		}
 		
-		return 1 + increment + (this.hasStatusEffect(StatusEffect.WEATHER_STORM_VULNERABLE)?1:0);
+		goal += (this.hasStatusEffect(StatusEffect.WEATHER_STORM_VULNERABLE)?1:0);
+		goal += Main.sex.getNumberOfAdditionalOrgasms(this);
+		
+		goal = Math.max(goal, 1); // Prevent zero or negative just in case "additional orgasms" is negative
+		
+		return goal;
 	}
 	
 	
