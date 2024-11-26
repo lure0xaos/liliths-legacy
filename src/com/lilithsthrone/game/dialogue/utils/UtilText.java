@@ -238,8 +238,8 @@ import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 /**
  * @since 0.1.0
- * @version 0.4
- * @author Innoxia, Pimvgd, AlacoGit, Tad Unlikely
+ * @version 0.4.10.4
+ * @author Innoxia, Pimvgd, AlacoGit, Tad Unlikely, CognitiveMist, tarbh-uisge
  */
 public class UtilText {
 
