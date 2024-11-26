@@ -758,6 +758,9 @@ public class Body implements XMLSaving {
 		Element bodyPenis = doc.createElement("penis");
 		parentElement.appendChild(bodyPenis);
 			XMLUtil.addAttribute(doc, bodyPenis, "type", PenisType.getIdFromPenisType(this.penis.type));
+			if(this.penis.previousType!=null) {
+				XMLUtil.addAttribute(doc, bodyPenis, "previousType", PenisType.getIdFromPenisType(this.penis.previousType));
+			}
 			XMLUtil.addAttribute(doc, bodyPenis, "size", String.valueOf(this.penis.length));
 			XMLUtil.addAttribute(doc, bodyPenis, "girth", String.valueOf(this.penis.girth));
 			XMLUtil.addAttribute(doc, bodyPenis, "pierced", String.valueOf(this.penis.pierced));
@@ -1462,6 +1465,11 @@ public class Body implements XMLSaving {
 		if(!penis.getAttribute("virgin").isEmpty()) {
 			importedPenis.virgin = (Boolean.valueOf(penis.getAttribute("virgin")));
 		}
+
+		if(!penis.getAttribute("previousType").isEmpty()) {
+			importedPenis.previousType = PenisType.getPenisTypeFromId(penis.getAttribute("previousType"));
+		}
+		
 		
 		Main.game.getCharacterUtils().appendToImportLog(log, "<br/><br/>Body: Penis: "
 				+ "<br/>type: "+importedPenis.getType()
@@ -2075,7 +2083,6 @@ public class Body implements XMLSaving {
 				Main.game.getCharacterUtils().appendToImportLog(log, "<br/>pubic hair: OLD_VALUE - Set to NONE");
 			}
 		}
-		
 		
 		NodeList bodyCoverings = element.getElementsByTagName("bodyCovering");
 		for(int i = 0; i < bodyCoverings.getLength(); i++){
@@ -6579,6 +6586,9 @@ public class Body implements XMLSaving {
 		if (subspecies == null) {
 			return; 
 		}
+		
+		attributes.applySpecialPreFeralTransformationChanges(this);
+		
 		// Set feral-specific attributes:
 		this.getLeg().getType().applyLegConfigurationTransformation(this, attributes.getLegConfiguration(), true);
 		

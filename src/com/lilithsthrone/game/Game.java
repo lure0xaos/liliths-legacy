@@ -2741,6 +2741,16 @@ public class Game implements XMLSaving {
 	private List<NPC> npcsToRemove = new ArrayList<>();
 	private List<NPC> npcsToAdd = new ArrayList<>();
 	
+	/** The time, in nano seconds, it took to complete the last turn.
+	 * <br/>Divide by 1000000000d to get the time in seconds.
+	 */
+	public float endTurnTimeTaken = 0;
+	/**
+	 * This is only set manually outside of the Game class and is reset to 0 at the end of each endTurn() method.
+	 * <br/>Its value is added to endTurnTimeTaken.
+	 */
+	public float endTurnTimeTakenAddition = 0;
+	
 	public void endTurn(int secondsPassedThisTurn, boolean advanceTime) {
 
 		boolean loopDebug = false;
@@ -3384,6 +3394,13 @@ public class Game implements XMLSaving {
 		if(loopDebug) {
 			System.out.println((System.nanoTime()-tStart)/1000000000d+"s");
 		}
+		
+		// Debug turn time stuff:
+		endTurnTimeTaken = (System.nanoTime()-tStart) + endTurnTimeTakenAddition;
+		endTurnTimeTakenAddition = 0;
+		if(Main.game.isDebugMode() || Main.isDisplayingTurnTimer()) {
+			Main.refreshTitle();
+		}
 	}
 	
 	private static void calculateBankInterest() {
@@ -3392,6 +3409,7 @@ public class Game implements XMLSaving {
 		float interest = 0;
 
 		savings += Main.game.getWorlds().get(WorldType.getWorldTypeFromId("innoxia_dominion_bank")).getCell(PlaceType.getPlaceTypeFromId("innoxia_dominion_bank_deposit_box")).getInventory().getMoney();
+		savings += Main.game.getWorlds().get(WorldType.getWorldTypeFromId("innoxia_fields_elis_bank")).getCell(PlaceType.getPlaceTypeFromId("innoxia_fields_elis_bank_deposit_box")).getInventory().getMoney();
 		if(savings>0) {
 			interest = (savings * APR ) / 365f;
 			

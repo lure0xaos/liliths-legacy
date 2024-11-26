@@ -12,6 +12,7 @@ import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.attributes.LustLevel;
 import com.lilithsthrone.game.character.body.CoverableArea;
+import com.lilithsthrone.game.character.body.abstractTypes.AbstractPenisType;
 import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.types.PenisType;
 import com.lilithsthrone.game.character.body.valueEnums.ClitorisSize;
@@ -1040,21 +1041,28 @@ public class GenericActions {
 			
 			StringBuilder sb = new StringBuilder();
 			if(Main.game.getPlayer().getSubspeciesOverrideRace()==Race.DEMON) {
-				sb.append(Main.game.getPlayer().setPenisType(PenisType.DEMON_COMMON, false));
+				sb.append(Main.game.getPlayer().setPenisType(PenisType.DEMON_COMMON, Main.game.getPlayer().getPreviousPenisType()!=PenisType.DEMON_COMMON));
 			} else if (Main.game.getPlayer().isYouko()){
-				sb.append(Main.game.getPlayer().setPenisType(PenisType.FOX_MORPH, false));
+				sb.append(Main.game.getPlayer().setPenisType(PenisType.FOX_MORPH, Main.game.getPlayer().getPreviousPenisType()!=PenisType.FOX_MORPH));
 			} else {
-				sb.append(Main.game.getPlayer().setPenisType(RacialBody.valueOfRace(Main.game.getPlayer().getBody().getFleshSubspecies().getRace()).getPenisType(), false));
+				AbstractPenisType penisType = RacialBody.valueOfRace(Main.game.getPlayer().getBody().getFleshSubspecies().getRace()).getPenisType();
+				if(Main.game.getPlayer().getPreviousPenisType()!=null) {
+					penisType = Main.game.getPlayer().getPreviousPenisType();
+				}
+				sb.append(Main.game.getPlayer().setPenisType(penisType, Main.game.getPlayer().getPreviousPenisType()!=penisType));
 			}
 			
-//			if(Main.game.getPlayer().getPenisRawCumStorageValue() < 150) {
-//				sb.append(Main.game.getPlayer().setPenisCumStorage(150));
-//			}
 			Main.game.getPlayer().fillCumToMaxStorage();
-//			int size = Main.sex.getCharacterTargetedForSexAction(this).getLegConfiguration().isLargeGenitals()?40:20;
-//			if(Main.game.getPlayer().getPenisRawSizeValue() < size) {
-//				sb.append(Main.game.getPlayer().setPenisSize(size));
-//			}
+			
+			if(Main.game.getPlayer().getPreviousPenisType()==null) {
+				int size = Main.sex.getCharacterPerformingAction().getLegConfiguration().isLargeGenitals()?40:20;
+				if(Main.game.getPlayer().getPenisRawSizeValue() < size) {
+					sb.append(Main.game.getPlayer().setPenisSize(size));
+				}
+				if(Main.game.getPlayer().getPenisRawCumStorageValue() < Main.sex.getCharacterPerformingAction().getFleshSubspecies().getRace().getRacialBody().getCumProduction()) {
+					sb.append(Main.game.getPlayer().setPenisCumStorage(Main.sex.getCharacterPerformingAction().getFleshSubspecies().getRace().getRacialBody().getCumProduction()));
+				}
+			}
 			
 			
 			for(GameCharacter character : Main.sex.getAllParticipants()) {
@@ -1099,13 +1107,17 @@ public class GenericActions {
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !Main.sex.isMasturbation()
+					&& Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(this))!=SexPace.SUB_RESISTING
+					//TODO make the NPC refuse with a reason before blocking this action
+//					&& (Main.sex.isCharacterObeyingTarget(Main.sex.getCharacterTargetedForSexAction(this), Main.game.getPlayer())
+//							|| !Main.sex.getCharacterTargetedForSexAction(this).getFetishDesire(Fetish.FETISH_PENIS_GIVING).isNegative())
 					&& Main.sex.getCharacterTargetedForSexAction(this).isAbleToSelfTransform()
 					&& !Main.sex.getCharacterTargetedForSexAction(this).hasPenis()
 					&& Main.sex.getCharacterPerformingAction().isPlayer();
 		}
 
 		@Override
-		public String getDescription() {//TODO resisting variations
+		public String getDescription() {
 			if(Main.sex.getCharacterTargetedForSexAction(this).getSubspeciesOverrideRace()==Race.DEMON
 					|| Main.sex.getCharacterTargetedForSexAction(this).isElemental()) {
 				return "Grinning down at [npc2.name], you tease, [npc.speech(How about you use your transformative powers to grow a nice thick demonic cock, so that we can have even more fun!)]"
@@ -1147,36 +1159,45 @@ public class GenericActions {
 			StringBuilder sb = new StringBuilder();
 			boolean discoveredPenisColour = Main.sex.getCharacterTargetedForSexAction(this).isBodyCoveringTypesDiscovered(BodyCoveringType.PENIS);
 			if(Main.sex.getCharacterTargetedForSexAction(this).getSubspeciesOverrideRace()==Race.DEMON || Main.sex.getCharacterTargetedForSexAction(this).isElemental()) {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(PenisType.DEMON_COMMON));
+				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(PenisType.DEMON_COMMON, Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()!=PenisType.DEMON_COMMON));
 				if(!discoveredPenisColour) {
 					Main.sex.getCharacterTargetedForSexAction(this).setSkinCovering(BodyCoveringType.PENIS, Main.sex.getCharacterTargetedForSexAction(this).getCovering(BodyCoveringType.DEMON_COMMON).getPrimaryColour(), false);
 				}
 				
 			} else if(Main.sex.getCharacterTargetedForSexAction(this).isYouko()) {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(PenisType.FOX_MORPH));
+				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(PenisType.FOX_MORPH, Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()!=PenisType.FOX_MORPH));
 				if(!discoveredPenisColour) {
 					Main.sex.getCharacterTargetedForSexAction(this).setSkinCovering(BodyCoveringType.PENIS, PresetColour.SKIN_RED, false);
 				}
 				
 			} else {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(RacialBody.valueOfRace(Main.sex.getCharacterTargetedForSexAction(this).getBody().getFleshSubspecies().getRace()).getPenisType()));
+				AbstractPenisType penisType = RacialBody.valueOfRace(Main.sex.getCharacterTargetedForSexAction(this).getBody().getFleshSubspecies().getRace()).getPenisType();
+				if(Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()!=null) {
+					penisType = Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType();
+				}
+				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(penisType, Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()!=penisType));
 			}
-			if(Main.sex.getCharacterTargetedForSexAction(this).getPenisRawCumStorageValue() < 150) {
-				Main.sex.getCharacterTargetedForSexAction(this).setPenisCumStorage(150);
+			
+
+			if(Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()==null) {
+				if(Main.sex.getCharacterTargetedForSexAction(this).getPenisRawCumStorageValue() < 150) {
+					Main.sex.getCharacterTargetedForSexAction(this).setPenisCumStorage(150);
+				}
+				Main.sex.getCharacterTargetedForSexAction(this).fillCumToMaxStorage();
+				if(Main.sex.getCharacterTargetedForSexAction(this).hasVagina()) {
+					Main.sex.getCharacterTargetedForSexAction(this).setTesticleSize(TesticleSize.ZERO_VESTIGIAL);
+				} else if(Main.sex.getCharacterTargetedForSexAction(this).getTesticleSize().getValue() < TesticleSize.THREE_LARGE.getValue()){
+					Main.sex.getCharacterTargetedForSexAction(this).setTesticleSize(TesticleSize.THREE_LARGE);
+				}
+				if(Main.sex.getCharacterTargetedForSexAction(this).getPenisGirth().getValue() < PenetrationGirth.THREE_AVERAGE.getValue()) {
+					sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisGirth(PenetrationGirth.THREE_AVERAGE));
+				}
+				int size = Main.sex.getCharacterTargetedForSexAction(this).getLegConfiguration().isLargeGenitals()?40:20;
+				if(Main.sex.getCharacterTargetedForSexAction(this).getPenisRawSizeValue() < size) {
+					sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisSize(size));
+				}
 			}
-			Main.sex.getCharacterTargetedForSexAction(this).fillCumToMaxStorage();
-			if(Main.sex.getCharacterTargetedForSexAction(this).hasVagina()) {
-				Main.sex.getCharacterTargetedForSexAction(this).setTesticleSize(TesticleSize.ZERO_VESTIGIAL);
-			} else if(Main.sex.getCharacterTargetedForSexAction(this).getTesticleSize().getValue() < TesticleSize.THREE_LARGE.getValue()){
-				Main.sex.getCharacterTargetedForSexAction(this).setTesticleSize(TesticleSize.THREE_LARGE);
-			}
-			if(Main.sex.getCharacterTargetedForSexAction(this).getPenisGirth().getValue() < PenetrationGirth.THREE_AVERAGE.getValue()) {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisGirth(PenetrationGirth.THREE_AVERAGE));
-			}
-			int size = Main.sex.getCharacterTargetedForSexAction(this).getLegConfiguration().isLargeGenitals()?40:20;
-			if(Main.sex.getCharacterTargetedForSexAction(this).getPenisRawSizeValue() < size) {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisSize(size));
-			}
+			
 			
 			for(GameCharacter character : Main.sex.getAllParticipants()) {
 				if(character instanceof NPC) {

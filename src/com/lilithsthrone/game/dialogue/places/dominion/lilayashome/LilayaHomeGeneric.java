@@ -1383,7 +1383,12 @@ public class LilayaHomeGeneric {
 		}
 		@Override
 		public String getContent() {
-			return UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "STAIRCASE_UP");
+			StringBuilder sb = new StringBuilder();
+			sb.append(UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "STAIRCASE_UP"));
+			for(NPC slave : getSlavesAndOccupantsPresent()) {
+				sb.append(getSlavePresentDescription(slave));
+			}
+			return sb.toString();
 		}
 		@Override
 		public String getResponseTabTitle(int index) {
@@ -1397,14 +1402,24 @@ public class LilayaHomeGeneric {
 			if(responseTab==2) {
 				return getLilayasHouseDollStationResponses(index);
 			}
-			if (index == 1) {
+			
+			List<NPC> charactersPresent = getSlavesAndOccupantsPresent();
+			if(index==0) {
+				return null;
+				
+			} else if (index == 1) {
 				return new Response("Upstairs", "Go upstairs to the first floor.", PlaceType.LILAYA_HOME_STAIR_DOWN.getDialogue(false)){
 					@Override
 					public void effects() {
 						Main.game.getPlayer().setLocation(WorldType.LILAYAS_HOUSE_FIRST_FLOOR, PlaceType.LILAYA_HOME_STAIR_DOWN, false);
 					}
 				};
+				
+			} else if(index-2<charactersPresent.size()) {
+				GameCharacter slave = charactersPresent.get(index-2);
+				return interactWithNPC(slave);
 			}
+			
 			return null;
 		}
 	};
@@ -1416,8 +1431,13 @@ public class LilayaHomeGeneric {
 		}
 		@Override
 		public String getContent() {
-			return UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "CORRIDOR")
-					+ UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "STAIRCASE_UP_SECONDARY");
+			StringBuilder sb = new StringBuilder();
+			sb.append(UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "CORRIDOR"));
+			sb.append(UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "STAIRCASE_UP_SECONDARY"));
+			for(NPC slave : getSlavesAndOccupantsPresent()) {
+				sb.append(getSlavePresentDescription(slave));
+			}
+			return sb.toString();
 		}
 		@Override
 		public String getResponseTabTitle(int index) {
@@ -1431,14 +1451,23 @@ public class LilayaHomeGeneric {
 			if(responseTab==2) {
 				return getLilayasHouseDollStationResponses(index);
 			}
-			if (index == 1) {
+			
+			List<NPC> charactersPresent = getSlavesAndOccupantsPresent();
+			if(index==0) {
+				return null;
+				
+			} else if (index == 1) {
 				return new Response("Upstairs", "Go upstairs to the first floor.", STAIRCASE_DOWN_SECONDARY){
 					@Override
 					public void effects() {
 						Main.game.getPlayer().setLocation(WorldType.LILAYAS_HOUSE_FIRST_FLOOR, Main.game.getPlayer().getLocation(), false);
 					}
 				};
+			} else if(index-2<charactersPresent.size()) {
+				GameCharacter slave = charactersPresent.get(index-2);
+				return interactWithNPC(slave);
 			}
+			
 			return null;
 		}
 	};
@@ -1450,7 +1479,12 @@ public class LilayaHomeGeneric {
 		}
 		@Override
 		public String getContent() {
-			return UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "STAIRCASE_DOWN");
+			StringBuilder sb = new StringBuilder();
+			sb.append(UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "STAIRCASE_DOWN"));
+			for(NPC slave : getSlavesAndOccupantsPresent()) {
+				sb.append(getSlavePresentDescription(slave));
+			}
+			return sb.toString();
 		}
 		@Override
 		public String getResponseTabTitle(int index) {
@@ -1464,14 +1498,23 @@ public class LilayaHomeGeneric {
 			if(responseTab==2) {
 				return getLilayasHouseDollStationResponses(index);
 			}
-			if (index == 1) {
+			
+			List<NPC> charactersPresent = getSlavesAndOccupantsPresent();
+			if(index==0) {
+				return null;
+				
+			} else if (index == 1) {
 				return new Response("Downstairs", "Go back downstairs to the ground floor.",PlaceType.LILAYA_HOME_STAIR_UP.getDialogue(false)){
 					@Override
 					public void effects() {
 						Main.game.getPlayer().setLocation(WorldType.LILAYAS_HOUSE_GROUND_FLOOR, PlaceType.LILAYA_HOME_STAIR_UP, false);
 					}
 				};
+			} else if(index-2<charactersPresent.size()) {
+				GameCharacter slave = charactersPresent.get(index-2);
+				return interactWithNPC(slave);
 			}
+			
 			return null;
 		}
 	};
@@ -1483,8 +1526,13 @@ public class LilayaHomeGeneric {
 		}
 		@Override
 		public String getContent() {
-			return UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "CORRIDOR")
-					+ UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "STAIRCASE_DOWN_SECONDARY");
+			StringBuilder sb = new StringBuilder();
+			sb.append(UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "CORRIDOR"));
+			sb.append(UtilText.parseFromXMLFile("places/dominion/lilayasHome/generic", "STAIRCASE_DOWN_SECONDARY"));
+			for(NPC slave : getSlavesAndOccupantsPresent()) {
+				sb.append(getSlavePresentDescription(slave));
+			}
+			return sb.toString();
 		}
 		@Override
 		public String getResponseTabTitle(int index) {
@@ -1498,14 +1546,23 @@ public class LilayaHomeGeneric {
 			if(responseTab==2) {
 				return getLilayasHouseDollStationResponses(index);
 			}
-			if (index == 1) {
+			
+			List<NPC> charactersPresent = getSlavesAndOccupantsPresent();
+			if(index==0) {
+				return null;
+				
+			} else if (index == 1) {
 				return new Response("Downstairs", "Go back downstairs to the ground floor.", STAIRCASE_UP_SECONDARY){
 					@Override
 					public void effects() {
 						Main.game.getPlayer().setLocation(WorldType.LILAYAS_HOUSE_GROUND_FLOOR, Main.game.getPlayer().getLocation(), false);
 					}
 				};
+			} else if(index-2<charactersPresent.size()) {
+				GameCharacter slave = charactersPresent.get(index-2);
+				return interactWithNPC(slave);
 			}
+			
 			return null;
 		}
 	};

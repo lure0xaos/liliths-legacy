@@ -509,6 +509,11 @@ public class MainController implements Initializable {
 						
 						if(event.getCode()==KeyCode.END && Main.DEBUG){
 
+							if(Main.game.isInSex()) {
+								Main.sex.getTargetedPartner(Main.game.getPlayer()).setForeplayPreference(Main.game.getPlayer(), new SexType(SexAreaOrifice.ANUS, SexAreaPenetration.TONGUE));
+								Main.sex.getTargetedPartner(Main.game.getPlayer()).setMainSexPreference(Main.game.getPlayer(), new SexType(SexAreaPenetration.PENIS, SexAreaOrifice.MOUTH));
+								Main.sex.recalculateSexActions();
+							}
 							
 //							for(GameCharacter partner : Main.sex.getAllParticipants()) {
 //								if(!partner.isPlayer()) {

@@ -162,6 +162,9 @@ public class Race {
 		}
 		@Override
 		public String getName(Body body, boolean feral) {
+			if(feral) {
+				return "demonic-horse";
+			}
 			if(feral && body !=null && body.getHalfDemonSubspecies()!=null && body.getHalfDemonSubspecies()!=Subspecies.HUMAN) {
 				return "demonic-"+ body.getHalfDemonSubspecies().getFeralName(body);
 			}
@@ -169,6 +172,9 @@ public class Race {
 		}
 		@Override
 		public String getNamePlural(Body body, boolean feral) {
+			if(feral) {
+				return "demonic-horses";
+			}
 			if(feral && body !=null && body.getHalfDemonSubspecies()!=null && body.getHalfDemonSubspecies()!=Subspecies.HUMAN) {
 				return "demonic-"+ body.getHalfDemonSubspecies().getFeralNamePlural(body);
 			}

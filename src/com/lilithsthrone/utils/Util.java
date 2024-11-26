@@ -1840,9 +1840,9 @@ public class Util {
 		}
 		if(stringMatchDistance>0) { // Only show error message if difference is more than just capitalisation differences
 			System.err.println("Warning: getClosestStringMatch() did not find an exact match for '"+input+"'; returning '"+closestString+"' instead. (Distance: "+stringMatchDistance+")");
-		}
-		if(Main.DEBUG) {
-			new IllegalArgumentException().printStackTrace(System.err);
+			if(Main.DEBUG) {
+				new IllegalArgumentException().printStackTrace(System.err);
+			}
 		}
 		return closestString;
 	}

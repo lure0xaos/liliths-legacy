@@ -985,6 +985,11 @@ public class PlayerCharacter extends GameCharacter implements XMLSaving {
 		this.relationshipQuestUpdated = relationshipQuestUpdated;
 	}
 
+	/**
+	 * This is only used in OccupancyUtil for a very specific purpose and unless the player is sleeping or loitering, it should return true.
+	 * <br/>It doesn't really matter if it's true or false if the player is not within Lilaya's mansion at the time of sleeping or loitering.
+	 * @return true if the player's presence should prevent slaves and occupants from leaving their tile.
+	 */
 	public boolean isActive() { return isActive; }
 
 	public void setActive(boolean active) { this.isActive = active; }

@@ -21003,7 +21003,8 @@ public abstract class GameCharacter implements XMLSaving {
 		// Elemental handling:
 		if(this.isElemental()) {
 			return PregnancyDescriptor.NO_CHANCE.getDescriptor(this, partner, directSexInsemination)
-					+"<p style='text-align:center;'>[style.italicsMinorBad(Elementals cannot get pregnant!)]"
+					+"<p style='text-align:center;'>"
+						+ "[style.italicsMinorBad(Elementals cannot get pregnant!)]"
 					+ "</p>";
 		}
 		if(partnerBody.getRace()==Race.ELEMENTAL) {
@@ -21016,13 +21017,22 @@ public abstract class GameCharacter implements XMLSaving {
 		// Doll handling:
 		if(this.hasPerkAnywhereInTree(Perk.DOLL_PHYSICAL_2)) {
 			return PregnancyDescriptor.NO_CHANCE.getDescriptor(this, partner, directSexInsemination)
-					+"<p style='text-align:center;'>[style.italicsMinorBad(Dolls cannot get pregnant!)]"
+					+"<p style='text-align:center;'>"
+						+ "[style.italicsMinorBad(Dolls cannot get pregnant!)]"
 					+ "</p>";
 		}
 		if(partnerBody.isDoll()) {
 			return PregnancyDescriptor.NO_CHANCE.getDescriptor(this, partner, directSexInsemination)
 					+"<p style='text-align:center;'>"
 						+ "[style.italicsMinorBad(Dolls cannot impregnate anyone!)]"
+					+ "</p>";
+		}
+
+		// Feral handling:
+		if(this.isFeral()) {
+			return PregnancyDescriptor.NO_CHANCE.getDescriptor(this, partner, directSexInsemination)
+					+"<p style='text-align:center;'>"
+						+ "[style.italicsMinorBad(Ferals cannot get pregnant!)]"
 					+ "</p>";
 		}
 		
@@ -25425,7 +25435,7 @@ public abstract class GameCharacter implements XMLSaving {
 	 */
 	public void setFeral(AbstractSubspecies subspecies) {
 		if(subspecies!=null
-				&& !subspecies.getFeralAttributes(this.getBody()).isBreastsPresent()
+				&& (subspecies.getFeralAttributes(this.getBody())!=null && !subspecies.getFeralAttributes(this.getBody()).isBreastsPresent())
 				&& this.hasIncubationLitter(SexAreaOrifice.NIPPLE)) {
 			this.endIncubationPregnancy(SexAreaOrifice.NIPPLE, true);
 			System.err.println("Warning: Nipple egg pregnancy was ended (with birth) as feral form '"+subspecies.getFeralName(this.getBody())+"' was applied, which does not have breasts.");
@@ -30237,6 +30247,13 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	// Type:
+	/**
+	 * @return The AbstractPenisType which this character has most recently had before losing it.
+	 * <br/>This value is set whenever the character obtains an AbstractPenisType of type PenisType.NONE.
+	 */
+	public AbstractPenisType getPreviousPenisType() {
+		return getCurrentPenis().getPreviousType();
+	}
 	public AbstractPenisType getPenisType() {
 		return getCurrentPenis().getType();
 	}
@@ -30244,6 +30261,12 @@ public abstract class GameCharacter implements XMLSaving {
 		return setPenisType(type, true);
 	}
 	public String setPenisType(AbstractPenisType type, boolean resetDefaultModifiers) {
+		if(type==PenisType.NONE
+				&& this.getPenisType()!=PenisType.NONE
+				&& (!Main.game.isInSex() || !Main.sex.getAllParticipants().contains(this))) {
+			// If this character has their penis removed, and it's not during sex, then save the penis for use in the 'Grow cock' action:
+			//TODO save last penis type
+		}
 		String s = body.getPenis().setType(this, type, resetDefaultModifiers);
 		
 		StringBuilder clothingRemovalSB = new StringBuilder();

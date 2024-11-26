@@ -99,6 +99,7 @@ public class RoomPlayer {
 		Main.game.getPlayer().setActive(false);
 		Main.game.endTurn(sleepTimeInMinutes*60);
 		Main.game.getPlayer().setActive(true);
+		Main.game.endTurnTimeTakenAddition = Main.game.endTurnTimeTaken;
 
 		slavesPresentWhenWaking = slavesInRoom(Main.game.getHourOfDay());
 		slavesToWakePlayer = slavesInRoom(Main.game.getHourOfDay()).stream().filter((npc) -> npc.hasSlaveJobSetting(SlaveJob.BEDROOM, SlaveJobSetting.BEDROOM_WAKE_UP)).collect(Collectors.toList());

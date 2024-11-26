@@ -759,7 +759,7 @@ public class MiscDialogue {
 			sb.append(endWrapper());
 
 			sb.append(startWrapper("Genitals"));
-				sb.append(applyWrapperDiscounted("Pussy", "The default option; an artifical pussy.", PresetColour.FEMININE, "DOLL_GENITALS_0", "Select", genitalsOption==0, getGenitalCost(0), true));
+				sb.append(applyWrapperDiscounted("Pussy", "The default option; an artificial pussy.", PresetColour.FEMININE, "DOLL_GENITALS_0", "Select", genitalsOption==0, getGenitalCost(0), true));
 				sb.append(applyWrapperDiscounted("Cock", "Replace your doll's pussy with a cock; our doll's cocks display realistic flaccid and erection behaviour.",
 						PresetColour.MASCULINE, "DOLL_GENITALS_1", "Select", genitalsOption==1, getGenitalCost(1), true));
 				sb.append(applyWrapperDiscounted("Both", "For if you want the best of both worlds; give your doll a pussy and cock.", PresetColour.ANDROGYNOUS, "DOLL_GENITALS_2", "Select", genitalsOption==2, getGenitalCost(2), true));
@@ -1276,7 +1276,7 @@ public class MiscDialogue {
 	}
 	
 	private static String applyWrapperDisabled(String title, String description, Colour buttonColour, String buttonId, String buttonText, boolean buttonActive, int cost, boolean isCostAdditional, boolean isDisabled) {
-		return applyWrapper(title, description, buttonColour, buttonId, buttonText, buttonActive, cost, isCostAdditional, true, false);
+		return applyWrapper(title, description, buttonColour, buttonId, buttonText, buttonActive, cost, isCostAdditional, isDisabled, false);
 	}
 	
 	private static String applyWrapper(String title, String description, Colour buttonColour, String buttonId, String buttonText, boolean buttonActive, int cost, boolean isCostAdditional, boolean isDisabled, boolean isDiscounted) {
