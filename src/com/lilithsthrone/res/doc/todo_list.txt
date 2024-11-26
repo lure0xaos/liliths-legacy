@@ -9,6 +9,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Contributors:
 		Fixed an erroneous error message in the Util.getClosestStringMatch() function. (by AceXP)
 		Improved error.log information to include build type. (by CognitiveMist)
+		Improved Maven Compatibility Across JDK Versions. (PR#1745 by NoHornyOnMain)
 	
 	Engine/Modding:
 		Improved the debug menu's 'Spawn attacker' action so that you can choose the gender of the spawned attacker.
