@@ -162,10 +162,10 @@ public class Leg implements BodyPartInterface {
 		if(!Main.game.isStarted() || owner==null) {
 			this.type = type;
 			this.footStructure = type.getDefaultFootStructure(this.getLegConfiguration());
-			if(Main.game.isStarted() && !type.isLegConfigurationAvailable(this.getLegConfiguration())) {
-				this.getType().applyLegConfigurationTransformation(owner, RacialBody.valueOfRace(type.getRace()).getLegConfiguration(), true, true);
-			}
 			if(owner!=null) {
+				if(Main.game.isStarted() && !type.isLegConfigurationAvailable(this.getLegConfiguration())) {
+					this.getType().applyLegConfigurationTransformation(owner, RacialBody.valueOfRace(type.getRace()).getLegConfiguration(), true, true);
+				}
 				owner.postTransformationCalculation();
 			}
 			return "";
