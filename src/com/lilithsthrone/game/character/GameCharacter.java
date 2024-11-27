@@ -409,7 +409,7 @@ public abstract class GameCharacter implements XMLSaving {
 	
 	
 	// Pregnancy:
-	protected List<String> pregnancyReactions;
+	protected Set<String> pregnancyReactions;
 	protected long timeProgressedToFinalPregnancyStage;
 	protected Map<SexAreaOrifice, Long> timeProgressedToFinalIncubationStage;
 	protected List<PregnancyPossibility> potentialPartnersAsMother;
@@ -691,7 +691,7 @@ public abstract class GameCharacter implements XMLSaving {
 		
 		fluidsStoredMap = new HashMap<>();
 		
-		pregnancyReactions = new ArrayList<>();
+		pregnancyReactions = new HashSet<>();
 		
 		timeProgressedToFinalPregnancyStage = 1;
 		timeProgressedToFinalIncubationStage = new HashMap<>();
@@ -21188,7 +21188,7 @@ public abstract class GameCharacter implements XMLSaving {
 			for(Litter fatherCopy : pregnantLitter.getFather().getLittersFathered()) {
 				if(!fatherCopy.getId().isEmpty() && fatherCopy.getId().equals(pregnantLitter.getId())) {
 					fatherCopy.setBirthDate(Main.game.getDateNow());
-					continue;
+					break;
 				}
 			}
 		}
