@@ -17,9 +17,13 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Engine/Modding:
 		Improved the debug menu's 'Spawn attacker' action so that you can choose the gender of the spawned attacker.
 		When debug mode is turned on, the time it takes to end each turn is displayed in the title of the window.
+		Added 'DUPLICATE_WHEN_EQUIP' as an ItemTag, which is used for the new electrical tape clothing item.
 	
 	Clothing:
 		Added 'square nipple rings' (androgynous, nipple piercing slot, sold by Kate).
+		Added 'electrical tape' (androgynous, mouth/nipple/vagina/anus slots, sold by Ralph).
+		Removed 'tape crosses' as they're now a part of the new 'electrical tape' clothing item. Any existing 'tape crosses' in your save file will be converted into 'electrical tape' when loading into this version.
+		Added 'duct tape' (androgynous, wrist/ankle slots, sold by Ralph).
 	
 	Sex:
 		Further improved the 'Grow cock' sex action, so if a character has a penis, and then that penis is removed, the 'Grow cock' action in sex will restore that character's previous penis instead of generating a generic new one for them.
@@ -43,6 +47,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		launch4j include JVM options:
 		-Dbuild.type=exe64 or -Dbuild.type=exe32 as appropriate
 	
+	
+	
 	[x] cannot purchase a DECK?
 	[x] Item naming accepts parsing commands...
 	[x] check Sterope offspring feral?
@@ -62,15 +68,15 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[-] Issue with NPCs switching from receiving anilingus (foreplay) to receiving blowjob (main sex) when dom?
 	
 	
+	
+	
 	[] Dev chat pings!!!!
 	
 	[] PRs
-		[] 1745
 		[] PR1805
-		[] feb 29th a nofap day because LT crashes when launched on the leap day
-			[] Check for Month.FEBRUARY
-	
-	
+		[] item parsing PR for glow colour
+			[] collar glow as extra
+			[] naming/description for tape?
 	
 	[] emails
 	
@@ -81,13 +87,18 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] invisibility spell to avoid encounters
 	
 	[] need footless tights
-	[] add tape as clothing item, when equipping it doesn't get removed from inventory. Instead generate new clothing (which is removed when unequipped) and apply to slot
-		[] tape nipples
-		[] tape mouth
-		[] tape wrists
-		[] tape ankles
-		[] tape pussy
-		[] (check UI slot limit)
+	
+	[x] add tape as clothing item, when equipping it doesn't get removed from inventory. Instead generate new clothing (which is removed when unequipped) and apply to slot
+		[x] tape nipples
+		[x] tape mouth
+		[x] tape pussy
+		[x] tape asshole
+		[x] (check UI slot limit)
+	[x] add tough tape variation for wrists & ankles
+		[x] tape wrists
+		[x] tape ankles
+	[x] convert tape crosses to new tape
+		
 		
 	[] artwork
 		[] Natalya
@@ -134,8 +145,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[x] breeder
 		[x] bimbo
 		[x] bitch
-	[] item parsing PR for glow colour
-		[] collar glow as extra
 	
 	[] penetration modifiers should +/- arousal in sex
 		[] make it into a status effect which adds arousal based on modifiers

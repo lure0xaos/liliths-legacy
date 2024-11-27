@@ -24447,7 +24447,9 @@ public abstract class GameCharacter implements XMLSaving {
 	 * @return Equip description
 	 */
 	public String equipClothingFromInventory(AbstractClothing newClothing, InventorySlot slotToEquipInto, boolean automaticClothingManagement, GameCharacter characterClothingEquipper, GameCharacter fromCharactersInventory) {
-		fromCharactersInventory.removeClothing(newClothing);
+		if(!newClothing.getItemTags().contains(ItemTag.DUPLICATE_WHEN_EQUIP)) {
+			fromCharactersInventory.removeClothing(newClothing);
+		}
 		
 		AbstractClothing clonedClothing = new AbstractClothing(newClothing) {};
 		
@@ -24486,7 +24488,7 @@ public abstract class GameCharacter implements XMLSaving {
 		slotsToClear.add(slotToEquipInto);
 		slotsToClear.addAll(newClothing.getIncompatibleSlots(this, slotToEquipInto));
 
-		if(removeFromInventoryOrFloor) {
+		if(removeFromInventoryOrFloor && !newClothing.getItemTags().contains(ItemTag.DUPLICATE_WHEN_EQUIP)) {
 			if(Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation()).getInventory().hasClothing(newClothing)) {
 				Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation()).getInventory().removeClothing(newClothing);
 				
@@ -24550,7 +24552,9 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 
 	public String equipClothingFromGround(AbstractClothing newClothing, InventorySlot slotToEquipInto, boolean automaticClothingManagement, GameCharacter characterClothingEquipper) {
-		Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation()).getInventory().removeClothing(newClothing);
+		if(!newClothing.getItemTags().contains(ItemTag.DUPLICATE_WHEN_EQUIP)) {
+			Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation()).getInventory().removeClothing(newClothing);
+		}
 		
 		AbstractClothing clonedClothing = new AbstractClothing(newClothing) {};
 		
