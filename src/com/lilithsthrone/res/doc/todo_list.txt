@@ -14,6 +14,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Cached compiled Javascript objects for improved performance (PR#1802 by tarbh-uisge) (Also thanks to CognitiveMist for PR#1442 which implemented the bulk of the original code which this PR uses.)
 		Documentation: Specify svgo version compatible with svgoConfig.yml (PR#1813 by CognitiveMist)
 		Implemented a few minor bug fixes (which could cause background errors or softlocks). (PR#1821 by CognitiveMist)
+		Sanitized quicksave file name to prevent loading issues when playing as a character whose name contains a space or period. (PR#1781 by SightglassCat)
 	
 	Engine/Modding:
 		Improved the debug menu's 'Spawn attacker' action so that you can choose the gender of the spawned attacker.
