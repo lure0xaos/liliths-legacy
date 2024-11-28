@@ -684,10 +684,7 @@ public abstract class GameCharacter implements XMLSaving {
 		daysOrgasmCountRecord = 0;
 		
 		// Coverable area knowledge:
-		areasKnownByCharactersMap = new HashMap<>();
-		for(CoverableArea area : CoverableArea.values()) {
-			areasKnownByCharactersMap.put(area, new HashSet<>());
-		}
+		this.resetAreasKnownByCharactersMap();
 		
 		fluidsStoredMap = new HashMap<>();
 		
@@ -4029,10 +4026,17 @@ public abstract class GameCharacter implements XMLSaving {
 		this.playerOnFirstNameTerms = playerOnFirstNameTerms;
 	}
 	
+	public void resetAreasKnownByCharactersMap() {
+		areasKnownByCharactersMap = new HashMap<>();
+		for(CoverableArea area : CoverableArea.values()) {
+			areasKnownByCharactersMap.put(area, new HashSet<>());
+		}
+	}
+	
 	public Map<CoverableArea, Set<String>> getAreasKnownByCharactersMap() {
 		return areasKnownByCharactersMap;
 	}
-
+	
 	/**
 	 * @param area
 	 * @param target
@@ -9776,10 +9780,11 @@ public abstract class GameCharacter implements XMLSaving {
 				}
 				this.applyOrgasmCumEffect();
 			}
-			
+
+//			System.out.println("QS: partner pre-cum");
 			// Apply cum on areas effects:
 			// Partner cumming:
-			if(partnerCummed && !partnerCondom && (!partnerCummedInside || performingArea instanceof SexAreaPenetration)) {
+			if(partnerCummed && !partnerCondom && (!partnerCummedInside || performingArea instanceof SexAreaPenetration || (performingArea instanceof SexAreaOrifice && !((SexAreaOrifice)performingArea).isInternalOrifice()))) {
 				CoverableArea cummedOnArea = performingArea.getRelatedCoverableArea(this);
 				OrgasmCumTarget cumTargetArea = null;
 				if(partnerPresent && Main.game.isInSex()) {
@@ -9788,6 +9793,7 @@ public abstract class GameCharacter implements XMLSaving {
 						cummedOnArea = cumTargetArea.getRelatedCoverableArea(this);
 					}
 				}
+//				System.out.println("QS: partner cummed "+cummedOnArea);
 				
 				if(cummedOnArea!=CoverableArea.NONE) {
 					if(partnerPresent) {

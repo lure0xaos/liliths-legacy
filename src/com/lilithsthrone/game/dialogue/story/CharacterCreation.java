@@ -258,8 +258,16 @@ public class CharacterCreation {
 	}
 	
 	private static void equipPiercings() {
-		Colour colour1 = Main.game.getPlayer().isFeminine()?PresetColour.CLOTHING_GOLD:PresetColour.CLOTHING_BLACK_STEEL;
-		Colour colour2 = Main.game.getPlayer().isFeminine()?PresetColour.CLOTHING_ROSE_GOLD:PresetColour.CLOTHING_SILVER;
+		Colour colour1 = PresetColour.CLOTHING_BLACK_STEEL;
+		Colour colour2 = PresetColour.CLOTHING_STEEL;
+
+		if(Main.game.getPlayer().getFemininity()==Femininity.FEMININE_STRONG) {
+			colour1 = PresetColour.CLOTHING_PLATINUM;
+			colour2 = PresetColour.CLOTHING_GOLD;
+		} else if(Main.game.getPlayer().isFeminine()) {
+			colour1 = PresetColour.CLOTHING_SILVER;
+			colour2 = PresetColour.CLOTHING_SILVER;
+		}
 		
 		for(InventorySlot slot : InventorySlot.getPiercingSlots()) {
 			if(Main.game.getPlayer().getClothingInSlot(slot)!=null){
@@ -269,7 +277,13 @@ public class CharacterCreation {
 		
 		// Ear piercings:
 		if(Main.game.getPlayer().isPiercedEar()) {
-			Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_ear_ring", colour1, false), true, Main.game.getPlayer());
+			if(Main.game.getPlayer().getFemininity()==Femininity.FEMININE_STRONG) {
+				Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_ear_chain_dangle", colour1, false), true, Main.game.getPlayer());
+			} else if(Main.game.getPlayer().getFemininity()==Femininity.FEMININE) {
+				Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_ear_ring", colour1, false), true, Main.game.getPlayer());
+			} else {
+				Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_ear_ball_studs", colour1, false), true, Main.game.getPlayer());
+			}
 			
 		} else if(Main.game.getPlayer().getClothingInSlot(InventorySlot.PIERCING_EAR)!=null){
 			Main.game.getPlayer().unequipClothingIntoVoid(Main.game.getPlayer().getClothingInSlot(InventorySlot.PIERCING_EAR), true, Main.game.getPlayer());
@@ -284,8 +298,12 @@ public class CharacterCreation {
 		}
 		
 		// Navel piercings:
-		if(Main.game.getPlayer().isPiercedNavel() && Main.game.getPlayer().isFeminine()) {
-			Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_gemstone_barbell", colour2, false), InventorySlot.PIERCING_STOMACH, true, Main.game.getPlayer());
+		if(Main.game.getPlayer().isPiercedNavel()) {
+			if(Main.game.getPlayer().isFeminine()) {
+				Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_gemstone_barbell", colour2, false), InventorySlot.PIERCING_STOMACH, true, Main.game.getPlayer());
+			} else {
+				Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_ringed_barbell", colour2, false), InventorySlot.PIERCING_STOMACH, true, Main.game.getPlayer());
+			}
 			
 		} else if(Main.game.getPlayer().getClothingInSlot(InventorySlot.PIERCING_STOMACH)!=null){
 			Main.game.getPlayer().unequipClothingIntoVoid(Main.game.getPlayer().getClothingInSlot(InventorySlot.PIERCING_STOMACH), true, Main.game.getPlayer());
@@ -301,7 +319,11 @@ public class CharacterCreation {
 
 		// Nose piercings:
 		if(Main.game.getPlayer().isPiercedNose()) {
-			Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_nose_ring", colour1, false), true, Main.game.getPlayer());
+			if(Main.game.getPlayer().isFeminine()) {
+				Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_nose_ring", colour1, false), true, Main.game.getPlayer());
+			} else {
+				Main.game.getPlayer().equipClothingFromGround(Main.game.getItemGen().generateClothing("innoxia_piercing_nose_ball_stud", colour1, false), true, Main.game.getPlayer());
+			}
 			
 		} else if(Main.game.getPlayer().getClothingInSlot(InventorySlot.PIERCING_NOSE)!=null){
 			Main.game.getPlayer().unequipClothingIntoVoid(Main.game.getPlayer().getClothingInSlot(InventorySlot.PIERCING_NOSE), true, Main.game.getPlayer());
@@ -935,7 +957,7 @@ public class CharacterCreation {
 						+ "<i>All of these options can be influenced later on in the game.</i>"
 					+ "</div>"
 						
-					+ CharacterModificationUtils.getHeightChoiceDiv()
+					+ CharacterModificationUtils.getHeightChoiceDiv(true)
 					
 					+ CharacterModificationUtils.getKatesDivCoveringsNew(false, Race.HUMAN, BodyCoveringType.HUMAN, "Skin Colour", "The colour of the skin that's covering your body.", true, false, false)
 					
@@ -1210,7 +1232,7 @@ public class CharacterCreation {
 
 		@Override
 		public String getLabel() {
-			return "Add "+Util.capitaliseSentence(CharacterModificationUtils.tattooInventorySlot.getName()) +" Tattoo";
+			return "Add Tattoo: "+Util.capitaliseSentence(CharacterModificationUtils.tattooInventorySlot.getTattooSlotName());
 		}
 		
 		@Override

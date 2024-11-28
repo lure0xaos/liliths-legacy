@@ -34,14 +34,30 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		When in a feral form, you can no longer get pregnant (this only affects Sterope's content for now, but I will likely add feral pregnancy content later on).
 		The DECK can now transform dolls' wings, horns, antennae, and tails.
 		Split the item view in the encyclopedia into three separate screens to make navigation a little easier.
+		NPCs with the bondage applier fetish will no longer spawn with enslavement clothing in their inventory (such as the metal collar), as they are not able to enslave others.
+		Character height is now limited to 200cm during character creation, and the UI for height selection has been slightly improved.
+		Updated the starting jewellery for piercing slots in the character creation based on femininity.
+		Increased Rose's starting age from 18 to 20 (as I felt like she'd need more time to build up her relationship with Lilaya).
+		Oglix now has the tribal tattoo and scars which are shown in her artwork.
 	
 	Bugs:
-		Typo fixes.
+		Typo and parsing fixes.
 		Fixed issue where you were unable to buy a DECK from Saellatrix, even if you had enough money to do so.
 		Prevented game logic parsing commands from executing when typed into an item's name field in the enchantment menu.
 		Fixed bug where anthro dolls would never spawn with wings, horns, antennae, or tails.
 		Fixed issue where you couldn't interact with dolls who were stationed on staircase tiles.
 		Interest on your savings is now correctly calculated for the flames which you store in the bank at Elis.
+		Fixed incorrect description in the 'Heavily pregnant' status effect update, where it would only recognise that you lay eggs if you had a harpy vagina, instead of any egg-laying vagina.
+		Fixed page title during character creation's tattoo addition showing an incorrect location name.
+		NPCs will no longer spawn with birthdays in the future.
+		Fixed bug where using the alarm to sleep would not work if the current time was either the same as your alarm's time, or 1 minute past the alarm's time. (Fixed in all locations where you can use your alarm: in your room at Lilaya's mansion, in your room at The Red Dragon, or at Evelyx's dairy.)
+		Fixed bug where you'd get to know what Hammer & Ghost looked like naked when they changed into their civilian and fully-geared-up outfits, even though they didn't strip naked.
+		You can now transform breast rows in the self-TF menu if your multi-breast settings are set to anything other than 'Disabled', as the setting tooltips imply.
+		Fixed issue where body content preferences were not taken into account in a few places (which was affecting skin colour, breast rows, and crotch boobs).
+		Fixed bug where the 'Bar' action in The Crossed Blades would always be available, even if you'd already introduced yourself to Golix.
+		Using the 'Quick sex' action now correctly results in a character cumming on their partner's breasts if they are engaged in paizuri (or any penis on non-penetrable orifice) for the main sex preference.
+		Fixed bug where items of clothing could be mentioned multiple times when being described as being cummed on at the end of quick sex.
+		Fixed bug where time was inadvertently passing when selecting options in Helena's slave customisation menu.
 	
 	
 	BUILD CHECK:
@@ -69,9 +85,31 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[-] Issue with NPCs switching from receiving anilingus (foreplay) to receiving blowjob (main sex) when dom?
 	
 	
+	[] bug reports - from "Pregnancy descriptions are not consistent with type of pregnancy that I have."
+		[x] Pregnancy descriptions are not consistent with type of pregnancy that I have
+		[x] Incorrect parsing for slave being woken up.
+		[x] Random npcs who have the bondage applyer fetish spawn with slave collars on occasion. Slave collars can't be applied during sex because of their enslavement enchantment.
+		[x] unlike almost all other starting attributes, there is no limit whatsoever on starting height beyond the universal maximum.
+		[x] Add 'LOCATION' tattoo for the page title in character customisation shows generic inv slot name instead of tattoo name
+		[x] Need piercing options in clothing in character creation
+			[x] use studs for <FEM characters, nomral for FEM, and fancy for HEAVY_FEM
+		[x] the in game date is 21st of february 2022 which means rose hasnt even been born yet
+		[x] It seems that the [pc.breasts] is wrongly used in 'res\txt\misc\prologue.xml'
+		[x] typos
+		[x] sleep with alarm issue: Date doesn't change but the time goes back a minute
+		[x] After Hammer and Ghost return from the next room, having changed into civilian clothes, the main character somehow knows what their naked bodies look like, even though they didn't see them change
+		[x] Can't TF breast rows...
+		[x] whenever I leave the bar area of The Crossed Blades it gives the Oglix "C'mere" prompt and warps me back to the bar
+		[x] add Oglix arm tribal tattoo and scar on hips and upper arm
+		[x] when you quick sex with tit fucking as the main sex preference, there are no cum targets generated even though the guy orgasmed
+		[x] quick sex dirty slots can be duplicated
+		[x] when customizing your slave at Helen's shop, time passes by 1 minute every time the "Sex Actions Performed" stat is being altered
+		[] NPCs at the Watering Hole who have a non-con fetish should allow player to rape them without usual talking and kissing first
+		[] Hammer & Ghost content 'Weapons' -> when you bring your own teargas shotgun to try and get a unique comment
 	
 	
-	[] Dev chat pings!!!!
+	
+	[x] Dev chat pings!!!!
 	
 	[] PRs
 		[] PR1805
@@ -100,13 +138,15 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[x] tape ankles
 	[x] convert tape crosses to new tape
 		
+	[] Add hair growth to all body hair too
+		[] change body hair names to lengths instead of styles
 		
 	[] artwork
 		[] Natalya
 		[] Monica
 		
-	[] BUGS REPORTS (from "Inspecting Prixie generates an NPE")
-	
+	[] Helena mentions "I can always have you transformed later on if need be", is this implemented?
+		
 	[] Yui bondage room
 		[] She says that some evenings there's fun to be had around down the side of the south-east tower
 			[] If there's a red light, make sure that you've got a thousand flames before approaching it
@@ -222,8 +262,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] deep sleeper suggestion
 	
 	[] in prologue, Lilith should react to player sex
-	
-	[] bug reports - from "Pregnancy descriptions are not consistent with type of pregnancy that I have."
 	
 	[] You added finger insemination via scooping cum. But wouldn't it be possible to do this same thing via other orifices?
 	 like a mouth full of cum then performing cunnilingus on a pussy putting some cum inside, or tribbing where one pussy full of cum is dripping cum into the other pussy
@@ -365,24 +403,31 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] add an option for when Lyssieth asks what the player's plan is about Lilith "Marry her. T'was for a brief moment but gazing upon Lilith's beauty while she was escaping was love at first sight" 
 		and a silly mode "I can fix her. What others see as evil you know is just a damaged and hurting person and you've taken up the task nobody else is brave to do."
 	
-	[] Minotaur-boy yoga instructor
-		[] Brahman
-		[] Update Pix and Hannah talk about him (suspicious but he seems good at his job)
-		[] yoga sessions at 12:00 every day
-			[] a couple of female students join in too
-			[] if player is not female
-				[] gain 24-hour (questionable) buff from arcane yoga (+resistances, but weakness to cow-morphs)
-			[] if player is female, he suggests ever more lewd poses (over three sessions)
-				[] gain 24-hour (questionable) buff from arcane yoga (+resistances, but +fertility and weakness to cow-morphs)
-				[] 1 - positions seem to be focused a lot on bending over in front of him while he talks of the miracle of life
-				[] 2 - more bending over and spreading legs while talk of fertility (at end get sudden desire to be bred by him, warning that next time might be even further)
-				[] 3 - naked yoga with making player present herself and imagine being impregnated
-					[] at end, Brahman impregnates other two students
-					[] Brahman stands behind player and tells them to focus on the heat of his erect cock against their pussy
-						[] snap out of it
-							[] quickly leave, with Brahman saying to return whenever you want
-						[] beg to be impregnated
-							[] He fucks player and creampies
+	[] Dominion gym
+		[] post-workout changing room
+			[] get hit on
+			[] sex in changing room
+			[] can keep going with a new person who arrives during sex
+				[] after fifth person, can get fucked again, but instead of generic sex scene, do a sex scene time skip
+				[] finishes hours later and gain a perk that gives physical resistance
+		[] Minotaur-boy yoga instructor
+			[] Brahman
+			[] Update Pix and Hannah talk about him (suspicious but he seems good at his job)
+			[] yoga sessions at 12:00 every day
+				[] a couple of female students join in too
+				[] if player is not female
+					[] gain 24-hour (questionable) buff from arcane yoga (+resistances, but weakness to cow-morphs)
+				[] if player is female, he suggests ever more lewd poses (over three sessions)
+					[] gain 24-hour (questionable) buff from arcane yoga (+resistances, but +fertility and weakness to cow-morphs)
+					[] 1 - positions seem to be focused a lot on bending over in front of him while he talks of the miracle of life
+					[] 2 - more bending over and spreading legs while talk of fertility (at end get sudden desire to be bred by him, warning that next time might be even further)
+					[] 3 - naked yoga with making player present herself and imagine being impregnated
+						[] at end, Brahman impregnates other two students
+						[] Brahman stands behind player and tells them to focus on the heat of his erect cock against their pussy
+							[] snap out of it
+								[] quickly leave, with Brahman saying to return whenever you want
+							[] beg to be impregnated
+								[] He fucks player and creampies
 	
 	[] Rose encounter
 		[] if had sex with Lilaya >3 times in one day OR if impregnated Lilaya >3 times and she's not a demon

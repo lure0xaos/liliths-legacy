@@ -510,7 +510,7 @@ public class BodyChanging {
 							
 						+"<div style='clear:left;'>"
 							+ CharacterModificationUtils.getSelfTransformFemininityChoiceDiv()
-							+ CharacterModificationUtils.getHeightChoiceDiv()
+							+ CharacterModificationUtils.getHeightChoiceDiv(false)
 						+"</div>"
 							
 						+ "<div class='cosmetics-container' style='background:transparent;'>"
@@ -576,7 +576,7 @@ public class BodyChanging {
 						
 						+"<div style='clear:left;'>"
 							+ CharacterModificationUtils.getSelfTransformFemininityChoiceDiv()
-							+ CharacterModificationUtils.getHeightChoiceDiv()
+							+ CharacterModificationUtils.getHeightChoiceDiv(false)
 						+"</div>"
 						
 						+ (BodyChanging.getTarget().isElemental()
@@ -676,7 +676,7 @@ public class BodyChanging {
 						
 					+"<div style='clear:left;'>"
 						+ CharacterModificationUtils.getSelfTransformFemininityChoiceDiv()
-						+ CharacterModificationUtils.getHeightChoiceDiv()
+						+ CharacterModificationUtils.getHeightChoiceDiv(false)
 					+"</div>"
 						
 					+ "<div class='cosmetics-container' style='background:transparent;'>"
@@ -735,7 +735,7 @@ public class BodyChanging {
 						
 					+"<div style='clear:left;'>"
 						+ CharacterModificationUtils.getSelfTransformFemininityChoiceDiv()
-						+ CharacterModificationUtils.getHeightChoiceDiv()
+						+ CharacterModificationUtils.getHeightChoiceDiv(false)
 					+"</div>"
 						
 					+ "<div class='cosmetics-container' style='background:transparent;'>"

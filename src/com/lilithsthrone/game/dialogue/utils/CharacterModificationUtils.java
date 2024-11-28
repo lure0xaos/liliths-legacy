@@ -85,6 +85,7 @@ import com.lilithsthrone.game.character.body.valueEnums.FootStructure;
 import com.lilithsthrone.game.character.body.valueEnums.GenitalArrangement;
 import com.lilithsthrone.game.character.body.valueEnums.HairLength;
 import com.lilithsthrone.game.character.body.valueEnums.HairStyle;
+import com.lilithsthrone.game.character.body.valueEnums.Height;
 import com.lilithsthrone.game.character.body.valueEnums.HipSize;
 import com.lilithsthrone.game.character.body.valueEnums.HornLength;
 import com.lilithsthrone.game.character.body.valueEnums.LabiaSize;
@@ -884,11 +885,20 @@ public class CharacterModificationUtils {
 	}
 
 	private static String applyFullVariableWrapper(String title, String description, String id, String minorStep, String majorStep, String value, boolean decreaseDisabled, boolean increaseDisabled) {
-		return applyFullVariableWrapper(title, description, id, minorStep, majorStep, value, decreaseDisabled, increaseDisabled, null);
+		return applyFullVariableWrapper(title, description, id, minorStep, majorStep, value, decreaseDisabled, increaseDisabled, null, false);
 	}
 	
+	private static String applyFullVariableWrapper(String title, String description, String id, String minorStep, String majorStep, String value, boolean decreaseDisabled, boolean increaseDisabled, boolean fullWidth) {
+		return applyFullVariableWrapper(title, description, id, minorStep, majorStep, value, decreaseDisabled, increaseDisabled, null, fullWidth);
+	}
+	
+
 	private static String applyFullVariableWrapper(String title, String description, String id, String minorStep, String majorStep, String value, boolean decreaseDisabled, boolean increaseDisabled, String additionalDescription) {
-			return "<div class='cosmetics-inner-container' style='margin:1% 1%; width:48%; padding:1%; box-sizing:border-box; position:relative;'>"
+		return applyFullVariableWrapper(title, description, id, minorStep, majorStep, value, decreaseDisabled, increaseDisabled, additionalDescription, false);
+	}
+	
+	private static String applyFullVariableWrapper(String title, String description, String id, String minorStep, String majorStep, String value, boolean decreaseDisabled, boolean increaseDisabled, String additionalDescription, boolean fullWidth) {
+			return "<div class='cosmetics-inner-container' style='margin:1% 1%; width:"+(fullWidth?"98":"48")+"%; padding:1%; box-sizing:border-box; position:relative;'>"
 						+ "<p style='margin:0; padding:0;'>"
 							+ getInformationDiv(id, new TooltipInformationEventListener().setInformation(title, description))
 							+ "<b>"+title+"</b>"
@@ -919,9 +929,9 @@ public class CharacterModificationUtils {
 	}
 
 
-	private static String applyFullVariableWrapperSizes(String title, String description, String id, double value, boolean decreaseDisabled, boolean increaseDisabled) {
+	private static String applyFullVariableWrapperSizes(String title, String description, String id, double value, boolean decreaseDisabled, boolean increaseDisabled, boolean fullWidth) {
 		return applyFullVariableWrapper(title, description, id, Units.size(1), Units.size(5),
-				Units.size(value, Units.ValueType.PRECISE, Units.UnitType.SHORT),decreaseDisabled, increaseDisabled);
+				Units.size(value, Units.ValueType.PRECISE, Units.UnitType.SHORT),decreaseDisabled, increaseDisabled, fullWidth);
 	}
 	
 	private static String applyVariableWrapperFluids(String title, String description, String id, String value, boolean decreaseDisabled, boolean increaseDisabled, int incrementSmall, int incrementAverage, int incrementLarge, int incrementHuge) {
@@ -993,14 +1003,22 @@ public class CharacterModificationUtils {
 						true);
 	}
 	
-	public static String getHeightChoiceDiv() {
+	public static String getHeightChoiceDiv(boolean fullWidth) {
 		return applyFullVariableWrapperSizes("Height",
 				UtilText.parse(BodyChanging.getTarget(), "Change how tall [npc.name] [npc.is]."
-						+ "<br/><i>This affects some minor descriptions and is also used for determining if a sex scene is categorised as 'size-difference' or not.</i>"),
+						+ "<br/><i>This affects some minor descriptions and is also used for determining if a sex scene is categorised as 'size-difference' or not.</i>"
+						+ (!Main.game.isInNewWorld()
+							?"<br/>[style.italicsMinorBad(Height is limited to [units.sizes("+Height.getMaximumHeightForCharacterCreation()+")]"
+									+ " during character creation, but can be raised to [units.sizes("+Height.SEVEN_COLOSSAL.getMaximumValue()+")] later on.)]"
+							:"")),
 				"HEIGHT",
 				BodyChanging.getTarget().getHeightValue(),
 				BodyChanging.getTarget().getHeightValue()<=BodyChanging.getTarget().getMinimumHeight(),
-				BodyChanging.getTarget().getHeightValue()>=BodyChanging.getTarget().getMaximumHeight());
+				BodyChanging.getTarget().getHeightValue()
+					>= (Main.game.isInNewWorld()
+							?BodyChanging.getTarget().getMaximumHeight()
+							:Height.getMaximumHeightForCharacterCreation()),
+				fullWidth);
 	}
 	
 	public static String getSelfTransformFemininityChoiceDiv() {
@@ -2880,9 +2898,7 @@ public class CharacterModificationUtils {
 	public static String getSelfTransformBreastRowsDiv() {
 		contentSB.setLength(0);
 		
-		if (Main.getProperties().multiBreasts == 0
-				|| (Main.getProperties().multiBreasts == 1
-				&& BodyChanging.getTarget().getTorsoType() == TorsoType.HUMAN)) {
+		if (Main.getProperties().multiBreasts == 0) {
 			contentSB.append(
 					"<div class='cosmetics-button disabled'>"
 							+Util.capitaliseSentence("One")
@@ -2908,11 +2924,8 @@ public class CharacterModificationUtils {
 				UtilText.parse(BodyChanging.getTarget(), "Change how many pairs of breasts [npc.name] [npc.has]."
 						+ "<br/><i>This is a mostly a cosmetic change, but is also taken into account when determining if there are any free nipples for use in sex.</i>"
 						+(Main.getProperties().multiBreasts == 0
-						?"<br/>[style.italicsBad(Multi-Breasts are disabled in the content settings!)]"
-						:(Main.getProperties().multiBreasts == 1
-						&& BodyChanging.getTarget().getTorsoType() == TorsoType.HUMAN)
-						?"<br/>[style.italicsBad(Multi-Breasts are disabled for humans in the content settings!)]"
-						:"")),
+							?"<br/>[style.italicsBad(Multi-Breasts are disabled in the content settings!)]"
+							:"")),
 				"BREAST_ROWS",
 				contentSB.toString(),
 				true);

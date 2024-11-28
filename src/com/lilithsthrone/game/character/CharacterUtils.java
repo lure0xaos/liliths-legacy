@@ -125,6 +125,7 @@ import com.lilithsthrone.game.inventory.clothing.AbstractClothingType;
 import com.lilithsthrone.game.inventory.clothing.BlockedParts;
 import com.lilithsthrone.game.inventory.clothing.BodyPartClothingBlock;
 import com.lilithsthrone.game.inventory.clothing.ClothingType;
+import com.lilithsthrone.game.inventory.enchanting.TFModifier;
 import com.lilithsthrone.game.inventory.item.AbstractItem;
 import com.lilithsthrone.game.inventory.item.ItemType;
 import com.lilithsthrone.game.inventory.outfit.AbstractOutfit;
@@ -1191,11 +1192,13 @@ public class CharacterUtils {
 
 		body.updateCoverings(true, true, true, true);
 
-		halfSubspecies.getRace().applyRaceChanges(body);
-		halfSubspecies.applySpeciesChanges(body);
+		applyPreferenceChanges(linkedCharacter, body);
 		
 		setBodyHair(body);
 		
+		halfSubspecies.getRace().applyRaceChanges(body);
+		halfSubspecies.applySpeciesChanges(body);
+
 		return body;
 	}
 	
@@ -1357,44 +1360,7 @@ public class CharacterUtils {
 								true))
 					.build();
 			
-		// Randomise skin colour if not greater by using skin preferences:
-		if(body.getRaceStage()!=RaceStage.GREATER && body.getRaceStage()!=RaceStage.FERAL) {
-			Colour skinColour = Util.randomItemFrom(BodyCoveringType.HUMAN.getNaturalColoursPrimary());
-			if(Main.getProperties().skinColourPreferencesMap.values().stream().anyMatch(v->v>0)) {
-				skinColour = Util.getRandomObjectFromWeightedMap(Main.getProperties().skinColourPreferencesMap);
-			}
-			body.setCovering(BodyCoveringType.HUMAN, Util.getRandomObjectFromWeightedMap(BodyCoveringType.HUMAN.getNaturalPatterns()), CoveringModifier.SMOOTH, skinColour, false, skinColour, false);
-			body.updateCoverings(true, true, true, true);
-		}
-		
-		if(linkedCharacter==null || !linkedCharacter.isUnique()) { // Unique characters should always have the default number of breast rows
-			// Set breast rows based on preferences:
-			if(Main.getProperties().multiBreasts==0 || Main.getProperties().multiBreasts==1) {
-				body.getBreast().setRows(null, 1);
-				
-			} else if(Main.getProperties().multiBreasts==2) {
-				if(body.getTorsoType()==TorsoType.HUMAN) {
-					body.getBreast().setRows(null, 1);
-				}
-			}
-		}
-
-		// Set crotch boobs based on preferences:
-		if(!body.isFeral()
-				&& (Main.getProperties().getUddersLevel()==0
-					|| (body.getLeg().getLegConfiguration()==LegConfiguration.BIPEDAL && Main.getProperties().getUddersLevel()==1)
-					|| (body.getLeg().getLegConfiguration()==LegConfiguration.BIPEDAL && body.getRaceStage()!=RaceStage.GREATER))) {
-			body.getBreastCrotch().setType(null, BreastType.NONE);
-		}
-
-		// Set external futa testicles based on preferences:
-		if(body.getPenis().getType()!=PenisType.NONE
-				&& body.getPenis().getType()!=PenisType.DILDO
-				&& body.getVagina().getType()!=VaginaType.NONE
-				&& body.getVagina().getType()!=VaginaType.ONAHOLE
-				&& !Main.game.isFutanariTesticlesEnabled()) {
-			body.getPenis().getTesticle().setInternal(null, true);
-		}
+		applyPreferenceChanges(linkedCharacter, body);
 		
 		// Pubic hair:
 		setBodyHair(body);
@@ -1571,13 +1537,7 @@ public class CharacterUtils {
 		
 		body.setWing(new Wing((stage.isWingFurry()?startingBodyType.getRandomWingType(false):WingType.NONE), (startingGender.isFeminine() ? startingBodyType.getFemaleWingSize() : startingBodyType.getMaleWingSize())));
 		
-		if(body.getPenis().getType()!=PenisType.NONE
-				&& body.getPenis().getType()!=PenisType.DILDO
-				&& body.getVagina().getType()!=VaginaType.NONE
-				&& body.getVagina().getType()!=VaginaType.ONAHOLE
-				&& !Main.game.isFutanariTesticlesEnabled()) {
-			body.getPenis().getTesticle().setInternal(null, true);
-		}
+		applyPreferenceChanges(linkedCharacter, body);
 		
 		// Pubic hair:
 		setBodyHair(body);
@@ -1735,6 +1695,47 @@ public class CharacterUtils {
 								: RacialBody.valueOfRace(character.getRace()).getMaleHairLength()));
 				}
 				break;
+		}
+	}
+	
+	private static void applyPreferenceChanges(GameCharacter linkedCharacter, Body body) {
+		// Randomise skin colour if not greater by using skin preferences:
+		if(body.getRaceStage()!=RaceStage.GREATER && body.getRaceStage()!=RaceStage.FERAL) {
+			Colour skinColour = Util.randomItemFrom(BodyCoveringType.HUMAN.getNaturalColoursPrimary());
+			if(Main.getProperties().skinColourPreferencesMap.values().stream().anyMatch(v->v>0)) {
+				skinColour = Util.getRandomObjectFromWeightedMap(Main.getProperties().skinColourPreferencesMap);
+			}
+			body.setCovering(BodyCoveringType.HUMAN, Util.getRandomObjectFromWeightedMap(BodyCoveringType.HUMAN.getNaturalPatterns()), CoveringModifier.SMOOTH, skinColour, false, skinColour, false);
+			body.updateCoverings(true, true, true, true);
+		}
+		
+		if(linkedCharacter==null || !linkedCharacter.isUnique() || linkedCharacter.isPlayer()) { // Unique characters should always have the default number of breast rows
+			// Set breast rows based on preferences:
+			if(Main.getProperties().multiBreasts==0 || Main.getProperties().multiBreasts==1) {
+				body.getBreast().setRows(null, 1);
+				
+			} else if(Main.getProperties().multiBreasts==2) {
+				if(body.getTorsoType()==TorsoType.HUMAN) {
+					body.getBreast().setRows(null, 1);
+				}
+			}
+		}
+
+		// Set crotch boobs based on preferences:
+		if(!body.isFeral()
+				&& (Main.getProperties().getUddersLevel()==0
+					|| (body.getLeg().getLegConfiguration()==LegConfiguration.BIPEDAL && Main.getProperties().getUddersLevel()==1)
+					|| (body.getLeg().getLegConfiguration()==LegConfiguration.BIPEDAL && body.getRaceStage()!=RaceStage.GREATER))) {
+			body.getBreastCrotch().setType(null, BreastType.NONE);
+		}
+
+		// Set external futa testicles based on preferences:
+		if(body.getPenis().getType()!=PenisType.NONE
+				&& body.getPenis().getType()!=PenisType.DILDO
+				&& body.getVagina().getType()!=VaginaType.NONE
+				&& body.getVagina().getType()!=VaginaType.ONAHOLE
+				&& !Main.game.isFutanariTesticlesEnabled()) {
+			body.getPenis().getTesticle().setInternal(null, true);
 		}
 	}
 	
@@ -2507,10 +2508,12 @@ public class CharacterUtils {
 		// Only bondage fetishists spawn with BDSM clothing:
 		if(character.hasFetish(Fetish.FETISH_BONDAGE_APPLIER)) {
 			maxClothingCount+=1;
+			List<InventorySlot> prohibitedSlots = Util.newArrayListOfValues(InventorySlot.VAGINA, InventorySlot.PENIS, InventorySlot.ANUS, InventorySlot.NIPPLE, InventorySlot.GROIN);
 			for(AbstractClothingType ct : ClothingType.getAllClothingInSet(SetBonus.getSetBonusFromId("innoxia_bdsm"))) {
 				InventorySlot defaultSlot = ct.getEquipSlots().get(0);
-				if(defaultSlot!=InventorySlot.VAGINA && defaultSlot!=InventorySlot.PENIS && defaultSlot!=InventorySlot.ANUS && defaultSlot!=InventorySlot.NIPPLE && defaultSlot!=InventorySlot.GROIN) {
-					availableClothing.add(ct); // Do not add clothing types which are sex toys, as conditionals for those are added in the next logic block
+				// Do not add clothing types which are sex toys, as conditionals for those are added in the next logic block, and do not add enslavement clothing as the NPC will not want to equip it.
+				if(!ct.getEffects().stream().anyMatch(ie -> ie.getSecondaryModifier()==TFModifier.CLOTHING_ENSLAVEMENT) && !prohibitedSlots.contains(defaultSlot)) {
+					availableClothing.add(ct);
 				}
 			}
 		}
@@ -2519,7 +2522,7 @@ public class CharacterUtils {
 			maxClothingCount+=1;
 			for(AbstractClothingType ct : ClothingType.getAllClothing()) {
 				InventorySlot defaultSlot = ct.getEquipSlots().get(0);
-				if(ct.getDefaultItemTags().contains(ItemTag.ENABLE_SEX_EQUIP)) {
+				if(ct.getDefaultItemTags().contains(ItemTag.ENABLE_SEX_EQUIP) && !ct.getEffects().stream().anyMatch(ie -> ie.getSecondaryModifier()==TFModifier.CLOTHING_ENSLAVEMENT)) {
 					// Conditionals for equipping sex toys are if this character is not averse to using the associated area
 						// (choosing to equip them is handled in NPC.getSexClothingToEquip(), so it's ok to give them clothing which they might not want to equip)
 					if(defaultSlot==InventorySlot.VAGINA) {

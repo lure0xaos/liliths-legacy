@@ -152,7 +152,7 @@
 		[hammer.speech(Snatching people off the streets for saying something bad about Lilith isn't what I signed up for,)] Hammer grunts, [hammer.speech(ORICL should do their own dirty work...)]
 	</p>
 	<p>
-		[ghost.speech(Our unit's all on the same page on that one,)] Ghost says, before taking another look through the hole in the wall and sighing, [hammer.speech(No sign of Angelixx yet...)]
+		[ghost.speech(Our unit's all on the same page on that one,)] Ghost says, before taking another look through the hole in the wall and sighing, [ghost.speech(No sign of Angelixx yet...)]
 	</p>
 	]]>
 	</htmlContent>

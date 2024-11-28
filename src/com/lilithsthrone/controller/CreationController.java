@@ -63,6 +63,7 @@ import com.lilithsthrone.game.character.body.valueEnums.FluidFlavour;
 import com.lilithsthrone.game.character.body.valueEnums.FluidModifier;
 import com.lilithsthrone.game.character.body.valueEnums.FootStructure;
 import com.lilithsthrone.game.character.body.valueEnums.GenitalArrangement;
+import com.lilithsthrone.game.character.body.valueEnums.Height;
 import com.lilithsthrone.game.character.body.valueEnums.HipSize;
 import com.lilithsthrone.game.character.body.valueEnums.HornLength;
 import com.lilithsthrone.game.character.body.valueEnums.LabiaSize;
@@ -735,7 +736,10 @@ public class CreationController {
 		String id = "HEIGHT_INCREASE";
 		if (MainController.document.getElementById(id) != null) {
 			((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e->{
-				if(BodyChanging.getTarget().getHeightValue()<BodyChanging.getTarget().getMaximumHeight()) {
+				if(BodyChanging.getTarget().getHeightValue()
+						< (Main.game.isInNewWorld()
+								?BodyChanging.getTarget().getMaximumHeight()
+								:Height.getMaximumHeightForCharacterCreation())) {
 					BodyChanging.getTarget().incrementHeight(1, BodyChanging.isDebugMenu());
 					Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 				}
@@ -744,8 +748,14 @@ public class CreationController {
 		id = "HEIGHT_INCREASE_LARGE";
 		if (MainController.document.getElementById(id) != null) {
 			((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e->{
-				if(BodyChanging.getTarget().getHeightValue()<BodyChanging.getTarget().getMaximumHeight()) {
+				if(BodyChanging.getTarget().getHeightValue()
+						< (Main.game.isInNewWorld()
+								?BodyChanging.getTarget().getMaximumHeight()
+								:Height.getMaximumHeightForCharacterCreation())) {
 					BodyChanging.getTarget().incrementHeight(5, BodyChanging.isDebugMenu());
+					if(!Main.game.isInNewWorld() && BodyChanging.getTarget().getHeightValue()>Height.getMaximumHeightForCharacterCreation()) {
+						BodyChanging.getTarget().setHeight(Height.getMaximumHeightForCharacterCreation());
+					}
 					Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 				}
 			}, false);

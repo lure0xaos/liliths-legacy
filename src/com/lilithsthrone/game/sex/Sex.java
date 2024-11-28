@@ -3178,8 +3178,8 @@ public class Sex {
 		List<String> clothingDirtied = new ArrayList<>();
 		List<String> slotsDirtied = new ArrayList<>();
 		StringBuilder dirtiedSlotsSB = new StringBuilder();
-		List<InventorySlot> slotsEncountered = new ArrayList<>();
-		List<AbstractClothing> clothingEncountered = new ArrayList<>();
+		Set<InventorySlot> slotsEncountered = new HashSet<>();
+		Set<InventorySlot> clothingEncounteredAsSlots = new HashSet<>();
 		boolean nonClothingAreaDirtied = false;
 		boolean forceSlotsPlural = false;
 		boolean forceClothingPlural = false;
@@ -3206,10 +3206,10 @@ public class Sex {
 					}
 					if(!dirtyClothing.isEmpty()) {
 						for(AbstractClothing c : dirtyClothing) {
-							if(!clothingEncountered.contains(c)) {
+							if(!clothingEncounteredAsSlots.contains(c.getSlotEquippedTo())) {
+								clothingEncounteredAsSlots.add(c.getSlotEquippedTo());
 								c.setDirty(cumTarget, true);
 								clothingDirtied.add(c.getName());
-								clothingEncountered.add(c);
 								if(c.getClothingType().isPlural()) {
 									forceClothingPlural = true;
 								}
