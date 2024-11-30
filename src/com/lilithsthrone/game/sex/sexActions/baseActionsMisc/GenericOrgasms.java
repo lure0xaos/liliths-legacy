@@ -621,7 +621,7 @@ public class GenericOrgasms {
 												genericOrgasmSB.append(" Not wanting to get locked inside of [npc2.herHim], [npc.she] [npc.verb(hold)] back from pushing [npc.her] rapidly-swelling knot inside of [npc2.namePos] "+orificeName+".");
 											}
 											
-										} else if(characterOrgasming.isWantingToFullyPenetrate(characterTargeted)) {
+										} else if(characterOrgasming.isWantingToFullyPenetrate(characterTargeted, SexAreaPenetration.PENIS)) {
 											genericOrgasmSB.append(" Pushing forwards, [npc.name] [npc.verb(feel)] [npc.her] [npc.cock+] bottoming out in [npc2.namePos] "+orificeNamePlusDescriptor+".");
 											if(Objects.equals(Main.sex.getCharacterKnotting(characterOrgasming), secondaryTarget)) {
 												genericOrgasmSB.append(" Desperate to sink [npc.her] rapidly-swelling knot into something, [npc.name] [npc.verb(look)] over at "
@@ -1031,7 +1031,7 @@ public class GenericOrgasms {
 														" Moving the [npc.cockHead+] over to point directly at [npc2.namePos] mouth, [npc.she] [npc.verb(thrust)] forwards until [npc.her] rapidly-growing knot is rammed against [npc2.her] [npc2.lips+]."
 														+ " Not wanting to get locked down [npc2.her] throat, [npc.name] [npc.verb(hold)] back from pushing the thick knot past [npc2.her] [npc2.lips]."));
 												
-											} else if(characterOrgasming.isWantingToFullyPenetrate(characterTargeted)) {
+											} else if(characterOrgasming.isWantingToFullyPenetrate(characterTargeted, SexAreaPenetration.PENIS)) {
 												genericOrgasmSB.append(" Moving the [npc.cockHead+] over to point directly at [npc2.namePos] mouth, [npc.she] [npc.verb(thrust)] forwards,"
 														+ " only to feel that [npc2.her] throat isn't deep enough to accommodate the full length of [npc.her] [npc.cock+], preventing [npc.her] rapidly-swelling knot from being pushed into [npc2.her] mouth.");
 												
@@ -1077,7 +1077,7 @@ public class GenericOrgasms {
 														" Letting out [npc.a_moan+], [npc.name] [npc.verb(thrust)] forwards until [npc.her] rapidly-growing knot is rammed against [npc2.her] [npc2.lips+]."
 														+ " Not wanting to get locked down [npc2.her] throat, [npc.name] [npc.verb(hold)] back from pushing the thick knot past [npc2.her] [npc2.lips]."));
 												
-											} else if(characterOrgasming.isWantingToFullyPenetrate(characterTargeted)) {
+											} else if(characterOrgasming.isWantingToFullyPenetrate(characterTargeted, SexAreaPenetration.PENIS)) {
 												genericOrgasmSB.append(" Letting out [npc.a_moan+], [npc.name] [npc.verb(thrust)] forwards,"
 														+ " only to feel that [npc2.her] throat isn't deep enough to accommodate the full length of [npc.her] [npc.cock+], preventing [npc.her] rapidly-swelling knot from being pushed into [npc2.her] mouth.");
 												

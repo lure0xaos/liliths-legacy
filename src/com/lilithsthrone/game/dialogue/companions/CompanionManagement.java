@@ -38,6 +38,10 @@ import com.lilithsthrone.game.dialogue.utils.CosmeticsDialogue;
 import com.lilithsthrone.game.dialogue.utils.InventoryInteraction;
 import com.lilithsthrone.game.dialogue.utils.SpellManagement;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
+import com.lilithsthrone.game.inventory.enchanting.ItemEffectTimer;
+import com.lilithsthrone.game.inventory.enchanting.ItemEffectType;
+import com.lilithsthrone.game.inventory.enchanting.TFModifier;
+import com.lilithsthrone.game.inventory.enchanting.TFPotency;
 import com.lilithsthrone.game.inventory.item.ItemType;
 import com.lilithsthrone.game.occupantManagement.OccupancyUtil;
 import com.lilithsthrone.game.occupantManagement.slave.SlaveJob;
@@ -301,7 +305,15 @@ public class CompanionManagement {
 				return new Response("Perks", UtilText.parse(characterSelected(), "Assign [npc.namePos] perk points."), SLAVE_MANAGEMENT_PERKS);
 				
 			} else if(index==7) {
-				if(!characterSelected().isAbleToSelfTransform()) {
+				if(characterSelected().isDoll() && (Main.game.getPlayer().hasItemType(ItemType.DOLL_CONSOLE) || characterSelected().hasItemType(ItemType.DOLL_CONSOLE))) {
+					return new ResponseEffectsOnly("Transformations", UtilText.parse(characterSelected(), "Use your D.E.C.K. to customise [npc.namePos] appearance.")) {
+						@Override
+						public void effects() {
+							ItemEffectType.DOLL_CONSOLE.itemEffectOverride(TFModifier.NONE, TFModifier.NONE, TFPotency.BOOST, 0, Main.game.getPlayer(), characterSelected(), new ItemEffectTimer());
+						}
+					};
+					
+				} else if(!characterSelected().isAbleToSelfTransform()) {
 					return new Response("Transformations", characterSelected().getUnableToTransformDescription(), null);
 					
 				} else if(!Main.game.isSavedDialogueNeutral()) {
@@ -517,7 +529,15 @@ public class CompanionManagement {
 				return new Response("Perks", "Spend your slave's perk points.", SLAVE_MANAGEMENT_PERKS);
 				
 			} else if(index==7) {
-				if(!characterSelected().isAbleToSelfTransform()) {
+				if(characterSelected().isDoll() && (Main.game.getPlayer().hasItemType(ItemType.DOLL_CONSOLE) || characterSelected().hasItemType(ItemType.DOLL_CONSOLE))) {
+					return new ResponseEffectsOnly("Transformations", UtilText.parse(characterSelected(), "Use your D.E.C.K. to customise [npc.namePos] appearance.")) {
+						@Override
+						public void effects() {
+							ItemEffectType.DOLL_CONSOLE.itemEffectOverride(TFModifier.NONE, TFModifier.NONE, TFPotency.BOOST, 0, Main.game.getPlayer(), characterSelected(), new ItemEffectTimer());
+						}
+					};
+					
+				} else if(!characterSelected().isAbleToSelfTransform()) {
 					return new Response("Transformations", characterSelected().getUnableToTransformDescription(), null);
 					
 				} else {
@@ -741,7 +761,15 @@ public class CompanionManagement {
 				if(characterSelected() == null) {
 					return new Response("Transformations", "You haven't selected anyone...", null);
 				}
-				if(!characterSelected().isAbleToSelfTransform()) {
+				if(characterSelected().isDoll() && (Main.game.getPlayer().hasItemType(ItemType.DOLL_CONSOLE) || characterSelected().hasItemType(ItemType.DOLL_CONSOLE))) {
+					return new ResponseEffectsOnly("Transformations", UtilText.parse(characterSelected(), "Use your D.E.C.K. to customise [npc.namePos] appearance.")) {
+						@Override
+						public void effects() {
+							ItemEffectType.DOLL_CONSOLE.itemEffectOverride(TFModifier.NONE, TFModifier.NONE, TFPotency.BOOST, 0, Main.game.getPlayer(), characterSelected(), new ItemEffectTimer());
+						}
+					};
+					
+				} else if(!characterSelected().isAbleToSelfTransform()) {
 					return new Response("Transformations", characterSelected().getUnableToTransformDescription(), null);
 					
 				} else {

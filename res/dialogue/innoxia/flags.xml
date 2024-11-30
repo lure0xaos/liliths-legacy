@@ -80,6 +80,7 @@
 			<flag dailyReset="false">sex_shop_escorted_out</flag>
 			
 		<!-- Lovienne's Luxuries - Factory: -->
+			<flag dailyReset="false">doll_factory_exterior_population_hidden</flag>
 			<flag dailyReset="false">doll_factory_intro_triggered</flag>
 			<flag dailyReset="false">doll_factory_encountered_locked_door_1</flag>
 			<flag dailyReset="false">doll_factory_unlocked_locked_door_1</flag>

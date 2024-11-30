@@ -2305,12 +2305,13 @@
 		[pc.speech(Not likely,)] you reply, crossing your [pc.arms] and smirking at [npc.name]. [pc.speech(I just wanted to give you a good fuck. I'm not interested in seeing you again.)]
 	</p>
 	<p>
-		#IF npc.isShy()
-		#THEN[npc.speech(Y-You asshole! Y-You could at least pretend to care!)] [npc.name] stammers, tears welling up in [npc.her] [npc.eyes] as [npc.she] turns and runs over to the door.
+		#IF(npc.isShy())
+			[npc.speech(Y-You asshole! Y-You could at least pretend to care!)] [npc.name] stammers, tears welling up in [npc.her] [npc.eyes] as [npc.she] turns and runs over to the door.
 		#ELSE
-			#IF npc.isConfident()
-			#THEN[npc.speech(Fine. If that's the way it is, fuck you too, you fucking [pc.bitch].)] [npc.name] snaps, glaring down at you for a moment before turning on [npc.her] heel and heading over to the door.
-			#ELSE[npc.speech(Eugh. What [pc.a_bitch]. Fuck you too.)] [npc.name] snaps, before quickly turning and heading over to the door.
+			#IF(npc.isConfident())
+				[npc.speech(Fine. If that's the way it is, fuck you too, you fucking [pc.bitch].)] [npc.name] snaps, glaring down at you for a moment before turning on [npc.her] heel and heading over to the door.
+			#ELSE
+				[npc.speech(Eugh. What [pc.a_bitch]. Fuck you too.)] [npc.name] snaps, before quickly turning and heading over to the door.
 			#ENDIF
 		#ENDIF
 	</p>
@@ -2328,12 +2329,13 @@
 	
 	<htmlContent tag="WATERING_HOLE_DOM_PARTNER_CHANGE_LOCATION_BAR"><![CDATA[
 	<p>
-		#IF npc.isKind()
-		#THEN [npc.speech(It's pretty hot in here. Come on, let's go and get something to drink,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off in the direction of the bar. [npc.speech(I'll get you something nice!)]
+		#IF(npc.isKind())
+			[npc.speech(It's pretty hot in here. Come on, let's go and get something to drink,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off in the direction of the bar. [npc.speech(I'll get you something nice!)]
 		#ELSE
-			#IF npc.isSelfish()
-			#THEN [npc.speech(Fuck, it's boiling in here! Come on [pc.babe], I'm thirsty,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and pulling you along behind [npc.herHim] as [npc.she] sets off in the direction of the bar.
-			#ELSE [npc.speech(It's really hot in here. Come on, let's go and get something to drink,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off in the direction of the bar.
+			#IF(npc.isSelfish())
+				[npc.speech(Fuck, it's boiling in here! Come on [pc.babe], I'm thirsty,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and pulling you along behind [npc.herHim] as [npc.she] sets off in the direction of the bar.
+			#ELSE
+				[npc.speech(It's really hot in here. Come on, let's go and get something to drink,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off in the direction of the bar.
 			#ENDIF
 		#ENDIF
 	</p>
@@ -2345,12 +2347,13 @@
 	
 	<htmlContent tag="WATERING_HOLE_DOM_PARTNER_CHANGE_LOCATION_DANCE_FLOOR"><![CDATA[
 	<p>
-		#IF npc.isKind()
-		#THEN [npc.speech(Let's head over to the dance floor,)] [npc.name] suggests, before taking your [pc.hand] in [npc.hers] and setting off towards the middle of club's main floor. [npc.speech(I love dancing!)]
+		#IF(npc.isKind())
+			[npc.speech(Let's head over to the dance floor,)] [npc.name] suggests, before taking your [pc.hand] in [npc.hers] and setting off towards the middle of club's main floor. [npc.speech(I love dancing!)]
 		#ELSE
-			#IF npc.isSelfish()
-			#THEN [npc.speech(Come on [pc.babe], I want to see you shaking that hot body of yours for me,)] [npc.name] says, before grabbing your [pc.hand] and pulling you along behind [npc.herHim] as [npc.she] sets off in the direction of the dance floor. [npc.speech(And don't you try dancing off with someone else! You're mine for tonight!)]
-			#ELSE [npc.speech(Hey, [pc.name], let's go and check out the dance floor,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off towards the middle of club's main floor. [npc.speech(After all, dancing is what's going to the club's all about!)]
+			#IF(npc.isSelfish())
+				[npc.speech(Come on [pc.babe], I want to see you shaking that hot body of yours for me,)] [npc.name] says, before grabbing your [pc.hand] and pulling you along behind [npc.herHim] as [npc.she] sets off in the direction of the dance floor. [npc.speech(And don't you try dancing off with someone else! You're mine for tonight!)]
+			#ELSE
+				[npc.speech(Hey, [pc.name], let's go and check out the dance floor,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off towards the middle of club's main floor. [npc.speech(After all, dancing is what's going to the club's all about!)]
 			#ENDIF
 		#ENDIF
 	</p>
@@ -2362,12 +2365,13 @@
 	
 	<htmlContent tag="WATERING_HOLE_DOM_PARTNER_CHANGE_LOCATION_SEATING_AREA"><![CDATA[
 	<p>
-		#IF npc.isKind()
-		#THEN [npc.speech(I think we'd be able to talk with one another a little easier if we went and sat down,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off towards the nearest seating area. [npc.speech(We can also give our legs a rest for a while!)]
+		#IF(npc.isKind())
+			[npc.speech(I think we'd be able to talk with one another a little easier if we went and sat down,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off towards the nearest seating area. [npc.speech(We can also give our [npc.legs] a rest for a while!)]
 		#ELSE
-			#IF npc.isSelfish()
-			#THEN [npc.speech(My [npc.legs] are fucking killing me!)] [npc.name] complains, before grabbing your [pc.hand] and pulling you along behind [npc.herHim] as [npc.she] sets off towards the nearest seating area. [npc.speech(Come on, I want to sit down for a while!)]
-			#ELSE [npc.speech(Come on, [pc.name], let's go and sit down for a little while,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off towards the nearest seating area. [npc.speech(My [npc.legs] are aching from standing up for so long!)]
+			#IF(npc.isSelfish())
+				[npc.speech(My [npc.legs] are fucking killing me!)] [npc.name] complains, before grabbing your [pc.hand] and pulling you along behind [npc.herHim] as [npc.she] sets off towards the nearest seating area. [npc.speech(Come on, I want to sit down for a while!)]
+			#ELSE
+				[npc.speech(Come on, [pc.name], let's go and sit down for a little while,)] [npc.name] says, before taking your [pc.hand] in [npc.hers] and setting off towards the nearest seating area. [npc.speech(My [npc.legs] are aching from standing up for so long!)]
 			#ENDIF
 		#ENDIF
 	</p>

@@ -6969,6 +6969,9 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 
 	public int getPerkPoints() {
+		if(this.isDoll()) {
+			return 0;
+		}
 		return getPerkPointsAtLevel(this.getTrueLevel()) + getAdditionalPerkPoints() - this.getPerkPointsSpent();
 	}
 	
@@ -16951,7 +16954,7 @@ public abstract class GameCharacter implements XMLSaving {
 						"in and out of",
 						"a disappointingly short way into");
 				
-			} else if(characterPenetrating.isWantingToFullyPenetrate(characterPenetrated)
+			} else if(characterPenetrating.isWantingToFullyPenetrate(characterPenetrated, penetrationType)
 					&& characterPenetrating.isFullPenetrationTooLongToFit(penetrationType, characterPenetrated, (SexAreaOrifice)orifice)) {
 				penetrationDescription = UtilText.returnStringAtRandom(
 						"deep in and out of",
@@ -17160,13 +17163,18 @@ public abstract class GameCharacter implements XMLSaving {
 		}
 	}
 	
-	public boolean isWantingToFullyPenetrate(GameCharacter target) {
+	/**
+	 * @param target The GameCharacter that this character is penetrating.
+	 * @param penetrationType The SexAreaPenetration which is being used to penetrate the target.
+	 * @return true if this character wants to insert their penetrationType as deep as possible into the target.
+	 */
+	public boolean isWantingToFullyPenetrate(GameCharacter target, SexAreaPenetration penetrationType) {
 		if(Main.game.isInSex()) {
 			if(target.isAsleep()) {
 				return false;
 			}
 			return (Main.sex.getSexPace(this)==SexPace.DOM_ROUGH && !target.equals(this))
-					|| Objects.equals(Main.sex.getCharacterKnotting(this), target)
+					|| (Objects.equals(Main.sex.getCharacterKnotting(this), target) && penetrationType==SexAreaPenetration.PENIS)
 					|| target.isWantingToBeFullyPenetrated(this);
 		}
 		return (this.hasFetish(Fetish.FETISH_SADIST) && !target.equals(this)) || target.isWantingToBeFullyPenetrated(this);
@@ -17210,7 +17218,7 @@ public abstract class GameCharacter implements XMLSaving {
 				case PENIS:
 				case TAIL:
 				case TENTACLE:
-					return (this.isWantingToFullyPenetrate(characterPenetrated)
+					return (this.isWantingToFullyPenetrate(characterPenetrated, penetrationType)
 							? orifice.getMaximumPenetrationDepthUncomfortable(characterPenetrated)
 							: orifice.getMaximumPenetrationDepthComfortable(characterPenetrated));
 			}
@@ -17285,24 +17293,24 @@ public abstract class GameCharacter implements XMLSaving {
 			case TONGUE:
 				return false;
 			case CLIT:
-				return (this.isWantingToFullyPenetrate(characterPenetrated) || !factorInWantingToFullyPenetrate
+				return (this.isWantingToFullyPenetrate(characterPenetrated, penetrationType) || !factorInWantingToFullyPenetrate
 						? this.getVaginaRawClitorisSizeValue() <= orifice.getMaximumPenetrationDepthUncomfortable(characterPenetrated)
 						: this.getVaginaRawClitorisSizeValue() <= orifice.getMaximumPenetrationDepthComfortable(characterPenetrated));
 			case PENIS:
-				return (this.isWantingToFullyPenetrate(characterPenetrated) || !factorInWantingToFullyPenetrate
+				return (this.isWantingToFullyPenetrate(characterPenetrated, penetrationType) || !factorInWantingToFullyPenetrate
 						? this.getPenisRawSizeValue() <= orifice.getMaximumPenetrationDepthUncomfortable(characterPenetrated)
 						: this.getPenisRawSizeValue() <= orifice.getMaximumPenetrationDepthComfortable(characterPenetrated));
 			case TAIL:
 				if(this.getLegConfiguration()==LegConfiguration.TAIL_LONG) {
-					return (this.isWantingToFullyPenetrate(characterPenetrated) || !factorInWantingToFullyPenetrate
+					return (this.isWantingToFullyPenetrate(characterPenetrated, penetrationType) || !factorInWantingToFullyPenetrate
 							? this.getLegTailLength(true) <= orifice.getMaximumPenetrationDepthUncomfortable(characterPenetrated)
 							: this.getLegTailLength(true) <= orifice.getMaximumPenetrationDepthComfortable(characterPenetrated));
 				}
-				return (this.isWantingToFullyPenetrate(characterPenetrated) || !factorInWantingToFullyPenetrate
+				return (this.isWantingToFullyPenetrate(characterPenetrated, penetrationType) || !factorInWantingToFullyPenetrate
 						? this.getTailLength(true) <= orifice.getMaximumPenetrationDepthUncomfortable(characterPenetrated)
 						: this.getTailLength(true) <= orifice.getMaximumPenetrationDepthComfortable(characterPenetrated));
 			case TENTACLE:
-				return (this.isWantingToFullyPenetrate(characterPenetrated) || !factorInWantingToFullyPenetrate
+				return (this.isWantingToFullyPenetrate(characterPenetrated, penetrationType) || !factorInWantingToFullyPenetrate
 						? this.getTentacleLength(true) <= orifice.getMaximumPenetrationDepthUncomfortable(characterPenetrated)
 						: this.getTentacleLength(true) <= orifice.getMaximumPenetrationDepthComfortable(characterPenetrated));
 		}
@@ -17346,7 +17354,7 @@ public abstract class GameCharacter implements XMLSaving {
 			System.err.println(UtilText.parse(this, characterPenetrated, "Warning: [npc.NamePos] "+penetrationType.getName(this)+" penetrating [npc2.name]: isFullPenetrationTooLong() is checking a non-internal orifice!"));
 			return false;
 		}
-		if(!this.isWantingToFullyPenetrate(characterPenetrated) && factorInWantingToFullyPenetrate) {
+		if(!this.isWantingToFullyPenetrate(characterPenetrated, penetrationType) && factorInWantingToFullyPenetrate) {
 			return false;
 		}
 		switch(penetrationType) {
@@ -18118,7 +18126,7 @@ public abstract class GameCharacter implements XMLSaving {
 		int uncomfortable = characterPenetrated.getBodyMaterial().isOrificesLimitedDepth()
 								?internalOrifice.getMaximumPenetrationDepthUncomfortable(characterPenetrated)
 								:10_000;
-		boolean penetratingDeep = characterPenetrating.isWantingToFullyPenetrate(characterPenetrated);
+		boolean penetratingDeep = characterPenetrating.isWantingToFullyPenetrate(characterPenetrated, penetrationType);
 		
 		boolean orificePlural = orifice.isPlural();
 		String orificeName = orifice.getName(characterPenetrated);
@@ -18543,7 +18551,7 @@ public abstract class GameCharacter implements XMLSaving {
 
 		SexAreaOrifice internalOrifice = (SexAreaOrifice)orifice;
 		int comfortable = internalOrifice.getMaximumPenetrationDepthComfortable(characterPenetrated);
-		boolean penetratingDeep = characterPenetrating.isWantingToFullyPenetrate(characterPenetrated);
+		boolean penetratingDeep = characterPenetrating.isWantingToFullyPenetrate(characterPenetrated, penetrationType);
 		
 		String orificeName = orifice.getName(characterPenetrated);
 

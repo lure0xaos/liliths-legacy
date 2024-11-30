@@ -21,12 +21,14 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Improved the debug menu's 'Spawn attacker' action so that you can choose the gender of the spawned attacker.
 		When debug mode is turned on, the time it takes to end each turn is displayed in the title of the window.
 		Added 'DUPLICATE_WHEN_EQUIP' as an ItemTag, which is used for the new electrical tape clothing item.
+		Added 'countDuplicates' attribute to the 'numberRequiredForCompleteSet' value in SetBonus files, allowing you to define whether or not you want duplicates of clothing or weapon types to count towards the required number of items to activate the set bonus. (See 'res/mods/innoxia/setBonuses/template.xml' for more info.)
 	
 	Clothing:
 		Added 'square nipple rings' (androgynous, nipple piercing slot, sold by Kate).
 		Added 'electrical tape' (androgynous, mouth/nipple/vagina/anus slots, sold by Ralph).
 		Removed 'tape crosses' as they're now a part of the new 'electrical tape' clothing item. Any existing 'tape crosses' in your save file will be converted into 'electrical tape' when loading into this version.
 		Added 'duct tape' (androgynous, wrist/ankle/mouth slots, sold by Ralph).
+		Added more recolouring options to the sun and snowflake themed accessories.
 	
 	Slaves:
 		Added 4 new job permissions to the prostitute job, allowing your slaves to act as dominant partners while working as a prostitute.
@@ -35,13 +37,14 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Prostitute and public fucktoy slaves will no longer engage in anal sex if your anal content setting is disabled.
 		Job settings for slaves now respect your content options (e.g. if you have anal content turned off, you won't see the 'Allow anal' setting for the prostitute or public fucktoy jobs.)
 		If your slaves are given the 'Silence' permission, they are now treated as though they're mute, and cannot speak during sex. (They will continue to talk during non-sex interactions as I still need to add mute behaviour for most slave scenes...)
-	
+		When interacting with one of your owned dolls, if either you or the doll has a D.E.C.K. in your inventories, then you can now use the 'Transformations' action instead of accessing the inventory and manually using the D.E.C.K. on them.
+		
 	Sex:
 		Further improved the 'Grow cock' sex action, so if a character has a penis, and then that penis is removed, the 'Grow cock' action in sex will restore that character's previous penis instead of generating a generic new one for them.
 		The 'Grow cock' action when performed on a partner is now no longer available if your partner is resisting.
 	
 	Other:
-		When in a feral form, you can no longer get pregnant (this only affects Sterope's content for now, but I will likely add feral pregnancy content later on).
+		When in a feral form, you can no longer get pregnant (this is a temporary change to fix some issues with Sterope's content, but I will soon re-enable feral pregnancies and fix her content properly).
 		The DECK can now transform dolls' wings, horns, antennae, and tails.
 		Split the item view in the encyclopedia into three separate screens to make navigation a little easier.
 		NPCs with the bondage applier fetish will no longer spawn with enslavement clothing in their inventory (such as the metal collar), as they are not able to enslave others.
@@ -53,6 +56,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Added a small dialogue variation to the scene with Hammer & Ghost just before the raid, where if you ask them about their weapons while carrying an HLF weapon yourself, Hammer will comment on it.
 		You can now take the 'vaginal virginity' fetish during character creation even if you set vaginal sex experience to a non-zero value, allowing you to start the game with the 'broken virgin' debuff if you want to.
 		Rabbit and reindeer balls are now covered in their associated fur instead of sharing the same characteristics (such as colour) with their penis.
+		Slightly improved the 'Glacial' and 'Radiant' status effect icons.
+		In Dominion, the generic population in the 'Characters present' window now changes at night.
 	
 	Bugs:
 		Typo and parsing fixes.
@@ -91,7 +96,17 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed issue where the 'Furry tail penetrations' content setting would only allow furry tails to be used in sex if they were prehensile, instead of following the same rules as non-furry tails (which is if they're prehensile OR if they're longer than 50% of the character's height).
 		When bidding on a slave at the auction block in slaver alley, the correct opening scene is now displayed, instead of the generic import information text.
 		Sex area tooltips will no longer state that non-penis penetrations are swollen due to a knot during the turn when an orgasming character is knotting an orifice.
-	
+		Fixed bug where when a character knotted their partner (which requires them to insert their penis as deep as possible) all other ongoing penetrations would also be inserted as deep as possible, even if the orgasming character wouldn't ordinarily want to do that.
+		When leaving the Centaur Carriage Depot, only 2 minutes now pass instead of an hour.
+		A character now needs both a katana and a wakizashi to complete the 'daisho' set bonus. Wielding two katanas or two wakizashis will no longer work.
+		Fixed bug in the doll side quest, where if you're a doll, you were able to reset the perk tree and buy perks, and were therefore able to obtain all of the perks which were meant to be disabled during that quest.
+		Fixed bug where after learning a spell upgrade, you could continue to click on the owned upgrade which would keep on deducting your spell points.
+		When meeting Fia before starting the main part of the doll quest, the characters present window no longer lists a large nubmer of generic characters as being present.
+		Fixed bug where no subspecies were added to the 'storm immune' subspecies list, which resulted in there being no generic characters present during an arcane storm even though demons were described as being in the area.
+		Fixed bug in the new side quest's bad end where both your and Fiammetta's serial numbers would be identical.
+		Fixed issue with Vronti's blowjob and handjob sex scenes where both of you would start in incorrect positions and background errors would be thrown.
+		Feet and toes for characters with tails instead of legs are now correctly referred to as tails/tips instead of feet/toes.
+		Added missing 'porcelain' skin colour to the possible varieties which characters can spawn with.
 	
 	
 	BUILD CHECK:
@@ -119,7 +134,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[-] Issue with NPCs switching from receiving anilingus (foreplay) to receiving blowjob (main sex) when dom?
 	
 	
-	[] bug reports - from "Pregnancy descriptions are not consistent with type of pregnancy that I have."
+	[x] bug reports - from "Pregnancy descriptions are not consistent with type of pregnancy that I have."
 		[x] Pregnancy descriptions are not consistent with type of pregnancy that I have
 		[x] Incorrect parsing for slave being woken up.
 		[x] Random npcs who have the bondage applyer fetish spawn with slave collars on occasion. Slave collars can't be applied during sex because of their enslavement enchantment.
@@ -180,20 +195,35 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[x] if they have the silent permission, block all SPEECH sex actions -> before this, check for isMute()
 		[x] the Auctioning Block no longer has narrative text
 		[x] Tails shouldn't expand during knotting -> shown in sex tooltip at bottom, not sure if effects are actually applied
-		[] Only interested in your own pleasure, you thrust your tail [as deep as physically possible] -> even when just a normal dom???
-			[] when knotting, other penetrations are affected by knotting's effect on isWantingToFullyPenetrate()
-		[] There should be an option to leave the centaur depot if you arrive at the wrong time. At the moment you're forced to wait, even if that means until the next day
-		[] bug that gives the daisho set bonus with 2 Katana instead of the Katana and the wakizashi (able to apply it with specific items?)
-			[] add 'countDuplicates' attribute to 'numberRequiredForCompleteSet' and apply to false for daisho
+		[x] Only interested in your own pleasure, you thrust your tail [as deep as physically possible] -> even when just a normal dom???
+			[x] when knotting, other penetrations are affected by knotting's effect on isWantingToFullyPenetrate()
+		[-] There should be an option to leave the centaur depot if you arrive at the wrong time. At the moment you're forced to wait, even if that means until the next day
+		[x] bug that gives the daisho set bonus with 2 Katana instead of the Katana and the wakizashi (able to apply it with specific items?)
+			[x] add 'countDuplicates' attribute to 'numberRequiredForCompleteSet' and apply to false for daisho
+		[x] can buy missing perks in dollification stage too...
 		
 	[x] I somehow able to duplicate used condom by going into any shop window and open the condom. You will stuck in this window, and pressing back will only gives you more used condom lol
-	
-	[] During dollification phase, if you reset the perk tree, you'll get all the perks included that were disabled during quest
-	
+	[x] During dollification phase, if you reset the perk tree, you'll get all the perks included that were disabled during quest
 	[x] check if tape rolls are used for random outfits
 	
-	[] shady dealer should sell HLF stuff?
 	
+	[] bug reports from past week
+		[x] after getting a spell upgrade you can still spend points on the upgrades you have already grabbed
+		[x] At night (when you do the new quest with Fia) Lovienne's Luxuries shows lots of characters present
+		[x] Dominion tile populations don't change at night?
+		[x] It's possible for Fia and yourself to get the same serial number
+		[x] add better number parsing method to Util
+			[x] implement for dolls
+		[x] check Moreno rewards
+		[x] Vronti positions broken
+		[-] fields raider encounter inits combat with last encountered random NPC?
+		[-] watering hole needs better tail legConfiguration support
+			[x] footsie - "you suddenly feel her foot rubbing against your tail. Your partner playfully laughs as she starts to lift her foot towards tour groin"
+				[x] parse foot as tail for tail leg configuration
+			[x] "We can also give our legs a rest for a while"
+		[x] if have DECK, allow interaction with transform button instead of inventory use
+		[x?] porcelain skin not a spawnable type
+			
 	[] PRs
 		[] PR1805
 		[] PR 1782
@@ -203,13 +233,10 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[] collar glow as extra
 			[] naming/description for tape?
 	
-	[] bug reports from past week
-	
 	[] if have time (unlikely), add a bug
 		[] moth?
 	
 	[] release
-	
 	
 	
 		
@@ -219,10 +246,12 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] add beanie hat and bobble hat
 	
+	[] watering hole needs better tail legConfiguration support
 	
+	[] shady dealer should sell HLF stuff?
+		[] should be locked behind quest -> unlocked after bat cavern encounter
 	
-	[x] Dev chat pings!!!!
-	
+	[] Scarlett when freed doesn't really act in a way that reflects her affection for you.
 	
 	[] emails
 	

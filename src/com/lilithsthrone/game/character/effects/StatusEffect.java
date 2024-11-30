@@ -8674,7 +8674,8 @@ public class StatusEffect {
 			"clothingSets/snowflake",
 			PresetColour.BASE_BLUE_LIGHT,
 			true,
-			Util.newHashMapOfValues(new Value<>(Attribute.MAJOR_ARCANE, 5f),
+			Util.newHashMapOfValues(
+					new Value<>(Attribute.MAJOR_ARCANE, 5f),
 					new Value<>(Attribute.DAMAGE_ICE, 15f)),
 			null) {
 		@Override
@@ -8697,9 +8698,12 @@ public class StatusEffect {
 	public static AbstractStatusEffect SET_SUN = new AbstractStatusEffect(70,
 			"Radiant",
 			"clothingSets/sun",
-			PresetColour.BASE_ORANGE,
+			PresetColour.CLOTHING_COPPER,
+			PresetColour.CLOTHING_YELLOW,
+			PresetColour.CLOTHING_ORANGE,
 			true,
-			Util.newHashMapOfValues(new Value<>(Attribute.MAJOR_ARCANE, 5f),
+			Util.newHashMapOfValues(
+					new Value<>(Attribute.MAJOR_ARCANE, 5f),
 					new Value<>(Attribute.DAMAGE_FIRE, 15f)),
 			null) {
 		@Override

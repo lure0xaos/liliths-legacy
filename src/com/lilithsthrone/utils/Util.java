@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -706,6 +707,39 @@ public class Util {
 		}
 		
 		return intToString;
+	}
+
+	/**
+	 * Converts an integer (positive or negative) to a series of numbers expressed as a String, with each number linked by a dash.
+	 * @param integer
+	 * @return e.g. 17904 will output "one-seven-nine-zero-four", -8201 will output "negative eight-two-zero-one"
+	 */
+	public static String intToIndividualNumbersString(int integer) {
+		LinkedList<String> stringStack = new LinkedList<>();
+		boolean negative = false;
+		
+		if(integer<0) {
+			negative = true;
+			integer = Math.abs(integer);
+		}
+		
+		while(integer > 0) {
+			stringStack.push(numbersLessThanTwenty[integer%10]);
+			integer /= 10;
+		}
+
+		StringBuilder sb = new StringBuilder();
+		if(negative) {
+			sb.append("negative ");
+		}
+		while(!stringStack.isEmpty()) {
+			sb.append(stringStack.pop());
+			if(!stringStack.isEmpty()) {
+				sb.append("-");
+			}
+		}
+		
+		return sb.toString();
 	}
 	
 	private static String[] primarySequence = {

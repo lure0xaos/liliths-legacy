@@ -509,8 +509,11 @@ public class MainController implements Initializable {
 						
 						if(event.getCode()==KeyCode.END && Main.DEBUG){
 
+							int rndInt = Util.random.nextInt();
+							System.out.println(rndInt+ " = " +Util.intToIndividualNumbersString(rndInt));
+							
 							if(Main.game.isInSex()) {
-								System.out.println(Main.sex.getInitialSexManager().isHidden(Main.game.getPlayer()));
+//								System.out.println(Main.sex.getInitialSexManager().isHidden(Main.game.getPlayer()));
 //								Main.sex.getTargetedPartner(Main.game.getPlayer()).setForeplayPreference(Main.game.getPlayer(), new SexType(SexAreaOrifice.ANUS, SexAreaPenetration.TONGUE));
 //								Main.sex.getTargetedPartner(Main.game.getPlayer()).setMainSexPreference(Main.game.getPlayer(), new SexType(SexAreaPenetration.PENIS, SexAreaOrifice.MOUTH));
 //								Main.sex.recalculateSexActions();

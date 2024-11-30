@@ -3803,6 +3803,9 @@ public class PhoneDialogue {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index==1) {
+				if(Main.game.getPlayer().isDoll()) {
+					return new Response("Reset", "You cannot reset your perks and traits while you're a doll!", null);
+				}
 				return new Response("Reset", "Reset all perks and traits, refunding all points spent. (This is a temporary action while the perk tree is still under development.)", CHARACTER_PERK_TREE) {
 					@Override
 					public void effects() {
