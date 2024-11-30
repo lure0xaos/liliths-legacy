@@ -476,7 +476,11 @@ public enum SlaveJob {
 					SlaveJobSetting.SEX_ORAL,
 					SlaveJobSetting.SEX_VAGINAL,
 					SlaveJobSetting.SEX_ANAL,
-					SlaveJobSetting.SEX_NIPPLES),
+					SlaveJobSetting.SEX_NIPPLES,
+					SlaveJobSetting.SEX_ORAL_DOM,
+					SlaveJobSetting.SEX_VAGINAL_DOM,
+					SlaveJobSetting.SEX_ANAL_DOM,
+					SlaveJobSetting.SEX_NIPPLES_DOM),
 			Util.newArrayListOfValues(
 					SlaveJobSetting.SEX_ORAL,
 					SlaveJobSetting.SEX_VAGINAL,

@@ -1007,19 +1007,19 @@ public class CompanionManagement {
 					"<div class='container-full-width' style='text-align:center;'>"
 						+ "<h6 style='color:"+PresetColour.GENERIC_EXPERIENCE.toWebHexString()+"; text-align:center;'>Job Settings & Related Information</h6>"
 						+"<div class='container-full-width' style='margin-bottom:0;'>"
-							+ "<div style='width:20%; float:left; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='width:20%; float:left; font-weight:bold; margin:0 0 0 4%; padding:0;'>"
 								+ "Job"
 							+ "</div>"
-							+ "<div style='float:left; width:10%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:9%; font-weight:bold; margin:0; padding:0;'>"
 								+ "<b>Workers</b>"
 							+"</div>"
-							+ "<div style='float:left; width:15%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:14%; font-weight:bold; margin:0; padding:0;'>"
 								+ "<b style='color:"+PresetColour.AFFECTION.toWebHexString()+";'>Affection</b>"
 							+"</div>"
-							+ "<div style='float:left; width:15%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:14%; font-weight:bold; margin:0; padding:0;'>"
 								+ "<b style='color:"+PresetColour.OBEDIENCE.toWebHexString()+";'>Obedience</b>"
 							+"</div>"
-							+ "<div style='float:left; width:40%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:39%; font-weight:bold; margin:0; padding:0;'>"
 								+ "<b style='color:"+PresetColour.CURRENCY_GOLD.toWebHexString()+";'>Income</b>"
 										+ " (+<b style='color:"+PresetColour.OBEDIENCE.toWebHexString()+";'>Obedience Bonus</b>)"
 							+"</div>"
@@ -1036,32 +1036,32 @@ public class CompanionManagement {
 				
 				UtilText.nodeContentSB.append(
 						"<div class='container-full-width inner' "+(isCurrentJob?"style='background:"+PresetColour.BACKGROUND_ALT.toWebHexString()+";'":"")+">"
-							+ "<div style='width:5%; float:left; margin:0; padding:0;'>"
+							+ "<div style='width:4%; float:left; margin:0; padding:0;'>"
 								+ "<div class='title-button no-select' id='SLAVE_JOB_INFO_"+job+"' style='position:relative; top:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getInformationIcon()+"</div>"
 							+ "</div>"
-							+"<div style='width:15%; float:left; margin:0; padding:0;'>"
+							+"<div style='width:20%; float:left; margin:0; padding:0;'>"
 								+ (isCurrentJob
 									? "<b style='color:"+job.getColour().toWebHexString()+";'>"+Util.capitaliseSentence(job.getName(character))+"</b>"
 									: "[style.colourDisabled("+Util.capitaliseSentence(job.getName(character))+")]")
 							+ "</div>"
-							+ "<div style='float:left; width:10%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:9%; font-weight:bold; margin:0; padding:0;'>"
 								+ Main.game.getOccupancyUtil().getTotalCharactersWorkingJob(job)+"/"+(job.getSlaveLimit()<0?"&#8734;":job.getSlaveLimit())
 							+"</div>"
-							+ "<div style='float:left; width:15%; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:14%; margin:0; padding:0;'>"
 								+ (affectionChange>0
 										?"<b style='color:"+PresetColour.AFFECTION.toWebHexString()+";'>+"+decimalFormat.format(affectionChange)+ "</b>"
 										:(affectionChange<0
 												?"<b style='color:"+PresetColour.GENERIC_BAD.toWebHexString()+";'>"+decimalFormat.format(affectionChange)+ "</b>"
 												:"[style.colourDisabled(0)]"))+"/hour"
 							+"</div>"
-							+ "<div style='float:left; width:15%; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:14%; margin:0; padding:0;'>"
 								+ (obedienceChange>0
 										?"<b style='color:"+PresetColour.OBEDIENCE.toWebHexString()+";'>+"+decimalFormat.format(obedienceChange)+ "</b>"
 										:(obedienceChange<0
 												?"<b style='color:"+PresetColour.GENERIC_BAD.toWebHexString()+";'>"+decimalFormat.format(obedienceChange)+ "</b>"
 												:"[style.colourDisabled(0)]"))+"/hour"
 							+"</div>"
-							+ "<div style='float:left; width:40%; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:39%; margin:0; padding:0;'>"
 								+ UtilText.formatAsMoney(job.getIncome())
 								+ " + ("
 								+ (job.getObedienceIncomeModifier()>0
@@ -1078,6 +1078,9 @@ public class CompanionManagement {
 				
 				// Job Settings:
 				for(SlaveJobSetting setting : job.getMutualSettings()) {
+					if(!setting.isAvailable()) {
+						continue;
+					}
 					boolean settingActive = character.hasSlaveJobSetting(job, setting);
 					
 					String id = settingActive
@@ -1092,7 +1095,7 @@ public class CompanionManagement {
 										:"[style.colourDisabled("+setting.getName()+")]")
 							+ "</div>");
 				}
-				
+				// More Job Settings:
 				for(Entry<String, List<SlaveJobSetting>> entry : job.getMutuallyExclusiveSettings().entrySet()) {
 					UtilText.nodeContentSB.append("<div class='container-full-width inner' style='"+(!isCurrentJob?"background:#1B1B1B;":"")+"'>"
 													+ "<div style='width:100%; float:left; margin:0; padding:0;"+(isCurrentJob?"":"color:#777;")+"'>"
@@ -1100,9 +1103,11 @@ public class CompanionManagement {
 													+ "</div>");
 					
 					for(SlaveJobSetting setting : entry.getValue()) {
+						if(!setting.isAvailable()) {
+							continue;
+						}
 						boolean settingActive = character.hasSlaveJobSetting(job, setting);
 						
-
 						String id = settingActive
 								?setting.toString()+"_DISABLED"
 								:setting.toString()+"_TOGGLE_ADD";

@@ -569,7 +569,8 @@ public class CharacterModificationUtils {
 				
 				int i=0;
 				for(AbstractFetish fetish : Fetish.getAllFetishes()) {
-					if(fetish.isAvailable(BodyChanging.getTarget()) && fetish.getFetishesForAutomaticUnlock().isEmpty()) {
+					if((fetish.isAvailable(BodyChanging.getTarget()) || (fetish==Fetish.FETISH_PURE_VIRGIN && Main.game.getPlayer().hasVagina())) // Always allow virgin fetish so that players can start as broken virgin
+							&& fetish.getFetishesForAutomaticUnlock().isEmpty()) {
 						contentSB.append("<div class='container-full-width inner' style='width:100%; margin:0; padding:0; background:"+(i%2==0?PresetColour.BACKGROUND:PresetColour.BACKGROUND_ALT).toWebHexString()+";'>");
 						
 							contentSB.append("<div class='container-full-width inner' style='margin:0; padding:0 0 0 20px; width:25%; text-align:center;background:transparent;'>");
@@ -3935,7 +3936,7 @@ public class CharacterModificationUtils {
 						+ "<span style='color:"+PresetColour.GENERIC_WETNESS_ONE.getShades()[0]+";'>Not squirter</span>"
 					+ "</div>"
 					+"<div class='cosmetics-button active'>"
-						+ "<span style='color:"+PresetColour.GENERIC_WETNESS_EIGHT.toWebHexString()+";'>Squirter</span>"
+						+ "<span style='color:"+PresetColour.GENERIC_WETNESS_FIVE.toWebHexString()+";'>Squirter</span>"
 					+ "</div>");
 		} else {
 			contentSB.append(
@@ -3943,7 +3944,7 @@ public class CharacterModificationUtils {
 							+ "<span style='color:"+PresetColour.GENERIC_WETNESS_ONE.toWebHexString()+";'>Not squirter</span>"
 					+ "</div>"
 					+"<div id='VAGINA_SQUIRTER_ON' class='cosmetics-button'>"
-						+ "<span style='color:"+PresetColour.GENERIC_WETNESS_EIGHT.getShades()[0]+";'>Squirter</span>"
+						+ "<span style='color:"+PresetColour.GENERIC_WETNESS_FIVE.getShades()[0]+";'>Squirter</span>"
 					+ "</div>");
 		}
 		

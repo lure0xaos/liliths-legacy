@@ -739,6 +739,10 @@ public class ItemType {
 		public boolean isAbleToBeUsedInSex() {
 			return true;
 		}
+//		@Override
+//		public boolean isAbleToBeUsedWhileTrading() {
+//			return false;
+//		}
 	};
 
 	public static AbstractItemType CONDOM_USED = new AbstractItemType(1,
@@ -780,6 +784,10 @@ public class ItemType {
 		public boolean isAbleToBeUsedInSex() {
 			return true;
 		}
+//		@Override
+//		public boolean isAbleToBeUsedWhileTrading() {
+//			return false;
+//		}
 	};
 	
 	public static AbstractItemType ORIENTATION_HYPNO_WATCH = new AbstractItemType(50000,

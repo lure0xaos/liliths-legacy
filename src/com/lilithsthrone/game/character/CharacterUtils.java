@@ -1218,46 +1218,69 @@ public class CharacterUtils {
 		boolean isHalfDemon = species == Subspecies.HALF_DEMON;
 		boolean isDoll = species == Subspecies.DOLL;
 		
-		if(isSlime || isHalfDemon) {
-			if(linkedCharacter==null || !linkedCharacter.isUnique()) {
-				List<AbstractSubspecies> slimeSubspecies = new ArrayList<>();
-				for(AbstractSubspecies subspecies : Subspecies.getAllSubspecies()) {
-					// Special races that slimes/half-demons do not spawn as are slimes and any Subspecies which sets an override (so demons, elementals, or Youko):
-					if(!isSlime && subspecies.getSubspeciesOverridePriority()==0) {
-						if(startingGender.isFeminine()) {
-							for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesFeminineFurryPreferencesMap().entrySet()) {
-								if(entry.getValue() != FurryPreference.HUMAN) {
-									slimeSubspecies.add(subspecies);
-								}
+		// Handling half-demons:
+		if(isHalfDemon && (linkedCharacter==null || !linkedCharacter.isUnique())) {
+			List<AbstractSubspecies> potentialSubspecies = new ArrayList<>();
+			for(AbstractSubspecies subspecies : Subspecies.getAllSubspecies()) {
+				// Special races that half-demons do not spawn as are slimes and any Subspecies which sets an override (so demons, elementals, or Youko):
+				if(subspecies!=Subspecies.SLIME && subspecies.getSubspeciesOverridePriority()==0) {
+					if(startingGender.isFeminine()) {
+						for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesFeminineFurryPreferencesMap().entrySet()) {
+							if(entry.getValue() != FurryPreference.HUMAN) {
+								potentialSubspecies.add(subspecies);
 							}
-						} else {
-							for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesMasculineFurryPreferencesMap().entrySet()) {
-								if(entry.getValue() != FurryPreference.HUMAN) {
-									slimeSubspecies.add(subspecies);
-								}
+						}
+					} else {
+						for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesMasculineFurryPreferencesMap().entrySet()) {
+							if(entry.getValue() != FurryPreference.HUMAN) {
+								potentialSubspecies.add(subspecies);
 							}
 						}
 					}
 				}
-				
-				if(slimeSubspecies.isEmpty()) {
-					slimeSubspecies.add(Subspecies.HUMAN);
-				}
-				species = Util.randomItemFrom(slimeSubspecies);
-				
-				if(isHalfDemon) {
-					return generateHalfDemonBody(linkedCharacter, startingGender, species, true);
-				}
-				
-				if(startingGender.isFeminine()) {
-					stage = getRaceStageFromPreferences(Main.getProperties().getSubspeciesFeminineFurryPreferencesMap().get(species), startingGender, species);
-					
-				} else {
-					stage = getRaceStageFromPreferences(Main.getProperties().getSubspeciesMasculineFurryPreferencesMap().get(species), startingGender, species);
-				}
-				
-				startingBodyType = RacialBody.valueOfRace(species.getRace());
 			}
+			
+			if(potentialSubspecies.isEmpty()) {
+				potentialSubspecies.add(Subspecies.HUMAN);
+			}
+			species = Util.randomItemFrom(potentialSubspecies);
+			
+			return generateHalfDemonBody(linkedCharacter, startingGender, species, true);
+		}
+		
+		// Handling slimes:
+		if(isSlime && (linkedCharacter==null || !linkedCharacter.isUnique())) {
+			List<AbstractSubspecies> potentialSubspecies = new ArrayList<>();
+			for(AbstractSubspecies subspecies : Subspecies.getAllSubspecies()) {
+				// Special races that slimes do not spawn as are slimes any Subspecies which sets an override (so demons, elementals, or Youko):
+				if(subspecies!=Subspecies.SLIME && subspecies.getSubspeciesOverridePriority()==0) {
+					if(startingGender.isFeminine()) {
+						for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesFeminineFurryPreferencesMap().entrySet()) {
+							if(entry.getValue() != FurryPreference.HUMAN) {
+								potentialSubspecies.add(subspecies);
+							}
+						}
+					} else {
+						for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesMasculineFurryPreferencesMap().entrySet()) {
+							if(entry.getValue() != FurryPreference.HUMAN) {
+								potentialSubspecies.add(subspecies);
+							}
+						}
+					}
+				}
+			}
+			if(potentialSubspecies.isEmpty()) {
+				potentialSubspecies.add(Subspecies.HUMAN);
+			}
+			species = Util.randomItemFrom(potentialSubspecies);
+			
+			if(startingGender.isFeminine()) {
+				stage = getRaceStageFromPreferences(Main.getProperties().getSubspeciesFeminineFurryPreferencesMap().get(species), startingGender, species);
+			} else {
+				stage = getRaceStageFromPreferences(Main.getProperties().getSubspeciesMasculineFurryPreferencesMap().get(species), startingGender, species);
+			}
+			
+			startingBodyType = RacialBody.valueOfRace(species.getRace());
 		}
 		
 		if(isDoll) { // Dolls spawn as human

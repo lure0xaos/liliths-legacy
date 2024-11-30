@@ -6,7 +6,7 @@
 		<determiner><![CDATA[a roll of]]></determiner>
 		<name><![CDATA[electrical tape]]></name>
 		<namePlural pluralByDefault="false"><![CDATA[electrical tapes]]></namePlural>
-		<description><![CDATA[This shiny, sticky tape is of the sort that's typically used by electricians. Although it holds enough adhesive to stick to most surfaces, it isn't particularly strong, and could comfortably be stuck to skin, fur, or hair without fear of a painful removal.]]></description>
+		<description><![CDATA[This shiny tape is of the sort that's typically used by electricians. Although it holds enough adhesive to stick to most surfaces, it isn't particularly strong, and could comfortably be stuck to skin, fur, or hair without fear of a painful removal.]]></description>
 		<physicalResistance>0</physicalResistance>
 		<femininity>ANDROGYNOUS</femininity>
 		<equipSlots>
@@ -108,6 +108,7 @@
 			<tag>DISCARDED_WHEN_UNEQUIPPED</tag>
 			<tag>ENABLE_SEX_EQUIP</tag>
 			<tag>SOLD_BY_RALPH</tag>
+			<tag>NO_RANDOM_SPAWN</tag>
 		</itemTags>
 		<itemTags slot="MOUTH">
 			<tag>MUFFLES_SPEECH</tag>

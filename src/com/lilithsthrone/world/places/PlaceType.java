@@ -2910,8 +2910,17 @@ public class PlaceType {
 			PresetColour.BASE_ROSE,
 			ClothingEmporium.EXTERIOR,
 			Darkness.ALWAYS_LIGHT,
-			null, "in her store"
-			).initWeatherImmune();
+			null,
+			"in her store") {
+		@Override
+		public List<Population> getPopulation() {
+			if(Main.game.isHourBetween(9, 20) && !Main.game.getCurrentDialogueNode().isTravelDisabled()) { // Travel disabled indicates that the player is in the storeroom with Nyan
+				return Util.newArrayListOfValues(new Population(true, PopulationType.SHOPPER, PopulationDensity.DOZENS, Subspecies.getWorldSpecies(WorldType.DOMINION, this, true)));
+			} else {
+				return new ArrayList<>();
+			}
+		}
+	}.initWeatherImmune();
 	
 	public static final AbstractPlaceType SHOPPING_ARCADE_VICKYS_SHOP = new AbstractPlaceType(
 			WorldRegion.DOMINION,

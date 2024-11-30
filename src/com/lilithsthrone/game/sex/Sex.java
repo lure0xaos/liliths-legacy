@@ -2931,7 +2931,8 @@ public class Sex {
 							vaginaClothing.setDirty(Main.sex.getCharacterPerformingAction(), true);
 							stringBuilderForAppendingDescriptions.append("<p style='text-align:center;'>");
 								stringBuilderForAppendingDescriptions.append("[style.italicsGirlCum(");
-									stringBuilderForAppendingDescriptions.append("[npc.NamePos] "+vaginaClothing.getName()+" "+(vaginaClothing.getClothingType().isPlural()?"are":"is")+" dirtied from [npc.her] squirting!");
+									stringBuilderForAppendingDescriptions.append(
+											UtilText.parse(Main.sex.getCharacterPerformingAction(), "[npc.NamePos] "+vaginaClothing.getName()+" "+(vaginaClothing.getClothingType().isPlural()?"are":"is")+" dirtied from [npc.her] squirting!"));
 								stringBuilderForAppendingDescriptions.append(")]");
 							stringBuilderForAppendingDescriptions.append("</p>");
 						}

@@ -26,7 +26,15 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Added 'square nipple rings' (androgynous, nipple piercing slot, sold by Kate).
 		Added 'electrical tape' (androgynous, mouth/nipple/vagina/anus slots, sold by Ralph).
 		Removed 'tape crosses' as they're now a part of the new 'electrical tape' clothing item. Any existing 'tape crosses' in your save file will be converted into 'electrical tape' when loading into this version.
-		Added 'duct tape' (androgynous, wrist/ankle slots, sold by Ralph).
+		Added 'duct tape' (androgynous, wrist/ankle/mouth slots, sold by Ralph).
+	
+	Slaves:
+		Added 4 new job permissions to the prostitute job, allowing your slaves to act as dominant partners while working as a prostitute.
+		When working as a prostitute, slaves can now perform cunnilingus as well as blowjobs when the oral permission is activated.
+		Improved the formatting of prostitute events in the occupancy manager.
+		Prostitute and public fucktoy slaves will no longer engage in anal sex if your anal content setting is disabled.
+		Job settings for slaves now respect your content options (e.g. if you have anal content turned off, you won't see the 'Allow anal' setting for the prostitute or public fucktoy jobs.)
+		If your slaves are given the 'Silence' permission, they are now treated as though they're mute, and cannot speak during sex. (They will continue to talk during non-sex interactions as I still need to add mute behaviour for most slave scenes...)
 	
 	Sex:
 		Further improved the 'Grow cock' sex action, so if a character has a penis, and then that penis is removed, the 'Grow cock' action in sex will restore that character's previous penis instead of generating a generic new one for them.
@@ -41,6 +49,10 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Updated the starting jewellery for piercing slots in the character creation based on femininity.
 		Increased Rose's starting age from 18 to 20 (as I felt like she'd need more time to build up her relationship with Lilaya).
 		Oglix now has the tribal tattoo and scars which are shown in her artwork.
+		Submissive NPCs at the Watering Hole who have the 'unwilling fuck-toy' fetish will now engage in rape-play in the toilets.
+		Added a small dialogue variation to the scene with Hammer & Ghost just before the raid, where if you ask them about their weapons while carrying an HLF weapon yourself, Hammer will comment on it.
+		You can now take the 'vaginal virginity' fetish during character creation even if you set vaginal sex experience to a non-zero value, allowing you to start the game with the 'broken virgin' debuff if you want to.
+		Rabbit and reindeer balls are now covered in their associated fur instead of sharing the same characteristics (such as colour) with their penis.
 	
 	Bugs:
 		Typo and parsing fixes.
@@ -60,6 +72,26 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Using the 'Quick sex' action now correctly results in a character cumming on their partner's breasts if they are engaged in paizuri (or any penis on non-penetrable orifice) for the main sex preference.
 		Fixed bug where items of clothing could be mentioned multiple times when being described as being cummed on at the end of quick sex.
 		Fixed bug where time was inadvertently passing when selecting options in Helena's slave customisation menu.
+		Using a condom while trading with an NPC will no longer softlock the scene and duplicate the condom.
+		Fixed issue where using a used condom and then backing out before choosing an orifice would make the condom disappear from your inventory until the scene changed.
+		Fixed bug where creampie actions could sometimes result in all sex participants cumming into the targeted character regardless of whether or not they were penetrating them or even if they had a penis (this bug was always encountered when using autofellatio and deepthroating yourself when spectating an ongoing sex scene).
+		When in hiding while spectating a sex scene, you can no longer manipulate the participants' clothes or give them items.
+		Added missing generic 'shoppers' population for Nyan's store tile (only present when not in storeroom with Nyan).
+		Fixed cow ears being described as being high up on your head (as through they were pointed ears like a fox's).
+		The generic 'trader' occupation is no longer available as a job suggestion to friendly occupants.
+		Fixed bug where random NPCs would never spawn as half-demon taurs, no matter what you'd set your half-demon and taur preferences to be.
+		Fixed bug where half-demon taurs would always have their genitals referred to as being those of a 'demonic-horse', instead of a 'demonic-LEG_RACE'.
+		Fixed bug where slimes would always spawn as 'human' slimes, instead of representing your subspecies preferences. (i.e. Slimes will now spawn with a body drawn from the full range of subspecies that are enabled in your content settings.)
+		When squirting during orgasm, the text now correctly describes the orgasming character as the one whose clothing is being dirtied (instead of a random NPC).
+		Fixed multiple parsing errors being displayed when receiving oral sex from Nyan & Leotie.
+		In Nyan & Leotie oral threesome, when blowjob or cunnilingus is somehow ended, and they aren't involved in an ongoing oral action, they will now restart the blowjob/cunnilingus.
+		In sex, when a character joins in on an ongoing action (double-blowjob, double-cunnilingus, double-penetration), then any other ongoing actions using the associated sex areas are now correctly stopped. (e.g. Nipple kissing into double blowjob would not stop the ongoing nipple kissing.)
+		Fixed bug in sex where starting an ongoing action involving the MOUTH area would not stop any ongoing TONGUE actions, and vice versa.
+		Fixed bug where using an enslavement item on an NPC who wasn't able to be enslaved would still add them as your slave and teleport them to slaver alley (this bug was present for the two imps who guard each of the fortresses in Submission).
+		Fixed issue where the 'Furry tail penetrations' content setting would only allow furry tails to be used in sex if they were prehensile, instead of following the same rules as non-furry tails (which is if they're prehensile OR if they're longer than 50% of the character's height).
+		When bidding on a slave at the auction block in slaver alley, the correct opening scene is now displayed, instead of the generic import information text.
+		Sex area tooltips will no longer state that non-penis penetrations are swollen due to a knot during the turn when an orgasming character is knotting an orifice.
+	
 	
 	
 	BUILD CHECK:
@@ -106,18 +138,91 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[x] when you quick sex with tit fucking as the main sex preference, there are no cum targets generated even though the guy orgasmed
 		[x] quick sex dirty slots can be duplicated
 		[x] when customizing your slave at Helen's shop, time passes by 1 minute every time the "Sex Actions Performed" stat is being altered
-		[] NPCs at the Watering Hole who have a non-con fetish should allow player to rape them without usual talking and kissing first
-		[] Hammer & Ghost content 'Weapons' -> when you bring your own teargas shotgun to try and get a unique comment
+		[x] NPCs at the Watering Hole who have a non-con fetish should allow player to rape them without usual talking and kissing first
+		[x] Hammer & Ghost content 'Weapons' -> when you bring your own teargas shotgun to try and get a unique comment
+		[x] autofellatio in a scene while watching two slaves have sex in the hall. When the orgasm triggers it says my character swallowed cum of every participant in the scene
+		[x] If you set your history first, it blocks you from taking the virgin fetish (allow it to start as broken virgin)
+		[x] can use items on partners while hidden in sex
+			[x] items - isItemUseAvailable
+			[x] can unseal - getJinxRemovalResponse
+			[x] can also manipulate clothing - isAbleToRemoveOthersClothing
+		[x] no population in Nyan's store
+			[x] check sex scenes for public?
+		[-] on orgasm, no cum results in "you feel X's potent seed shooting deep inside of you" description
+		[-] Encourage deepthroat when autofellatio has weird parsing
+		[x] cow ear desc.
+		[x] half-demon non centaur taur spawns no longer work
+			[x] feral name for genitals doesn't align to their taur type
+		[-] prostitute partners persisting in Angel's Kiss?
+		[x] slave prostitutes with penis never fuck clients?
+			[x] add 4 types of dom sex settings
+				[x] test
+			[x] add oral vaginal variation
+				[x] test
+		[x] respect content options for slave job settings
+		[x] slave job nipple pen and anal not respecting content options...
+			[x] prostitute
+			[x] public fucktoy - stocks
+		[x] improve formatting for stocks like with prostitute
+		[-] Desryth acts like a slave when encountering outside Lilaya's home
+		[x]  Rabbit testicles/scrotums inherit the penis color, even when they have the sheathed modifier. It feels like they should either be furred or inherit the main skin color instead (check all furry balls)
+		[x] Slimes are spawning  only as humans even when humans are completely turned off, happens both in Submission and the Bat Caverns
+		[x] squirting uses wrong parsing
+		[x] Nyanmum uses MISSIONARY_ORAL_TWO inappropriately
+			[x] Check taur BEHIND_TWO as well
+		[x] If Leotie stops blowjob, can't restart double?
+			[x] not restarting cunnilingus
+		[x] when NPC joins blowjob, the actions for ongoing crotch-boob sucking are still available...
+			[x] also additional cunnilingus
+		[x] trying to enslave an imp after winning combat in im guards scene results in weird errors
+		[x] Tails that are made to appear "Suitable For Penetration" through the setting for "Furry Tail Penetration" only actually check for isPrehensile
+		[x] slaves still speak in sex even when ordered to be silent
+			[x] if they have the silent permission, block all SPEECH sex actions -> before this, check for isMute()
+		[x] the Auctioning Block no longer has narrative text
+		[x] Tails shouldn't expand during knotting -> shown in sex tooltip at bottom, not sure if effects are actually applied
+		[] Only interested in your own pleasure, you thrust your tail [as deep as physically possible] -> even when just a normal dom???
+			[] when knotting, other penetrations are affected by knotting's effect on isWantingToFullyPenetrate()
+		[] There should be an option to leave the centaur depot if you arrive at the wrong time. At the moment you're forced to wait, even if that means until the next day
+		[] bug that gives the daisho set bonus with 2 Katana instead of the Katana and the wakizashi (able to apply it with specific items?)
+			[] add 'countDuplicates' attribute to 'numberRequiredForCompleteSet' and apply to false for daisho
+		
+	[x] I somehow able to duplicate used condom by going into any shop window and open the condom. You will stuck in this window, and pressing back will only gives you more used condom lol
+	
+	[] During dollification phase, if you reset the perk tree, you'll get all the perks included that were disabled during quest
+	
+	[x] check if tape rolls are used for random outfits
+	
+	[] shady dealer should sell HLF stuff?
+	
+	[] PRs
+		[] PR1805
+		[] PR 1782
+			[] add NPC preference behaviour
+			[] check quick sex handling
+		[] item parsing PR for glow colour
+			[] collar glow as extra
+			[] naming/description for tape?
+	
+	[] bug reports from past week
+	
+	[] if have time (unlikely), add a bug
+		[] moth?
+	
+	[] release
+	
+	
+	
+		
+	[] SlaveDialogue.java needs a full slave.isMute() pass
+		
+	[] if a character cannot see during sex, change the reaction text to areas being revealed
+	
+	[] add beanie hat and bobble hat
 	
 	
 	
 	[x] Dev chat pings!!!!
 	
-	[] PRs
-		[] PR1805
-		[] item parsing PR for glow colour
-			[] collar glow as extra
-			[] naming/description for tape?
 	
 	[] emails
 	
@@ -128,6 +233,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] invisibility spell to avoid encounters
 	
 	[] need footless tights
+	
+	[] enchantment to prevent orgasm?
 	
 	[x] add tape as clothing item, when equipping it doesn't get removed from inventory. Instead generate new clothing (which is removed when unequipped) and apply to slot
 		[x] tape nipples
@@ -188,6 +295,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[x] breeder
 		[x] bimbo
 		[x] bitch
+	
+	[] Fetish.isAvailable() is only used for virgin fetish and it seems to do very little (doesn't stop you from obtaining it even if requirements are not met). Remove it?
 	
 	[] penetration modifiers should +/- arousal in sex
 		[] make it into a status effect which adds arousal based on modifiers
@@ -375,6 +484,42 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[] After raising demon reputation can host party at mansion
 				[] Invite named demons
 			
+	[] Underground club (small content addition for wild group sex)
+		[] Encounter in Submission provides instructions to find secret club
+		[] Every night drug-fuelled rave
+		[] Turns into orgy
+		
+	[] The Minotaur side quest
+		[] In Amazon camp (after Themiscyra MQ), Amazon says how they wouldn't have been defeated if they had their sacred weapon
+			[] Weapon is a gigantic kopis that could only be wielded by the largest, strongest Amazonians
+			[] Weapon was stolen decades ago by a huge minotaur (strong & uses earth spells)
+			[] She storms off (if player is masculine, she shows disdain towards them for being allowed into the camp)
+		[] When entering camp after 48 hours, approached by concerned friend of Amazon who says she left and hasn't returned
+			[] Add hint in tile that this will happen to encourage player to return
+		[] Friend reveals location of minotaur's labyrinth (tunnelled out thanks to king's earth magic proficiency) in the snowy north
+			[] main quest content involves navigating maze and fighting/avoiding minotaur's sons
+			[] At end, fight or sneak past minotaur king and rescue Amazon
+				[] she's addicted to cum and doesn't want to be rescued
+					[] can leave her
+					[] get her to escape with you
+						[] force her
+						[] give addiction cure
+						[] get her addicted to your fluids instead
+			[] Sacred weapon is wielded by Minotaur
+				[] Deteriorated, cracked blade, wraps around handle, blade bears crude markings
+			[] At end, secret passage out into the mountains is revealed
+			[] Return weapon, Amazon, both, or none
+				[] Weapon
+					[] Friend says repairing it will take months, and then it'll be safely stored
+						[] Gain a different sword as a reward
+				[] Amazon
+					[] Gain access to Amazonian training
+				[] Both
+					[] Gain perk
+				[] None
+					[] Gain some flames, friend leaves to save her herself
+					[] Returning to labyrinth and sneaking down passage allows player to see both Amazonians being fucked by king
+		
 	
 	[] Ralph's player-orgasm sex action dirties Ralph's underwear
 	

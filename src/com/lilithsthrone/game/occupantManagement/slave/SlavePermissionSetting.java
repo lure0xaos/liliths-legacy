@@ -18,7 +18,7 @@ public enum SlavePermissionSetting {
 
 	// General/Misc.:
 	
-	GENERAL_SILENCE(false, "Silence", "Forbid this slave from talking."),
+	GENERAL_SILENCE(false, "Silence", "Forbid this slave from talking. [style.italics(This slave will be treated as though they're mute while this permission is active.)]"),
 	GENERAL_CRAWLING(false, "Crawling", "Forbid this slave from walking, forcing them to crawl around on all fours."),
 	GENERAL_HOUSE_FREEDOM(false, "House Freedom", "Grant this slave the freedom to walk around Lilaya's house in their free time."),
 	GENERAL_OUTSIDE_FREEDOM(false, "Outside Freedom", "Grant this slave the freedom to leave Lilaya's house in their free time."),

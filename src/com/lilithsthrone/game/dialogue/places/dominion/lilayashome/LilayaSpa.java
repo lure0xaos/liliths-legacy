@@ -2111,7 +2111,7 @@ public class LilayaSpa {
 				}
 				if(index==2) {
 					if(guest.isAbleToEquip(bikiniTop, true, guest) && guest.isAbleToEquip(bikiniBottom, true, guest)) {
-						return new Response("Bikni", UtilText.parse(guest, "Tell [npc.name] to wear a bikini."), SPA_GUEST_PLAYER_CLOTHING) {
+						return new Response("Bikini", UtilText.parse(guest, "Tell [npc.name] to wear a bikini."), SPA_GUEST_PLAYER_CLOTHING) {
 							@Override
 							public void effects() {
 								guest.unequipAllClothingIntoHoldingInventory(guest, false, false);
@@ -2121,7 +2121,7 @@ public class LilayaSpa {
 							}
 						};
 					} else {
-						return new Response("Bikni", UtilText.parse(guest, "[npc.Name] cannot wear a bikini, as some of [npc.her] sealed clothing is blocking [npc.herHim] from doing so..."), null);
+						return new Response("Bikini", UtilText.parse(guest, "[npc.Name] cannot wear a bikini, as some of [npc.her] sealed clothing is blocking [npc.herHim] from doing so..."), null);
 					}
 				}
 				if(index==3) {

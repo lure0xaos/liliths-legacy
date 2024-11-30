@@ -424,25 +424,6 @@ public class Subspecies {
 			"incubi",
 			"succubi",
 			null,
-//			new FeralAttributes(
-//				"demonic-horse",
-//				"demonic-horses",
-//				"demonic-stallion",
-//				"demonic-mare",
-//				"demonic-stallions",
-//				"demonic-mares",
-//				LegConfiguration.QUADRUPEDAL,
-//				190,
-//				0,
-//				1,
-//				1,
-//				1,
-//				true) {
-//					@Override
-//					public void applySpecialPreFeralTransformationChanges(Body targetBody) {
-//						targetBody.setLegType(LegType.DEMON_HORSE_HOOFED);
-//					}
-//			},
 			Nocturnality.CATHEMERAL,
 			"Due to the fact that demons are very easily able to harness arcane power, [npc.namePos] spell-casting abilities are truly a terrifying force to behold!",
 			Util.newHashMapOfValues(

@@ -6,18 +6,20 @@
 		<determiner><![CDATA[a roll of]]></determiner>
 		<name><![CDATA[duct tape]]></name>
 		<namePlural pluralByDefault="false"><![CDATA[duct tape]]></namePlural>
-		<description><![CDATA[Backed with woven fabric and covered in plastic, this highly adhesive tape is easily strong enough to keep a person's arms or legs bound together...]]></description>
+		<description><![CDATA[Backed with woven fabric and covered in plastic, this highly adhesive tape is easily strong enough to keep a person's arms, legs, or lips bound together...]]></description>
 		<physicalResistance>0</physicalResistance>
 		<femininity>ANDROGYNOUS</femininity>
 		<equipSlots>
 			<slot>WRIST</slot>
 			<slot>ANKLE</slot>
+			<slot>MOUTH</slot>
 		</equipSlots>
 		<rarity>COMMON</rarity>
 		<clothingSet/>
 		<imageName>strong_roll.svg</imageName>
 		<imageEquippedName slot="WRIST">strong_binding.svg</imageEquippedName>
 		<imageEquippedName slot="ANKLE">strong_binding.svg</imageEquippedName>
+		<imageEquippedName slot="MOUTH">strong_single.svg</imageEquippedName>
 		<effects/>
 		
 		<blockedPartsList slot="WRIST"> 
@@ -48,8 +50,21 @@
 			</blockedParts>
 		</blockedPartsList>
 		
+		<blockedPartsList slot="MOUTH">
+			<blockedParts>
+				<displacementType>REMOVE_OR_EQUIP</displacementType>
+				<clothingAccessRequired/>
+				<blockedBodyParts>
+					<bodyPart>MOUTH</bodyPart>
+				</blockedBodyParts>
+				<clothingAccessBlocked/>
+				<concealedSlots/>
+			</blockedParts>
+		</blockedPartsList>
+		
 		<incompatibleSlots slot="WRIST"/>
 		<incompatibleSlots slot="ANKLE"/>
+		<incompatibleSlots slot="MOUTH"/>
 		
 		<primaryColours>
 			<colour>CLOTHING_SILVER</colour>
@@ -70,12 +85,16 @@
 			<tag>ENABLE_SEX_EQUIP</tag>
 			<tag>FITS_ARM_WINGS</tag>
 			<tag>SOLD_BY_RALPH</tag>
+			<tag>NO_RANDOM_SPAWN</tag>
 		</itemTags>
 		<itemTags slot="WRIST">
 			<tag>HINDERS_ARM_MOVEMENT</tag>
 		</itemTags>
 		<itemTags slot="ANKLE">
 			<tag>HINDERS_LEG_MOVEMENT</tag>
+		</itemTags>
+		<itemTags slot="MOUTH">
+			<tag>MUFFLES_SPEECH</tag>
 		</itemTags>
 	</coreAttributes>
 
@@ -122,6 +141,29 @@
 		</other>
 		<otherRough>
 			<![CDATA[[npc.Name] roughly [npc.verb(tear)] off the tape from around [npc2.namePos] ankles.]]>
+		</otherRough>
+	</displacementText>
+	
+	<replacementText slot="MOUTH" type="REMOVE_OR_EQUIP">
+		<self>
+			<![CDATA[[npc.Name] [npc.verb(tear)] off a long piece of tape and [npc.verb(stick)] it over [npc.her] mouth.]]>
+		</self>
+		<other>
+			<![CDATA[[npc.Name] [npc.verb(tear)] off a long piece of tape and [npc.verb(stick)] it over [npc2.namePos] mouth.]]>
+		</other>
+		<otherRough>
+			<![CDATA[[npc.Name] [npc.verb(tear)] off a long piece of tape and roughly [npc.verb(stick)] it over [npc2.namePos] mouth.]]>
+		</otherRough>
+	</replacementText>
+	<displacementText slot="MOUTH" type="REMOVE_OR_EQUIP">
+		<self>
+			<![CDATA[[npc.Name] [npc.verb(wince)] as [npc.she] [npc.verb(peel)] the tape off [npc.her] mouth.]]>
+		</self>
+		<other>
+			<![CDATA[[npc2.Name] [npc2.verb(wince)] as [npc.name] [npc.verb(peel)] the tape off [npc2.her] mouth.]]>
+		</other>
+		<otherRough>
+			<![CDATA[[npc2.Name] [npc2.verb(wince)] and [npc2.verb(let)] out a cry as [npc.name] roughly [npc.verb(rip)] the tape off [npc2.her] mouth.]]>
 		</otherRough>
 	</displacementText>
 	

@@ -428,6 +428,10 @@ public class SlaveDialogue {
 				}
 				enslavementWorked = true;
 				
+				// Apply effects after content has been generated due to conditional checks:
+				Main.game.getPlayer().addSlave((NPC) enslavementTarget);
+				enslavementTarget.setLocation(WorldType.SLAVER_ALLEY, PlaceType.SLAVER_ALLEY_SLAVERY_ADMINISTRATION, true);
+				
 			} else {
 				if(target.isSlave()) {
 					Main.game.appendToTextStartStringBuilder(UtilText.parseFromXMLFile(path, "ENSLAVEMENT_FAIL_ALREADY_SLAVE", target));
@@ -446,9 +450,6 @@ public class SlaveDialogue {
 				enslavementWorked = false;
 			}
 			
-			// Apply effects after content has been generated due to conditional checks:
-			Main.game.getPlayer().addSlave((NPC) enslavementTarget);
-			enslavementTarget.setLocation(WorldType.SLAVER_ALLEY, PlaceType.SLAVER_ALLEY_SLAVERY_ADMINISTRATION, true);
 		}
 		@Override
 		public String getContent() {

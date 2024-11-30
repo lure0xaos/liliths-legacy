@@ -3621,7 +3621,8 @@ public class GenericOrgasms {
 			GameCharacter characterPenetrated = getCharacterToBeCreampied();
 			SexAreaInterface areaContacted = getAreaToBeCreampied();
 			
-			if(cumTarget.equals(characterPenetrated)) {
+			if(cumProvider.equals(Main.sex.getCharacterPerformingAction()) && cumTarget.equals(characterPenetrated)) {
+//				System.out.println(cumProvider.getNameIgnoresPlayerKnowledge()+" "+Main.sex.getCharacterPerformingAction().getNameIgnoresPlayerKnowledge());
 				return Util.newArrayListOfValues(areaContacted);
 				
 			} else {
@@ -3941,7 +3942,7 @@ public class GenericOrgasms {
 			SexAreaInterface areaContacted = getAreaToBeKnotted();
 			GameCharacter characterPenetrated = getCharacterToBeKnotted();
 			
-			if(cumTarget.equals(characterPenetrated)) {
+			if(cumProvider.equals(Main.sex.getCharacterPerformingAction()) && cumTarget.equals(characterPenetrated)) {
 				return Util.newArrayListOfValues(areaContacted);
 					
 			} else {
@@ -4227,7 +4228,7 @@ public class GenericOrgasms {
 			SexAreaInterface areaContacted = Main.sex.getAllOngoingSexAreas(Main.sex.getCharacterPerformingAction(), SexAreaPenetration.PENIS).get(0);
 			GameCharacter secondaryTarget = getSecondaryCreampieTarget(Main.sex.getCharacterTargetedForSexAction(this), (SexAreaOrifice) areaContacted);
 			
-			if(cumTarget.equals(characterPenetrated) || cumTarget.equals(secondaryTarget)) {
+			if(cumProvider.equals(Main.sex.getCharacterPerformingAction()) && (cumTarget.equals(characterPenetrated) || cumTarget.equals(secondaryTarget))) {
 				return Util.newArrayListOfValues(areaContacted);
 					
 			} else {
@@ -4527,7 +4528,7 @@ public class GenericOrgasms {
 			SexAreaInterface areaContacted = Main.sex.getAllOngoingSexAreas(Main.sex.getCharacterPerformingAction(), SexAreaPenetration.PENIS).get(0);
 			GameCharacter secondaryTarget = getSecondaryCreampieTarget(Main.sex.getCharacterTargetedForSexAction(this), (SexAreaOrifice) areaContacted);
 			
-			if(cumTarget.equals(characterPenetrated) || cumTarget.equals(secondaryTarget)) {
+			if(cumProvider.equals(Main.sex.getCharacterPerformingAction()) && (cumTarget.equals(characterPenetrated) || cumTarget.equals(secondaryTarget))) {
 				return Util.newArrayListOfValues(areaContacted);
 					
 			} else {

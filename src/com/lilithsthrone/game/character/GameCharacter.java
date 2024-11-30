@@ -4822,7 +4822,7 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public boolean isMute() {
-		return this.hasPersonalityTrait(PersonalityTrait.MUTE);
+		return this.hasPersonalityTrait(PersonalityTrait.MUTE) || (this.isSlave() && this.hasSlavePermissionSetting(SlavePermissionSetting.GENERAL_SILENCE));
 	}
 	
 	public void setMute(boolean mute) {
@@ -23383,16 +23383,26 @@ public abstract class GameCharacter implements XMLSaving {
 			}
 		}
 		
-		if(includeEquipped) {
-			for(AbstractWeapon weapon : inventory.getMainWeaponArray()) {
-				if(weapon!=null && weapon.getWeaponType().equals(weaponType)) {
-					return true;
-				}
+		if(includeEquipped && hasWeaponTypeEquipped(weaponType)) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * @param weaponType The type to test for.
+	 * @return true if this character has a weapon of the type currently equipped.
+	 */
+	public boolean hasWeaponTypeEquipped(AbstractWeaponType weaponType) {
+		for(AbstractWeapon weapon : inventory.getMainWeaponArray()) {
+			if(weapon!=null && weapon.getWeaponType().equals(weaponType)) {
+				return true;
 			}
-			for(AbstractWeapon weapon : inventory.getOffhandWeaponArray()) {
-				if(weapon!=null && weapon.getWeaponType().equals(weaponType)) {
-					return true;
-				}
+		}
+		for(AbstractWeapon weapon : inventory.getOffhandWeaponArray()) {
+			if(weapon!=null && weapon.getWeaponType().equals(weaponType)) {
+				return true;
 			}
 		}
 		

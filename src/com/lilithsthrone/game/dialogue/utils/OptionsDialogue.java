@@ -1819,6 +1819,9 @@ public class OptionsDialogue {
 							Main.getProperties().setFeminineSubspeciesPreference(subspecies, subspecies.getSubspeciesPreferenceDefault());
 							Main.getProperties().setMasculineSubspeciesPreference(subspecies, subspecies.getSubspeciesPreferenceDefault());
 						}
+						Main.getProperties().humanSpawnRate = 5;
+						Main.getProperties().taurSpawnRate = 5;
+						Main.getProperties().halfDemonSpawnRate = 5;
 						Main.saveProperties();
 					}
 				};

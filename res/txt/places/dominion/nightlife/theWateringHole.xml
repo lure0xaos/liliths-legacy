@@ -870,18 +870,25 @@
 	<htmlContent tag="WATERING_HOLE_SEATING_SEX_AS_DOM_REJECTED"><![CDATA[
 	<p>
 		Sliding around on the semi-circular sofa, you lean in against [npc.name], which causes [npc.herHim] to let out a frustrated sigh. Pushing you away,
-		#IF npc.isShy()
-		#THEN [npc.she] stutters, [npc.speech(P-Please stay on your side!)]
+		#IF(npc.isShy())
+			 [npc.she] stutters, [npc.speech(P-Please stay on your side!)]
 		#ELSE
-			#IF npc.isConfident()
-			#THEN [npc.she] scolds, [npc.speech(Hey! Calm down! Keep to your side of the sofa!)]
-			#ELSE [npc.she] frowns at you as [npc.she] tells you off, [npc.speech(Keep to your side of the sofa!)]
+			#IF(npc.isConfident())
+				 [npc.she] scolds, [npc.speech(Hey! Calm down! Keep to your side of the sofa!)]
+			#ELSE
+				 [npc.she] frowns at you as [npc.she] tells you off, [npc.speech(Keep to your side of the sofa!)]
 			#ENDIF
 		#ENDIF
 	</p>
-	<p>
-		Reluctantly doing as [npc.she] asks, you move back around to your initial position. Waiting a moment for [npc.name] to stop frowning at you, you wonder what to do next...
-	</p>
+	#IF(npc.hasFetish(FETISH_NON_CON_SUB))
+		<p>
+			Despite [npc.her] rejection of your advances, [npc.name] suddenly [npc.verb(let)] out a horny little moan, letting you know that [npc.sheHas] got a kink for being taken against [npc.her] will. Perhaps if you tried initiating sex with [npc.herHim] in a less public place, such as the toilets, [npc.she]'d engage in some rape-play with you...
+		</p>
+	#ELSE
+		<p>
+			Reluctantly doing as [npc.she] asks, you move back around to your initial position. Waiting a moment for [npc.name] to stop frowning at you, you wonder what to do next...
+		</p>
+	#ENDIF
 	]]>
 	</htmlContent>
 	
@@ -1949,6 +1956,39 @@
 	</p>
 	]]>
 	</htmlContent>
+	
+	<htmlContent tag="WATERING_HOLE_TOILETS_RAPE"><![CDATA[
+	<p>
+		Taking hold of [npc.namePos] [npc.hand], you pull [npc.herHim] over to one of the stalls in order to have sex with [npc.herHim], but as [npc.she] sees what you're doing [npc.she] angrily hisses under [npc.her] breath, [npc.speech(I'm <i>not</i> going to fuck you in a toilet... Stop it!)]
+	</p>
+	<p>
+		Despite [npc.her] words, there's a strong note of arousal in [npc.namePos] voice, which encourages you to forcefully pull [npc.herHim] into one of the stalls, before turning and locking the door behind you. A look of exaggerated horror flashes across [npc.her] face, but before [npc.she] can say anything else, you silence [npc.herHim] by roughly pressing your [pc.lips+] against [npc.her] mouth.
+	</p>
+	<p>
+		Weakly beating against you with [npc.her] fists, [npc.she] manages to break off the kiss and cry, [npc.speech(No! Please stop, [pc.name]! Don't rape me!)]
+	</p>
+	<p>
+		It's extremely obvious from the lewd tone of [npc.her] voice that this is exactly what [npc.name] wants, and as [npc.she] pretends to resist, you get ready to 'rape' [npc.her] right here in the toilets of the club...
+	</p>
+	]]>
+	</htmlContent>
+	
+	<htmlContent tag="WATERING_HOLE_TOILETS_RAPE_PLAY"><![CDATA[
+	<p>
+		Taking hold of [npc.namePos] [npc.hand], you pull [npc.herHim] over to one of the stalls in order to have sex with [npc.herHim], and as [npc.she] sees what you're doing [npc.she] happily [npc.moansVerb], [npc.speech(Yes... Let's fuck!)]
+	</p>
+	<p>
+		Forcefully pulling [npc.herHim] into one of the stalls, you turn and lock the door behind you, before telling [npc.name] that you want [npc.herHim] to pretend that you're raping [npc.herHim]. Immediately playing along with your request, a look of exaggerated horror flashes across [npc.her] face and [npc.she] angrily hisses under [npc.her] breath, [npc.speech(I'm <i>not</i> going to fuck you in a toilet... Stop this!)]
+	</p>
+	<p>
+		Before [npc.she] can say anything else, you silence [npc.herHim] by roughly pressing your [pc.lips+] against [npc.her] mouth. Weakly beating against you with [npc.her] fists, [npc.she] manages to break off the kiss and cry, [npc.speech(No! Please stop, [pc.name]! Don't rape me!)]
+	</p>
+	<p>
+		It's extremely obvious from the lewd tone of [npc.her] voice that this is exactly what [npc.name] wants, and as [npc.she] pretends to resist, you get ready to 'rape' [npc.her] right here in the toilets of the club...
+	</p>
+	]]>
+	</htmlContent>
+	
 	
 	<htmlContent tag="WATERING_HOLE_TOILETS_AFTER_SEX"><![CDATA[
 	<p>

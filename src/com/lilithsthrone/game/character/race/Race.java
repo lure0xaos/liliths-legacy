@@ -163,6 +163,23 @@ public class Race {
 		@Override
 		public String getName(Body body, boolean feral) {
 			if(feral) {
+				if(body!=null) {
+					AbstractRace r = body.getLegType().getRace();
+					LegConfiguration legConfiguration = body.getLegConfiguration();
+
+					switch(legConfiguration) {
+						case BIPEDAL:
+							return "demon";
+						case ARACHNID:
+						case CEPHALOPOD:
+						case QUADRUPEDAL:
+						case TAIL:
+						case TAIL_LONG:
+						case AVIAN:
+						case WINGED_BIPED:
+							return "demonic-"+r.getName(body, true);
+					}
+				}
 				return "demonic-horse";
 			}
 			if(feral && body !=null && body.getHalfDemonSubspecies()!=null && body.getHalfDemonSubspecies()!=Subspecies.HUMAN) {
@@ -173,6 +190,23 @@ public class Race {
 		@Override
 		public String getNamePlural(Body body, boolean feral) {
 			if(feral) {
+				if(body!=null) {
+					AbstractRace r = body.getLegType().getRace();
+					LegConfiguration legConfiguration = body.getLegConfiguration();
+
+					switch(legConfiguration) {
+						case BIPEDAL:
+							return "demon";
+						case ARACHNID:
+						case CEPHALOPOD:
+						case QUADRUPEDAL:
+						case TAIL:
+						case TAIL_LONG:
+						case AVIAN:
+						case WINGED_BIPED:
+							return "demonic-"+r.getNamePlural(body, true);
+					}
+				}
 				return "demonic-horses";
 			}
 			if(feral && body !=null && body.getHalfDemonSubspecies()!=null && body.getHalfDemonSubspecies()!=Subspecies.HUMAN) {

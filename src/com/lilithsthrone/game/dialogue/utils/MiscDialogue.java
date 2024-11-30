@@ -310,8 +310,8 @@ public class MiscDialogue {
 							Main.sex.SEX_DIALOGUE){
 						@Override
 						public void effects(){
-							Main.mainController.openInventory();
 							condomOwner.addItem(usedCondom);
+							Main.mainController.openInventory();
 						}
 					};
 					
@@ -319,12 +319,18 @@ public class MiscDialogue {
 					return new ResponseEffectsOnly("Back", "Decide against using the condom's contents...") {
 						@Override
 						public void effects() {
+							condomOwner.addItem(usedCondom);
 							if(condomUser.isPlayer()) {
-								Main.mainController.openInventory();
+								if(InventoryDialogue.getNPCInventoryInteraction()==InventoryInteraction.TRADING) {
+									NPC trader = InventoryDialogue.getInventoryNPC();
+									Main.game.restoreSavedContent(false);
+									Main.mainController.openInventory(trader, InventoryInteraction.TRADING);
+								} else {
+									Main.mainController.openInventory();
+								}
 							} else {
 								Main.mainController.openInventory((NPC) condomUser, InventoryInteraction.FULL_MANAGEMENT);
 							}
-							condomOwner.addItem(usedCondom);
 						}
 					};
 				}
@@ -506,7 +512,14 @@ public class MiscDialogue {
 					condomTarget.calculateStatusEffects(0);
 					Main.game.getTextEndStringBuilder().append(condomEffectString);
 					if(condomTarget.isPlayer()) {
-						Main.mainController.openInventory();
+						if(InventoryDialogue.getNPCInventoryInteraction()==InventoryInteraction.TRADING) {
+							NPC trader = InventoryDialogue.getInventoryNPC();
+							Main.game.restoreSavedContent(false);
+							Main.game.getTextEndStringBuilder().append(condomEffectString);
+							Main.mainController.openInventory(trader, InventoryInteraction.TRADING);
+						} else {
+							Main.mainController.openInventory();
+						}
 					} else {
 						Main.mainController.openInventory((NPC) condomTarget, InventoryInteraction.FULL_MANAGEMENT);
 					}
