@@ -487,6 +487,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] Add a 'restrict partner's self actions' for NPCs for X turns if they can't access?
 		
 	[] Sterope expansion
+		[] re-enable feral pregnancy and handle Sterope and player feral pregnancy properly
 		[] need to prolong sub sex
 			[] add safeword?
 			[] remain tied up after sex
