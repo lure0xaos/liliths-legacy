@@ -8093,8 +8093,9 @@ public abstract class GameCharacter implements XMLSaving {
 	public int getUniqueSexPartnerCount() {
 		Map<String, SexCount> uniqueCount = new HashMap<>(sexCount);
 		uniqueCount.entrySet().removeIf(e->e.getValue().getTotalTimesHadSex()<=0 || this.getId().equals(e.getKey()));
-//		int unknownPartnerCount = sexCount.containsKey("unknown")?sexCount.get("unknown").getTotalTimesHadSex():0;
-		return uniqueCount.keySet().size();
+		// Each sex count with an unknown partner should be treated as though the partner is unique:
+		int unknownPartnerCount = uniqueCount.containsKey("unknown")?uniqueCount.get("unknown").getTotalTimesHadSex():0;
+		return uniqueCount.keySet().size() + unknownPartnerCount;
 	}
 	
 	public Map<String, SexCount> getSexCountMap() {

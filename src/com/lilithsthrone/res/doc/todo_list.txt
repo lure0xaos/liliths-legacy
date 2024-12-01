@@ -60,6 +60,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Slightly improved the 'Glacial' and 'Radiant' status effect icons.
 		In Dominion, the generic population in the 'Characters present' window now changes at night.
 		When changing femininity during character creation, your character's body will slightly adjust to reflect these changes (penis and breast sizes are affected, but can always be changed in the following customisation menus).
+		When NPCs engage in generic sex (such as when working as a prostitute or as a slave in the stocks), each instance of this sex will be counted as a unique partner for the purposes of tattoo counters.
 	
 	Bugs:
 		Typo and parsing fixes.
@@ -110,6 +111,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Feet and toes for characters with tails instead of legs are now correctly referred to as tails/tips instead of feet/toes.
 		Added missing 'porcelain' skin colour to the possible varieties which characters can spawn with.
 		When starting a new game, your character is no longer influenced by your penis and breast size preferences, so as to keep the starting values for penis and breast sizes within the intended range.
+		Fixed bug where trying to get Kate to modify a tattoo which didn't have any writing nor a counter would not work and throw background errors.
 	
 	
 	
@@ -228,7 +230,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[x?] porcelain skin not a spawnable type
 		[x] The "penis size preference" content setting actually applies to character creation. If you crank that setting up, you can start with a size that's "out of bounds".
 		[-] Seems like if a slave has a job where they move out of the room while you are sleeping with them they will move and create a parsing error while still being able to be interacted with
-		
+	[x] check unique sex partner tattoo counter for slaves working in stocks & as prostitute
+	[x] Modifying slave tattoos throws errors...
 		
 	[] PRs
 		[x] PR1805
@@ -245,7 +248,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] release
 	
 	
-	[] check unique sex partner tattoo counter for slaves working in stocks & as prostitute
+	[] Check NPC sex count generation when spawning them
 		
 	[] SlaveDialogue.java needs a full slave.isMute() pass
 		
