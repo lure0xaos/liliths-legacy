@@ -8,13 +8,16 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	
 	Bugs:
-		Fixed bug where interacting with any demonic taurs would often freeze the game.
+		Fixed issue where demons were being affected by menopause.
 	
 	
 	
 	
 	
 	[x] Cannot start sex with Lunexis in Amazon Camp?
+	[x] New update has a bug where demons are menopausal despite menopause not affecting demons in lore
+	
+	
 	
 	[] PRs
 		[] PR 1782
@@ -26,9 +29,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] if have time (unlikely), add a bug
 		[] moth?
-	
-	[] release
-	
 	
 	[] Check NPC sex count generation when spawning them
 		

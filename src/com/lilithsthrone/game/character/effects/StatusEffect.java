@@ -4043,7 +4043,7 @@ public class StatusEffect {
 					&& (target.isPlayer()
 							?target.getAgeValue()>=52+Game.TIME_SKIP_YEARS
 							:target.getAgeValue()>=52)
-					&& (target.getSubspecies()!=Subspecies.ANGEL || target.getSubspeciesOverride()==null) // Angels and demons are immune
+					&& (target.getSubspecies()!=Subspecies.ANGEL && target.getSubspeciesOverride()==null) // Angels and demons are immune
 					&& !target.isElemental()
 					&& !target.isDoll()
 					&& !target.hasStatusEffect(StatusEffect.VIXENS_VIRILITY)
