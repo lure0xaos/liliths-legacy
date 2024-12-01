@@ -177,6 +177,9 @@ public class Race {
 						case TAIL_LONG:
 						case AVIAN:
 						case WINGED_BIPED:
+							if(r==Race.DEMON) {
+								return "demonic-horse";
+							}
 							return "demonic-"+r.getName(body, true);
 					}
 				}
@@ -196,7 +199,7 @@ public class Race {
 
 					switch(legConfiguration) {
 						case BIPEDAL:
-							return "demon";
+							return "demons";
 						case ARACHNID:
 						case CEPHALOPOD:
 						case QUADRUPEDAL:
@@ -204,6 +207,9 @@ public class Race {
 						case TAIL_LONG:
 						case AVIAN:
 						case WINGED_BIPED:
+							if(r==Race.DEMON) {
+								return "demonic-horses";
+							}
 							return "demonic-"+r.getNamePlural(body, true);
 					}
 				}
