@@ -58,6 +58,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Rabbit and reindeer balls are now covered in their associated fur instead of sharing the same characteristics (such as colour) with their penis.
 		Slightly improved the 'Glacial' and 'Radiant' status effect icons.
 		In Dominion, the generic population in the 'Characters present' window now changes at night.
+		When changing femininity during character creation, your character's body will slightly adjust to reflect these changes (penis and breast sizes are affected, but can always be changed in the following customisation menus).
 	
 	Bugs:
 		Typo and parsing fixes.
@@ -107,6 +108,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed issue with Vronti's blowjob and handjob sex scenes where both of you would start in incorrect positions and background errors would be thrown.
 		Feet and toes for characters with tails instead of legs are now correctly referred to as tails/tips instead of feet/toes.
 		Added missing 'porcelain' skin colour to the possible varieties which characters can spawn with.
+		When starting a new game, your character is no longer influenced by your penis and breast size preferences, so as to keep the starting values for penis and breast sizes within the intended range.
+	
 	
 	
 	BUILD CHECK:
@@ -206,8 +209,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[x] During dollification phase, if you reset the perk tree, you'll get all the perks included that were disabled during quest
 	[x] check if tape rolls are used for random outfits
 	
-	
-	[] bug reports from past week
+	[x] bug reports from past week
 		[x] after getting a spell upgrade you can still spend points on the upgrades you have already grabbed
 		[x] At night (when you do the new quest with Fia) Lovienne's Luxuries shows lots of characters present
 		[x] Dominion tile populations don't change at night?
@@ -223,7 +225,10 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[x] "We can also give our legs a rest for a while"
 		[x] if have DECK, allow interaction with transform button instead of inventory use
 		[x?] porcelain skin not a spawnable type
-			
+		[x] The "penis size preference" content setting actually applies to character creation. If you crank that setting up, you can start with a size that's "out of bounds".
+		[-] Seems like if a slave has a job where they move out of the room while you are sleeping with them they will move and create a parsing error while still being able to be interacted with
+		
+		
 	[] PRs
 		[] PR1805
 		[] PR 1782
@@ -239,6 +244,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] release
 	
 	
+	[] check unique sex partner tattoo counter for slaves working in stocks & as prostitute
 		
 	[] SlaveDialogue.java needs a full slave.isMute() pass
 		
@@ -469,6 +475,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] when loading, check which parts you want loaded
 			[] job
 			[] permissions
+	[] also add rooms having permission/job settings and those settings to apply to all slaves in that room
 			
 	[] You can cheat from getting a hole penetrated by fingering yourself there.
 		You do have a move in sex scenes to get the the sub fingering themselves to stop but it uses up their turn to stop them from fingering. so as long as the PC cotiniously finger themselves they dont need anything like sealed clothing to stop penetrations. 

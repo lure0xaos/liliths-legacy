@@ -2676,6 +2676,7 @@ public class CreationController {
 				BodyChanging.getTarget().setFemininity(Femininity.ANDROGYNOUS.getMedianFemininity());
 				if (!Main.game.isInNewWorld() && BodyChanging.getTarget().isPlayer()) {
 					CharacterCreation.getDressed();
+					CharacterCreation.resetFemininityAppearance();
 				}
 				Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 			}, false);
@@ -2687,6 +2688,7 @@ public class CreationController {
 					BodyChanging.getTarget().setFemininity(Femininity.MASCULINE_STRONG.getMedianFemininity());
 					if (!Main.game.isInNewWorld() && BodyChanging.getTarget().isPlayer()) {
 						CharacterCreation.getDressed();
+						CharacterCreation.resetFemininityAppearance();
 					}
 					Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 				}, false);
@@ -2698,6 +2700,7 @@ public class CreationController {
 					BodyChanging.getTarget().setFemininity(Femininity.MASCULINE.getMedianFemininity());
 					if (!Main.game.isInNewWorld() && BodyChanging.getTarget().isPlayer()) {
 						CharacterCreation.getDressed();
+						CharacterCreation.resetFemininityAppearance();
 					}
 					Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 				}, false);
@@ -2709,6 +2712,7 @@ public class CreationController {
 					BodyChanging.getTarget().setFemininity(Femininity.FEMININE.getMedianFemininity());
 					if (!Main.game.isInNewWorld() && BodyChanging.getTarget().isPlayer()) {
 						CharacterCreation.getDressed();
+						CharacterCreation.resetFemininityAppearance();
 					}
 					Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 				}, false);
@@ -2720,6 +2724,7 @@ public class CreationController {
 					BodyChanging.getTarget().setFemininity(Femininity.FEMININE_STRONG.getMedianFemininity());
 					if (!Main.game.isInNewWorld() && BodyChanging.getTarget().isPlayer()) {
 						CharacterCreation.getDressed();
+						CharacterCreation.resetFemininityAppearance();
 					}
 					Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
 				}, false);

@@ -15,8 +15,10 @@ import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.coverings.Covering;
 import com.lilithsthrone.game.character.body.valueEnums.BodyHair;
 import com.lilithsthrone.game.character.body.valueEnums.BreastShape;
+import com.lilithsthrone.game.character.body.valueEnums.CupSize;
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
 import com.lilithsthrone.game.character.body.valueEnums.LabiaSize;
+import com.lilithsthrone.game.character.body.valueEnums.PenisLength;
 import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.fetishes.FetishDesire;
 import com.lilithsthrone.game.character.gender.Gender;
@@ -178,33 +180,47 @@ public class CharacterCreation {
 		Main.game.getPlayer().setHairCovering(new Covering(BodyCoveringType.HAIR_HUMAN, PresetColour.COVERING_BROWN), true);
 		Main.game.getPlayer().setBreastShape(BreastShape.ROUND);
 		Main.game.getPlayer().setVaginaLabiaSize(LabiaSize.TWO_AVERAGE.getValue());
-
+		
 		Main.game.getPlayer().setFacialHair(BodyHair.ZERO_NONE);
+		resetFemininityAppearance();
+	}
+	
+	public static void resetFemininityAppearance() {
 		switch(Main.game.getPlayer().getFemininity()) {
 			case MASCULINE_STRONG:
 				Main.game.getPlayer().setUnderarmHair(BodyHair.FOUR_NATURAL);
 				Main.game.getPlayer().setAssHair(BodyHair.FOUR_NATURAL);
 				Main.game.getPlayer().setPubicHair(BodyHair.FOUR_NATURAL);
+				Main.game.getPlayer().setPenisSize(PenisLength.TWO_AVERAGE.getMedianValue()+3);
 				break;
 			case MASCULINE:
 				Main.game.getPlayer().setUnderarmHair(BodyHair.FOUR_NATURAL);
 				Main.game.getPlayer().setAssHair(BodyHair.FOUR_NATURAL);
 				Main.game.getPlayer().setPubicHair(BodyHair.FOUR_NATURAL);
+				Main.game.getPlayer().setPenisSize(PenisLength.TWO_AVERAGE);
 				break;
 			case ANDROGYNOUS:
 				Main.game.getPlayer().setUnderarmHair(BodyHair.ZERO_NONE);
 				Main.game.getPlayer().setAssHair(BodyHair.TWO_MANICURED);
 				Main.game.getPlayer().setPubicHair(BodyHair.FOUR_NATURAL);
+				if(Main.game.getPlayer().hasPenis()) {
+					Main.game.getPlayer().setPenisSize(PenisLength.ONE_TINY);
+				}
+				if(Main.game.getPlayer().hasVagina()) {
+					Main.game.getPlayer().setBreastSize(CupSize.A);
+				}
 				break;
 			case FEMININE:
 				Main.game.getPlayer().setUnderarmHair(BodyHair.ZERO_NONE);
 				Main.game.getPlayer().setAssHair(BodyHair.TWO_MANICURED);
 				Main.game.getPlayer().setPubicHair(BodyHair.THREE_TRIMMED);
+				Main.game.getPlayer().setBreastSize(CupSize.C);
 				break;
 			case FEMININE_STRONG:
 				Main.game.getPlayer().setUnderarmHair(BodyHair.ZERO_NONE);
 				Main.game.getPlayer().setAssHair(BodyHair.ZERO_NONE);
 				Main.game.getPlayer().setPubicHair(BodyHair.ZERO_NONE);
+				Main.game.getPlayer().setBreastSize(CupSize.DD);
 				break;
 		}
 	}
