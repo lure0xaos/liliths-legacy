@@ -2,6 +2,7 @@ package com.lilithsthrone.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.w3c.dom.events.EventTarget;
 
@@ -192,7 +193,7 @@ public class OccupantController {
 				new Util.Value<>(CoverableArea.VAGINA, SexAreaOrifice.VAGINA),
 				new Util.Value<>(CoverableArea.ANUS, SexAreaOrifice.ANUS));
 		
-		for (Map.Entry<CoverableArea, SexAreaOrifice> area : areas.entrySet()) {
+		for (Entry<CoverableArea, SexAreaOrifice> area : areas.entrySet()) {
 			String id = idModifier+"_"+area.getKey()+"_"+fluid.hashCode();
 			if (MainController.document.getElementById(id) != null) {
 				float milkAmount = Math.min(fluid.getMillilitres(), MilkingRoom.INGESTION_AMOUNT);
@@ -283,12 +284,12 @@ public class OccupantController {
 						}
 						
 						String ingestion;
-						try {
-							GameCharacter c = fluid.getFluidCharacter();
-							ingestion = MilkingRoom.getTargetedCharacter().ingestFluid(c, fluid.getFluid(), area.getValue(), milkAmount);
-						} catch (Exception e1) {
+//						try {
+//							GameCharacter c = fluid.getFluidCharacter();
+//							ingestion = MilkingRoom.getTargetedCharacter().ingestFluid(c, fluid.getBody(), fluid.getFluid(), area.getValue(), milkAmount);
+//						} catch (Exception e1) {
 							ingestion = MilkingRoom.getTargetedCharacter().ingestFluid(fluid, area.getValue(), milkAmount);
-						}
+//						}
 						if (!ingestion.isEmpty()) {
 							Main.game.getTextEndStringBuilder().append("</p>"
 									+"<p>"
@@ -512,7 +513,8 @@ public class OccupantController {
 									+" [style.italicsMinorGood(Click to apply this permission.)]"
 									+(permission.isMutuallyExclusiveSettings()
 									?" [style.italicsMinorBad(Only one permission in this category can be active at once.)]"
-									:"")));
+									:""),
+							91 + (setting.getAdditionalDescriptionLines()*16)));
 				}
 				
 				id = setting+"_REMOVE";
@@ -524,7 +526,8 @@ public class OccupantController {
 					MainController.addTooltipListeners(id, new TooltipInformationEventListener().setInformation(
 							"<b style='color:"+permission.getColour().toWebHexString()+";'>"+permission.getName()+":</b> "+setting.getName(),
 							setting.getDescription()
-									+" [style.italicsMinorBad(Click to revoke this permission.)]"));
+									+" [style.italicsMinorBad(Click to revoke this permission.)]",
+							91 + (setting.getAdditionalDescriptionLines()*16)));
 				}
 				
 				id = setting+"_REMOVE_ME";
@@ -532,7 +535,8 @@ public class OccupantController {
 					MainController.addTooltipListeners(id, new TooltipInformationEventListener().setInformation(
 							"<b style='color:"+permission.getColour().toWebHexString()+";'>"+permission.getName()+":</b> "+setting.getName(),
 							setting.getDescription()
-									+" [style.italicsMinorBad(You cannot revoke permissions in this category. Select a different one instead.)]"));
+									+" [style.italicsMinorBad(You cannot revoke permissions in this category. Select a different one instead.)]",
+							91 + (setting.getAdditionalDescriptionLines()*16)));
 				}
 			}
 		}

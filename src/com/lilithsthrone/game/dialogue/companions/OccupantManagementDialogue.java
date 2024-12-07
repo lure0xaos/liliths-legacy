@@ -1359,10 +1359,9 @@ public class OccupantManagementDialogue {
 				
 				if(place.getCapacity()<=Main.game.getCharactersTreatingCellAsHome(Main.game.getPlayerCell()).size()) {
 					miscDialogueSB.append("<div id='"+slave.getId()+"_TRANSFER_DISABLED_FULL' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveTransferDisabled()+"</div></div>");
-				} else if(!place.isSlaveCell()
-						|| (slave.isDoll()
+				} else if(slave.isDoll()
 							?!place.getPlaceUpgrades().contains(PlaceUpgrade.LILAYA_DOLL_CLOSET)
-							:place.getPlaceUpgrades().contains(PlaceUpgrade.LILAYA_DOLL_CLOSET))) {
+							:!place.isSlaveCell() || place.getPlaceUpgrades().contains(PlaceUpgrade.LILAYA_DOLL_CLOSET)) {
 					miscDialogueSB.append("<div id='"+slave.getId()+"_TRANSFER_DISABLED_INAPPPROPRIATE' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveTransferDisabled()+"</div></div>");
 				} else if(slave.getLocation().equals(Main.game.getPlayer().getLocation()) && slave.getWorldLocation().equals(Main.game.getPlayer().getWorldLocation())) {
 					miscDialogueSB.append("<div id='"+slave.getId()+"_TRANSFER_DISABLED_ALREADY_HERE' class='square-button big disabled'><div class='square-button-content'>"+SVGImages.SVG_IMAGE_PROVIDER.getSlaveTransferDisabled()+"</div></div>");

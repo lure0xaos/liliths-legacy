@@ -86,7 +86,7 @@ public class BodyChanging {
 		}
 		return target;
 	}
-	
+
 	public static void setTarget(GameCharacter target) {
 		BodyChanging.target = target;
 		BodyChanging.coreNode = null;
@@ -114,7 +114,7 @@ public class BodyChanging {
 		if (index == 0) {
 			if (isDebugMenu()) {
 				return new Response("Back", "Return to the previous screen.", DebugDialogue.DEBUG_MENU);
-				
+
 			} else if (coreNode != null) {
 				return new Response("Back", "Return to the previous screen.", coreNode) {
 					@Override
@@ -122,7 +122,7 @@ public class BodyChanging {
 						Main.game.setResponseTab(defaultResponseTab);
 					}
 				};
-				
+
 			} else {
 				return new ResponseEffectsOnly("Back", "Return to the previous screen.") {
 					@Override
@@ -132,7 +132,7 @@ public class BodyChanging {
 				};
 			}
 		}
-		
+
 		if (responseTab==0) {
 			if (index == 1) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_CORE) {
@@ -141,7 +141,7 @@ public class BodyChanging {
 				return new Response("Core",
 						UtilText.parse(getTarget(), "Change core aspects of [npc.namePos] body."),
 						BODY_CHANGING_CORE);
-				
+
 			} else if (index == 2) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_EYES) {
 					return new Response("Eyes", "You are already in this screen!", null);
@@ -149,7 +149,7 @@ public class BodyChanging {
 				return new Response("Eyes",
 						UtilText.parse(getTarget(), "Change aspects of [npc.namePos] eyes."),
 						BODY_CHANGING_EYES);
-				
+
 			} else if (index == 3) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_HAIR) {
 					return new Response("Hair", "You are already in this screen!", null);
@@ -157,7 +157,7 @@ public class BodyChanging {
 				return new Response("Hair",
 						UtilText.parse(getTarget(), "Change aspects of [npc.namePos] hair."),
 						BODY_CHANGING_HAIR);
-				
+
 			} else if (index == 4) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_HEAD) {
 					return new Response("Head", "You are already in this screen!", null);
@@ -165,7 +165,7 @@ public class BodyChanging {
 				return new Response("Head",
 						UtilText.parse(getTarget(), "Change aspects of [npc.namePos] face and head."),
 						BODY_CHANGING_HEAD);
-				
+
 			} else if (index == 5) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_ASS) {
 					return new Response("Ass", "You are already in this screen!", null);
@@ -173,7 +173,7 @@ public class BodyChanging {
 				return new Response("Ass",
 						UtilText.parse(getTarget(), "Change aspects of [npc.namePos] ass."),
 						BODY_CHANGING_ASS);
-				
+
 			} else if (index == 6) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_BREASTS) {
 					return new Response("Breasts", "You are already in this screen!", null);
@@ -185,7 +185,7 @@ public class BodyChanging {
 				return new Response("Breasts",
 						UtilText.parse(getTarget(), "Change aspects of [npc.namePos] breasts."),
 						BODY_CHANGING_BREASTS);
-				
+
 			} else if (index == 7) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_VAGINA) {
 					return new Response("Vagina", "You are already in this screen!", null);
@@ -193,7 +193,7 @@ public class BodyChanging {
 				return new Response("Vagina",
 						UtilText.parse(getTarget(), "Change aspects of [npc.namePos] vagina."),
 						BODY_CHANGING_VAGINA);
-				
+
 			} else if (index == 8) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_PENIS) {
 					return new Response("Penis", "You are already in this screen!", null);
@@ -201,7 +201,7 @@ public class BodyChanging {
 				return new Response("Penis",
 						UtilText.parse(getTarget(), "Change aspects of [npc.namePos] penis."),
 						BODY_CHANGING_PENIS);
-				
+
 			} else if (index == 9) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_SPINNERET) {
 					return new Response("Spinneret", "You are already in this screen!", null);
@@ -213,7 +213,7 @@ public class BodyChanging {
 				return new Response("Spinneret",
 						UtilText.parse(getTarget(), "Change aspects of [npc.namePos] spinneret."),
 						BODY_CHANGING_SPINNERET);
-				
+
 			} else if (index == 10) {
 				String title = getTarget().getBreastCrotchShape() == BreastShape.UDDERS?"Udders":"Crotch-boobs";
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_BREASTS_CROTCH) {
@@ -222,7 +222,7 @@ public class BodyChanging {
 				return new Response(title,
 						UtilText.parse(getTarget(), "Change aspects of [npc.namePos] [npc.crotchBoobs]."),
 						BODY_CHANGING_BREASTS_CROTCH);
-				
+
 			} else if (index == 11) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_SAVE_LOAD) {
 					return new Response("Save/Load", "You are already in this screen!", null);
@@ -235,7 +235,7 @@ public class BodyChanging {
 						initSaveLoadMenu();
 					}
 				};
-				
+
 			} else if (index == 12 && isDebugMenu()) {
 				if (Main.game.getCurrentDialogueNode() == BODY_CHANGING_MAKEUP) {
 					return new Response("Makeup (debug)", "You are already in this screen!", null);
@@ -262,7 +262,7 @@ public class BodyChanging {
 			} else {
 				index-=2;
 			}
-			
+
 			if (index >= Main.game.getCharactersPresent().size()) {
 				return null;
 			}
@@ -282,7 +282,7 @@ public class BodyChanging {
 		}
 		return null;
 	}
-	
+
 	private static String getBodyChangingTabTitle(int index) {
 		if (!isDebugMenu()) {
 			return null;
@@ -296,11 +296,11 @@ public class BodyChanging {
 	}
 
 	private static final List<AbstractRace> allRaces = new ArrayList<>(Race.getAllRaces());
-	
+
 	private static List<AbstractRace> getTFRaces(AbstractRace forceAllowedRace) {
 		return getTFRaces(Util.newArrayListOfValues(forceAllowedRace), false, false, false);
 	}
-	
+
 	private static List<AbstractRace> getTFRaces(AbstractRace forceAllowedRace, boolean forceDemon, boolean allowHDDemon, boolean allowHDHuman) {
 		return getTFRaces(Util.newArrayListOfValues(forceAllowedRace), forceDemon, allowHDDemon, allowHDHuman);
 	}
@@ -422,7 +422,7 @@ public class BodyChanging {
 				&& getTarget().getBodyMaterial()!=BodyMaterial.SLIME
 				&& getTarget().getTrueSubspecies().isAbleToSelfTransform();
 	}
-	
+
 	private static boolean isSlimeTFMenu() {
 		return !isDebugMenu()
 				&& !isDemonTFMenu()
@@ -1197,14 +1197,14 @@ public class BodyChanging {
 								+CharacterModificationUtils.getSelfTransformUrethraElasticityDiv()
 								+CharacterModificationUtils.getSelfTransformUrethraPlasticityDiv()
 								+"</div>"
-								
+
 								+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 								getTarget().getPenisRace(),
 								getTarget().getCovering(BodyCoveringType.PENIS).getType(),
 								"Penis Colour",
 								UtilText.parse(getTarget(), "Change the colour of [npc.namePos] penis."),
 								true, true)
-								
+
 								+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 								Race.NONE,
 								getTarget().getCovering(BodyCoveringType.CUM).getType(),
@@ -1228,31 +1228,31 @@ public class BodyChanging {
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	public static final DialogueNode BODY_CHANGING_BREASTS_CROTCH = new DialogueNode("Crotch-boobs", "", true) {
-		
+
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
 			
 			UtilText.nodeContentSB.append(getSelfTransformDescription("[npc.crotchBoobs]"));
-			
+
 			if (!getTarget().isDoll() || isDebugMenu()) {
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getSelfTransformBreastCrotchChoiceDiv(
 						getTFRaces(getTarget().getBreastCrotchRace(), true, false, false)));
@@ -1264,49 +1264,49 @@ public class BodyChanging {
 								+CharacterModificationUtils.getSelfTransformBreastCrotchSizeDiv()
 								+CharacterModificationUtils.getSelfTransformBreastCrotchShapeDiv()
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformBreastCrotchRowsDiv()
 								+CharacterModificationUtils.getSelfTransformNippleCrotchModifiersDiv()
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformLactationCrotchDiv()
 								+CharacterModificationUtils.getSelfTransformLactationCrotchRegenerationDiv()
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformLactationCrotchFlavourDiv()
 								+CharacterModificationUtils.getSelfTransformLactationCrotchModifiersDiv()
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformNippleCrotchCountDiv()
 								+CharacterModificationUtils.getSelfTransformNippleCrotchShapeDiv()
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformNippleCrotchSizeDiv()
 								+CharacterModificationUtils.getSelfTransformAreolaeCrotchSizeDiv()
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformNippleCrotchCapacityDiv()
 								+CharacterModificationUtils.getSelfTransformNippleCrotchDepthDiv()
 								+"</div>"
-								
+
 								+"<div style='clear:left;'>"
 								+CharacterModificationUtils.getSelfTransformNippleCrotchElasticityDiv()
 								+CharacterModificationUtils.getSelfTransformNippleCrotchPlasticityDiv()
 								+"</div>"
-								
+
 								+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 								getTarget().getBreastCrotchRace(),
 								getTarget().getCovering(BodyCoveringType.NIPPLES_CROTCH).getType(),
 								"Nipple Colour",
 								UtilText.parse(getTarget(), "Change the colour of [npc.namePos] [npc.crotchNipples]."),
 								true, true)
-								
+
 								+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 								Race.NONE,
 								getTarget().getCovering(BodyCoveringType.MILK).getType(),
@@ -1314,7 +1314,7 @@ public class BodyChanging {
 								UtilText.parse(getTarget(), "Change the colour of [npc.namePos] [npc.milk]."),
 								true, true));
 			}
-			
+
 			return UtilText.nodeContentSB.toString();
 		}
 		
@@ -1322,47 +1322,47 @@ public class BodyChanging {
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	public static final DialogueNode BODY_CHANGING_SPINNERET = new DialogueNode("Spinneret", "", true) {
-		
+
 		@Override
 		public String getHeaderContent() {
 			UtilText.nodeContentSB.setLength(0);
 			
 			UtilText.nodeContentSB.append(
 					getSelfTransformDescription("spinneret")
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformSpinneretModifiersDiv()
 							+CharacterModificationUtils.getSelfTransformSpinneretWetnessDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformSpinneretCapacityDiv()
 							+CharacterModificationUtils.getSelfTransformSpinneretDepthDiv()
 							+"</div>"
-							
+
 							+"<div style='clear:left;'>"
 							+CharacterModificationUtils.getSelfTransformSpinneretElasticityDiv()
 							+CharacterModificationUtils.getSelfTransformSpinneretPlasticityDiv()
 							+"</div>"
-							
+
 							+CharacterModificationUtils.getKatesDivCoveringsNew(false,
 							getTarget().hasLegSpinneret()
 									?getTarget().getLegRace()
@@ -1379,17 +1379,17 @@ public class BodyChanging {
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
@@ -1400,22 +1400,22 @@ public class BodyChanging {
 		@Override
 		public String getHeaderContent() {
 			return getSelfTransformDescription("makeup")
-					
+
 					+CharacterModificationUtils.getKatesDivCoveringsNew(
 					false, Race.NONE, BodyCoveringType.MAKEUP_BLUSHER, "Blusher", "Blusher (also called rouge) is used to colour the cheeks so as to provide a more youthful appearance, and to emphasise the cheekbones.", true, true)
 					
 					+CharacterModificationUtils.getKatesDivCoveringsNew(
 					false, Race.NONE, BodyCoveringType.MAKEUP_LIPSTICK, "Lipstick", "Lipstick is used to provide colour, texture, and protection to the wearer's lips.", true, true)
-					
+
 					+CharacterModificationUtils.getKatesDivCoveringsNew(
 					false, Race.NONE, BodyCoveringType.MAKEUP_EYE_LINER, "Eyeliner", "Eyeliner is applied around the contours of the eyes to help to define shape or highlight different features.", true, true)
-					
+
 					+CharacterModificationUtils.getKatesDivCoveringsNew(
 					false, Race.NONE, BodyCoveringType.MAKEUP_EYE_SHADOW, "Eye shadow", "Eye shadow is used to make the wearer's eyes stand out or look more attractive.", true, true)
-					
+
 					+CharacterModificationUtils.getKatesDivCoveringsNew(
 					false, Race.NONE, BodyCoveringType.MAKEUP_NAIL_POLISH_HANDS, "Nail polish", "Nail polish is used to colour and protect the nails on your [pc.hands].", true, true)
-					
+
 					+CharacterModificationUtils.getKatesDivCoveringsNew(
 					false, Race.NONE, BodyCoveringType.MAKEUP_NAIL_POLISH_FEET, "Toenail polish", "Toenail polish is used to colour and protect the nails on your [pc.feet].", true, true);
 		}
@@ -1424,23 +1424,23 @@ public class BodyChanging {
 		public String getContent() {
 			return "";
 		}
-		
+
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			return getBodyChangingResponse(responseTab, index);
 		}
-		
+
 		@Override
 		public String getResponseTabTitle(int index) {
 			return getBodyChangingTabTitle(index);
 		}
-		
+
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.PHONE;
 		}
 	};
-	
+
 	// Save/Load dialogue and associated methods/variables:
 	public static void initSaveLoadMenu() {
 		presetTransformationsMap = new HashMap<>();
@@ -1832,10 +1832,10 @@ public class BodyChanging {
 			}
 			return UtilText.parse(getTarget(), "[npc.Name] cannot transform into a [style.colourHuman(non-feral body)] as [npc.her] current body is feral!");
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		List<String> partsList = new ArrayList<>();
-		
+
 		for (BodyPartInterface currentPart : getTarget().getBody().getAllBodyParts()) {
 			List<AbstractRace> availableRaces;
 			if (currentPart instanceof AbstractAssType
@@ -1882,7 +1882,7 @@ public class BodyChanging {
 			sb.append(".");
 			return UtilText.parse(getTarget(), sb.toString());
 		}
-		
+
 		if(getTarget().isYouko()) { // Youko self-TF limitations:
 			if(body.getArm().getArmRows()!=getTarget().getArmRows()) {
 				sb.append("<br/>Arm row count");

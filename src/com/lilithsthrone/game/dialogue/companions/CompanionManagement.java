@@ -34,9 +34,14 @@ import com.lilithsthrone.game.dialogue.utils.BodyChanging;
 import com.lilithsthrone.game.dialogue.utils.CharacterModificationUtils;
 import com.lilithsthrone.game.dialogue.utils.CharactersPresentDialogue;
 import com.lilithsthrone.game.dialogue.utils.CombatMovesSetup;
+import com.lilithsthrone.game.dialogue.utils.CosmeticsDialogue;
 import com.lilithsthrone.game.dialogue.utils.InventoryInteraction;
 import com.lilithsthrone.game.dialogue.utils.SpellManagement;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
+import com.lilithsthrone.game.inventory.enchanting.ItemEffectTimer;
+import com.lilithsthrone.game.inventory.enchanting.ItemEffectType;
+import com.lilithsthrone.game.inventory.enchanting.TFModifier;
+import com.lilithsthrone.game.inventory.enchanting.TFPotency;
 import com.lilithsthrone.game.inventory.item.ItemType;
 import com.lilithsthrone.game.occupantManagement.OccupancyUtil;
 import com.lilithsthrone.game.occupantManagement.slave.SlaveJob;
@@ -300,7 +305,15 @@ public class CompanionManagement {
 				return new Response("Perks", UtilText.parse(characterSelected(), "Assign [npc.namePos] perk points."), SLAVE_MANAGEMENT_PERKS);
 				
 			} else if(index==7) {
-				if(!characterSelected().isAbleToSelfTransform()) {
+				if(characterSelected().isDoll() && (Main.game.getPlayer().hasItemType(ItemType.DOLL_CONSOLE) || characterSelected().hasItemType(ItemType.DOLL_CONSOLE))) {
+					return new ResponseEffectsOnly("Transformations", UtilText.parse(characterSelected(), "Use your D.E.C.K. to customise [npc.namePos] appearance.")) {
+						@Override
+						public void effects() {
+							ItemEffectType.DOLL_CONSOLE.itemEffectOverride(TFModifier.NONE, TFModifier.NONE, TFPotency.BOOST, 0, Main.game.getPlayer(), characterSelected(), new ItemEffectTimer());
+						}
+					};
+					
+				} else if(!characterSelected().isAbleToSelfTransform()) {
 					return new Response("Transformations", characterSelected().getUnableToTransformDescription(), null);
 					
 				} else if(!Main.game.isSavedDialogueNeutral()) {
@@ -516,7 +529,15 @@ public class CompanionManagement {
 				return new Response("Perks", "Spend your slave's perk points.", SLAVE_MANAGEMENT_PERKS);
 				
 			} else if(index==7) {
-				if(!characterSelected().isAbleToSelfTransform()) {
+				if(characterSelected().isDoll() && (Main.game.getPlayer().hasItemType(ItemType.DOLL_CONSOLE) || characterSelected().hasItemType(ItemType.DOLL_CONSOLE))) {
+					return new ResponseEffectsOnly("Transformations", UtilText.parse(characterSelected(), "Use your D.E.C.K. to customise [npc.namePos] appearance.")) {
+						@Override
+						public void effects() {
+							ItemEffectType.DOLL_CONSOLE.itemEffectOverride(TFModifier.NONE, TFModifier.NONE, TFPotency.BOOST, 0, Main.game.getPlayer(), characterSelected(), new ItemEffectTimer());
+						}
+					};
+					
+				} else if(!characterSelected().isAbleToSelfTransform()) {
 					return new Response("Transformations", characterSelected().getUnableToTransformDescription(), null);
 					
 				} else {
@@ -740,7 +761,15 @@ public class CompanionManagement {
 				if(characterSelected() == null) {
 					return new Response("Transformations", "You haven't selected anyone...", null);
 				}
-				if(!characterSelected().isAbleToSelfTransform()) {
+				if(characterSelected().isDoll() && (Main.game.getPlayer().hasItemType(ItemType.DOLL_CONSOLE) || characterSelected().hasItemType(ItemType.DOLL_CONSOLE))) {
+					return new ResponseEffectsOnly("Transformations", UtilText.parse(characterSelected(), "Use your D.E.C.K. to customise [npc.namePos] appearance.")) {
+						@Override
+						public void effects() {
+							ItemEffectType.DOLL_CONSOLE.itemEffectOverride(TFModifier.NONE, TFModifier.NONE, TFPotency.BOOST, 0, Main.game.getPlayer(), characterSelected(), new ItemEffectTimer());
+						}
+					};
+					
+				} else if(!characterSelected().isAbleToSelfTransform()) {
 					return new Response("Transformations", characterSelected().getUnableToTransformDescription(), null);
 					
 				} else {
@@ -916,12 +945,12 @@ public class CompanionManagement {
 					"<div class='container-full-width' style='text-align:center;'>");
 			
 			UtilText.nodeContentSB.append(
-							"<div class='container-full-width inner' style='text-align:center;'>"
+							"<div class='container-full-width inner' style='text-align:center;padding-left:2px;padding-right:2px;'>"
 							+ "<div style='width:100%;margin-top:8px;'><b>Available Jobs</b></div>");
 			for(SlaveJob job : SlaveJob.values()) {
 				if(!job.isHidden(character) && (character.isSlave() || job.hasFlag(SlaveJobFlag.GUEST_CAN_WORK))) {
 					UtilText.nodeContentSB.append(
-							"<div class='normal-button' id='"+job+"_ASSIGN' style='width:16%; margin:2px;color:"
+							"<div class='normal-button' id='"+job+"_ASSIGN' style='width:calc(16.6% - 2px); margin:1px;color:"
 									+job.getColour().toWebHexString()+";"+(Main.game.getDialogueFlags().getSlaveryManagerJobSelected()==job?"border-color:"+job.getColour().toWebHexString()+";":"")+"'>"
 									+Util.capitaliseSentence(job.getName(character))
 									+"</div>");
@@ -1006,19 +1035,19 @@ public class CompanionManagement {
 					"<div class='container-full-width' style='text-align:center;'>"
 						+ "<h6 style='color:"+PresetColour.GENERIC_EXPERIENCE.toWebHexString()+"; text-align:center;'>Job Settings & Related Information</h6>"
 						+"<div class='container-full-width' style='margin-bottom:0;'>"
-							+ "<div style='width:20%; float:left; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='width:20%; float:left; font-weight:bold; margin:0 0 0 4%; padding:0;'>"
 								+ "Job"
 							+ "</div>"
-							+ "<div style='float:left; width:10%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:9%; font-weight:bold; margin:0; padding:0;'>"
 								+ "<b>Workers</b>"
 							+"</div>"
-							+ "<div style='float:left; width:15%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:14%; font-weight:bold; margin:0; padding:0;'>"
 								+ "<b style='color:"+PresetColour.AFFECTION.toWebHexString()+";'>Affection</b>"
 							+"</div>"
-							+ "<div style='float:left; width:15%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:14%; font-weight:bold; margin:0; padding:0;'>"
 								+ "<b style='color:"+PresetColour.OBEDIENCE.toWebHexString()+";'>Obedience</b>"
 							+"</div>"
-							+ "<div style='float:left; width:40%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:39%; font-weight:bold; margin:0; padding:0;'>"
 								+ "<b style='color:"+PresetColour.CURRENCY_GOLD.toWebHexString()+";'>Income</b>"
 										+ " (+<b style='color:"+PresetColour.OBEDIENCE.toWebHexString()+";'>Obedience Bonus</b>)"
 							+"</div>"
@@ -1035,32 +1064,32 @@ public class CompanionManagement {
 				
 				UtilText.nodeContentSB.append(
 						"<div class='container-full-width inner' "+(isCurrentJob?"style='background:"+PresetColour.BACKGROUND_ALT.toWebHexString()+";'":"")+">"
-							+ "<div style='width:5%; float:left; margin:0; padding:0;'>"
+							+ "<div style='width:4%; float:left; margin:0; padding:0;'>"
 								+ "<div class='title-button no-select' id='SLAVE_JOB_INFO_"+job+"' style='position:relative; top:0;'>"+SVGImages.SVG_IMAGE_PROVIDER.getInformationIcon()+"</div>"
 							+ "</div>"
-							+"<div style='width:15%; float:left; margin:0; padding:0;'>"
+							+"<div style='width:20%; float:left; margin:0; padding:0;'>"
 								+ (isCurrentJob
 									? "<b style='color:"+job.getColour().toWebHexString()+";'>"+Util.capitaliseSentence(job.getName(character))+"</b>"
 									: "[style.colourDisabled("+Util.capitaliseSentence(job.getName(character))+")]")
 							+ "</div>"
-							+ "<div style='float:left; width:10%; font-weight:bold; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:9%; font-weight:bold; margin:0; padding:0;'>"
 								+ Main.game.getOccupancyUtil().getTotalCharactersWorkingJob(job)+"/"+(job.getSlaveLimit()<0?"&#8734;":job.getSlaveLimit())
 							+"</div>"
-							+ "<div style='float:left; width:15%; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:14%; margin:0; padding:0;'>"
 								+ (affectionChange>0
 										?"<b style='color:"+PresetColour.AFFECTION.toWebHexString()+";'>+"+decimalFormat.format(affectionChange)+ "</b>"
 										:(affectionChange<0
 												?"<b style='color:"+PresetColour.GENERIC_BAD.toWebHexString()+";'>"+decimalFormat.format(affectionChange)+ "</b>"
 												:"[style.colourDisabled(0)]"))+"/hour"
 							+"</div>"
-							+ "<div style='float:left; width:15%; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:14%; margin:0; padding:0;'>"
 								+ (obedienceChange>0
 										?"<b style='color:"+PresetColour.OBEDIENCE.toWebHexString()+";'>+"+decimalFormat.format(obedienceChange)+ "</b>"
 										:(obedienceChange<0
 												?"<b style='color:"+PresetColour.GENERIC_BAD.toWebHexString()+";'>"+decimalFormat.format(obedienceChange)+ "</b>"
 												:"[style.colourDisabled(0)]"))+"/hour"
 							+"</div>"
-							+ "<div style='float:left; width:40%; margin:0; padding:0;'>"
+							+ "<div style='float:left; width:39%; margin:0; padding:0;'>"
 								+ UtilText.formatAsMoney(job.getIncome())
 								+ " + ("
 								+ (job.getObedienceIncomeModifier()>0
@@ -1077,6 +1106,9 @@ public class CompanionManagement {
 				
 				// Job Settings:
 				for(SlaveJobSetting setting : job.getMutualSettings()) {
+					if(!setting.isAvailable()) {
+						continue;
+					}
 					boolean settingActive = character.hasSlaveJobSetting(job, setting);
 					
 					String id = settingActive
@@ -1091,7 +1123,7 @@ public class CompanionManagement {
 										:"[style.colourDisabled("+setting.getName()+")]")
 							+ "</div>");
 				}
-				
+				// More Job Settings:
 				for(Entry<String, List<SlaveJobSetting>> entry : job.getMutuallyExclusiveSettings().entrySet()) {
 					UtilText.nodeContentSB.append("<div class='container-full-width inner' style='"+(!isCurrentJob?"background:#1B1B1B;":"")+"'>"
 													+ "<div style='width:100%; float:left; margin:0; padding:0;"+(isCurrentJob?"":"color:#777;")+"'>"
@@ -1099,9 +1131,11 @@ public class CompanionManagement {
 													+ "</div>");
 					
 					for(SlaveJobSetting setting : entry.getValue()) {
+						if(!setting.isAvailable()) {
+							continue;
+						}
 						boolean settingActive = character.hasSlaveJobSetting(job, setting);
 						
-
 						String id = settingActive
 								?setting.toString()+"_DISABLED"
 								:setting.toString()+"_TOGGLE_ADD";
@@ -1734,6 +1768,14 @@ public class CompanionManagement {
 						}
 					};
 				}
+			
+			} else if(index==2) {
+				return new Response("Save/Load", "Save/Load tattoo presets.", CosmeticsDialogue.TATTOO_SAVE_LOAD) {
+					@Override
+					public void effects() {
+						CosmeticsDialogue.initTattooSaveLoadDialogue(SLAVE_MANAGEMENT_TATTOOS_ADD);
+					}
+				};
 			
 			} else if(index==0) {
 				return new Response("Back", "Decide not to get this tattoo and return to the main selection screen.", SLAVE_MANAGEMENT_TATTOOS);

@@ -1,6 +1,7 @@
 package com.lilithsthrone.game.sex.sexActions.baseActionsMisc;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.attributes.LustLevel;
 import com.lilithsthrone.game.character.body.CoverableArea;
+import com.lilithsthrone.game.character.body.abstractTypes.AbstractPenisType;
 import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.types.PenisType;
 import com.lilithsthrone.game.character.body.valueEnums.ClitorisSize;
@@ -375,12 +377,12 @@ public class GenericActions {
 					}
 					sb.append("<p style='margin:0; padding:0; text-align:center;'>");
 					sb.append("[style.boldPurple(Sex)] ([style.colourSexDom("+Util.capitaliseSentence(preference.getPerformingSexArea().getName(dom, true))+")]-[style.colourSexSub("+preference.getTargetedSexArea().getName(sub, true)+")]): ");
+					sb.append("</p>");
 					sb.append(dom.calculateGenericSexEffects(true, true, sub, preference, GenericSexFlag.EXTENDED_DESCRIPTION_NEEDED, (preventCreampie?GenericSexFlag.PREVENT_CREAMPIE:null))); // This increments orgasms
 //					if(sub.hasPenisIgnoreDildo() && !dom.hasFetish(Fetish.FETISH_DENIAL) && Main.sex.getSexPace(sub)!=SexPace.SUB_RESISTING) {
 //						sb.append(sub.calculateGenericSexEffects(true, true, dom, new SexType(SexAreaPenetration.PENIS, SexAreaPenetration.FINGER), GenericSexFlag.EXTENDED_DESCRIPTION_NEEDED, (preventCreampie?GenericSexFlag.PREVENT_CREAMPIE:null))); // This increments orgasms
 //						//TODO
 //					}
-					sb.append("</p>");
 					
 					if(orgamsNeeded>1) {
 						dom.generateSexChoices(false, sub);
@@ -845,7 +847,7 @@ public class GenericActions {
 //			return super.getPriority();
 //		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
 			return true;
 		}
 		@Override
@@ -1039,20 +1041,29 @@ public class GenericActions {
 			
 			StringBuilder sb = new StringBuilder();
 			if(Main.game.getPlayer().getSubspeciesOverrideRace()==Race.DEMON) {
-				sb.append(Main.game.getPlayer().setPenisType(PenisType.DEMON_COMMON));
+				sb.append(Main.game.getPlayer().setPenisType(PenisType.DEMON_COMMON, Main.game.getPlayer().getPreviousPenisType()!=PenisType.DEMON_COMMON));
 			} else if (Main.game.getPlayer().isYouko()){
-				sb.append(Main.game.getPlayer().setPenisType(PenisType.FOX_MORPH));
+				sb.append(Main.game.getPlayer().setPenisType(PenisType.FOX_MORPH, Main.game.getPlayer().getPreviousPenisType()!=PenisType.FOX_MORPH));
 			} else {
-				sb.append(Main.game.getPlayer().setPenisType(RacialBody.valueOfRace(Main.game.getPlayer().getBody().getFleshSubspecies().getRace()).getPenisType()));
+				AbstractPenisType penisType = RacialBody.valueOfRace(Main.game.getPlayer().getBody().getFleshSubspecies().getRace()).getPenisType();
+				if(Main.game.getPlayer().getPreviousPenisType()!=null) {
+					penisType = Main.game.getPlayer().getPreviousPenisType();
+				}
+				sb.append(Main.game.getPlayer().setPenisType(penisType, Main.game.getPlayer().getPreviousPenisType()!=penisType));
 			}
-			if(Main.game.getPlayer().getPenisRawCumStorageValue() < 150) {
-				sb.append(Main.game.getPlayer().setPenisCumStorage(150));
-			}
+			
 			Main.game.getPlayer().fillCumToMaxStorage();
-			int size = Main.sex.getCharacterTargetedForSexAction(this).getLegConfiguration().isLargeGenitals()?40:20;
-			if(Main.game.getPlayer().getPenisRawSizeValue() < size) {
-				sb.append(Main.game.getPlayer().setPenisSize(size));
+			
+			if(Main.game.getPlayer().getPreviousPenisType()==null) {
+				int size = Main.sex.getCharacterPerformingAction().getLegConfiguration().isLargeGenitals()?40:20;
+				if(Main.game.getPlayer().getPenisRawSizeValue() < size) {
+					sb.append(Main.game.getPlayer().setPenisSize(size));
+				}
+				if(Main.game.getPlayer().getPenisRawCumStorageValue() < Main.sex.getCharacterPerformingAction().getFleshSubspecies().getRace().getRacialBody().getCumProduction()) {
+					sb.append(Main.game.getPlayer().setPenisCumStorage(Main.sex.getCharacterPerformingAction().getFleshSubspecies().getRace().getRacialBody().getCumProduction()));
+				}
 			}
+			
 			
 			for(GameCharacter character : Main.sex.getAllParticipants()) {
 				if(character instanceof NPC) {
@@ -1096,13 +1107,17 @@ public class GenericActions {
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !Main.sex.isMasturbation()
+					&& Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(this))!=SexPace.SUB_RESISTING
+					//TODO make the NPC refuse with a reason before blocking this action
+//					&& (Main.sex.isCharacterObeyingTarget(Main.sex.getCharacterTargetedForSexAction(this), Main.game.getPlayer())
+//							|| !Main.sex.getCharacterTargetedForSexAction(this).getFetishDesire(Fetish.FETISH_PENIS_GIVING).isNegative())
 					&& Main.sex.getCharacterTargetedForSexAction(this).isAbleToSelfTransform()
 					&& !Main.sex.getCharacterTargetedForSexAction(this).hasPenis()
 					&& Main.sex.getCharacterPerformingAction().isPlayer();
 		}
 
 		@Override
-		public String getDescription() {//TODO resisting variations
+		public String getDescription() {
 			if(Main.sex.getCharacterTargetedForSexAction(this).getSubspeciesOverrideRace()==Race.DEMON
 					|| Main.sex.getCharacterTargetedForSexAction(this).isElemental()) {
 				return "Grinning down at [npc2.name], you tease, [npc.speech(How about you use your transformative powers to grow a nice thick demonic cock, so that we can have even more fun!)]"
@@ -1144,36 +1159,45 @@ public class GenericActions {
 			StringBuilder sb = new StringBuilder();
 			boolean discoveredPenisColour = Main.sex.getCharacterTargetedForSexAction(this).isBodyCoveringTypesDiscovered(BodyCoveringType.PENIS);
 			if(Main.sex.getCharacterTargetedForSexAction(this).getSubspeciesOverrideRace()==Race.DEMON || Main.sex.getCharacterTargetedForSexAction(this).isElemental()) {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(PenisType.DEMON_COMMON));
+				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(PenisType.DEMON_COMMON, Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()!=PenisType.DEMON_COMMON));
 				if(!discoveredPenisColour) {
 					Main.sex.getCharacterTargetedForSexAction(this).setSkinCovering(BodyCoveringType.PENIS, Main.sex.getCharacterTargetedForSexAction(this).getCovering(BodyCoveringType.DEMON_COMMON).getPrimaryColour(), false);
 				}
 				
 			} else if(Main.sex.getCharacterTargetedForSexAction(this).isYouko()) {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(PenisType.FOX_MORPH));
+				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(PenisType.FOX_MORPH, Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()!=PenisType.FOX_MORPH));
 				if(!discoveredPenisColour) {
 					Main.sex.getCharacterTargetedForSexAction(this).setSkinCovering(BodyCoveringType.PENIS, PresetColour.SKIN_RED, false);
 				}
 				
 			} else {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(RacialBody.valueOfRace(Main.sex.getCharacterTargetedForSexAction(this).getBody().getFleshSubspecies().getRace()).getPenisType()));
+				AbstractPenisType penisType = RacialBody.valueOfRace(Main.sex.getCharacterTargetedForSexAction(this).getBody().getFleshSubspecies().getRace()).getPenisType();
+				if(Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()!=null) {
+					penisType = Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType();
+				}
+				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisType(penisType, Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()!=penisType));
 			}
-			if(Main.sex.getCharacterTargetedForSexAction(this).getPenisRawCumStorageValue() < 150) {
-				Main.sex.getCharacterTargetedForSexAction(this).setPenisCumStorage(150);
+			
+
+			if(Main.sex.getCharacterTargetedForSexAction(this).getPreviousPenisType()==null) {
+				if(Main.sex.getCharacterTargetedForSexAction(this).getPenisRawCumStorageValue() < 150) {
+					Main.sex.getCharacterTargetedForSexAction(this).setPenisCumStorage(150);
+				}
+				Main.sex.getCharacterTargetedForSexAction(this).fillCumToMaxStorage();
+				if(Main.sex.getCharacterTargetedForSexAction(this).hasVagina()) {
+					Main.sex.getCharacterTargetedForSexAction(this).setTesticleSize(TesticleSize.ZERO_VESTIGIAL);
+				} else if(Main.sex.getCharacterTargetedForSexAction(this).getTesticleSize().getValue() < TesticleSize.THREE_LARGE.getValue()){
+					Main.sex.getCharacterTargetedForSexAction(this).setTesticleSize(TesticleSize.THREE_LARGE);
+				}
+				if(Main.sex.getCharacterTargetedForSexAction(this).getPenisGirth().getValue() < PenetrationGirth.THREE_AVERAGE.getValue()) {
+					sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisGirth(PenetrationGirth.THREE_AVERAGE));
+				}
+				int size = Main.sex.getCharacterTargetedForSexAction(this).getLegConfiguration().isLargeGenitals()?40:20;
+				if(Main.sex.getCharacterTargetedForSexAction(this).getPenisRawSizeValue() < size) {
+					sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisSize(size));
+				}
 			}
-			Main.sex.getCharacterTargetedForSexAction(this).fillCumToMaxStorage();
-			if(Main.sex.getCharacterTargetedForSexAction(this).hasVagina()) {
-				Main.sex.getCharacterTargetedForSexAction(this).setTesticleSize(TesticleSize.ZERO_VESTIGIAL);
-			} else {
-				Main.sex.getCharacterTargetedForSexAction(this).setTesticleSize(TesticleSize.THREE_LARGE);
-			}
-			if(Main.sex.getCharacterTargetedForSexAction(this).getPenisGirth().getValue() < PenetrationGirth.FOUR_GIRTHY.getValue()) {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisGirth(PenetrationGirth.FOUR_GIRTHY));
-			}
-			int size = Main.sex.getCharacterTargetedForSexAction(this).getLegConfiguration().isLargeGenitals()?40:20;
-			if(Main.sex.getCharacterTargetedForSexAction(this).getPenisRawSizeValue() < size) {
-				sb.append(Main.sex.getCharacterTargetedForSexAction(this).setPenisSize(size));
-			}
+			
 			
 			for(GameCharacter character : Main.sex.getAllParticipants()) {
 				if(character instanceof NPC) {
@@ -2569,8 +2593,8 @@ public class GenericActions {
 			return true;
 		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
-			return type==ImmobilisationType.ROPE;
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.ROPE);
 		}
 		@Override
 		public String getActionTitle() {
@@ -2582,8 +2606,8 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return value!=null && value.getKey()==ImmobilisationType.ROPE;
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.ROPE)
+					&& !Main.sex.isCharacterInanimateFromImmobilisation(Main.sex.getCharacterPerformingAction());
 		}
 		@Override
 		public String getDescription() {
@@ -2611,8 +2635,8 @@ public class GenericActions {
 			return true;
 		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
-			return type==ImmobilisationType.CHAINS;
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.CHAINS);
 		}
 		@Override
 		public String getActionTitle() {
@@ -2624,8 +2648,8 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return value!=null && value.getKey()==ImmobilisationType.CHAINS;
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.CHAINS)
+					&& !Main.sex.isCharacterInanimateFromImmobilisation(Main.sex.getCharacterPerformingAction());
 		}
 		@Override
 		public String getDescription() {
@@ -3011,9 +3035,8 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
 			return Main.sex.getCharacterPerformingAction().isPlayer()
-					&& (value!=null && value.getKey()==ImmobilisationType.COCOON)
+					&& Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.COCOON)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -3023,7 +3046,7 @@ public class GenericActions {
 		}
 		@Override
 		public void applyEffects() {
-			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this));
+			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this), ImmobilisationType.COCOON);
 		}
 	};
 
@@ -3039,8 +3062,8 @@ public class GenericActions {
 			return true;
 		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
-			return type==ImmobilisationType.COCOON;
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.COCOON);
 		}
 		@Override
 		public String getActionTitle() {
@@ -3052,8 +3075,8 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return value!=null && value.getKey()==ImmobilisationType.COCOON;
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.COCOON)
+					&& !Main.sex.isCharacterInanimateFromImmobilisation(Main.sex.getCharacterPerformingAction());
 		}
 		@Override
 		public String getDescription() {
@@ -3150,9 +3173,8 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
 			return Main.sex.getCharacterPerformingAction().isPlayer()
-					&& (value!=null && value.getKey()==ImmobilisationType.TENTACLE_RESTRICTION)
+					&& Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.TENTACLE_RESTRICTION)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -3163,7 +3185,7 @@ public class GenericActions {
 		}
 		@Override
 		public void applyEffects() {
-			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this));
+			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this), ImmobilisationType.TENTACLE_RESTRICTION);
 		}
 	};
 
@@ -3189,8 +3211,7 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
-			return (value!=null && value.getKey()==ImmobilisationType.TENTACLE_RESTRICTION)
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.TENTACLE_RESTRICTION)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -3250,8 +3271,7 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
-			return (value!=null && value.getKey()==ImmobilisationType.TENTACLE_RESTRICTION)
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.TENTACLE_RESTRICTION)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -3302,8 +3322,8 @@ public class GenericActions {
 			return true;
 		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
-			return type==ImmobilisationType.TENTACLE_RESTRICTION;
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.TENTACLE_RESTRICTION);
 		}
 		@Override
 		public String getActionTitle() {
@@ -3311,18 +3331,18 @@ public class GenericActions {
 		}
 		@Override
 		public String getActionDescription() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return UtilText.parse(value.getValue(), "[npc.Name] is using [npc.her] tentacles to hold you in place, and as a result, you are unable to make a move!");
+			GameCharacter applier = Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).get(ImmobilisationType.TENTACLE_RESTRICTION);
+			return UtilText.parse(applier, "[npc.NameIsFull] using [npc.her] tentacles to hold you in place, and as a result, you are unable to make a move!");
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return value!=null && value.getKey()==ImmobilisationType.TENTACLE_RESTRICTION;
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.TENTACLE_RESTRICTION)
+					&& !Main.sex.isCharacterInanimateFromImmobilisation(Main.sex.getCharacterPerformingAction());
 		}
 		@Override
 		public String getDescription() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return UtilText.parse(Main.sex.getCharacterPerformingAction(), value.getValue(),
+			GameCharacter applier = Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).get(ImmobilisationType.TENTACLE_RESTRICTION);
+			return UtilText.parse(Main.sex.getCharacterPerformingAction(), applier,
 					"[npc.Name] [npc.verb(try)] to make a move, but [npc2.namePos] tentacle embrace is far too strong, and all [npc.she] can manage is to make a few pathetic squirming motions.");
 		}
 		@Override
@@ -3399,8 +3419,8 @@ public class GenericActions {
 			return true;
 		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
-			return type==ImmobilisationType.WITCH_SEAL;
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.WITCH_SEAL);
 		}
 		@Override
 		public String getActionTitle() {
@@ -3408,13 +3428,13 @@ public class GenericActions {
 		}
 		@Override
 		public String getActionDescription() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return UtilText.parse(value.getValue(), "The Witch's Seal that [npc.name] cast on you is preventing you from making a move!");
+			GameCharacter applier = Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).get(ImmobilisationType.WITCH_SEAL);
+			return UtilText.parse(applier, "The Witch's Seal that [npc.name] cast on you is preventing you from making a move!");
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return value!=null && value.getKey()==ImmobilisationType.WITCH_SEAL;
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.WITCH_SEAL)
+					&& !Main.sex.isCharacterInanimateFromImmobilisation(Main.sex.getCharacterPerformingAction());
 		}
 		@Override
 		public String getDescription() {
@@ -3471,9 +3491,8 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
-			return Main.sex.getCharacterPerformingAction().isPlayer() // Only allow player to end this
-					&& (value!=null && value.getKey()==ImmobilisationType.WITCH_SEAL)
+			return Main.sex.getCharacterPerformingAction().isPlayer()
+					&& Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.WITCH_SEAL)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -3483,7 +3502,7 @@ public class GenericActions {
 		}
 		@Override
 		public void applyEffects() {
-			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this));
+			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this), ImmobilisationType.WITCH_SEAL);
 		}
 	};
 	
@@ -3573,9 +3592,8 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
 			return Main.sex.getCharacterPerformingAction().isPlayer()
-					&& (value!=null && value.getKey()==ImmobilisationType.TAIL_CONSTRICTION)
+					&& Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.TAIL_CONSTRICTION)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -3586,7 +3604,7 @@ public class GenericActions {
 		}
 		@Override
 		public void applyEffects() {
-			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this));
+			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this), ImmobilisationType.TAIL_CONSTRICTION);
 		}
 	};
 
@@ -3612,8 +3630,7 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
-			return (value!=null && value.getKey()==ImmobilisationType.TAIL_CONSTRICTION)
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.TAIL_CONSTRICTION)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -3673,8 +3690,7 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
-			return (value!=null && value.getKey()==ImmobilisationType.TAIL_CONSTRICTION)
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.TAIL_CONSTRICTION)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -3725,8 +3741,8 @@ public class GenericActions {
 			return true;
 		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
-			return type==ImmobilisationType.TAIL_CONSTRICTION;
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.TAIL_CONSTRICTION);
 		}
 		@Override
 		public String getActionTitle() {
@@ -3734,18 +3750,18 @@ public class GenericActions {
 		}
 		@Override
 		public String getActionDescription() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return UtilText.parse(value.getValue(), "[npc.Name] is using [npc.her] long tail to hold you in place, and as a result, you are unable to make a move!");
+			GameCharacter applier = Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).get(ImmobilisationType.TAIL_CONSTRICTION);
+			return UtilText.parse(applier, "[npc.Name] is using [npc.her] long tail to hold you in place, and as a result, you are unable to make a move!");
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return value!=null && value.getKey()==ImmobilisationType.TAIL_CONSTRICTION;
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.TAIL_CONSTRICTION)
+					&& !Main.sex.isCharacterInanimateFromImmobilisation(Main.sex.getCharacterPerformingAction());
 		}
 		@Override
 		public String getDescription() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return UtilText.parse(Main.sex.getCharacterPerformingAction(), value.getValue(),
+			GameCharacter applier = Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).get(ImmobilisationType.TAIL_CONSTRICTION);
+			return UtilText.parse(Main.sex.getCharacterPerformingAction(), applier,
 					"[npc.Name] [npc.verb(try)] to make a move, but [npc2.namePos] constricting tail is far too strong, and all [npc.she] can manage is to make a few pathetic squirming motions.");
 		}
 		@Override
@@ -3830,8 +3846,8 @@ public class GenericActions {
 			return true;
 		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
-			return type==ImmobilisationType.COMMAND;
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.COMMAND);
 		}
 		@Override
 		public String getActionTitle() {
@@ -3839,13 +3855,13 @@ public class GenericActions {
 		}
 		@Override
 		public String getActionDescription() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return UtilText.parse(value.getValue(), "Having been commanded by [npc.name] to remain motionless, you obediently remain immobile!");
+			GameCharacter applier = Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).get(ImmobilisationType.COMMAND);
+			return UtilText.parse(applier, "Having been commanded by [npc.name] to remain motionless, you obediently remain immobile!");
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return value!=null && value.getKey()==ImmobilisationType.COMMAND;
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.COMMAND)
+					&& !Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.SLEEP);
 		}
 		@Override
 		public String getDescription() {
@@ -3891,9 +3907,8 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
-			return Main.sex.getCharacterPerformingAction().isPlayer() // Only allow player to end this
-					&& (value!=null && value.getKey()==ImmobilisationType.COMMAND)
+			return Main.sex.getCharacterPerformingAction().isPlayer()
+					&& Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.COMMAND)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -3903,7 +3918,7 @@ public class GenericActions {
 		}
 		@Override
 		public void applyEffects() {
-			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this));
+			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterTargetedForSexAction(this), ImmobilisationType.COMMAND);
 		}
 	};
 	
@@ -3921,8 +3936,8 @@ public class GenericActions {
 			return true;
 		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
-			return type==ImmobilisationType.SLEEP;
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.SLEEP);
 		}
 		@Override
 		public String getActionTitle() {
@@ -3934,8 +3949,7 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterPerformingAction());
-			return value!=null && value.getKey()==ImmobilisationType.SLEEP;
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.SLEEP);
 		}
 		@Override
 		public String getDescription() {
@@ -3981,9 +3995,8 @@ public class GenericActions {
 		}
 		@Override
 		public boolean isBaseRequirementsMet() {
-			Value<ImmobilisationType, GameCharacter> value = Main.sex.getImmobilisationType(Main.sex.getCharacterTargetedForSexAction(this));
-			return Main.sex.getCharacterPerformingAction().isPlayer() // Only allow player to end this
-					&& (value!=null && value.getKey()==ImmobilisationType.SLEEP)
+			return Main.sex.getCharacterPerformingAction().isPlayer()
+					&& Main.sex.getImmobilisationTypes(Main.sex.getCharacterTargetedForSexAction(this)).containsKey(ImmobilisationType.SLEEP)
 					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction()).getValue()>=SexControl.FULL.getValue();
 		}
 		@Override
@@ -4017,8 +4030,8 @@ public class GenericActions {
 			return true;
 		}
 		@Override
-		public boolean isAvailableDuringImmobilisation(ImmobilisationType type) {
-			return type==ImmobilisationType.SLEEP;
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.SLEEP);
 		}
 		@Override
 		public Colour getHighlightColour() {
@@ -4087,7 +4100,7 @@ public class GenericActions {
 		}
 		@Override
 		public String applyPreParsingEffects() {
-			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterPerformingAction());
+			Main.sex.removeCharacterImmobilised(Main.sex.getCharacterPerformingAction(), ImmobilisationType.SLEEP);
 			Main.sex.removeCharacterWoken(Main.sex.getCharacterPerformingAction());
 			Main.sex.getCharacterPerformingAction().wakeUp();
 			
@@ -4290,25 +4303,29 @@ public class GenericActions {
 		}
 		@Override
 		public String getActionTitle() {
-			switch((SexAreaOrifice)getAreaToBeEgged()) {
-				case ANUS:
-					return "Lay eggs (anal)";
-				case MOUTH:
-					return "Lay eggs (stomach)";
-				case NIPPLE: case NIPPLE_CROTCH:
-					return "Lay eggs (breasts)";
-				case VAGINA:
-					return "Lay eggs (womb)";
-				case SPINNERET:
-					return "Lay eggs (spinneret)";
-				case ARMPITS:
-				case BREAST:
-				case ASS:
-				case BREAST_CROTCH:
-				case THIGHS:
-				case URETHRA_PENIS:
-				case URETHRA_VAGINA:
-					return "";
+			try {
+				switch((SexAreaOrifice)getAreaToBeEgged()) {
+					case ANUS:
+						return "Lay eggs (anal)";
+					case MOUTH:
+						return "Lay eggs (stomach)";
+					case NIPPLE: case NIPPLE_CROTCH:
+						return "Lay eggs (breasts)";
+					case VAGINA:
+						return "Lay eggs (womb)";
+					case SPINNERET:
+						return "Lay eggs (spinneret)";
+					case ARMPITS:
+					case BREAST:
+					case ASS:
+					case BREAST_CROTCH:
+					case THIGHS:
+					case URETHRA_PENIS:
+					case URETHRA_VAGINA:
+						return "";
+				}
+			} catch(Exception ex) {
+				System.err.println("OVIPOSITOR_PENIS_EGG_LAYING getActionTitle() error - Area not found!");
 			}
 			return "Lay eggs";
 		}
@@ -4584,25 +4601,29 @@ public class GenericActions {
 		}
 		@Override
 		public String getActionTitle() {
-			switch((SexAreaOrifice)getAreaToBeEgged()) {
-				case ANUS:
-					return "Lay eggs (clit-anal)";
-				case MOUTH:
-					return "Lay eggs (clit-stomach)";
-				case NIPPLE: case NIPPLE_CROTCH:
-					return "Lay eggs (clit-breasts)";
-				case VAGINA:
-					return "Lay eggs (clit-womb)";
-				case SPINNERET:
-					return "Lay eggs (clit-spinneret)";
-				case ARMPITS:
-				case BREAST:
-				case ASS:
-				case BREAST_CROTCH:
-				case THIGHS:
-				case URETHRA_PENIS:
-				case URETHRA_VAGINA:
-					return "";
+			try {
+				switch((SexAreaOrifice)getAreaToBeEgged()) {
+					case ANUS:
+						return "Lay eggs (clit-anal)";
+					case MOUTH:
+						return "Lay eggs (clit-stomach)";
+					case NIPPLE: case NIPPLE_CROTCH:
+						return "Lay eggs (clit-breasts)";
+					case VAGINA:
+						return "Lay eggs (clit-womb)";
+					case SPINNERET:
+						return "Lay eggs (clit-spinneret)";
+					case ARMPITS:
+					case BREAST:
+					case ASS:
+					case BREAST_CROTCH:
+					case THIGHS:
+					case URETHRA_PENIS:
+					case URETHRA_VAGINA:
+						return "";
+				}
+			} catch(Exception ex) {
+				System.err.println("OVIPOSITOR_CLIT_EGG_LAYING getActionTitle() error - Area not found!");
 			}
 			return "Lay eggs (clit)";
 		}
@@ -4775,25 +4796,29 @@ public class GenericActions {
 		}
 		@Override
 		public String getActionTitle() {
-			switch((SexAreaOrifice)getAreaToBeEgged()) {
-				case ANUS:
-					return "Lay eggs (tail-anal)";
-				case MOUTH:
-					return "Lay eggs (tail-stomach)";
-				case NIPPLE: case NIPPLE_CROTCH:
-					return "Lay eggs (tail-breasts)";
-				case VAGINA:
-					return "Lay eggs (tail-womb)";
-				case SPINNERET:
-					return "Lay eggs (tail-spinneret)";
-				case ARMPITS:
-				case BREAST:
-				case ASS:
-				case BREAST_CROTCH:
-				case THIGHS:
-				case URETHRA_PENIS:
-				case URETHRA_VAGINA:
-					return "";
+			try {
+				switch((SexAreaOrifice)getAreaToBeEgged()) {
+					case ANUS:
+						return "Lay eggs (tail-anal)";
+					case MOUTH:
+						return "Lay eggs (tail-stomach)";
+					case NIPPLE: case NIPPLE_CROTCH:
+						return "Lay eggs (tail-breasts)";
+					case VAGINA:
+						return "Lay eggs (tail-womb)";
+					case SPINNERET:
+						return "Lay eggs (tail-spinneret)";
+					case ARMPITS:
+					case BREAST:
+					case ASS:
+					case BREAST_CROTCH:
+					case THIGHS:
+					case URETHRA_PENIS:
+					case URETHRA_VAGINA:
+						return "";
+				}
+			} catch(Exception ex) {
+				System.err.println("OVIPOSITOR_TAIL_EGG_LAYING getActionTitle() error - Area not found!");
 			}
 			return "Lay eggs (tail)";
 		}
@@ -4967,25 +4992,29 @@ public class GenericActions {
 		}
 		@Override
 		public String getActionTitle() {
-			switch((SexAreaOrifice)getAreaToBeEgged()) {
-				case ANUS:
-					return "Lay eggs (self tail-anal)";
-				case MOUTH:
-					return "Lay eggs (self tail-stomach)";
-				case NIPPLE: case NIPPLE_CROTCH:
-					return "Lay eggs (tail-breasts)";
-				case VAGINA:
-					return "Lay eggs (self tail-womb)";
-				case SPINNERET:
-					return "Lay eggs (self tail-spinneret)";
-				case ARMPITS:
-				case BREAST:
-				case ASS:
-				case BREAST_CROTCH:
-				case THIGHS:
-				case URETHRA_PENIS:
-				case URETHRA_VAGINA:
-					return "";
+			try {
+				switch((SexAreaOrifice)getAreaToBeEgged()) {
+					case ANUS:
+						return "Lay eggs (self tail-anal)";
+					case MOUTH:
+						return "Lay eggs (self tail-stomach)";
+					case NIPPLE: case NIPPLE_CROTCH:
+						return "Lay eggs (tail-breasts)";
+					case VAGINA:
+						return "Lay eggs (self tail-womb)";
+					case SPINNERET:
+						return "Lay eggs (self tail-spinneret)";
+					case ARMPITS:
+					case BREAST:
+					case ASS:
+					case BREAST_CROTCH:
+					case THIGHS:
+					case URETHRA_PENIS:
+					case URETHRA_VAGINA:
+						return "";
+				}
+			} catch(Exception ex) {
+				System.err.println("OVIPOSITOR_TAIL_EGG_LAYING_SELF getActionTitle() error - Area not found!");
 			}
 			return "Lay eggs (self tail)";
 		}

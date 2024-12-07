@@ -195,6 +195,11 @@ public class PlaceUpgrade {
 			0,
 			null) {
 		@Override
+		public boolean isSlaverUpgrade() {
+			return false;
+		}
+		
+		@Override
 		public String getSVGOverride() {
 			return AbstractPlaceType.getSVGOverride("dominion/lilayasHome/roomDoll", PresetColour.RACE_DOLL, PresetColour.BASE_WHITE, PresetColour.BASE_WHITE);
 		}

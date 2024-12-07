@@ -150,7 +150,7 @@ public class Race {
 			Disposition.CIVILIZED,
 			RacialClass.MAMMAL,
 			CombatBehaviour.SEDUCE,
-			0.75f,
+			0.1f,
 			2,
 			3,
 			FurryPreference.MAXIMUM,
@@ -162,6 +162,29 @@ public class Race {
 		}
 		@Override
 		public String getName(Body body, boolean feral) {
+			if(feral) {
+				if(body!=null) {
+					AbstractRace r = body.getLegType().getRace();
+					LegConfiguration legConfiguration = body.getLegConfiguration();
+
+					switch(legConfiguration) {
+						case BIPEDAL:
+							return "demon";
+						case ARACHNID:
+						case CEPHALOPOD:
+						case QUADRUPEDAL:
+						case TAIL:
+						case TAIL_LONG:
+						case AVIAN:
+						case WINGED_BIPED:
+							if(r==Race.DEMON) {
+								return "demonic-horse";
+							}
+							return "demonic-"+r.getName(body, true);
+					}
+				}
+				return "demonic-horse";
+			}
 			if(feral && body !=null && body.getHalfDemonSubspecies()!=null && body.getHalfDemonSubspecies()!=Subspecies.HUMAN) {
 				return "demonic-"+ body.getHalfDemonSubspecies().getFeralName(body);
 			}
@@ -169,6 +192,29 @@ public class Race {
 		}
 		@Override
 		public String getNamePlural(Body body, boolean feral) {
+			if(feral) {
+				if(body!=null) {
+					AbstractRace r = body.getLegType().getRace();
+					LegConfiguration legConfiguration = body.getLegConfiguration();
+
+					switch(legConfiguration) {
+						case BIPEDAL:
+							return "demons";
+						case ARACHNID:
+						case CEPHALOPOD:
+						case QUADRUPEDAL:
+						case TAIL:
+						case TAIL_LONG:
+						case AVIAN:
+						case WINGED_BIPED:
+							if(r==Race.DEMON) {
+								return "demonic-horses";
+							}
+							return "demonic-"+r.getNamePlural(body, true);
+					}
+				}
+				return "demonic-horses";
+			}
 			if(feral && body !=null && body.getHalfDemonSubspecies()!=null && body.getHalfDemonSubspecies()!=Subspecies.HUMAN) {
 				return "demonic-"+ body.getHalfDemonSubspecies().getFeralNamePlural(body);
 			}

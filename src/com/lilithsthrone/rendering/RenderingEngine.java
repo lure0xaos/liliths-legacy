@@ -1,5 +1,6 @@
 package com.lilithsthrone.rendering;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.lilithsthrone.game.Game;
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.ArousalLevel;
@@ -35,6 +37,7 @@ import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.DialogueNodeType;
 import com.lilithsthrone.game.dialogue.eventLog.EventLogEntry;
 import com.lilithsthrone.game.dialogue.utils.CharactersPresentDialogue;
+import com.lilithsthrone.game.dialogue.utils.DebugDialogue;
 import com.lilithsthrone.game.dialogue.utils.InventoryDialogue;
 import com.lilithsthrone.game.dialogue.utils.InventoryInteraction;
 import com.lilithsthrone.game.dialogue.utils.MapTravelType;
@@ -65,6 +68,8 @@ import com.lilithsthrone.utils.Vector2i;
 import com.lilithsthrone.utils.colours.BaseColour;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+import com.lilithsthrone.utils.time.DateAndTime;
+import com.lilithsthrone.utils.time.SolarElevationAngle;
 import com.lilithsthrone.world.AbstractWorldType;
 import com.lilithsthrone.world.Cell;
 import com.lilithsthrone.world.World;
@@ -76,13 +81,12 @@ import com.lilithsthrone.world.population.Population;
 
 /**
  * @since 0.1.0
- * @version 0.4
+ * @version 0.4.9.7
  * @author Innoxia
  */
 public enum RenderingEngine {
 	ENGINE;
 	
-	private static boolean zoomedIn = true;
 	private static boolean renderedDisabledMap = false;
 
 	private static int pageLeft = 0;
@@ -92,7 +96,7 @@ public enum RenderingEngine {
 	private boolean renderingTattoosRight = false;
 	
 	public static final int INVENTORY_PAGES = 5;
-	public static final int ITEMS_PER_PAGE = 24 + 6;
+	public static final int ITEMS_PER_PAGE = 6 * 5; // 6 items per row
 	
 	public static Colour[] orgasmColours = new Colour[]{
 			PresetColour.AROUSAL_STAGE_ZERO,
@@ -164,7 +168,7 @@ public enum RenderingEngine {
 			
 			equippedPanelSB.append("<div class='inventory-item-slot secondary' style='background-color:"+PresetColour.BACKGROUND.toWebHexString()+";'>"
 										+ "<div class='inventory-icon-content'>"
-											+SVGImages.SVG_IMAGE_PROVIDER.getTattooSwitchClothing()
+											+SVGImages.SVG_IMAGE_PROVIDER.getTattooSwitchClothing(charactersInventoryToRender)
 										+"</div>"
 									+ "<div class='overlay-inventory disabled'></div></div>");
 
@@ -491,7 +495,7 @@ public enum RenderingEngine {
 			equippedPanelSB.append("<div class='inventory-icon-content'>"
 										+(this.isRenderingTattoosLeft()
 											?SVGImages.SVG_IMAGE_PROVIDER.getTattooSwitchTattoo()
-											:SVGImages.SVG_IMAGE_PROVIDER.getTattooSwitchClothing())
+											:SVGImages.SVG_IMAGE_PROVIDER.getTattooSwitchClothing(charactersInventoryToRender))
 									+"</div>"
 									+ "<div class='overlay-inventory' id='TATTOO_SWITCH_LEFT'></div>");
 			
@@ -499,7 +503,7 @@ public enum RenderingEngine {
 			equippedPanelSB.append("<div class='inventory-icon-content"+getClassRarityIdentifier(Rarity.COMMON)+"'>"
 										+(this.isRenderingTattoosRight()
 												?SVGImages.SVG_IMAGE_PROVIDER.getTattooSwitchTattoo()
-												:SVGImages.SVG_IMAGE_PROVIDER.getTattooSwitchClothing())
+												:SVGImages.SVG_IMAGE_PROVIDER.getTattooSwitchClothing(charactersInventoryToRender))
 									+"</div>"
 									+ "<div class='overlay-inventory' id='TATTOO_SWITCH_RIGHT'></div>");
 		}
@@ -614,8 +618,18 @@ public enum RenderingEngine {
 					if(isSecondary) {
 						inventorySlotId = "inventory-item-slot secondary dark";
 					}
+					
+					//TODO Attempted to make tattoo background the same as skin colour, but skin colours are defined mainly for ease of reasing as text, and look bad as blocks of colour
+					// So if this was to be implemented, new colour values for all skin colours would be needed (to serve as block colours)
+					//String style = "style='background-image:-webkit-radial-gradient("+charactersInventoryToRender.getCovering(charactersInventoryToRender.getTorsoCovering()).getPrimaryColour().toWebHexString()+" 60%, #33333300 75%);'";
+					//String backgroundColour = "background-image:-webkit-radial-gradient("+charactersInventoryToRender.getCovering(charactersInventoryToRender.getTorsoCovering()).getPrimaryColour().toWebHexString()+" 75%, #33333300 85%);";
+					// background-color:"+charactersInventoryToRender.getCovering(charactersInventoryToRender.getTorsoCovering()).getPrimaryColour().toWebHexString()+"
+					//String style = "style='"+backgroundColour+" -webkit-box-shadow: inset 0 0 3px 2px #333333;'";
+					
+					String style = "";
+					
 					if(tattoo != null) {
-						equippedPanelSB.append("<div class='"+inventorySlotId + getClassRarityIdentifier(tattoo.getRarity()) +"'>");
+						equippedPanelSB.append("<div class='"+inventorySlotId + getClassRarityIdentifier(tattoo.getRarity()) +"' "+style+">");
 						equippedPanelSB.append("<div class='inventory-icon-content'>"+tattoo.getSVGImage(charactersInventoryToRender)+"</div>");
 						if(charactersInventoryToRender.getScarInSlot(invSlot)!=null) {
 							equippedPanelSB.append("<div class='scarIcon'>" + SVGImages.SVG_IMAGE_PROVIDER.getScarIcon() + "</div>");
@@ -635,7 +649,7 @@ public enum RenderingEngine {
 							equippedPanelSB.append("</div>");
 							
 						} else {
-							equippedPanelSB.append("<div class='"+inventorySlotId+"' id='" + invSlot.toString() + "Slot'>");
+							equippedPanelSB.append("<div class='"+inventorySlotId+"' id='" + invSlot.toString() + "Slot' "+style+">");
 							if(charactersInventoryToRender.getScarInSlot(invSlot)!=null) {
 								equippedPanelSB.append("<div class='scarIcon'>" + SVGImages.SVG_IMAGE_PROVIDER.getScarIcon() + "</div>");
 							}
@@ -1391,7 +1405,7 @@ public enum RenderingEngine {
 			
 		} else {
 			uiAttributeSB.append("<div class='half-width-container' style='text-align:center; float:left; width:60%'>");
-				uiAttributeSB.append("<div class='overlay-alt' style='float:left;' id='DATE_DISPLAY_TOGGLE'>");
+				uiAttributeSB.append("<div class='overlay-alt' style='float:left; padding: 0 0 2px 0;' id='DATE_DISPLAY_TOGGLE'>");
 					uiAttributeSB.append("<div class='item-inline' style='float:left;'>"
 											+SVGImages.SVG_IMAGE_PROVIDER.getCalendarIcon()
 										+ "</div>");
@@ -1418,32 +1432,58 @@ public enum RenderingEngine {
 			uiAttributeSB.append("</div>");
 			
 			
-			uiAttributeSB.append("<div class='half-width-container' style='text-align:center; float:left; width:40%;'>"
-									+ "<div class='overlay-alt' style='padding: 6px 0;' id='TWENTY_FOUR_HOUR_TIME_TOGGLE'>");
-			
-			if(Main.game.getPlayer().getClothingInSlot(InventorySlot.WRIST)!=null
-					&& (Main.game.getPlayer().getClothingInSlot(InventorySlot.WRIST).getClothingType().equals(ClothingType.WRIST_WOMENS_WATCH)
-							|| Main.game.getPlayer().getClothingInSlot(InventorySlot.WRIST).getClothingType().equals(ClothingType.WRIST_MENS_WATCH))) {
-				uiAttributeSB.append(
+			uiAttributeSB.append("<div class='half-width-container' style='text-align:center; float:left; width:40%;'>");
+				uiAttributeSB.append("<div class='overlay-alt' style='padding: 6px 0 2px 0;' id='TWENTY_FOUR_HOUR_TIME_TOGGLE'>");
+					if(Main.game.getPlayer().getClothingInSlot(InventorySlot.WRIST)!=null
+							&& (Main.game.getPlayer().getClothingInSlot(InventorySlot.WRIST).getClothingType().equals(ClothingType.WRIST_WOMENS_WATCH)
+									|| Main.game.getPlayer().getClothingInSlot(InventorySlot.WRIST).getClothingType().equals(ClothingType.WRIST_MENS_WATCH))) {
+						uiAttributeSB.append(
+										"<div class='item-inline' style='float:left;'>"
+												+Main.game.getPlayer().getClothingInSlot(InventorySlot.WRIST).getSVGEquippedString(Main.game.getPlayer())
+										+ "</div>");
+						
+					} else {
+						uiAttributeSB.append(
 								"<div class='item-inline' style='float:left;'>"
-										+Main.game.getPlayer().getClothingInSlot(InventorySlot.WRIST).getSVGEquippedString(Main.game.getPlayer())
+										+SVGImages.SVG_IMAGE_PROVIDER.getJournalIcon()
 								+ "</div>");
-				
-			} else {
-				uiAttributeSB.append(
-						"<div class='item-inline' style='float:left;'>"
-								+SVGImages.SVG_IMAGE_PROVIDER.getJournalIcon()
-						+ "</div>");
-			}
-	
-			if(Main.game.isBadEnd()) {
-				uiAttributeSB.append("<span style='color:"+PresetColour.GENERIC_BAD.toWebHexString()+";'>??:??</span>");
-			} else {
-				uiAttributeSB.append(Units.time(Main.game.getDateNow()));
-			}
+					}
 			
-			uiAttributeSB.append("</div>"
-						+ "</div>");
+					if(Main.game.isBadEnd()) {
+						uiAttributeSB.append("<span style='color:"+PresetColour.GENERIC_BAD.toWebHexString()+";'>??:??</span>");
+					} else {
+						uiAttributeSB.append(Units.time(Main.game.getDateNow()));
+					}
+					
+					boolean showTimeBar = !Main.game.isBadEnd();
+					if(showTimeBar) {
+						LocalDateTime[] sunriseSunset = DateAndTime.getTimeOfSolarElevationChange(Main.game.getDateNow(), SolarElevationAngle.SUN_ALTITUDE_SUNRISE_SUNSET, Game.DOMINION_LATITUDE, Game.DOMINION_LONGITUDE);
+						float sunrisePercentage = ((sunriseSunset[0].getHour()*60*60 + sunriseSunset[0].getMinute()*60)/(24*60*60f)) * 100;
+						float sunsetPercentage = ((sunriseSunset[1].getHour()*60*60 + sunriseSunset[1].getMinute()*60)/(24*60*60f)) * 100;
+						float secondPercentage = (int)((Main.game.getDaySeconds()/(24*60*60f)) * 100);
+						String dayString = "8eb5cf";
+						String nightString = "494873";
+						float fadeWidth = 2;
+						
+						uiAttributeSB.append("<div style='position:relative; width:90%; margin:2px 5% 0 5%; padding:0; height:4px; border-radius:1px; background-image:"
+								+ " linear-gradient(90deg, #"+nightString+" "+(sunrisePercentage-fadeWidth)+"%, #"+dayString+" "+(sunrisePercentage+fadeWidth)+"%,"
+										+ " #"+dayString+" "+(sunsetPercentage-fadeWidth)+"%, #"+nightString+" "+(sunsetPercentage+fadeWidth)+"%);'>");
+							// Arrow:
+	//						uiAttributeSB.append("<div style='position:absolute; width:0; height:0; border-left:2px solid transparent; border-right:2px solid transparent; border-bottom:4px solid #ffffff;"
+	//								+ " margin-left:calc("+(secondPercentage)+"% - 1px); padding:0 0 0 0;'>");
+	//						uiAttributeSB.append("</div>");
+							// Line:
+							uiAttributeSB.append("<div style='box-sizing:border-box; position:absolute; width:3px; margin-left:calc("+(secondPercentage)+"% - 1px); padding:0; height:4px; border-radius:1px;"
+									+ " border-left:1px solid #000000; border-right:1px solid #000000; background-color:#ffffff;'>");
+							uiAttributeSB.append("</div>");
+						uiAttributeSB.append("</div>");
+						
+//						System.out.println(sunrisePercentage+" | "+sunsetPercentage + " | "+secondPercentage);
+					}
+
+					
+				uiAttributeSB.append("</div>");
+			uiAttributeSB.append("</div>");
 			
 		}
 		uiAttributeSB.append("</div>");
@@ -1475,7 +1515,7 @@ public enum RenderingEngine {
 		}
 		
 		if(Main.game.isInSex()) {
-			if(Main.sex.isMasturbation()) {
+			if(Main.sex.isMasturbation() && Main.sex.getTotalParticipantCount(true)==1) {
 				return null;
 			}
 			return Main.sex.getTargetedPartner(Main.game.getPlayer());
@@ -1509,6 +1549,7 @@ public enum RenderingEngine {
 				|| (getCharacterToRender()!=null
 					&& (Main.game.getCurrentDialogueNode().getDialogueNodeType() == DialogueNodeType.CHARACTERS_PRESENT
 						|| Main.game.getCurrentDialogueNode() == PhoneDialogue.CONTACTS_CHARACTER
+						|| Main.game.getCurrentDialogueNode() == DebugDialogue.OUTFIT_VIEWER
 						|| Main.game.getDialogueFlags().getManagementCompanion()!=null
 						|| (Main.game.getCurrentDialogueNode().getDialogueNodeType()==DialogueNodeType.INVENTORY && InventoryDialogue.getInventoryNPC()!=null)));
 	}
@@ -2120,10 +2161,10 @@ public enum RenderingEngine {
 //			renderedDisabledMap = true;
 //		}
 
-		int mapSize = zoomedIn ? 2 : 3;
-		float unit = zoomedIn ? 18f : 13.25f;
+		int mapSize = isZoomedIn() ? 2 : 3;
+		float unit = isZoomedIn() ? 18f : 13.25f;
 		
-		String tileWidthStyle = "width:" + unit + "%; border-width:1%; margin:"+(zoomedIn?1:0.5)+"%;";
+		String tileWidthStyle = "width:" + unit + "%; border-width:1%; margin:"+(isZoomedIn()?1:0.5)+"%;";
 		String tileMovementDisabledStyle = "border-color:#111;";
 		Vector2i playerPosition = Main.game.getPlayer().getLocation();
 		
@@ -2372,7 +2413,7 @@ public enum RenderingEngine {
 			}
 			
 			for(NPC gc : charactersHome) {
-				if(!charactersPresent.contains(gc) && (charactersHome.size()==1 || x!=0 || y!=0)) {
+				if(!charactersPresent.contains(gc) && (charactersHome.size()==1 || x!=0 || y!=0 || world.getWorldType()!=WorldType.DOMINION)) { // This check was added due to NPCs' home tiles being treated as the 0,0 cell in Dominion
 					mapIcons.add("<span style='opacity:0.5;'>"+gc.getHomeMapIcon()+"</span>");
 				}
 			}
@@ -2498,11 +2539,11 @@ public enum RenderingEngine {
 	}
 
 	public static boolean isZoomedIn() {
-		return zoomedIn;
+		return Main.getProperties().hasValue(PropertyValue.mapZoomedIn);
 	}
 
 	public static void setZoomedIn(boolean zoomedIn) {
-		RenderingEngine.zoomedIn = zoomedIn;
+		Main.getProperties().setValue(PropertyValue.mapZoomedIn, zoomedIn);
 	}
 
 	public static boolean isRenderedDisabledMap() {
@@ -2755,7 +2796,7 @@ public enum RenderingEngine {
 				}
 			}
 			
-			if(!character.isPlayer()) {
+			if(!character.isPlayer() && !character.isDoll()) {
 				for (AbstractFetish f : character.getFetishes(true)) {
 					panelSB.append(
 						"<div class='icon effect'>"
@@ -3090,7 +3131,7 @@ public enum RenderingEngine {
 				}
 			}
 			
-			if(!character.isPlayer()) {
+			if(!character.isPlayer() && !character.isDoll()) {
 				for (AbstractFetish f : character.getFetishes(true)) {
 					panelSB.append(
 						"<div class='icon effect'>"

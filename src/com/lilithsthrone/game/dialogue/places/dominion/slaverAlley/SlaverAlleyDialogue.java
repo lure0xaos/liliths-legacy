@@ -1563,7 +1563,7 @@ public class SlaverAlleyDialogue {
 				UtilText.addSpecialParsingString(UtilText.formatAsMoney(biddingPrice, "span"), false);
 				UtilText.addSpecialParsingString(UtilText.formatAsMoney(biddingPrice+100, "span"), false);
 
-				return UtilText.parseFromXMLFile("places/dominion/slaverAlley/genericDialogue", "AUCTION_IMPORT_START", biddingNPC);
+				return UtilText.parseFromXMLFile("places/dominion/slaverAlley/genericDialogue", "AUCTION_BIDDING_START", biddingNPC);
 				
 			} if(biddingRounds==biddingRoundsTotal) {
 				if(playerBidLeader) {
