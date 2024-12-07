@@ -199,10 +199,11 @@ public enum SlavePermissionSetting {
 					+ " eventually making them <b style='color:"+Muscle.FOUR_RIPPED.getColour().toWebHexString()+";'>"+Muscle.FOUR_RIPPED.getName(false)+"</b>."),
 	
 	
-	// Claenliness:
+	// Cleanliness:
 	
 	CLEANLINESS_WASH_CLOTHES(true, "Wash Clothing", "Tell this slave to keep their clothing washed and clean."),
 	CLEANLINESS_WASH_BODY(true, "Wash Body", "Tell this slave to keep their body washed and clean, which will keep their orifices free of creampies."),
+	CLEANLINESS_WASH_THOROUGH(false, "Remove Odours", "When this slave washes their body, they will also remove any musky odours they might be marked with."),
 	
 	
 	// Sleeping:

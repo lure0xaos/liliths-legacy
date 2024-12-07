@@ -6890,7 +6890,7 @@ public abstract class GameCharacter implements XMLSaving {
 		
 		setPotionAttributes(savedPotionEffects);
 		
-		value *= this.isPlayer() && this.hasTrait(Perk.JOB_CHEF, true) && withExtaEffects?2:1;
+		value *= (this.hasTrait(Perk.JOB_CHEF, true) && withExtaEffects)?2:1;
 		
 		if(potionAttributes.containsKey(att)) {
 			setPotionAttribute(att, potionAttributes.get(att)+value);
@@ -6902,7 +6902,7 @@ public abstract class GameCharacter implements XMLSaving {
 			potionAttributes.remove(att);
 		}
 		
-		potionTimeRemaining += 30 * 60 * (this.isPlayer() && this.hasTrait(Perk.JOB_CHEF, true) && withExtaEffects?2:1);
+		potionTimeRemaining += 30 * 60 * ((this.hasTrait(Perk.JOB_CHEF, true) && withExtaEffects)?2:1);
 		
 		if(potionTimeRemaining>=12*60*60) {
 			addStatusEffect(StatusEffect.POTION_EFFECTS, 12*60*60);
@@ -8596,6 +8596,30 @@ public abstract class GameCharacter implements XMLSaving {
 		}
 		
 		// Special cases:
+		
+		// Ferals
+		if(this.isFeral()) {
+			//If have no breasts, cannot target breasts:
+			if(!this.getFeralAttributes().isBreastsPresent() && (type.getPerformingSexArea()==SexAreaOrifice.NIPPLE || type.getPerformingSexArea()==SexAreaOrifice.BREAST)) {
+				weight-=100000;
+			}
+			//If cannot use finger actions, cannot target fingers:
+			if(!this.getFeralAttributes().isFingerActionsAvailable() && (type.getPerformingSexArea()==SexAreaPenetration.FINGER)) {
+				weight-=100000;
+			}
+		}
+		if(target.isFeral()) {
+			//If have no breasts, cannot target breasts:
+			if(!target.getFeralAttributes().isBreastsPresent() && (type.getTargetedSexArea()==SexAreaOrifice.NIPPLE || type.getTargetedSexArea()==SexAreaOrifice.BREAST)) {
+				weight-=100000;
+			}
+			//If cannot use finger actions, cannot target fingers:
+			if(!target.getFeralAttributes().isFingerActionsAvailable() && (type.getTargetedSexArea()==SexAreaPenetration.FINGER)) {
+				weight-=100000;
+			}
+		}
+		
+//		target.getFeralAttributes().isFingerActionsAvailable()
 		
 		// Nipple-penetration content checks:
 		if(!Main.game.isNipplePenEnabled()) {
@@ -15693,6 +15717,9 @@ public abstract class GameCharacter implements XMLSaving {
 					break;
 				case ROPE:
 					sb.append("[npc.Name] [npc.verb(try)] to make a move as [npc2.namePos] "+areaString+" "+(plural?"are":"is")+" revealed, but the ropes binding [npc.her] body in place keep [npc.herHim] immobilised.");
+					break;
+				case STOCKS:
+					sb.append("[npc.Name] [npc.verb(try)] to make a move as [npc2.namePos] "+areaString+" "+(plural?"are":"is")+" revealed, but as [npc.sheIs] locked into a set of stocks [npc.sheIs] completely immobilised.");
 					break;
 				case COCOON:
 					sb.append("[npc.Name] [npc.verb(try)] to make a move as [npc2.namePos] "+areaString+" "+(plural?"are":"is")+" revealed, but [npc.her] cocoon's strong webbing keeps [npc.herHim] locked in place.");

@@ -462,8 +462,8 @@ public class OccupancyUtil implements XMLSaving {
 			
 			// Washing body:
 			if(slave.hasSlavePermissionSetting(SlavePermissionSetting.CLEANLINESS_WASH_BODY)
-					&& !isAtWork
-					&& !slave.getDirtySlots().isEmpty()
+					&& (!isAtWork || !currentJob.hasFlag(SlaveJobFlag.CLEANING_UNAVAILABLE))
+					&& (!slave.getDirtySlots().isEmpty() || (slave.hasSlavePermissionSetting(SlavePermissionSetting.CLEANLINESS_WASH_THOROUGH) && !slave.getMuskMarkerCharacters().isEmpty()))
 					&& !Main.game.getCharactersPresent().contains(slave)) {
 				SlaveryEventLogEntry entry = new SlaveryEventLogEntry(hour,
 						slave,
@@ -471,7 +471,10 @@ public class OccupancyUtil implements XMLSaving {
 						SlaveEvent.WASHED_BODY,
 						null,
 						true);
-				
+
+				if(slave.hasSlavePermissionSetting(SlavePermissionSetting.CLEANLINESS_WASH_THOROUGH) && !slave.getMuskMarkerCharacters().isEmpty()) {
+					entry.addTag(SlaveEventTag.WASHED_BODY_REMOVED_MUSK, slave, true);
+				}
 				if(slave.hasStatusEffect(StatusEffect.CREAMPIE_ANUS)) {
 					entry.addTag(SlaveEventTag.WASHED_BODY_ANAL_CREAMPIE, slave, true);
 				}

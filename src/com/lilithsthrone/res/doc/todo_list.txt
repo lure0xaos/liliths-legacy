@@ -6,26 +6,146 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	Patch notes:
 	
+	Engine/Modding:
+		Moved the 'hyena' colour from the base res folder to the mod folder to conform with the location of the rest of the hyena-related files.
+		
+	Gameplay:
+		If you have bad ends turned off in your content settings, you will no longer encounter a bad end in the new side quest content.
+		
+	Slaves:
+		Slaves who have permission to clean themselves will now only do so if they're not at work, or at a work type which allows cleaning (the jobs which do not allow cleaning are 'test subject', 'statue', 'public fucktoy', and 'dairy cow').
+		Added a new cleanliness permission, 'Remove Odours', which will make the slave remove musky odours when they wash themselves.
+		
+	Sex:
+		Added three new sadistic sex actions: 'Slap pussy', 'Pinch clit', and 'Slap cock'. (These actions are only available to characters with the 'sadist' fetish.)
+		Virginity loss scenes now take into account whether your partner is asleep.
+		When having sleep sex, you can no longer tell your partner to grow a cock, offer/request different areas, nor grant/revoke permissions.
+		Added check for sleeping partner in the 'Deny' action.
+		Added a new 'locked in stocks' immobilisation type, which is applied to the character being locked into stocks in all stocks-based sex scenes.
+		Penetration-on-penetration ongoing sex actions (such as handjob reactions) are now available during immobilisation sex.
+		Added more checks for a mute character in orgasm actions.
+		Added description variation for resisting characters who request their partner to pull out.
+		
+	Other:
+		Properly centre-aligned the icons for the 'elemental striker' and 'elemental defender' perks and significantly increased their effects.
+		When viewing the tooltip for interacting with a missing slave, it will now say if they're in a slave lounge instead of erroneously saying that they're out at work.
+		Improved tooltip description for racial books.
+		When you free the slaves in the stocks in Slaver Alley, a new group of slaves will appear after ~6 hours have passed, instead of at midnight.
+		Ingesting fluids in the milking room now passes 5 minutes of time instead of 1 hour.
 	
 	Bugs:
+		Typo, parsing, and formatting fixes.
 		Fixed issue where demons were being affected by menopause.
-	
-	
+		If you have anal/foot/armpit content disabled, the associated fetish preferences are no longer displayed during character creation.
+		Fixed bug where your character could sometimes end up with the 'sleeping' or 'heavily sleeping' status effects stuck on you after sleeping.
+		Fixed bug where starting double penetration would first stop the other ongoing penis-vagina action, resulting in a simple swap of who was penetrating the vagina (and throwing some parsing errors) instead of resulting in a double penetration.
+		The 'Spawn attacker' function of the debug menu now correctly spawns the NPC as the race stage you select, instead of always spawning them as the 'lesser' stage.
+		You can no loner equip sex toys during Rose's domination scene (while you're locked in stocks).
+		Fixed bug in slaves' job management, where the 'Office' job had all of its hourly spots grayed out when it reached capacity, unlike all other jobs which kept the slots visible.
+		Fixed bug in feral sex scenes where NPCs could generate sex preferences that involved breasts or fingers even if the feral target had no breasts nor fingers.
+		Fixed bug where all pierced areas would be reset when using the debug menu's 'race resets' or choosing to transform into a horse-girl for Sterope.
+		Fixed bug where if a weapon had all 5 damage types available, then it would break the formatting when viewing the weapons page in the encyclopedia.
+		If getting transformed into a doll as a demon, you no longer keep your wings/tail/horns.
+		Fixed issue where when you leaded a saved game, all characters regained all of their default modifiers for all penetration and orifice types (penis, vagina, urethra, clit, anus, spinneret, nipples, crotch-nipples, mouth, tongue) instead of only the ones they had when the game was saved.
+		After being transformed into a demon by Lyssieth, she will now be listed as your mother in her character details page, and in Elizabeth's details she will now be listed as your half-sister.
 	
 	
 	
 	[x] Cannot start sex with Lunexis in Amazon Camp?
 	[x] New update has a bug where demons are menopausal despite menopause not affecting demons in lore
 	
+	[x] bugs
+		[x] If you have armpit fetish content disabled, you still have an option to set how much you like it during character creation
+		[x] virginity loss (Kate taking player virginity with tail) does not account for sleeping
+		[x] NPCs getting double penetrated remove the penis of the other character first...
+		[x] if slave is at slave lounge, replace "out at work at the moment" in tooltip
+		[x] why are slave values coloured pink?
+		[x] the debug spawn attacker menu now ignores the furriness selection
+		[x] While engaging in sex with a sleeping partner, you can instruct them to transform
+			[x] Offer X
+			[x] Generic actions
+		[x] during sex scene in Liliya dungeon, despite I got restrained I can still open my equipment page and equip my horse dildo. AND, I can wet and suck my tail even after I equiped the dildo in my mouth
+		[x] add stocks immobilisation type
+			[x] add to existing stocks sex scenes?
+		[x] add slave permission to remove musk
+			[x] clean themselves will now only do so if they're not at work
+			[x] add work types which allow cleaning
+		[-] you do the feral mare scene with Sterope where you both submit to an NPC, each time you do it you get another set of the tack from the scene in your inventory
+		[x] The "demonic half-breeds" book says it gives you "demonic-horse" damage, instead of just demon damage
+			[x] Change to 'Grants Unique Perk: X knowledge'
+		[x] when freeing the slaves in stocks, they instantly regenerate if midnight passes
+			[x] add a reset timer
+			[x] check player's slaves at stocks job
+		[x] OFFICE: Other jobs will have all the spots grayed out where it's already at capacity, ignoring the slave you're currently editing
+		[x] NPCs can still generate breast sex preferences if their target has no breasts (feral)
+		[x] transformations reset piercings in debug race reset and Inno-chan gift
+		[x] weapons with all 5 damage type potentials breaks the encyclopedia UI
+		[-] Whenever i make a character the age always changes after re loading a save - I make it 18 and it changes to 24
+	[x] if BE off, make a scene where Fia finds you instead of being discovered by Angelixx
+		[x] disable obedience losses
+		[x] remove Surrender actions ANGELIXX_ENCOUNTER
+		[x] Angelixx encounter dialogue variation "your new body gives you a shameful urge"
+		[x] test
+	[x] test dollified (and escape) if demon
+		[x] doll keeps horns, tail and wings...
+	[-] tattoo removal when dollified?
+	[x] drinking 100ml of cum from the milking room takes a whole hour (all fluids?)
+	[x] Request pullout has no resist variation
+	[x] When loading any kind of save, any character with a penis regains penis modifiers associated with the race of their penis
+	[x] Get double-penetrated (anal) doing to stop action first...
+	[x] When loading a transformation preset that has a species cock that has default modifiers it will apply those modifiers even if the preset has them deselected
+	[x] sadistic actions
+		[x] slap pussy
+		[x] pinch clit
+		[x] slap cock
+	[x] Shouldn't lyssieth's relationship menu list you as her daughter after she turns you into a demon? And Elizabeth list you as her sister?
 	
+	[] artwork poll results
 	
 	[] PRs
-		[] PR 1782
+		[] 1829
+		[] 1820
+		[] 1804 - test
+		[] 1799
+		[] 1789
+		[] 1785
+		[] 1780 - single line fix
+		[] 1782
 			[] add NPC preference behaviour
 			[] check quick sex handling
-		[] item parsing PR for glow colour
+			[] Frottage orgasm
+		[] PR 1438
 			[] collar glow as extra
 			[] naming/description for tape?
+	
+	
+	[] old bugs
+	
+	[] Investigate half-demon essence necessity
+	
+	
+	[x] artwork poll
+	
+	[] emails
+	
+	[] TFGS
+	[] blog
+	
+	[] Innocent/lewd/prude should affect dirty talk
+	[] character creation penis size should be variable instead of buttons
+	
+	#####################
+	
+	[] wiki
+		[] mediawiki setup
+	
+	[] Maxis DMs
+	[] A Fox submission
+	[] Dwight submission
+	
+	[] blog, wiki & mod sharing on website
+	
+	#####################
 	
 	[] if have time (unlikely), add a bug
 		[] moth?
@@ -42,16 +162,11 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] shady dealer should sell HLF stuff?
 		[] should be locked behind quest -> unlocked after bat cavern encounter
+		[] shady deal scene where they say a small earthquake in the bat caverns opened a passage and a stash of weapons was found
 	
 	[] Scarlett when freed doesn't really act in a way that reflects her affection for you.
 	
-	[] emails
-	
-	[] artwork poll
-	
 	[] suggestions channel
-	
-	[] invisibility spell to avoid encounters
 	
 	[] need footless tights
 	
@@ -63,6 +178,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] artwork
 		[] Natalya
 		[] Monica
+		[] Hannah
 		
 	[] Helena mentions "I can always have you transformed later on if need be", is this implemented?
 		
@@ -186,23 +302,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] You added finger insemination via scooping cum. But wouldn't it be possible to do this same thing via other orifices?
 	 like a mouth full of cum then performing cunnilingus on a pussy putting some cum inside, or tribbing where one pussy full of cum is dripping cum into the other pussy
-	
-	#####################
-	
-	[] wiki
-		[] mediawiki setup
-		
-	[] developers chat
-		[] PRs
-			PR#1745
-		
-	[] Maxis DMs
-	[] A Fox submission
-	[] Dwight submission
-	
-	[] blog, wiki & mod sharing on website
-	
-	#####################
 	
 	[] make the weather be based on the season
 		[] and region

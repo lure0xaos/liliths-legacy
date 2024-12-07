@@ -1107,6 +1107,7 @@ public class GenericActions {
 		@Override
 		public boolean isBaseRequirementsMet() {
 			return !Main.sex.isMasturbation()
+					&& !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
 					&& Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(this))!=SexPace.SUB_RESISTING
 					//TODO make the NPC refuse with a reason before blocking this action
 //					&& (Main.sex.isCharacterObeyingTarget(Main.sex.getCharacterTargetedForSexAction(this), Main.game.getPlayer())
@@ -1396,17 +1397,24 @@ public class GenericActions {
 			
 			switch(Main.sex.getSexPace(Main.sex.getCharacterPerformingAction())) {
 				case DOM_GENTLE:
+					if(!Main.sex.getCharacterTargetedForSexAction(this).isAsleep()) {
 					UtilText.nodeContentSB.append(
 						UtilText.returnStringAtRandom(
 							"Taking a gentle, yet firm, grip of [npc2.namePos] [npc2.arms], [npc.name] [npc.verb(hold)] [npc2.herHim] quite still, softly [npc.moaning] as [npc.she] [npc.verb(wait)] for [npc2.herHim] to calm down, ",
 							"Firmly gripping [npc2.namePos] [npc2.arms], [npc.name] [npc.verb(hold)] [npc2.herHim] in place, letting out [npc.a_moan+] as [npc.she] [npc.verb(force)] [npc2.herHim] to calm down, ",
 							"Softly [npc.moaning] as [npc.she] [npc.verb(take)] a firm grip of [npc2.namePos] [npc2.arms], [npc.name] [npc.verb(tease)] [npc.her] partner as [npc.she] [npc.verb(wait)] for [npc2.herHim] to calm down, "));
-
-					UtilText.nodeContentSB.append(
-						UtilText.returnStringAtRandom(
-							"[npc.speech(That's a good [npc2.girl]... We wouldn't want you to climax "+(alreadyOrgasmed?"again already":"just yet")+" now, would we?)]",
-							"[npc.speech(Be a good [npc2.girl] now, and take a moment to calm down. You didn't think you'd get to orgasm "+(alreadyOrgasmed?"again":"")+" so soon with me, did you?)]",
-							"[npc.speech(Good [npc2.girl]... You just take a moment to calm down. We wouldn't want you to climax "+(alreadyOrgasmed?"again already":"so soon")+" now, would we?)]"));
+						UtilText.nodeContentSB.append(
+								UtilText.returnStringAtRandom(
+									"[npc.speech(That's a good [npc2.girl]... We wouldn't want you to climax "+(alreadyOrgasmed?"again already":"just yet")+" now, would we?)]",
+									"[npc.speech(Be a good [npc2.girl] now, and take a moment to calm down. You didn't think you'd get to orgasm "+(alreadyOrgasmed?"again":"")+" so soon with me, did you?)]",
+									"[npc.speech(Good [npc2.girl]... You just take a moment to calm down. We wouldn't want you to climax "+(alreadyOrgasmed?"again already":"so soon")+" now, would we?)]"));
+					} else {
+						UtilText.nodeContentSB.append(
+								UtilText.returnStringAtRandom(
+									"Pulling back from [npc2.name], [npc.name] [npc.verb(leave)] [npc2.herHim] without stimulation for a few moments, softly [npc.moaning] to [npc.herself] as [npc.she] [npc.verb(wait)] for [npc2.herHim] to calm down.",
+									"Breaking off from having physical contact with [npc2.name], [npc.name] [npc.verb(stop)] stimulating [npc2.herHim] and [npc.verb(let)] out [npc.a_moan+] as [npc.she] [npc.verb(wait)] for [npc2.herHim] to calm down.",
+									"Pausing for a moment, [npc.name] [npc.verb(stop)] stimulating [npc2.name] and quietly [npc.verbMoans] as [npc.she] [npc.verb(wait)] for [npc2.herHim] to calm down."));
+					}
 					break;
 				case DOM_NORMAL:
 					UtilText.nodeContentSB.append(
@@ -1437,35 +1445,37 @@ public class GenericActions {
 				default:
 					break;
 			}
-			UtilText.nodeContentSB.append("<br/><br/>");
-			boolean nameKnown = Main.sex.getCharacterPerformingAction().isPlayerKnowsName();
-			switch(Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(this))) {
-				case SUB_EAGER:
-					UtilText.nodeContentSB.append(
-						UtilText.returnStringAtRandom(
-								"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name],":"No...")+")] [npc2.name] [npc2.verb(reply)], trying to contain the excitement in [npc2.her] voice, [npc2.speechNoExtraEffects(I'll try to endure...)]",
-								"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name],":"No...")+")] [npc2.name] [npc2.moansVerb], failing to subdue the intense arousal in [npc2.her] voice, [npc2.speechNoExtraEffects(I'll do my best to hold back...)]",
-								"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name]...":"No...")+")] [npc2.name] [npc2.verb(answer)], before trying to stifle a desperate [npc2.moan], [npc2.speechNoExtraEffects(~Mmm!~ I'll try to hold back!)]"));
-					break;
-				case SUB_NORMAL:
-					UtilText.nodeContentSB.append(
+			if(!Main.sex.getCharacterTargetedForSexAction(this).isAsleep()) {
+				UtilText.nodeContentSB.append("<br/><br/>");
+				boolean nameKnown = Main.sex.getCharacterPerformingAction().isPlayerKnowsName();
+				switch(Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(this))) {
+					case SUB_EAGER:
+						UtilText.nodeContentSB.append(
 							UtilText.returnStringAtRandom(
-									"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name]...":"No...")+")] [npc2.name] [npc2.verb(reply)], [npc2.speechNoExtraEffects(I'll try to endure...)]",
-									"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name]...":"No...")+")] [npc2.name] [npc2.moansVerb], [npc2.speechNoExtraEffects(I'll do my best to hold back...)]",
-									"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name]...":"No...")+")] [npc2.name] [npc2.verb(answer)], [npc2.speechNoExtraEffects(I'll try to hold back!)]"));
-					break;
-				case SUB_RESISTING:
-					UtilText.nodeContentSB.append(
-							UtilText.returnStringAtRandom(
-									"[npc2.speechNoExtraEffects(Just get away from me!)] [npc2.name] frantically [npc2.sobsVerb], [npc2.speechNoExtraEffects(I hate this!)]",
-									"[npc2.speechNoExtraEffects(Let go of me!)] [npc2.name] desperately [npc2.sobsVerb], trying to pull [npc2.herself] out of [npc.namePos] grasp, [npc2.speechNoExtraEffects(Stop it! Get away from me!)]",
-									"[npc2.speechNoExtraEffects(Why won't you just let me go?!)] [npc2.name] [npc2.sobsVerb] as [npc2.she] weakly [npc2.verb(try)] to pull away from [npc2.name], [npc2.speechNoExtraEffects(I don't want this!)]"));
-					break;
-				default:
-					break;
+									"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name],":"No...")+")] [npc2.name] [npc2.verb(reply)], trying to contain the excitement in [npc2.her] voice, [npc2.speechNoExtraEffects(I'll try to endure...)]",
+									"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name],":"No...")+")] [npc2.name] [npc2.moansVerb], failing to subdue the intense arousal in [npc2.her] voice, [npc2.speechNoExtraEffects(I'll do my best to hold back...)]",
+									"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name]...":"No...")+")] [npc2.name] [npc2.verb(answer)], before trying to stifle a desperate [npc2.moan], [npc2.speechNoExtraEffects(~Mmm!~ I'll try to hold back!)]"));
+						break;
+					case SUB_NORMAL:
+						UtilText.nodeContentSB.append(
+								UtilText.returnStringAtRandom(
+										"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name]...":"No...")+")] [npc2.name] [npc2.verb(reply)], [npc2.speechNoExtraEffects(I'll try to endure...)]",
+										"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name]...":"No...")+")] [npc2.name] [npc2.moansVerb], [npc2.speechNoExtraEffects(I'll do my best to hold back...)]",
+										"[npc2.speechNoExtraEffects("+(nameKnown?"No, [npc.name]...":"No...")+")] [npc2.name] [npc2.verb(answer)], [npc2.speechNoExtraEffects(I'll try to hold back!)]"));
+						break;
+					case SUB_RESISTING:
+						UtilText.nodeContentSB.append(
+								UtilText.returnStringAtRandom(
+										"[npc2.speechNoExtraEffects(Just get away from me!)] [npc2.name] frantically [npc2.sobsVerb], [npc2.speechNoExtraEffects(I hate this!)]",
+										"[npc2.speechNoExtraEffects(Let go of me!)] [npc2.name] desperately [npc2.sobsVerb], trying to pull [npc2.herself] out of [npc.namePos] grasp, [npc2.speechNoExtraEffects(Stop it! Get away from me!)]",
+										"[npc2.speechNoExtraEffects(Why won't you just let me go?!)] [npc2.name] [npc2.sobsVerb] as [npc2.she] weakly [npc2.verb(try)] to pull away from [npc2.name], [npc2.speechNoExtraEffects(I don't want this!)]"));
+						break;
+					default:
+						break;
+				}
 			}
-			UtilText.nodeContentSB.append("<br/><br/>"
-					+ "Once it's clear that [npc2.nameHasFull] calmed down, [npc.name] [npc.verb(loosen)] [npc.her] grip, before continuing as [npc.she] [npc.was] before...");
+			UtilText.nodeContentSB.append("<br/><br/>");
+			UtilText.nodeContentSB.append("Once it's clear that [npc2.nameHasFull] calmed down, [npc.name] [npc.verb(loosen)] [npc.her] grip, before continuing as [npc.she] [npc.was] before...");
 			
 			return UtilText.nodeContentSB.toString();
 		}
@@ -1835,7 +1845,8 @@ public class GenericActions {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& (Main.sex.getSexControl(Main.sex.getCharacterTargetedForSexAction(this))!=SexControl.FULL || !Main.sex.isDom(Main.sex.getCharacterTargetedForSexAction(this)))
 					&& !Main.sex.isMasturbation()
 					&& Main.sex.isCharacterAllowedToUseSelfActions(Main.sex.getCharacterTargetedForSexAction(this))
@@ -1914,7 +1925,8 @@ public class GenericActions {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& (Main.sex.getSexControl(Main.sex.getCharacterTargetedForSexAction(this))!=SexControl.FULL || !Main.sex.isDom(Main.sex.getCharacterTargetedForSexAction(this)))
 					&& !Main.sex.isMasturbation()
 					&& !Main.sex.isCharacterAllowedToUseSelfActions(Main.sex.getCharacterTargetedForSexAction(this))
@@ -1955,7 +1967,8 @@ public class GenericActions {
 		public boolean isBaseRequirementsMet() {
 			GameCharacter target = Main.sex.getCharacterTargetedForSexAction(this);
 			
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& !Main.sex.isDom(target)
 					&& !Main.sex.isMasturbation()
 					&& Main.sex.getSexControl(target).getValue()>=SexControl.ONGOING_PLUS_LIMITED_PENETRATIONS.getValue()
@@ -2001,7 +2014,8 @@ public class GenericActions {
 		public boolean isBaseRequirementsMet() {
 			GameCharacter target = Main.sex.getCharacterTargetedForSexAction(this);
 			
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& !Main.sex.isDom(target)
 					&& !Main.sex.isMasturbation()
 					&& Main.sex.getSexControl(target).getValue()<SexControl.ONGOING_PLUS_LIMITED_PENETRATIONS.getValue()
@@ -2052,7 +2066,8 @@ public class GenericActions {
 		public boolean isBaseRequirementsMet() {
 			GameCharacter target = Main.sex.getCharacterTargetedForSexAction(this);
 			
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& (Main.sex.getSexControl(target)!=SexControl.FULL || !Main.sex.isDom(target))
 					&& !Main.sex.isMasturbation()
 					&& !Main.sex.isCharacterForbiddenByOthersFromPositioning(target)
@@ -2100,7 +2115,8 @@ public class GenericActions {
 		public boolean isBaseRequirementsMet() {
 			GameCharacter target = Main.sex.getCharacterTargetedForSexAction(this);
 			
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& (Main.sex.getSexControl(target)!=SexControl.FULL || !Main.sex.isDom(target))
 					&& !Main.sex.isMasturbation()
 					&& Main.sex.isCharacterForbiddenByOthersFromPositioning(target)
@@ -2146,7 +2162,8 @@ public class GenericActions {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& (Main.sex.getSexControl(Main.sex.getCharacterTargetedForSexAction(this))!=SexControl.FULL || !Main.sex.isDom(Main.sex.getCharacterTargetedForSexAction(this)))
 					&& !Main.sex.isMasturbation()
 					&& Main.sex.isCanRemoveOthersClothing(Main.sex.getCharacterTargetedForSexAction(this), null)
@@ -2185,7 +2202,8 @@ public class GenericActions {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& (Main.sex.getSexControl(Main.sex.getCharacterTargetedForSexAction(this))!=SexControl.FULL || !Main.sex.isDom(Main.sex.getCharacterTargetedForSexAction(this)))
 					&& !Main.sex.isMasturbation()
 					&& !Main.sex.isCanRemoveOthersClothing(Main.sex.getCharacterTargetedForSexAction(this), null)
@@ -2224,7 +2242,8 @@ public class GenericActions {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& (Main.sex.getSexControl(Main.sex.getCharacterTargetedForSexAction(this))!=SexControl.FULL || !Main.sex.isDom(Main.sex.getCharacterTargetedForSexAction(this)))
 					&& !Main.sex.isMasturbation()
 					&& Main.sex.isCanRemoveSelfClothing(Main.sex.getCharacterTargetedForSexAction(this))
@@ -2263,7 +2282,8 @@ public class GenericActions {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
+			return !Main.sex.getCharacterTargetedForSexAction(this).isAsleep()
+					&& Main.sex.getSexControl(Main.sex.getCharacterPerformingAction())==SexControl.FULL
 					&& (Main.sex.getSexControl(Main.sex.getCharacterTargetedForSexAction(this))!=SexControl.FULL || !Main.sex.isDom(Main.sex.getCharacterTargetedForSexAction(this)))
 					&& !Main.sex.isMasturbation()
 					&& !Main.sex.isCanRemoveSelfClothing(Main.sex.getCharacterTargetedForSexAction(this))
@@ -2655,6 +2675,48 @@ public class GenericActions {
 		public String getDescription() {
 			return UtilText.returnStringAtRandom(
 					"[npc.Name] [npc.verb(try)] to make a move, but the chains binding [npc.herHim] in place are too strong, and [npc.she] [npc.verb(collapse)] back down, stunned.");
+		}
+		@Override
+		public List<AbstractFetish> getExtraFetishes(GameCharacter character) {
+			if(character.equals(Main.sex.getCharacterPerformingAction())) {
+				return Util.newArrayListOfValues(Fetish.FETISH_BONDAGE_VICTIM);
+			}
+			return null;
+		}
+	};
+
+	public static final SexAction STOCKS_BOUND = new SexAction(
+			SexActionType.SPECIAL,
+			ArousalIncrease.ZERO_NONE,
+			ArousalIncrease.ZERO_NONE,
+			CorruptionLevel.ZERO_PURE,
+			null,
+			SexParticipantType.NORMAL) {
+		@Override
+		public boolean isOverrideAvailableDuringResisting() {
+			return true;
+		}
+		@Override
+		public boolean isAvailableDuringImmobilisation(Collection<ImmobilisationType> types) {
+			return types.contains(ImmobilisationType.STOCKS);
+		}
+		@Override
+		public String getActionTitle() {
+			return "[style.boldBad(Bound!)]";
+		}
+		@Override
+		public String getActionDescription() {
+			return "Having been locked into a set of stocks, [npc.nameIsFull] prevented from making a move!";
+		}
+		@Override
+		public boolean isBaseRequirementsMet() {
+			return Main.sex.getImmobilisationTypes(Main.sex.getCharacterPerformingAction()).containsKey(ImmobilisationType.STOCKS)
+					&& !Main.sex.isCharacterInanimateFromImmobilisation(Main.sex.getCharacterPerformingAction());
+		}
+		@Override
+		public String getDescription() {
+			return UtilText.returnStringAtRandom(
+					"[npc.Name] [npc.verb(try)] to make a move, but the set of stocks into which [npc.sheIs] locked are too strong, and so [npc.she] [npc.verb(remain)] completely immobilised.");
 		}
 		@Override
 		public List<AbstractFetish> getExtraFetishes(GameCharacter character) {

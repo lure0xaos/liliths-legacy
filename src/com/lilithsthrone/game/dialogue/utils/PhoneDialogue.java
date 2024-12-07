@@ -3190,9 +3190,10 @@ public class PhoneDialogue {
 								+ "</div>";
 				sbDamageTypes.setLength(0);
 				if(discovered) {
+					float width = weaponType.getAvailableDamageTypes().size()>4?(72/weaponType.getAvailableDamageTypes().size()):18;
 					for(DamageType dt : weaponType.getAvailableDamageTypes()) {
 						sbDamageTypes.append("<div class='square-button' "+(discovered?"id='"+(weaponType.getId()+"_"+dt.toString())+"'":"")
-												+ " style='cursor:default; width:18%; margin:1%; padding:0; background-color:"+dt.getMultiplierAttribute().getColour().toWebHexString()+";'>"
+												+ " style='cursor:default; width:"+width+"%; margin:1%; padding:0; background-color:"+dt.getMultiplierAttribute().getColour().toWebHexString()+";'>"
 											+ "</div>");
 					}
 				}

@@ -695,6 +695,16 @@ public class Sex {
 						}
 						sexSB.append(" unable to move!");
 						break;
+					case STOCKS:
+						sexSB.append("Having been securely locked into a set of stocks, ");
+						sexSB.append(Util.stringsToStringList(names, false));
+						if(names.size()>1 || immobilisedCharacters.contains(Main.game.getPlayer())) {
+							sexSB.append(" are");
+						} else {
+							sexSB.append(" is");
+						}
+						sexSB.append(" unable to move!");
+						break;
 					case COMMAND:
 						sexSB.append("Having been ordered to do so, ");
 						sexSB.append(Util.stringsToStringList(names, false));

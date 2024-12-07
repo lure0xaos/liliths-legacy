@@ -1411,6 +1411,7 @@ public class CharacterUtils {
 	
 	/**
 	 * If you are wanting to change a newly-spawned NPC's body, then <b>you should consider using GameCharacter.setBody() instead</b>, as that method can also apply personality changes.
+	 * <br/>This method maintains the character's pierced areas.
 	 */
 	public Body reassignBody(GameCharacter linkedCharacter, Body body, Gender startingGender, AbstractSubspecies species, RaceStage stage, boolean removeDemonOverride) {
 		if(removeDemonOverride) {
@@ -1423,8 +1424,9 @@ public class CharacterUtils {
 		boolean hasPenis = startingGender.getGenderName().isHasPenis();
 		boolean hasBreasts = startingGender.getGenderName().isHasBreasts();
 		boolean[] virginities = null;
+		boolean[] piercings = null;
 		
-		// Save virginities to be restored after body reset:
+		// Save virginities & piercings to be restored after body reset:
 		if(linkedCharacter!=null) {
 			virginities = new boolean[] {
 				linkedCharacter.isAnalVirgin(),
@@ -1438,6 +1440,17 @@ public class CharacterUtils {
 				linkedCharacter.isVaginaUrethraVirgin(),
 				linkedCharacter.isVaginaVirgin(),
 				linkedCharacter.hasHymen()
+			};
+			piercings = new boolean[] {
+				linkedCharacter.isPiercedEar(),
+				linkedCharacter.isPiercedLip(),
+				linkedCharacter.isPiercedNavel(),
+				linkedCharacter.isPiercedNipple(),
+				linkedCharacter.isPiercedNippleCrotch(),
+				linkedCharacter.isPiercedNose(),
+				linkedCharacter.isPiercedTongue(),
+				linkedCharacter.isPiercedVagina(),
+				linkedCharacter.isPiercedPenis()
 			};
 		}
 		
@@ -1596,6 +1609,16 @@ public class CharacterUtils {
 			linkedCharacter.setVaginaUrethraVirgin(virginities[8]);
 			linkedCharacter.setVaginaVirgin(virginities[9]);
 			linkedCharacter.setHymen(virginities[10]);
+			
+			linkedCharacter.setPiercedEar(piercings[0]);
+			linkedCharacter.setPiercedLip(piercings[1]);
+			linkedCharacter.setPiercedNavel(piercings[2]);
+			linkedCharacter.setPiercedNipples(piercings[3]);
+			linkedCharacter.setPiercedNipplesCrotch(piercings[4]);
+			linkedCharacter.setPiercedNose(piercings[5]);
+			linkedCharacter.setPiercedTongue(piercings[6]);
+			linkedCharacter.setPiercedVagina(piercings[7]);
+			linkedCharacter.setPiercedPenis(piercings[8]);
 		}
 		
 		return body;

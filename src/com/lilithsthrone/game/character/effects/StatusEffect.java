@@ -68,6 +68,7 @@ import com.lilithsthrone.game.sex.SexAreaInterface;
 import com.lilithsthrone.game.sex.SexAreaOrifice;
 import com.lilithsthrone.game.sex.SexAreaPenetration;
 import com.lilithsthrone.game.sex.SexType;
+import com.lilithsthrone.game.sex.positions.slots.SexSlotTag;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.RenderingEngine;
 import com.lilithsthrone.rendering.SVGImages;
@@ -2747,8 +2748,10 @@ public class StatusEffect {
 		}
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			return (target.isPlayer() && target.hasStatusEffect(SLEEPING))
-					|| (Main.game.isStarted()
+			if(target.isPlayer()) {
+				return target.hasStatusEffect(SLEEPING);
+			}
+			return (Main.game.isStarted()
 						&& target.isSleepingAtHour()
 						&& target.isAtHome()
 						&& target.isAffectedBySleepingStatusEffect()
@@ -2775,8 +2778,10 @@ public class StatusEffect {
 		}
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
-			return (target.isPlayer() && target.hasStatusEffect(SLEEPING_HEAVY))
-					|| (Main.game.isStarted()
+			if(target.isPlayer()) {
+				return target.hasStatusEffect(SLEEPING_HEAVY);
+			}
+			return (Main.game.isStarted()
 						&& target.isSleepingAtHour()
 						&& target.isAtHome()
 						&& target.isAffectedBySleepingStatusEffect()
@@ -9383,6 +9388,49 @@ public class StatusEffect {
 				return false;
 			}
 			return Main.sex.getImmobilisationTypes(target).containsKey(ImmobilisationType.CHAINS);
+		}
+		@Override
+		public boolean isRemoveAtEndOfSex() {
+			return true;
+		}
+	};
+
+	public static AbstractStatusEffect STOCKS_BOUND_SEX = new AbstractStatusEffect(10,
+			"Locked in stocks",
+			"immobilised_stocks",
+			PresetColour.CLOTHING_DESATURATED_BROWN,
+			false,
+			null,
+			Util.newArrayListOfValues("[style.colourTerrible(Cannot move!)]")) {
+		@Override
+		public String getDescription(GameCharacter target) {
+			return UtilText.parse(target, "[npc.Name] [npc.has] been locked into a set of stocks, and as such [npc.sheIs] unable to take any action!");
+		}
+		@Override
+		public String applyAdditionEffect(GameCharacter target) {
+//			if(Main.game.isInSex()) {
+//				Main.sex.addCharacterImmobilised(ImmobilisationType.STOCKS, Main.sex.getDominantParticipants(false).keySet().iterator().next(), target);
+//			}
+			return "";
+		}
+		@Override
+		protected String extraRemovalEffects(GameCharacter target){
+			if(Main.game.isInSex()) {
+				Main.sex.removeCharacterImmobilised(target, ImmobilisationType.STOCKS);
+			}
+			return "";
+		}
+		@Override
+		public boolean isSexEffect() {
+			return true;
+		}
+		@Override
+		public boolean isConditionsMet(GameCharacter target) {
+			if(!Main.game.isInSex()) {
+				return false;
+			}
+			return Main.sex.getImmobilisationTypes(target).containsKey(ImmobilisationType.STOCKS)
+					&& Main.sex.getSexPositionSlot(target).hasTag(SexSlotTag.LOCKED_IN_STOCKS);
 		}
 		@Override
 		public boolean isRemoveAtEndOfSex() {

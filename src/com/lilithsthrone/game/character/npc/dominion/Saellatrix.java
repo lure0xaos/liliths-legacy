@@ -1330,6 +1330,9 @@ public class Saellatrix extends NPC {
 			doll.setBreastType(BreastType.HUMAN);
 			doll.setVaginaType(VaginaType.HUMAN);
 			doll.setAssType(AssType.HUMAN);
+			doll.setWingType(WingType.NONE);
+			doll.setHornType(HornType.NONE);
+			doll.setTailType(TailType.NONE);
 			BodyMaterial.applyGenericSiliconeBodyChange(doll);
 		}
 		doll.setBodyMaterial(BodyMaterial.SILICONE);

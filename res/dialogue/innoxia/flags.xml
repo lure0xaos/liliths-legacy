@@ -481,6 +481,8 @@
 	
 	<!-- You can ignore this section, I just use it to track the ids of saved long values (using [#flags.setSavedLong(id, value)] calls)
 	
+	slaver_alley_slaves_freed_time (the time in seconds at which slaves were set free from the stocks in Slaver Alley)
+	
 	meraxis_duel_player_wins (Meraxis duel player wins)
 	meraxis_duel_player_losses (Meraxis duel player losses)
 	

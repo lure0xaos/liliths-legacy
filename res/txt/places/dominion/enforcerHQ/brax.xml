@@ -478,7 +478,7 @@
 			You cry out as Brax roughly drags you across the room to his desk. Fishing about in one of the drawers, he quickly finds what he's looking for, and, with a light clink of glass, places a very delicate-looking bottle on the desk in front of you.
 		</p>
 		<p>
-			[brax.speech(I got this made up for that useless bimbo you saw downstairs, but the ungrateful slut said she didn't want to be a wolf-girl...)] Brax says, pulling out the glass stopper before roughly shoving the bottle's neck down your throat, [brax.speech(That's right, drink it all down... Oh fuck, this is gonna be good!)]
+			[brax.speech(I got this made up for that useless bimbo you saw on the front desk, but the ungrateful slut said she didn't want to be a wolf-girl...)] Brax says, pulling out the glass stopper before roughly shoving the bottle's neck down your throat, [brax.speech(That's right, drink it all down... Oh fuck, this is gonna be good!)]
 		</p>
 		<p>
 			With the bottle's transformative liquid already pouring out into your mouth, you find yourself having to make the decision of whether to spit it out, or do as the dominant wolf-boy says and swallow it all down...
@@ -544,7 +544,7 @@
 		</p>
 	#ELSEIF(properties.getForcedTFPreference() == FURRY_PREF_REDUCED)
 		<p>
-			As you see your new reflection, you let out a little gasp. Brax has transformed you into his perfect vision of a lesser wolf-girl, and your yellow, predatory eyes open wide in shock as you feel the weight of your [pc.breastRows] [pc.breastSize], [pc.cupSize]-cup tits. White fur covers your wolf-like arms and legs, and you notice that your face and the skin covering your torso are the only parts of your that haven't transformed into anthropomorphic wolf-like counterparts. Up on top of your head, the same white, wolf-like fur is covering your new pair of upright ears, while just above your [pc.ass+], a long, shaggy wolf's tail drops down to almost brush the floor.
+			As you see your new reflection, you let out a little gasp. Brax has transformed you into his perfect vision of a lesser wolf-girl, and your yellow, predatory eyes open wide in shock as you feel the weight of your [pc.breastRows] [pc.breastSize], [pc.cupSize]-cup tits. White fur covers your wolf-like arms and legs, and you notice that your face and the skin covering your torso are the only parts of your body that haven't transformed into anthropomorphic wolf-like counterparts. Up on top of your head, the same white, wolf-like fur is covering your new pair of upright ears, while just above your [pc.ass+], a long, shaggy wolf's tail drops down to almost brush the floor.
 		</p>
 	#ELSE
 		<p>

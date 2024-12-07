@@ -96,7 +96,10 @@ public interface SexActionInterface {
 			}
 			for(SexAreaInterface sa : this.getPerformingCharacterAreas()) {
 				if(sa.isPenetration() && ((SexAreaPenetration)sa).isTakesVirginity()) {
-					return false;
+					// Allow penetration-on-penetration actions, such as handjobs
+					if(!this.getTargetedCharacterAreas().stream().anyMatch(targetedArea -> targetedArea.isPenetration() && ((SexAreaPenetration)sa).isTakesVirginity())) {
+						return false;
+					}
 				}
 			}
 			return true;
@@ -360,6 +363,7 @@ public interface SexActionInterface {
 			stopSB.append(s);
 		}
 		
+		//TODO bugged!
 		// If starting a new ongoing action, then stop ongoing actions which involve the areas associated with this sex action
 		// TONGUE & MOUTH are associated with one another, so need a special catch for that
 		if(getActionType()==SexActionType.START_ONGOING || getActionType()==SexActionType.START_ADDITIONAL_ONGOING) {
@@ -368,12 +372,15 @@ public interface SexActionInterface {
 					if(!entry.getKey().isFree(Main.sex.getCharacterPerformingAction())) {
 						Map<GameCharacter, Set<SexAreaInterface>> map = Main.sex.getOngoingActionsMap(Main.sex.getCharacterPerformingAction()).get(entry.getKey());
 						Entry<GameCharacter, Set<SexAreaInterface>> firstEntry = map.entrySet().iterator().next();
-						stopSB.append(Main.sex.stopOngoingAction(
-								Main.sex.getCharacterPerformingAction(),
-								entry.getKey(),
-								firstEntry.getKey(),
-								firstEntry.getValue().iterator().next(),
-								false));
+						// Only stop the action if it's engaged with an area that isn't the one involved in the additional ongoing:
+						if(getActionType()!=SexActionType.START_ADDITIONAL_ONGOING || !firstEntry.getValue().contains(entry.getValue())) {
+							stopSB.append(Main.sex.stopOngoingAction(
+									Main.sex.getCharacterPerformingAction(),
+									entry.getKey(),
+									firstEntry.getKey(),
+									firstEntry.getValue().iterator().next(),
+									false));
+						}
 					}
 				} catch(Exception ex) {
 					// No first entry in iterator found
@@ -385,12 +392,15 @@ public interface SexActionInterface {
 							Map<GameCharacter, Set<SexAreaInterface>> map = Main.sex.getOngoingActionsMap(Main.sex.getCharacterPerformingAction()).get(associatedOral);
 							if(!map.isEmpty()) {
 								Entry<GameCharacter, Set<SexAreaInterface>> firstEntry = map.entrySet().iterator().next();
-								stopSB.append(Main.sex.stopOngoingAction(
-										Main.sex.getCharacterPerformingAction(),
-										associatedOral,
-										firstEntry.getKey(),
-										firstEntry.getValue().iterator().next(),
-										false));
+								// Only stop the action if it's engaged with an area that isn't the one involved in the additional ongoing:
+								if(getActionType()!=SexActionType.START_ADDITIONAL_ONGOING || !firstEntry.getValue().contains(entry.getValue())) {
+									stopSB.append(Main.sex.stopOngoingAction(
+											Main.sex.getCharacterPerformingAction(),
+											associatedOral,
+											firstEntry.getKey(),
+											firstEntry.getValue().iterator().next(),
+											false));
+								}
 							}
 						}
 					}
