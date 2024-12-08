@@ -46,7 +46,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed bug where your character could sometimes end up with the 'sleeping' or 'heavily sleeping' status effects stuck on you after sleeping.
 		Fixed bug where starting double penetration would first stop the other ongoing penis-vagina action, resulting in a simple swap of who was penetrating the vagina (and throwing some parsing errors) instead of resulting in a double penetration.
 		The 'Spawn attacker' function of the debug menu now correctly spawns the NPC as the race stage you select, instead of always spawning them as the 'lesser' stage.
-		You can no loner equip sex toys during Rose's domination scene (while you're locked in stocks).
+		You can no longer equip sex toys during Rose's domination scene (while you're locked in stocks).
 		Fixed bug in slaves' job management, where the 'Office' job had all of its hourly spots grayed out when it reached capacity, unlike all other jobs which kept the slots visible.
 		Fixed bug in feral sex scenes where NPCs could generate sex preferences that involved breasts or fingers even if the feral target had no breasts nor fingers.
 		Fixed bug where all pierced areas would be reset when using the debug menu's 'race resets' or choosing to transform into a horse-girl for Sterope.
@@ -106,6 +106,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[x] slap cock
 	[x] Shouldn't lyssieth's relationship menu list you as her daughter after she turns you into a demon? And Elizabeth list you as her sister?
 	
+	[] Items present hash-out when unavailable
 	
 	[] PRs
 		[x] 1829
@@ -133,6 +134,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] artwork poll results
 	
 	
+	[] It's possible to turn imps into slimes, increase their height, and then use a flesh potion to make them true demons.
+		[] You can also turn a half-demon into a slime, give them different animal parts, and then use a flesh potion to make them a different type of half-demon.
 	
 	[] old bugs
 	
@@ -868,6 +871,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] It is still odd, that aside horse-taurs and snake taurs (centaur, unitaur, lamia ,melusine, etc.)  no other taur NPC inflicts a taur TF on the PC. , you never get TFed into any other taur
 	
 	[] add self-cleaning clothing enchantment (handle dirtying when covering dirty orifice)
+	[] add clothing scent marking (after X hours, clothing smells of wearer)
+		[] can then make Lilaya panties mechanics generic for any clothing
 	
 	[] Angel should reward us if we manage to get 10 prostitutes working for her at angel's kiss not counting slaves. But, she should give you a partnership arrangement if you have a certain number of slaves working at angel's kiss
 	
