@@ -9,6 +9,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Contributors:
 		Enhancement: Add sybaritic potion (refractory potion), which increases the drinker's desired orgasms by 3-5 when consumed during sex, otherwise provides 1-4 essences. (PR#1829 by CognitiveMist)
 		Fixed a bug where a dildo would be treated like a real penis and cause clothing to get dirty when orgasming. (PR#1820 by alfadorfox)
+		Filled in some missing parsing. (PR#1780 by MintyChip)
 		
 	Engine/Modding:
 		Moved the 'hyena' colour from the base res folder to the mod folder to conform with the location of the rest of the hyena-related files.
@@ -113,12 +114,14 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			- Changed rarity to EPIC to be more in line with other special consumables
 			- Minor grammatical changes in description
 			- Moved additional orgasm description into separate field in 'Orgasms' SE tooltip
-		[] 1820
-		[] 1804 - test
+		[x] 1820
+		[x] 1804 - test
+		
+		[] 1785
+		
 		[] 1799
 		[] 1789
-		[] 1785
-		[] 1780 - single line fix
+		[x] 1780 - single line fix
 		[] 1782
 			[] add NPC preference behaviour
 			[] check quick sex handling
