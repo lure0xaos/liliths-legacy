@@ -104,10 +104,9 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[x] slap cock
 	[x] Shouldn't lyssieth's relationship menu list you as her daughter after she turns you into a demon? And Elizabeth list you as her sister?
 	
-	[] artwork poll results
 	
 	[] PRs
-		[] 1829
+		[x] 1829
 			- Added status effect instead of essence gain when used outside of sex
 			- Removed "You notice an odd sensation when holding the bottle in your hand; as if it's encouraging you to remove the cap when the time is right." from description (it was too long and my terrible tooltip code couldn't handle it)
 			- Changed rarity to EPIC to be more in line with other special consumables
@@ -127,6 +126,9 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[] collar glow as extra
 			[] naming/description for tape?
 	
+	[] artwork poll results
+	
+	
 	
 	[] old bugs
 	
@@ -145,6 +147,9 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] when a character is satisfied in sex, change 'Orgasms' SE icon colour to show it
 	
+	[] sex should start using resting lust as minimum?
+		[] improve lust SE tooltips
+		
 	#####################
 	
 	[] wiki

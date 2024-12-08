@@ -12071,16 +12071,9 @@ public class StatusEffect {
 			null) {
 		@Override
 		public String getDescription(GameCharacter target) {
-			int bonus = Main.sex.getNumberOfAdditionalOrgasms(target);
 			StringBuilder sb = new StringBuilder();
 			if(target.isPlayer()) {
 				sb.append("Anyone with a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...");
-				
-			} else if(bonus > 0) {
-				sb.append("Anyone in the presence of a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...");
-				
-			} else if(bonus < 0) {
-				sb.append("Anyone in the presence of a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...");
 				
 			} else {
 				sb.append("Anyone in the presence of a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...");
