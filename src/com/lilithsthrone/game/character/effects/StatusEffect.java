@@ -7399,6 +7399,35 @@ public class StatusEffect {
 					&& ((NPC)target).getLastTimeOrgasmedSeconds()+(60*60*hoursToPentUp)<Main.game.getSecondsPassed();
 		}
 	};
+
+	/**
+	 * This status effect is automatically removed from a character when orgasming in sex.
+	 */
+	public static AbstractStatusEffect DESPERATELY_HORNY = new AbstractStatusEffect(80,
+			"Desperately horny",
+			"desperately_horny",
+			PresetColour.GENERIC_SEX,
+			false,
+			Util.newHashMapOfValues(
+					new Value<>(Attribute.RESTING_LUST, 25f),
+					new Value<>(Attribute.RESISTANCE_LUST, -15f),
+					new Value<>(Attribute.DAMAGE_LUST, 25f)),
+			null) {
+		@Override
+		public String getDescription(GameCharacter target) {
+			return UtilText.parse(target,
+					"[npc.NameIsFull] feeling incredibly horny at the moment."
+					+ " [npc.SheIs] struggling to get [npc.her] lust under control, and so [npc.are] far more vulnerable to seduction while also being able to more easily seduce others.");
+		}
+		@Override
+		public String extraRemovalEffects(GameCharacter target) {
+			return "";
+		}
+		@Override
+		public boolean isSexEffect() {
+			return true;
+		}
+	};
 	
 	public static AbstractStatusEffect CHASTITY_1 = new AbstractStatusEffect(80,
 			"Forced chastity (calm)",
@@ -12043,20 +12072,42 @@ public class StatusEffect {
 		@Override
 		public String getDescription(GameCharacter target) {
 			int bonus = Main.sex.getNumberOfAdditionalOrgasms(target);
+			StringBuilder sb = new StringBuilder();
 			if(target.isPlayer()) {
-				return "Anyone with a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...";
+				sb.append("Anyone with a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...");
+				
 			} else if(bonus > 0) {
-				return UtilText.parse(target, "Anyone in the presence of a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...<br/>"
-						+ "[npc.Name] needs to orgasm [style.boldSex(" + Util.intToCount(target.getOrgasmsBeforeSatisfied()) + ")] before [npc.sheIs] satisfied. "
-						+ "[npc.Her] desire has been [style.boldExcellent(boosted)], and so this goal is [style.boldGood(" + Util.intToString(bonus) + " orgasm" + (bonus==1?"":"s") + ")] higher than normal!");
+				sb.append("Anyone in the presence of a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...");
+				
 			} else if(bonus < 0) {
-				return UtilText.parse(target, "Anyone in the presence of a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...<br/>"
-						+ "[npc.Name] needs to orgasm [style.boldSex(" + Util.intToCount(target.getOrgasmsBeforeSatisfied()) + ")] before [npc.sheIs] satisfied. "
-						+ "[npc.Her] desire has been [style.boldTerrible(suppressed)], and so this goal is [style.boldBad(" + Util.intToString(-bonus) + " orgasm" + (bonus==-1?"":"s") + ")] lower than normal!");
+				sb.append("Anyone in the presence of a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...");
+				
 			} else {
-				return UtilText.parse(target, "Anyone in the presence of a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...<br/>"
-						+ "[npc.Name] needs to orgasm [style.boldSex("+Util.intToCount(target.getOrgasmsBeforeSatisfied())+")] before [npc.sheIs] satisfied.");
+				sb.append("Anyone in the presence of a strong arcane aura, such as yours, doesn't suffer from any sort of refractory period after orgasming...");
 			}
+			
+			sb.append("<br/>[npc.Name] [npc.verb(need)] to orgasm [style.boldSex(" + Util.intToCount(target.getOrgasmsBeforeSatisfied()) + ")] before [npc.sheIs] satisfied.");
+			
+			return UtilText.parse(target, sb.toString());
+		}
+		@Override
+		public List<Value<Integer, String>> getAdditionalDescriptions(GameCharacter target) {
+			int bonus = Main.sex.getNumberOfAdditionalOrgasms(target);
+			if(!target.isPlayer() && bonus != 0) {
+				List<Value<Integer, String>> additionalDescriptions = new ArrayList<>();
+				
+				if(bonus>0) {
+					additionalDescriptions.add(
+							new Value<>(2, "[npc.Her] desire has been [style.boldExcellent(boosted)], and so this goal is [style.boldGood(" + Util.intToString(bonus) + " orgasm" + (bonus==1?"":"s") + ")] higher than normal!"));
+				} else {
+					additionalDescriptions.add(
+							new Value<>(2, "[npc.Her] desire has been [style.boldTerrible(suppressed)], and so this goal is [style.boldBad(" + Util.intToString(-bonus) + " orgasm" + (bonus==-1?"":"s") + ")] lower than normal!"));
+				}
+				
+				return additionalDescriptions;
+			}
+			
+			return super.getAdditionalDescriptions(target);
 		}
 		@Override
 		public List<String> getModifiersAsStringList(GameCharacter target) {

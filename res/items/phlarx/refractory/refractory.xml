@@ -6,13 +6,13 @@
 		<determiner><![CDATA[a bottle of]]></determiner>
 		<name><![CDATA[sybaritic potion]]></name>
 		<namePlural pluralByDefault="false"><![CDATA[sybaritic potions]]></namePlural>
-		<description><![CDATA[A tiny geometric glass bottle bearing a black label embossed with gold foil that reads 'Sybaritic Energizing Philter.' The fine print below issues a warning that it may cause imbibers to become distressed if not provided with prompt sexual relief. You notice an odd sensation when holding the bottle in your hand; as if it's encouraging you to remove the cap when the time is right.]]></description>
+		<description><![CDATA[A tiny geometric glass bottle bearing a black label embossed with gold foil that reads 'Sybaritic Energizing Philter'. The fine print below issues a warning that it may cause imbibers to become distressed if not provided with prompt sexual relief.]]></description>
 		<useDescriptor>swallow</useDescriptor>
 		<sexUse>true</sexUse>
 		<combatUseAllies>true</combatUseAllies>
 		<combatUseEnemies>false</combatUseEnemies>
 		<consumedOnUse>true</consumedOnUse>
-		<rarity>RARE</rarity>
+		<rarity>EPIC</rarity>
 		<imageName>refractory.svg</imageName>
 		<colourPrimary>CLOTHING_PURPLE_ROYAL</colourPrimary>
 		<colourSecondary>CLOTHING_BLACK</colourSecondary>
@@ -20,14 +20,18 @@
 		<associatedRace/>
 		<enchantmentItemTypeId/>
 		<enchantmentEffectId/>
-		<statusEffects/>
+		<statusEffects>
+			<effect seconds="14400" conditional="[#!game.isInSex()]">DESPERATELY_HORNY</effect> <!-- applied for 4 hours -->
+		</statusEffects>
 		<effectTooltipLines>
-			<line><![CDATA[During sex, [style.colourExcellent(increase)] required [style.colourLust(orgasms)] by [style.colourGood(3)] - [style.colourGood(5)].]]></line>
+			<line><![CDATA[During [style.colourSex(sex)]:]]></line>
+			<line><![CDATA[[style.colourExcellent(Increases)] desired [style.colourLust(orgasms)] by [style.colourGood(3)]-[style.colourGood(5)]]]></line>
+			<line><![CDATA[Out of sex:]]></line>
 		</effectTooltipLines>
 		<applyEffects><![CDATA[
 			#IF(game.isInSex())
 				<p style='margin-bottom:0; padding-bottom:0;'>
-					As the contents of the small bottle disappear between [npc.herPos] [npc.lips+], [npc.namePos] [npc.eyes] flash soft pink for an instant, before returning to [npc.irisColour]. With a sudden [npc.moan+] and an excited shiver, [npc.herPos] movements intensify as if [npc.sheHasFull] been pent up for far too long.
+					As the contents of the small bottle disappear between [npc.herPos] [npc.lips+], [npc.namePos] [npc.eyes] flash soft pink for an instant, before returning to [npc.irisColour]. With a sudden, [npc.moan+] and an excited shiver, [npc.herPos] movements intensify as if [npc.sheHasFull] been pent up for far too long.
 				</p>
 				[##
 					var boost = 3 + RND.nextInt(3); /* randomly select 3, 4, or 5 */
@@ -38,9 +42,8 @@
 				</p>
 			#ELSE
 				<p style='margin-bottom:0; padding-bottom:0;'>
-					As the contents of the small bottle disappear between [npc.herPos] [npc.lips+], [npc.namePos] [npc.verb(feel)] a sensation similar to static electricity, followed by a strange emptiness. However, you do notice a subtle change in [npc.herPos] aura. Perhaps if [npc2.name] had waited until [npc.she] [npc.was] feeling orgasmic bliss, something different would have happened?
+					As the contents of the small bottle disappear between [npc.herPos] [npc.lips+], [npc.namePos] [npc.verb(feel)] a sensation similar to static electricity surging through [npc.her] body. Experiencing a rush of intense, stupefying arousal, [npc.she] [npc.verb(let)] out [npc.a_moan+] as [npc.she] [npc.verb(find)] [npc.herself] struggling to think of anything but sex.
 				</p>
-				[#npc.incrementEssenceCount(RND.nextInt(4)+1,true)]
 			#ENDIF
 		]]></applyEffects>
 		<itemTags>

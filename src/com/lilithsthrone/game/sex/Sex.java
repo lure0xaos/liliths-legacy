@@ -3052,6 +3052,9 @@ public class Sex {
 			charactersRequestingKnot = new HashSet<>();
 			charactersRequestingPullout = new HashMap<>();
 			SexFlags.playerPreparedForCharactersOrgasm.remove(getCharacterPerformingAction());
+			
+			// Remove status effect:
+			getCharacterPerformingAction().removeStatusEffect(StatusEffect.DESPERATELY_HORNY);
 		}
 
 		// Handle if parts have just become exposed:
