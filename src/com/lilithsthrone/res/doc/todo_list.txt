@@ -6,6 +6,9 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	Patch notes:
 	
+	Contributors:
+		Enhancement: Add sybaritic potion (refractory potion), which increases the drinker's desired orgasms by 3-5 when consumed during sex, otherwise provides 1-4 essences. (PR#1829 by CognitiveMist)
+		
 	Engine/Modding:
 		Moved the 'hyena' colour from the base res folder to the mod folder to conform with the location of the rest of the hyena-related files.
 		
@@ -25,6 +28,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Penetration-on-penetration ongoing sex actions (such as handjob reactions) are now available during immobilisation sex.
 		Added more checks for a mute character in orgasm actions.
 		Added description variation for resisting characters who request their partner to pull out.
+		In the 'Orgasms' status effect tooltip, you can now see how many orgasms your character requires in sex to be satisfied. While this doesn't have an impact after sex, your consensual partners will want to satisfy you before ending sex, so the information is relevant for that.
 		
 	Other:
 		Properly centre-aligned the icons for the 'elemental striker' and 'elemental defender' perks and significantly increased their effects.
@@ -48,7 +52,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		If getting transformed into a doll as a demon, you no longer keep your wings/tail/horns.
 		Fixed issue where when you leaded a saved game, all characters regained all of their default modifiers for all penetration and orifice types (penis, vagina, urethra, clit, anus, spinneret, nipples, crotch-nipples, mouth, tongue) instead of only the ones they had when the game was saved.
 		After being transformed into a demon by Lyssieth, she will now be listed as your mother in her character details page, and in Elizabeth's details she will now be listed as your half-sister.
-	
+		Fixed minor issue with tooltip formatting for some items.
 	
 	
 	[x] Cannot start sex with Lunexis in Amazon Camp?
@@ -104,6 +108,11 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] PRs
 		[] 1829
+			- Added status effect instead of essence gain when used outside of sex
+			- Removed "You notice an odd sensation when holding the bottle in your hand; as if it's encouraging you to remove the cap when the time is right." from description (it was too long and my terrible tooltip code couldn't handle it)
+			- Changed rarity to EPIC to be more in line with other special consumables
+			- Minor grammatical changes in description
+			- Moved additional orgasm description into separate field in 'Orgasms' SE tooltip
 		[] 1820
 		[] 1804 - test
 		[] 1799
@@ -133,6 +142,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] Innocent/lewd/prude should affect dirty talk
 	[] character creation penis size should be variable instead of buttons
+	
+	[] when a character is satisfied in sex, change 'Orgasms' SE icon colour to show it
 	
 	#####################
 	
