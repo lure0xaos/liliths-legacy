@@ -531,6 +531,7 @@ public class DebugDialogue {
 					return new Response("Brax's revenge", "Brax cums in your vagina!", DEBUG_MENU){
 						@Override
 						public void effects() {
+							Main.game.getPlayer().guaranteePregnancyOnNextRoll();
 							if(Main.game.getPlayer().hasHymen()) {
 								Main.game.getPlayer().setVaginaVirgin(false);
 								SexType sexType = new SexType(SexParticipantType.NORMAL, SexAreaOrifice.VAGINA, SexAreaPenetration.PENIS);
@@ -544,6 +545,7 @@ public class DebugDialogue {
 					return new Response("Lilaya's hypocrisy", "Lilaya cums in your vagina!", DEBUG_MENU){
 						@Override
 						public void effects() {
+							Main.game.getPlayer().guaranteePregnancyOnNextRoll();
 							if(Main.game.getPlayer().hasHymen()) {
 								Main.game.getPlayer().setVaginaVirgin(false);
 								SexType sexType = new SexType(SexParticipantType.NORMAL, SexAreaOrifice.VAGINA, SexAreaPenetration.PENIS);
@@ -1072,6 +1074,8 @@ public class DebugDialogue {
 				
 				UtilText.nodeContentSB.append("<span style='color:"+os.getFemininity().getColour().toWebHexString()+";'>"+os.getName()+" "+os.getSurname()+"</span>");
 				
+				UtilText.nodeContentSB.append(" (<i style='color:"+os.getGender().getColour().toWebHexString()+";'>"+Util.capitaliseSentence(os.getGender().getName())+"</i>)");
+				
 				UtilText.nodeContentSB.append(" ("+os.getSubspecies().getName(os.getBody()));
 				if(os.getSubspecies()==Subspecies.HALF_DEMON) {
 					UtilText.nodeContentSB.append("/"+os.getHalfDemonSubspecies().getName(os.getBody()));
@@ -1494,7 +1498,7 @@ public class DebugDialogue {
 							inventorySB.append("<br/>");
 							inventorySB.append("Femininity: <span style='color:"+outfit.getFemininity().getColour().toWebHexString()+";'>"+outfit.getFemininity().toString()+"</span>");
 							inventorySB.append("<br/>");
-							inventorySB.append("Conditional: <span style='font-family:monospace; font-size:0.75em;'>"+outfit.getConditional()+"</span>");
+							inventorySB.append("Conditional: <span style='font-family:monospace; font-size:0.85em; background:"+PresetColour.BACKGROUND_DARK.toWebHexString()+"; padding:2px;'>"+outfit.getConditional()+"</span>");
 							
 							inventorySB.append("<br/>");
 							inventorySB.append("Leg configurations: ");
