@@ -12,6 +12,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.lilithsthrone.controller.xmlParsing.XMLUtil;
+import com.lilithsthrone.game.dialogue.places.dominion.lilayashome.LilayaDressingRoomDialogue;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.inventory.weapon.AbstractWeapon;
@@ -369,6 +370,21 @@ public class Outfit implements XMLSaving {
 
 		for(AbstractWeapon w : weapons.values()) {
 			cost += w.getValue();
+		}
+		
+		return cost;
+	}
+	
+	public int getEssenceCost() {
+		int cost = 0;
+		
+		for(AbstractClothing c : clothing.values()) {
+			cost += LilayaDressingRoomDialogue.getClothingEssenceCost(c);
+//			System.out.println(c.getName()+" "+cost);
+		}
+
+		for(AbstractWeapon w : weapons.values()) {
+			cost += LilayaDressingRoomDialogue.getWeaponEssenceCost(w);
 		}
 		
 		return cost;

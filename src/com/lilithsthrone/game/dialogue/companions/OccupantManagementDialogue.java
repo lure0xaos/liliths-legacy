@@ -660,17 +660,14 @@ public class OccupantManagementDialogue {
 	public static Cell cellToInspect;
 	
 	public static final DialogueNode ROOM_UPGRADES = new DialogueNode("Room Management", ".", true) {
-
 		@Override
 		public DialogueNodeType getDialogueNodeType() {
 			return DialogueNodeType.OCCUPANT_MANAGEMENT;
 		}
-		
 		@Override
 		public String getLabel() {
 			return cellToInspect.getPlace().getName()+" Management";
 		}
-
 		@Override
 		public String getContent() {
 			UtilText.nodeContentSB.setLength(0);
@@ -725,7 +722,6 @@ public class OccupantManagementDialogue {
 			if(i==0) {
 				UtilText.nodeContentSB.append("<b style='color:"+PresetColour.TEXT_GREY.toWebHexString()+";'>Empty</b>");
 			}
-			
 			
 			UtilText.nodeContentSB.append(
 					"</div>"

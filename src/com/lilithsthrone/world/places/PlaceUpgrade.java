@@ -1154,12 +1154,10 @@ public class PlaceUpgrade {
 	public static final AbstractPlaceUpgrade LILAYA_DRESSING_ROOM = new AbstractPlaceUpgrade(true,
 			PresetColour.BASE_GOLD,
 			"Dressing Room",
-			"Although there's more than enough space in every bedroom for a wardrobe or two, dedicating an entire room to storing clothes will allow you to easily pick out and store outfits."
-					+ " [style.italicsGood(This will grant you access to 'Outfit management' for both yourself and your slaves.)]",
-			"This particular room has been converted into a dressing room, and has enough wardrobe space to hold hundreds of items of clothing."
-					+ " [style.italicsGood(You have gained access to 'Outfit management' for both yourself and your slaves!)]",
+			"Although there's more than enough space in every bedroom for a wardrobe or two, it might be nice to have an entire room dedicated to storing clothes.",
+			"This particular room has been converted into a dressing room, and has enough wardrobe space to hold hundreds of items of clothing.",
 			"You've had this particular room converted into a dedicated dressing room."
-					+ " Dozens of wardrobes provide storage space for hundreds of items of clothing, and from here you can pick out outfits for both you and your slaves to wear.",
+					+ " Dozens of wardrobes provide storage space for hundreds of items of clothing.",
 			5000,
 			250,
 			50,
@@ -1167,6 +1165,24 @@ public class PlaceUpgrade {
 			0,
 			0,
 			null) {
+		@Override
+		public String getRoomDescription(Cell c) {
+			GenericPlace place = c.getPlace();
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.getRoomDescription(c));
+			
+			if(!place.getPlaceUpgrades().contains(LILAYA_DRESSING_ROOM_LYSSIETH_WARDROBE)) {
+				sb.append(" Lyssieth's wardrobe, carved from ivory and decorated with gold, takes pride of place in this room."
+						+ " Its unique enchantment would grant you the ability to create items from nothing more than your imagination, but at the moment it isn't functional, and it would be extremely expensive to get Lilaya to fix it.");
+			}
+			
+			return sb.toString();
+		}
+		@Override
+		public DialogueNode getInstallationDialogue(Cell c) {
+			return LilayaDressingRoomDialogue.INSTALLATION;
+		}
 		@Override
 		public DialogueNode getRoomDialogue(Cell c) {
 			return LilayaDressingRoomDialogue.ROOM_DRESSING_ROOM;
@@ -1185,7 +1201,6 @@ public class PlaceUpgrade {
 			}
 			return super.getExtraConditionalAvailability(cell);
 		}
-		
 		@Override
 		public void applyInstallationEffects(Cell c) {
 			GenericPlace place = c.getPlace();
@@ -1194,6 +1209,33 @@ public class PlaceUpgrade {
 					place.removePlaceUpgrade(c, upgrade);
 				}
 			}
+		}
+	};
+
+	public static final AbstractPlaceUpgrade LILAYA_DRESSING_ROOM_LYSSIETH_WARDROBE = new AbstractPlaceUpgrade(false,
+			PresetColour.GENERIC_ARCANE,
+			"Lyssieth's Wardrobe",
+			"Have Lilaya re-enchant Lyssieth's unique wardrobe, which will grant you the incredible power of being able to create almost any weapon or item of clothing which you can imagine."
+					+ "<br/>[style.italicsGood(This will grant you access to the 'Outfits' feature for both yourself and your slaves.)]",
+			"Carved from ivory and decorated with gold, a most extraordinary wardrobe takes pride of place in your dressing room."
+					+ " Commissioned by the elder lilin, Lyssieth, this unique piece of furniture holds the incredible power to create almost any weapon or item of clothing which you can imagine."
+					+ "<br/>[style.italicsGood(Lyssieth's wardrobe grants you access to the 'Outfits' feature for both yourself and your slaves.)]",
+			"Carved from ivory and decorated with gold, a most extraordinary wardrobe takes pride of place in your dressing room."
+					+ " Commissioned by the elder lilin, Lyssieth, this unique piece of furniture holds the incredible power to create almost any weapon or item of clothing which you can imagine.",
+			250_000,
+			0,
+			0,
+			0,
+			0,
+			0,
+			null) {
+		@Override
+		public DialogueNode getInstallationDialogue(Cell c) {
+			return LilayaDressingRoomDialogue.WARDROBE_ACTIVATION;
+		}
+		@Override
+		public Value<Boolean, String> getRemovalAvailability(Cell cell) {
+			return new Value<>(false, "You cannot remove Lyssieth's wardrobe.");
 		}
 	};
 	
@@ -1499,6 +1541,8 @@ public class PlaceUpgrade {
 	private static ArrayList<AbstractPlaceUpgrade> spaUpgrades;
 	private static ArrayList<AbstractPlaceUpgrade> diningHallUpgrades;
 	private static ArrayList<AbstractPlaceUpgrade> slaveLoungeUpgrades;
+	private static ArrayList<AbstractPlaceUpgrade> dressingRoomUpgrades;
+	
 	
 	public static ArrayList<AbstractPlaceUpgrade> getCoreRoomUpgrades() {
 		return coreRoomUpgrades;
@@ -1542,6 +1586,10 @@ public class PlaceUpgrade {
 
 	public static ArrayList<AbstractPlaceUpgrade> getSlaveLoungeUpgrades() {
 		return slaveLoungeUpgrades;
+	}
+
+	public static ArrayList<AbstractPlaceUpgrade> getDressingRoomUpgrades() {
+		return dressingRoomUpgrades;
 	}
 	
 	
@@ -1651,6 +1699,11 @@ public class PlaceUpgrade {
 				PlaceUpgrade.LILAYA_EMPTY_ROOM);
 		
 		slaveLoungeUpgrades = Util.newArrayListOfValues(
+				PlaceUpgrade.LILAYA_EMPTY_ROOM);
+		
+		dressingRoomUpgrades = Util.newArrayListOfValues(
+				PlaceUpgrade.LILAYA_DRESSING_ROOM_LYSSIETH_WARDROBE,
+				
 				PlaceUpgrade.LILAYA_EMPTY_ROOM);
 	}
 	

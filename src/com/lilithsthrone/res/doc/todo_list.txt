@@ -9,11 +9,19 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Pusspuss's Artwork (https://twitter.com/PusspussARTZ):
 		Added Hannah artwork (with pregnant variations, multi-breast variations, and different variations based on whether you're seeing her in the gym or in the bar, Light's Out).
 	
+	FriendlyAlienFriend's Artwork (https://twitter.com/thealienfriend):
+		Added Natalya artwork (with pregnant and crotch-boob variations, although neither of these extra variations are currently seen in-game).
+	
 	Engine/Modding:
 		Character sex preference code is now parsed on each call instead of once when initialised, allowing you to make more complex sex preferences.
 		Added 'FITS_BIPEDS' as an item tag to allow clothing to be tagged as only being able to fit bipedal bodies.
 		Added a 'category' element to custom sex actions, allowing you to set which response tab you want your action to be placed into.
 		Added a parser hook for LubricationType, using the prefix 'LUBRICATION_'.
+		Potency values are now correctly applied to the generated attribute when defining 'RESISTANCE_WEAPON' and 'DAMAGE_WEAPON' enchantment values for modded weapons, instead of always being TFPotency.MAJOR_BOOST.
+		Added 'essenceFormat' parsing command which works the same as 'moneyFormat' but for essences.
+		
+	UI:
+		Changed the essence icon from an embedded image to the unicode pentagram symbol to make the UI look more consistent (also the inline image was awkward to format in css).
 		
 	Gameplay:
 		Re-enabled feral impregnation, with the offspring of ferals now always being the tauric equivalent of the mother (e.g. centaurs for feral horse, driders for feral spider, etc.).
@@ -21,6 +29,11 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		After having sex with Callie once, you can now directly give her donations to progress to the next level of her store upgrades.
 		Added a small piece of content for Callie's shop, 'The Creamy Bakey'; if you've completed Natalya's quest, are wearing a filly choker, have performed anilingus on Callie at least once, and have upgraded her shop to the maximum level, then when entering her store you can encounter Natalya in there and have an anilingus-focused threesome.
 		Added a new option, 'Offspring using gender preferences' (accessed via 'Content options'->'Gender preferences'), which allows you to define whether or not you want offspring to use your preferences when determining their gender.
+	
+	Outfit feature:
+		Added 'Dressing Room' as a new room upgrade in Lilaya's mansion, which can be upgraded with 'Lyssieth's wardrobe', which gives you access to a new outfit feature.
+		You can create, edit, save/load outfit files and then purchase an instance of your created outfit to equip it to yourself or any of your slaves.
+		Outfit files are saved in the 'data/outfits' folder (not to be confused with 'res/outfits', which handles a different type of outfit generation on NPC spawns).
 	
 	Inventory:
 		Floor tiles now all have unlimited inventory space.
@@ -96,7 +109,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed bug in sex scenes in which clothing unequipping was meant to be disabled, where you were still able to 'Discard/Drop/Store' the clothing.
 		The two tiles within 'The Creamy Bakey' map are now correctly treated as being indoors, and so characters within it are immune to weather effects.
 		Fixed inventory rendering issues in light mode.
-		
+		Fixed issue where clothing that spawns with the sealing enchantment which costs 5 essences to remove wouldn't stack in the inventory with identical clothing which had had that enchantment removed and then re-added.
+		Fixed bug where sometimes the main content would not scroll back up to the top when a new scene was presented to you.
 		
 	[x] Bugs
 		[x] if you have 100 obedience from Murks capture, it carries over into the doll factory and can lead to a soft lock if you get dollified. You’ll be stuck with 100 Obedience instantly
@@ -477,40 +491,117 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[x] latex catsuit has T-shirt unequip lines...
 		[x] enchantment limits don't work
 		[-] give warning for buy/equip that the outfit isn't saved yet
+		[x] add text at bottom to say outfit equipped
+			[x] improve to show items not equipped
+		[x] if item not equipped, and purchased, place it on floor
+		[x] should overwrite be shown even when no changes are made?
+		[x] POST
+		[x] outfits with enchantments should cost essences as well
+			[x] essence costings show 0
+			[x] make removals free
+			[x] in enchantment menu, need to make cost show total of all effects, and the cancel buttons to always show cost. i.e. always show cost as it is compared to an instance of a default item
+			[x] add a 'restore default enchantments' button
+			[x] add to UI
+				[x] tooltip
+				[x] above money on icons
+				[x] on outfit info in the list
+				[x] delete icon in the way...
+			[x] newly created weapons are called "Burning"/"Freezing" etc.
+			[x] weapon enchanting default effects missing
+			[-] saving after adding a weapon keeps overwrite and cancel...
+			[x] when adding a new weapon, reset enchantments when get to that screen
+			[x] purchase outfit doesn't actually deduct essences
+		[x] need to limit CLOTHING_SEALING to MINOR_BOOST otherwise they don't stack!
+			[x] clothing files
+			[x] also add some way to handle it when loading
+		[x] check weapon equips for arm rows
+		[x] when equipping an outfit, do not let item insertion order causing blocking of equipping (such as spreader bar blocking suit)
+		[x] stickers don't work (tagged collar)
+		[x] new outfit needs cancel instead of back if not saved
+		[x] When showing all outfits, mark which ones are from a different save file
+		[x] need to block slots if incompatible - such as chest with suit
+			[x] tooltip
+			[x] when add clothing, remove incompatible clothing in slots
+				[x] add exclamation mark to item icon, with tooltip saying that equipping that item will remove incompatible clothing from the outfit
+			[x] test equipping with blocked slot filled
+		[x] when equipping, output text should list clothing which was unequipped and added to the tile
+		[x] improve ordering and UI of equip text
+		[x] also add to slave equip output
+			[x] unequip text not accurate
+		[x] room upgrade tooltip adjustment
+		[x] adjust so it's a normal-priced room upgrade with an expensive wardrobe
+		[x] installation dialogue isn't resetting scroll position
+			[x] setContent() for Responses always scrolls???
+		[x] dialogue text:
+			[x] when installed, Rose asks Lilaya to use a telekinetic spell to haul wardrobes out of storage
+				[x] Lilaya points out that one of the wardrobes is a very special custom design for Lyssieth
+				[x] it has a very special enchantment which allows the user to create and item of clothing they can imagine
+				[x] Lyssieth had a better, more extensive suite of enchanted wardrobes made for her shortly after receiving this one, so she left it here
+				[x] For non-lilins, the enchantment doesn't have that same amount of power, and Lilaya was annoyed to discover that it can 'only' replicate clothing which you've seen before
+				[x] Lilaya siphoned out the essences which kept the enchantment running for one of her experiments, and it will cost a huge amount of specially-refined essences to restore its functionality
+				[x] If you want to use it, then Lilaya can fix it, but it won't be cheap. She quickly makes some calculations on a notepad, before rushing off as you hear a bang coming from her lab.
+			[x] wardrobe
+				[x] Lilaya uses a huge number of essences to activate the enchantment
+				[x] says that she can't even imagine how difficult and costly it was to create the enchantment
+				[x] if main lore revealed, Lilaya speculates that Lyssieth wanted it so that she could replicate clothing from history, with the uniforms her guard wears being some of her first and favourite creations
+				[x] Lilaya tells you that she'll handle topping up the enchantment with essences after use, but if you want to summon enchanted gear, you'll need to let the wardrobe directly siphon the required essences from your aura
+					[x] in other words, you pay in flames for the cost of the creation to cover the cost of Lilaya's essences, and pay directly in essences if you add enchantments
+				[x] Lilaya tests the wardrobe by creating a set of Kitty lingerie
+					[x] You overhear Rose telling Lilaya that she's going to be the one wearing it later
+			[x] add the TODO text when purchasing an outfit
+				[x] You imagine the outfit and the wardrobe summons it into existence
+				[x] You leave enough flames to cover the cost of the essences on a dresser near the door
+		[x] final pass of all dialogue content
+		[x] need core upgrades for dressing room
+		[x] equip from area doesn't update after equipping and dropping a full set
+		[x] check GameCharacter.loadOutfit
+	[x] save/load icons colouring pass
+	[x] artwork
+		[x] Natalya
+		[x] eye colour
+	[x] debug unlock all clothing in outfit creator
 		
-		[] add text at bottom to say outfit equipped
-			[] improve to show items not equipped
-		
-		[] outfits with enchantments should cost essences as well
-		
-		[] adjust so it's a normal-priced room upgrade
-			[] when installed, Rose points out that one of the wardrobes is a very special custom design for Lyssieth
-				[] they have a very special enchantment which allows the user to create and item of clothing they can imagine
-				[] Lyssieth had a better, more extensive suite of enchanted wardrobes made for her shortly after receiving this one, so she left it here
-				[] For non-lilins, the enchantment doesn't have that same amount of power, and Lilaya was annoyed to discover that it can 'only' replicate clothing which you've seen before
-				[] Lilaya siphoned out the essences which kept the enchantment running for one of her experiments, and it will cost a huge amount of specially-refined essences to restore its functionality
-				[] If you want to use it, then Rose can arrange for it to be fixed, but it won't be cheap. She quickly makes some calculations on a notepad, before smirking at you and taking her leave.
-				[] Costs something big
-			[] Lilin's wardrobe
-			[] add the TODO text when purchasing an outfit
-		
-		[] check GameCharacter.loadOutfit
-		
-		
-	[] male/female/herm earrings
+	##########
 	
-	[] beanie
+	[] dressing room limited to 1?
+	
+	[] "You slide your tongue out of Alexandria's teats.​" should be different if nipples are non-pen
+		[] check udders as well
+	
+	[] position change sex action should have a line like "You take a moment to change position..."
+	
+	[] intro Alexandria should have preg chance (for sex dec.), but handle it after sex ends
+	[] end sex action should also be 'End sex' instead of default 'In the museum'
+	
+	[] potentially limit the outfit system's weapons a little more
+	
+	[] fix Hannah's clothing folders to use tagging syntax
+		[] also all others
+	
+	[] handle Natalya condom equip
+	
+	[] when condom breaks (in Natalya park scene), no cum on body?
+	
+	[] artwork
+		[] Monica
+		
+	[] clothing
+		[] male/female/herm earrings
+		[] beanie
+		[] add eye & mouth stickers to hood
+			[] add to description that it reforms to cover anthro muzzles
+	
+	[] tattoos
+		[] test tattoo outline black & white
+		[] male/female symbols
+		[] insertion ruler (groin)
 	
 	[] When shared encyclopedia setting on, make sure clothing is still unlocked for the active game's save file			
 	
 	[] Ralph big discount make him kick off trousers
 	
-	[] artwork
-		[] Natalya
-		[] Monica
+	[] pusspuss character details
 		
-	##########
-	
 	[] Rose encounter
 		[] if had sex with Lilaya >3 times in one day
 			OR if impregnated Lilaya >3 times

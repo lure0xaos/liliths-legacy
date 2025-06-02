@@ -307,22 +307,22 @@ public enum SVGImages {
 			
 			is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/UIElements/diskSave.svg");
 			diskSave = Util.inputStreamToString(is);
-			diskSave = setColour(diskSave, PresetColour.BASE_BLUE_STEEL, PresetColour.BASE_YELLOW_LIGHT, PresetColour.BASE_GREY);
+			diskSave = setColour(diskSave, PresetColour.GENERIC_MINOR_GOOD, PresetColour.BASE_YELLOW_LIGHT, PresetColour.BASE_GREY);
 //			diskSave = setColour(diskSave, PresetColour.BASE_BLACK, PresetColour.BASE_YELLOW_LIGHT, PresetColour.BASE_GREY);
 			is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/UIElements/diskSave.svg");
 			diskSaveDisabled = Util.inputStreamToString(is);
 			diskSaveDisabled = setColour(diskSaveDisabled, PresetColour.BASE_BLACK, PresetColour.BASE_BLACK, PresetColour.BASE_BLACK);
 			is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/UIElements/diskSave.svg");
 			diskOverwrite = Util.inputStreamToString(is);
-			diskOverwrite = setColour(diskOverwrite, PresetColour.BASE_BLUE_STEEL, PresetColour.BASE_YELLOW_LIGHT, PresetColour.BASE_GREY);
+			diskOverwrite = setColour(diskOverwrite, PresetColour.BASE_ORANGE, PresetColour.BASE_YELLOW_LIGHT, PresetColour.BASE_GREY);
 //			diskOverwrite = setColour(diskOverwrite, PresetColour.BASE_BLACK, PresetColour.BASE_YELLOW_LIGHT, PresetColour.BASE_GREY);
 			is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/UIElements/diskSave.svg");
 			diskSaveConfirm = Util.inputStreamToString(is);
-			diskSaveConfirm = setColour(diskSaveConfirm, PresetColour.BASE_AQUA, PresetColour.BASE_YELLOW_LIGHT, PresetColour.BASE_GREY);
+			diskSaveConfirm = setColour(diskSaveConfirm, PresetColour.GENERIC_EXCELLENT, PresetColour.BASE_YELLOW_LIGHT, PresetColour.BASE_GREY);
 			
 			is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/UIElements/diskLoad.svg");
 			diskLoad = Util.inputStreamToString(is);
-			diskLoad = setColour(diskLoad, PresetColour.BASE_YELLOW_LIGHT);
+			diskLoad = setColour(diskLoad, PresetColour.BASE_BLUE_LIGHT);
 //			diskLoad = setColour(diskLoad, PresetColour.BASE_BLUE_LIGHT);
 			is = this.getClass().getResourceAsStream("/com/lilithsthrone/res/UIElements/diskLoad.svg");
 			diskLoadConfirm = Util.inputStreamToString(is);

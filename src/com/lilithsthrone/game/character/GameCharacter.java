@@ -22798,8 +22798,12 @@ public abstract class GameCharacter implements XMLSaving {
 	 * @param outfit The outfit to load onto this character.
 	 * @param oldClothingSentTo Where the clothing this character is currently wearing should be sent to.
 	 * @param newClothingDrawnFrom Where the clothing to be loaded from the outfit is coming from.
+	 * 
+	 * @return A list of all items which were unable to be equipped.
 	 */
-	public void loadOutfit(Outfit outfit, OutfitSource oldClothingAndWeaponsSentTo, OutfitSource newClothingAndWeaponsDrawnFrom) {
+	public Map<InventorySlot, AbstractCoreItem> loadOutfit(Outfit outfit, OutfitSource oldClothingAndWeaponsSentTo, OutfitSource newClothingAndWeaponsDrawnFrom) {
+		Map<InventorySlot, AbstractCoreItem> failureToEquipMap = new HashMap<>();
+		
 		// Unequipping current outfit:
 		if(oldClothingAndWeaponsSentTo==OutfitSource.NOWHERE) {
 			this.unequipAllClothingIntoVoid(false, true, outfit.getIgnoredSlots());
@@ -22826,35 +22830,42 @@ public abstract class GameCharacter implements XMLSaving {
 		
 		// Equipping new outfit:
 		for(Entry<InventorySlot, AbstractWeapon> entry : outfit.getWeapons().entrySet()) {
+			AbstractWeapon weapon = entry.getValue();
 			// ... >:(
 			switch(entry.getKey()) {
 				case WEAPON_MAIN_1:
 					if(this.getMainWeapon(0)!=null) {
+						failureToEquipMap.put(entry.getKey(), weapon);
 						continue;
 					}
 					break;
 				case WEAPON_MAIN_2:
 					if(this.getMainWeapon(1)!=null || this.getArmRows()<2) {
+						failureToEquipMap.put(entry.getKey(), weapon);
 						continue;
 					}
 					break;
 				case WEAPON_MAIN_3:
 					if(this.getMainWeapon(2)!=null || this.getArmRows()<3) {
+						failureToEquipMap.put(entry.getKey(), weapon);
 						continue;
 					}
 					break;
 				case WEAPON_OFFHAND_1:
 					if(this.getOffhandWeapon(0)!=null) {
+						failureToEquipMap.put(entry.getKey(), weapon);
 						continue;
 					}
 					break;
 				case WEAPON_OFFHAND_2:
 					if(this.getOffhandWeapon(1)!=null || this.getArmRows()<2) {
+						failureToEquipMap.put(entry.getKey(), weapon);
 						continue;
 					}
 					break;
 				case WEAPON_OFFHAND_3:
 					if(this.getOffhandWeapon(2)!=null || this.getArmRows()<3) {
+						failureToEquipMap.put(entry.getKey(), weapon);
 						continue;
 					}
 					break;
@@ -22862,7 +22873,6 @@ public abstract class GameCharacter implements XMLSaving {
 					break;
 			}
 			
-			AbstractWeapon weapon = entry.getValue();
 			switch(newClothingAndWeaponsDrawnFrom) {
 				case CELL:
 					Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation()).getInventory().removeWeapon(weapon);
@@ -22896,24 +22906,29 @@ public abstract class GameCharacter implements XMLSaving {
 					break;
 			}
 		}
-
+		
+		// Make sure that all clothing which can be equipped, is equipped. This is to avoid issues where equipping one piece of sealed clothing in the incorrect order could potentially block other pieces from being equipped:
 		for(Entry<InventorySlot, AbstractClothing> entry : outfit.getClothing().entrySet()) {
 			AbstractClothing clothing = entry.getValue();
 			InventorySlot slot = entry.getKey();
-			if(this.getClothingInSlot(slot)==null) { // ignore if clothing in slot (due to ignored slots)
-				switch(newClothingAndWeaponsDrawnFrom) {
-					case CELL:
-						this.equipClothingFromGround(clothing, slot, true, this);
-						break;
-					case INVENTORY:
-						this.equipClothingFromInventory(clothing, slot, true, this, this);
-						break;
-					case NOWHERE:
-						this.equipClothingFromNowhere(clothing, slot, true, this);
-						break;
+			if(this.getClothingInSlot(slot)==null) { // Check to see if this item can be equipped if the slot is empty:
+				if(!this.isAbleToEquip(clothing, slot, true, this)) {
+					failureToEquipMap.put(entry.getKey(), clothing);
 				}
+			} else {
+				failureToEquipMap.put(entry.getKey(), clothing); // Otherwise, it is a failure as clothing is already occupying that slot and should not be removed
 			}
 		}
+		// Now for each item in the outfit, force it to be equipped if it's not present in the failure map:
+		for(Entry<InventorySlot, AbstractClothing> entry : outfit.getClothing().entrySet()) {
+			AbstractClothing clothing = entry.getValue();
+			InventorySlot slot = entry.getKey();
+			if(!failureToEquipMap.values().contains(clothing)) {
+				this.equipClothingOverride(clothing, slot, false, Util.newArrayListOfValues(newClothingAndWeaponsDrawnFrom));
+			}
+		}
+		
+		return failureToEquipMap;
 	}
 	
 	public void clearNonEquippedInventory(boolean clearMoney) {
@@ -24421,12 +24436,21 @@ public abstract class GameCharacter implements XMLSaving {
 	 * @param removeFromInventoryOrFloor true if you want the newClothing to be removed from the floor or inventory of this character. The floor is checked for newClothing before this character's inventory.
 	 */
 	public void equipClothingOverride(AbstractClothing newClothing, InventorySlot slotToEquipInto, boolean replaceClothing, boolean removeFromInventoryOrFloor) {
+		equipClothingOverride(newClothing,
+				slotToEquipInto,
+				replaceClothing,
+				removeFromInventoryOrFloor
+					?Util.newArrayListOfValues(OutfitSource.CELL, OutfitSource.INVENTORY)
+					:Util.newArrayListOfValues(OutfitSource.NOWHERE));
+	}
+
+	public void equipClothingOverride(AbstractClothing newClothing, InventorySlot slotToEquipInto, boolean replaceClothing, List<OutfitSource> sources) {
 		List<InventorySlot> slotsToClear = new ArrayList<>();
 		slotsToClear.add(slotToEquipInto);
 		slotsToClear.addAll(newClothing.getIncompatibleSlots(this, slotToEquipInto));
 
-		if(removeFromInventoryOrFloor) {
-			if(Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation()).getInventory().hasClothing(newClothing)) {
+		if(sources.contains(OutfitSource.CELL) || sources.contains(OutfitSource.INVENTORY)) {
+			if(sources.contains(OutfitSource.CELL) && Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation()).getInventory().hasClothing(newClothing)) {
 				Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation()).getInventory().removeClothing(newClothing);
 				if(newClothing.getItemTags().contains(ItemTag.DUPLICATE_WHEN_EQUIP)) {
 					AbstractClothing c = new AbstractClothing(newClothing) {};
@@ -24434,7 +24458,7 @@ public abstract class GameCharacter implements XMLSaving {
 					Main.game.getWorlds().get(getWorldLocation()).getCell(getLocation()).getInventory().addClothing(c);
 				}
 				
-			} else {
+			} else if(sources.contains(OutfitSource.INVENTORY)) {
 				if(this.hasClothing(newClothing) && newClothing.getItemTags().contains(ItemTag.DUPLICATE_WHEN_EQUIP)) {
 					newClothing.setEnchantmentKnown(this, true);
 				} else {

@@ -3769,8 +3769,8 @@ public class Game implements XMLSaving {
 				setMainContentRegex(
 						((node.isContinuesDialogue() || response.isForceContinue()) && isContentScroll(response, node)
 							?"<body onLoad='scrollToElement()'>"
-							+ "<script>function scrollToElement() {document.getElementById('content-block').scrollTop = document.getElementById('position" + (positionAnchor) + "').offsetTop -64;}</script>"
-						:"<body>"),
+								+ "<script>function scrollToElement() {document.getElementById('content-block').scrollTop = document.getElementById('position" + (positionAnchor) + "').offsetTop -64;}</script>"
+							:"<body>"),
 						currentDialogue);
 				
 				textEndStringBuilder.setLength(0);
@@ -3831,7 +3831,8 @@ public class Game implements XMLSaving {
 		}
 		
 		int currentPosition = 0;
-		if(getCurrentDialogueNode()!=null) {
+		if(getCurrentDialogueNode()!=null
+				&& (node==getCurrentDialogueNode())) { // Added this line in v0.4.10.8 as otherwise every time this setContent() method is used, the scroll will not be reset to the top
 			if(!Main.game.isInSex() || Main.sex.getTurn()>1 || Main.game.currentDialogueNode!=Main.sex.SEX_DIALOGUE) { // First turn of sex should always reset to top
 				currentPosition =  (int) Main.mainController.getWebEngine().executeScript("document.getElementById('content-block').scrollTop");
 			}
@@ -4017,6 +4018,8 @@ public class Game implements XMLSaving {
 		Main.mainController.setFlashMessageColour(flashMessageColour);
 		Main.mainController.setFlashMessageText(flashMessageText);
 
+//		System.out.println((node.isContinuesDialogue() || response.isForceContinue()) +" | "+isContentScroll(response, node)+" : "+currentPosition);
+		
 		//-------------------- MEMORY LEAK PROBLEM
 		setMainContentRegex(node.isContinuesDialogue() || response.isForceContinue()
 				?(isContentScroll(response, node)

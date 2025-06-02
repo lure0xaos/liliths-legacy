@@ -1,5 +1,6 @@
 package com.lilithsthrone.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -855,21 +856,26 @@ public class MiscController {
 			for(InventorySlot slot : InventorySlot.values()) {
 				id = "outfit_select_slot_"+slot.toString();
 				if (MainController.document.getElementById(id) != null) {
-					((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e->{
-						
-						LilayaDressingRoomDialogue.setSelectedSlot(slot);
-						
-						if(LilayaDressingRoomDialogue.initItemFromSlot()) {	// If there's already an item in this slot, load it and go straight to enchant menu:
-							LilayaDressingRoomDialogue.initEnchantDialogue();
-//							LilayaDressingRoomDialogue.setOutputName(LilayaDressingRoomDialogue.getSelectedItem().getName());
-							Main.game.setContent(new Response("Enchantment screen", "", LilayaDressingRoomDialogue.OUTFIT_EDITOR_ITEM_ENCHANT));
+					boolean disabled = LilayaDressingRoomDialogue.isSlotDisabled(slot);
+					if(!disabled) {
+						((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e->{
 							
-						} else {
-							Main.game.setContent(new Response("Select item", "", LilayaDressingRoomDialogue.OUTFIT_EDITOR_ITEM_CHOICE));
-						}
-						
-						
-					}, false);
+							LilayaDressingRoomDialogue.setSelectedSlot(slot);
+							LilayaDressingRoomDialogue.newlyCreatedWeapon = false;
+							
+							if(LilayaDressingRoomDialogue.initItemFromSlot()) {	// If there's already an item in this slot, load it and go straight to enchant menu:
+								LilayaDressingRoomDialogue.initEnchantDialogue();
+	//							LilayaDressingRoomDialogue.setOutputName(LilayaDressingRoomDialogue.getSelectedItem().getName());
+								Main.game.setContent(new Response("Enchantment screen", "", LilayaDressingRoomDialogue.OUTFIT_EDITOR_ITEM_ENCHANT));
+								
+							} else {
+								if(slot.isWeapon()) {
+									LilayaDressingRoomDialogue.newlyCreatedWeapon = true;
+								}
+								Main.game.setContent(new Response("Select item", "", LilayaDressingRoomDialogue.OUTFIT_EDITOR_ITEM_CHOICE));
+							}
+						}, false);
+					}
 					
 					AbstractClothing clothingInSlot = LilayaDressingRoomDialogue.getActiveOutfit().getClothing().get(slot);
 					AbstractWeapon weaponInSlot = LilayaDressingRoomDialogue.getActiveOutfit().getWeapons().get(slot);
@@ -880,8 +886,17 @@ public class MiscController {
 						MainController.addTooltipListeners(id,
 								new TooltipInventoryEventListener().setWeapon(weaponInSlot, null, true));
 					} else {
-						MainController.addTooltipListeners(id,
-								new TooltipInformationEventListener().setInformation(Util.capitaliseSentence(slot.getName()), "Click on this slot to open the item selection screen.", 18));
+						if(disabled) {
+							MainController.addTooltipListeners(id,
+									new TooltipInformationEventListener().setInformation(Util.capitaliseSentence(slot.getName())+": [style.colourBad(Blocked!)]",
+											LilayaDressingRoomDialogue.getSlotDisabledText(slot),
+											18));
+						} else {
+							MainController.addTooltipListeners(id,
+									new TooltipInformationEventListener().setInformation(Util.capitaliseSentence(slot.getName()),
+											"Click on this slot to open the item selection screen.",
+											18));
+						}
 					}
 				}
 				
@@ -955,8 +970,29 @@ public class MiscController {
 							Main.game.setContent(new Response("Select clothing", "", LilayaDressingRoomDialogue.OUTFIT_EDITOR_ITEM_DYE));
 							
 						}, false);
+						// Warn player if this clothing is incompatible with any of the outfit's currently selected clothing
+						List<AbstractClothing> incompatibleClothing = new ArrayList<>();
+						for(InventorySlot slot : Main.game.getItemGen().generateClothing(clothingType).getIncompatibleSlots(LilayaDressingRoomDialogue.getDoll(), LilayaDressingRoomDialogue.getSelectedSlot())) {
+							if(LilayaDressingRoomDialogue.getDoll().getClothingInSlot(slot)!=null) {
+								incompatibleClothing.add(LilayaDressingRoomDialogue.getDoll().getClothingInSlot(slot));
+							}
+						}
+						StringBuilder incompatibleClothingSB = new StringBuilder();
+						for(AbstractClothing clothing : incompatibleClothing) {
+							incompatibleClothingSB.append("<br/>[style.boldBad(-)] "+Util.capitaliseSentence(clothing.getName(false, true)));
+						}
 						MainController.addTooltipListeners(id,
-								new TooltipInformationEventListener().setInformation(Util.capitaliseSentence(clothingType.getName()), "Select this clothing to proceed to the dye menu.", 18));
+								new TooltipInformationEventListener().setInformation(
+										Util.capitaliseSentence(clothingType.getName()),
+										"Select this clothing to proceed to the dye menu."
+										+(!incompatibleClothing.isEmpty()
+											?"<br/>[style.boldBad(!)] [style.italicsMinorBad(The "+clothingType.getName()+" "+(clothingType.isPlural()?"are":"is")
+													+" incompatible with other clothing in your outfit, and if selected, the following items will be removed:)]"
+												+incompatibleClothingSB.toString()
+											:""),
+										incompatibleClothing.isEmpty()
+											?18
+											:(74+incompatibleClothing.size()*12)));
 					}
 				}
 			}
@@ -1107,8 +1143,17 @@ public class MiscController {
 	}
 
 	public static void initDressingRoomEnchantmentListeners() {
+		String id = "apply_enchanted_item_name";
+		if (MainController.document.getElementById(id) != null) {
+			((EventTarget) MainController.document.getElementById(id)).addEventListener("click", e->{
+				Main.mainController.getWebEngine().executeScript("document.getElementById('hiddenPField').innerHTML=document.getElementById('output_name').value;");
+				LilayaDressingRoomDialogue.setOutputName(Main.mainController.getWebEngine().getDocument().getElementById("hiddenPField").getTextContent());
+				Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()));
+			}, false);
+		}
+		
 		// Tooltips:
-		String id = "MOD_PRIMARY_ENCHANTING";
+		id = "MOD_PRIMARY_ENCHANTING";
 		if (MainController.document.getElementById(id) != null) {
 			MainController.addTooltipListeners(id,
 					new TooltipInventoryEventListener().setTFModifier(LilayaDressingRoomDialogue.getPrimaryMod()),
@@ -1127,14 +1172,25 @@ public class MiscController {
 				MainController.addEventListener(MainController.document, id, "click", new EnchantmentEventListener().setPotency(potency), false);
 			}
 		}
-		for (int effectCount = 0; effectCount<LilayaDressingRoomDialogue.getEffects().size(); effectCount++) {
+		
+		int effectCount = 0;
+		id = "DELETE_EFFECT_"+effectCount;
+		while(MainController.document.getElementById(id) != null) {
+			MainController.addTooltipListeners(id,
+					new TooltipInformationEventListener().setInformation("Delete Effect", ""),
+					new EnchantmentEventListener().removeEffect(effectCount), false);
+			effectCount++;
 			id = "DELETE_EFFECT_"+effectCount;
-			if (MainController.document.getElementById(id) != null) {
-				MainController.addTooltipListeners(id,
-						new TooltipInformationEventListener().setInformation("Delete Effect", ""),
-						new EnchantmentEventListener().removeEffect(effectCount), false);
-			}
 		}
+		
+//		for (int effectCount = 0; effectCount<LilayaDressingRoomDialogue.getEffects().size(); effectCount++) {
+//			id = "DELETE_EFFECT_"+effectCount;
+//			if (MainController.document.getElementById(id) != null) {
+//				MainController.addTooltipListeners(id,
+//						new TooltipInformationEventListener().setInformation("Delete Effect", ""),
+//						new EnchantmentEventListener().removeEffect(effectCount), false);
+//			}
+//		}
 		
 		AbstractItemEffectType effect = LilayaDressingRoomDialogue.getSelectedItem().getEnchantmentEffect();
 		// int maxLimit = effect.getMaximumLimit(); //TODO for some reason this works in the normal enchantment menu but not in the outfit menu... (but the method below works)
