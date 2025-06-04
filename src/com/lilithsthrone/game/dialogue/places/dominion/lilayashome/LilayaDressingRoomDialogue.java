@@ -1604,7 +1604,7 @@ public class LilayaDressingRoomDialogue {
 					for(AbstractWeaponType weaponType : PhoneDialogue.getWeaponsDiscoveredList()) {
 						if(weaponType.getRarity()==Rarity.QUEST
 								|| weaponType.getRarity()==Rarity.LEGENDARY
-								|| weaponType.getItemTags().contains(ItemTag.NOT_FOR_SALE)) {
+								|| weaponType.getItemTags().contains(ItemTag.REMOVE_FROM_DRESSING_ROOM_OUTFITS)) {
 							continue;
 						}
 						boolean discovered = Main.getProperties().isWeaponDiscovered(weaponType) || Main.game.isDebugMode();
@@ -1624,7 +1624,7 @@ public class LilayaDressingRoomDialogue {
 					for(AbstractClothingType clothingType : PhoneDialogue.getClothingDiscoveredList()) {
 						if(clothingType.getRarity()==Rarity.QUEST
 								|| clothingType.getRarity()==Rarity.LEGENDARY
-								|| clothingType.getDefaultItemTags().contains(ItemTag.NOT_FOR_SALE)
+								|| clothingType.getDefaultItemTags().contains(ItemTag.REMOVE_FROM_DRESSING_ROOM_OUTFITS)
 								|| clothingType.getDefaultItemTags().contains(ItemTag.MILKING_EQUIPMENT)) {
 							continue;
 						}

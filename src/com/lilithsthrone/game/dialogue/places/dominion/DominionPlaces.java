@@ -150,8 +150,8 @@ public class DominionPlaces {
 		AbstractClothing collar = Main.game.getPlayer().getClothingInSlot(InventorySlot.NECK);
 		if(collar!=null && collar.getClothingType().getId().equals("innoxia_neck_filly_choker")) {
 			mommySB.append("<p>");
-				mommySB.append("[style.boldPinkLight(Filly Choker:)]<br/>");
-				mommySB.append("By wearing your filly choker, you're signalling to any passing centaur slaves from Dominion Express that you're available to sexually service them.");
+				mommySB.append("[style.boldPinkLight([style.Mule] Choker:)]<br/>");
+				mommySB.append("By wearing your [style.mule] choker, you're signalling to any passing centaur slaves from Dominion Express that you're available to sexually service them.");
 				if(Main.game.getCurrentWeather()==Weather.MAGIC_STORM) {
 					mommySB.append(" As there's an ongoing arcane storm, however, there's [style.colourMinorBad(zero chance)] that you'll encounter any of them...");
 				} else if(!Main.game.isExtendedWorkTime()) {

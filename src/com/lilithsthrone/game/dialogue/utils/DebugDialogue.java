@@ -640,7 +640,7 @@ public class DebugDialogue {
 						};
 						
 				} else if (index == 14) {
-					return new Response("+1000 filly points", "Gives you the maximum amount of filly points (can be used after qualifying as a filly in Dominion Express).", DEBUG_MENU){
+					return new Response("+1000 [style.mule] points", "Gives you the maximum amount of [style.mule] points (can be used after qualifying as a [style.mule] in Dominion Express).", DEBUG_MENU){
 						@Override
 						public void effects() {
 							Main.game.getTextEndStringBuilder().append(Main.game.getDialogueFlags().incrementNatalyaPoints(1000));

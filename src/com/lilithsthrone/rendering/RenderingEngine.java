@@ -2570,7 +2570,7 @@ public enum RenderingEngine {
 				+ "<div class='quarterContainer' style='width:25%; float:right;'>"
 					+ "<div class='button" + (Main.isQuickSaveAvailable()?"":" disabled")+ "' id='quickSave'>"
 						+ (Main.isQuickSaveAvailable()
-								?SVGImages.SVG_IMAGE_PROVIDER.getDiskSave()
+								?SVGImages.SVG_IMAGE_PROVIDER.getDiskSaveQuick()
 								:SVGImages.SVG_IMAGE_PROVIDER.getDiskSaveDisabled())
 						+ (!Main.isQuickSaveAvailable() ? "<div class='disabledLayer'></div>" : "")
 					+ "</div>"

@@ -591,6 +591,11 @@ public abstract class AbstractClothing extends AbstractCoreItem implements XMLSa
 				clothing.setName(parentElement.getAttribute("name"));
 			}
 		}
+
+		// Reset name if loading from prior to 0.4.11 for when the default 'filly' choker was changed to 'mule':
+		if(Main.isVersionOlderThan(Game.loadingVersion, "0.4.11") && clothing.getClothingType()==ClothingType.getClothingTypeFromId("innoxia_neck_filly_choker")) {
+			clothing.setName(clothing.getClothingType().getName());
+		}
 		
 		if(!parentElement.getAttribute("slotEquippedTo").isEmpty()) {
 			InventorySlot slot = InventorySlot.valueOf(parentElement.getAttribute("slotEquippedTo"));

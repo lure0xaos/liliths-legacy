@@ -54,6 +54,7 @@ import com.lilithsthrone.game.character.gender.GenderPronoun;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.npc.dominion.Kay;
 import com.lilithsthrone.game.character.npc.misc.Elemental;
+import com.lilithsthrone.game.character.npc.misc.PrologueFemale;
 import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
 import com.lilithsthrone.game.combat.moves.AbstractCombatMove;
@@ -513,8 +514,10 @@ public class MainController implements Initializable {
 						checkLastKeys();
 						
 						if(event.getCode()==KeyCode.END && Main.DEBUG){
+							Main.game.getNpc(PrologueFemale.class).guaranteePregnancyOnNextRoll();
+							Main.game.getPlayer().guaranteePregnancyOnNextRoll();
 							
-							LilayaDressingRoomDialogue.calculateOutfitAvailability();
+//							LilayaDressingRoomDialogue.calculateOutfitAvailability();
 							
 //							System.out.println(ClothingType.getAllClothing().size());
 							

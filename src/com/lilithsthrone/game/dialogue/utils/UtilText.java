@@ -2537,6 +2537,46 @@ public class UtilText {
 				}
 			}
 		});
+
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"filly",
+						"mule"),
+				true,
+				true,
+				"",
+				"Returns 'mule', as the name of Natalya's slaves was changed from filly to mule in 0.4.11."){
+			@Override
+			public String parse(List<GameCharacter> specialNPCs, String command, String arguments, String target, GameCharacter character) {
+				try {
+					if(Main.game.getPlayer().getClothingInSlot(InventorySlot.NECK).getStickers().get("txt").equals("filly")) {
+						return "filly";
+					}
+				} catch(Exception ex) {
+				}
+				return "mule";
+			}
+		});
+
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues(
+						"fillies",
+						"mules"),
+				true,
+				true,
+				"",
+				"Returns 'mules', as the name of Natalya's slaves was changed from filly to mule in 0.4.11."){
+			@Override
+			public String parse(List<GameCharacter> specialNPCs, String command, String arguments, String target, GameCharacter character) {
+				try {
+					if(Main.game.getPlayer().getClothingInSlot(InventorySlot.NECK).getStickers().get("txt").equals("filly")) {
+						return "fillies";
+					}
+				} catch(Exception ex) {
+				}
+				return "mules";
+			}
+		});
 		
 		commandsList.add(new ParserCommand(
 				Util.newArrayListOfValues(

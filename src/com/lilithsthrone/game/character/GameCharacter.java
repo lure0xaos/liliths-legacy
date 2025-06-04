@@ -18706,10 +18706,15 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public String getStopPenetrationDescription(GameCharacter characterPerformer, SexAreaInterface performerArea, GameCharacter characterTarget, SexAreaInterface targetArea) {
+		boolean nipplePenetrationDescription = Main.game.isNipplePenEnabled()
+				&& (targetArea==SexAreaOrifice.NIPPLE
+					?characterTarget.isBreastFuckableNipplePenetration()
+					:characterTarget.isBreastCrotchFuckableNipplePenetration());
+		
 		if(characterPerformer.equals(characterTarget)) {
 			if(performerArea.isPenetration()) {
 				if(targetArea.isPenetration()
-                        || (!Main.game.isNipplePenEnabled() && (targetArea==SexAreaOrifice.NIPPLE || targetArea==SexAreaOrifice.NIPPLE_CROTCH))) {
+                        || (!nipplePenetrationDescription && (targetArea==SexAreaOrifice.NIPPLE || targetArea==SexAreaOrifice.NIPPLE_CROTCH))) {
 					return UtilText.parse(characterPerformer,
 							"[npc.Name] [npc.verb(take)] [npc.her] "+performerArea.getName(characterPerformer)+" away from [npc.her] "+targetArea.getName(characterPerformer)+".");
 				} else {
@@ -18729,7 +18734,7 @@ public abstract class GameCharacter implements XMLSaving {
 		} else {
 			if(performerArea.isPenetration()) {
 				if(targetArea.isPenetration()
-				    || (!Main.game.isNipplePenEnabled() && (targetArea==SexAreaOrifice.NIPPLE || targetArea==SexAreaOrifice.NIPPLE_CROTCH))){
+				    || (!nipplePenetrationDescription && (targetArea==SexAreaOrifice.NIPPLE || targetArea==SexAreaOrifice.NIPPLE_CROTCH))){
 					return UtilText.parse(characterPerformer, characterTarget,
 							"[npc.Name] [npc.verb(take)] [npc.her] "+performerArea.getName(characterPerformer)+" away from [npc2.namePos] "+targetArea.getName(characterTarget)+".");
 				} else {
@@ -20831,6 +20836,14 @@ public abstract class GameCharacter implements XMLSaving {
 	public void guaranteePregnancyOnNextRoll() {
 		guaranteePregnancyOnNextRoll = true;
 	}
+
+	/**
+	 * @return true if this character should always fail to get pregnant, no matter their fertility. The player will receive normal pregnancy chance descriptions, but this character will always fail to get pregnant.
+	 * <br/>This will always return false by default.
+	 */
+	public boolean isSilentlyInfertile() {
+		return false;
+	}
 	
 	/**
 	 * @return false if this character is a doll or an elemental.
@@ -20996,7 +21009,11 @@ public abstract class GameCharacter implements XMLSaving {
 			if (!this.hasStatusEffect(StatusEffect.PREGNANT_0) && !this.isDoll()) {
 				this.addStatusEffect(StatusEffect.PREGNANT_0, (60 * 60) * (4 + Util.random.nextInt(5)));
 			}
-			if (pregnancyChance>0 && Math.random() <= pregnancyChance) {
+			double rollResult = Math.random();
+			if(isSilentlyInfertile()) {
+				rollResult = 100; // If silenty infertile, always fail to get pregnant
+			}
+			if (pregnancyChance>0 && rollResult<=pregnancyChance) {
 				AbstractRace litterSizeBasedOn = null;
 				
 				if (this.getBodyMaterial() == BodyMaterial.SLIME) {
@@ -21013,7 +21030,6 @@ public abstract class GameCharacter implements XMLSaving {
 				int minimumNumberOfChildren = litterSizeBasedOn.getNumberOfOffspringLow();
 				int maximumNumberOfChildren = litterSizeBasedOn.getNumberOfOffspringHigh();
 				
-
 				if(this.hasTraitActivated(Perk.FETISH_BROODMOTHER)) {
 					maximumNumberOfChildren *= 2;
 				}

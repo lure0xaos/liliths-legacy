@@ -201,6 +201,16 @@ public class PrologueFemale extends NPC {
 	public boolean isUnique() {
 		return true;
 	}
+
+	@Override
+	public boolean isAbleToBeImpregnated() {
+		return true;
+	}
+
+//	@Override
+//	public boolean isSilentlyInfertile() {
+//		return true;
+//	}
 	
 	@Override
 	public void endSex() {

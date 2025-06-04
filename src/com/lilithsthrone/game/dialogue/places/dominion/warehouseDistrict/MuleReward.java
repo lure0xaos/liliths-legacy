@@ -7,13 +7,13 @@ import com.lilithsthrone.utils.Util.Value;
  * @version 0.3.7.7
  * @author Innoxia
  */
-public abstract class FillyReward {
+public abstract class MuleReward {
 
 	private String name;
 	private String description;
 	private int cost;
 	
-	public FillyReward(String name, String description, int cost) {
+	public MuleReward(String name, String description, int cost) {
 		this.name = name;
 		this.description = description;
 		this.cost = cost;

@@ -15,7 +15,9 @@ public enum ItemTag {
 
 	CHEAT_ITEM, // Cheat items are hidden in the debug spawner, and are also not added to the Encyclopedia.
 	SILLY_MODE, // Silly mode items only appear in shopkeepers inventories when silly mode is on.
+	FILLY_NAMING(Util.newArrayListOfValues("Replaces Natalya's 'mule' references to 'filly'"), false), // Special tag used for the mule/filly choker
 	
+	REMOVE_FROM_DRESSING_ROOM_OUTFITS,
 	REMOVE_FROM_DEBUG_SPAWNER,
 	NOT_FOR_SALE,
 	
