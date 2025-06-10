@@ -150,6 +150,12 @@ public enum ItemTag {
 					"[style.colourBad(Unenchantable)]"),
 			false),
 
+	// If clothing has these tags, then it will act as though the associated bodyPart is added to the blockedBodyParts list
+	// This is mainly useful for stickers, as normally you should be using the blockedBodyParts list to define blocked areas
+	// Look at the innoxia_latex_hood clothing item to see these in use
+	APPLIES_BLOCKED_BODY_PART_EYES(Util.newArrayListOfValues("[style.colourBad(Blocks eyes)]"), false),
+	APPLIES_BLOCKED_BODY_PART_MOUTH(Util.newArrayListOfValues("[style.colourBad(Blocks mouth)]"), false),
+	
 	SPREADS_FEET( // Prevents double foot actions, like wrap-around footjobs
 			Util.newArrayListOfValues(
 					"[style.colourBad(Restricts sex actions)]"),

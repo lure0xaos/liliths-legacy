@@ -1997,14 +1997,14 @@ public abstract class AbstractClothingType extends AbstractCoreType {
 	 * <b>You should probably be using AbstractClothing's version of this!</b>
 	 */
 	public boolean isConcealsSlot(GameCharacter character, InventorySlot slotToCheck) {
-		return Main.game.getItemGen().generateClothing(this).isConcealsSlot(character, this.getEquipSlots().get(0), slotToCheck);
+		return Main.game.getItemGen().generateClothing(this, false).isConcealsSlot(character, this.getEquipSlots().get(0), slotToCheck);
 	}
 
 	/**
 	 * <b>You should probably be using AbstractClothing's version of this!</b>
 	 */
 	public boolean isConcealsCoverableArea(GameCharacter character, CoverableArea area) {
-		return Main.game.getItemGen().generateClothing(this).isConcealsCoverableArea(character, this.getEquipSlots().get(0), area);
+		return Main.game.getItemGen().generateClothing(this, false).isConcealsCoverableArea(character, this.getEquipSlots().get(0), area);
 	}
 	
 	public String getPathName() {

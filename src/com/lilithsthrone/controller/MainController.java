@@ -54,7 +54,6 @@ import com.lilithsthrone.game.character.gender.GenderPronoun;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.npc.dominion.Kay;
 import com.lilithsthrone.game.character.npc.misc.Elemental;
-import com.lilithsthrone.game.character.npc.misc.PrologueFemale;
 import com.lilithsthrone.game.character.persona.NameTriplet;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
 import com.lilithsthrone.game.combat.moves.AbstractCombatMove;
@@ -514,12 +513,40 @@ public class MainController implements Initializable {
 						checkLastKeys();
 						
 						if(event.getCode()==KeyCode.END && Main.DEBUG){
-							Main.game.getNpc(PrologueFemale.class).guaranteePregnancyOnNextRoll();
-							Main.game.getPlayer().guaranteePregnancyOnNextRoll();
 							
-//							LilayaDressingRoomDialogue.calculateOutfitAvailability();
+//							RandomEnchantment.initAllRandomEnchantments();
+//							for(RandomEnchantment enchantment : RandomEnchantment.getAllNegativeClothingEnchantments()) {
+//								AbstractClothing ring = Main.game.getItemGen().generateClothing("innoxia_japanese_kanzashi", false);
+//								enchantment.applyEffects(ring);
+//								ring.setEnchantmentKnown(null, true);
+//								Main.game.getPlayerCell().getInventory().addClothing(ring);
+//							}
 							
-//							System.out.println(ClothingType.getAllClothing().size());
+//							Main.game.getPlayerCell().getInventory().addClothing(Main.game.getItemGen().generateClothing("innoxia_bdsm_ornate_chastity_cage", true));
+//							Main.game.getPlayerCell().getInventory().addClothing(Main.game.getItemGen().generateClothing("innoxia_neck_cuff_choker_necklace_triple", true));
+							
+							
+//							Main.game.getNpc(Kate.class).addLipstickMarking(Main.game.getPlayer(), InventorySlot.STOMACH, PresetColour.COVERING_BLACK);
+//							Main.game.getNpc(Kate.class).addLipstickMarking(Main.game.getPlayer(), InventorySlot.TORSO_OVER, PresetColour.COVERING_PINK);
+//							Main.game.getNpc(Kate.class).addLipstickMarking(Main.game.getPlayer(), InventorySlot.MOUTH, PresetColour.COVERING_RED);
+//							Main.game.getNpc(Kate.class).addLipstickMarking(Main.game.getPlayer(), InventorySlot.GROIN, PresetColour.COVERING_BLUE);
+//							Main.game.getNpc(Kate.class).addLipstickMarking(Main.game.getPlayer(), InventorySlot.GROIN, PresetColour.COVERING_GOLD);
+//							Main.game.getNpc(Kate.class).addLipstickMarking(Main.game.getPlayer(), InventorySlot.GROIN, PresetColour.COVERING_WHITE);
+							
+//							int[] ints = new int[] {105, 159, 1090, 1792, 10_050, 10_995};
+//							for(int i : ints) {
+//								System.out.println(i+": "+Util.intToString(i));
+//							}
+							
+//							for(int i=0; i<100; i++) {
+//								GenericSexualPartner npc = new GenericSexualPartner();
+//								try {
+//									Main.game.addNPC(npc, false);
+//									npc.setRandomLocation(WorldType.getWorldTypeFromId("innoxia_fields_elis_tavern_taur"), PlaceType.getPlaceTypeFromId("innoxia_fields_elis_tavern_taur_tables"));
+//								} catch (Exception e) {
+//									e.printStackTrace();
+//								}
+//							}
 							
 //							int rndInt = Util.random.nextInt();
 //							System.out.println(rndInt+ " = " +Util.intToIndividualNumbersString(rndInt));
@@ -631,7 +658,7 @@ public class MainController implements Initializable {
 //								if(npc.isUnique() && !npc.hasArtwork()
 ////										&& (npc.getWorldLocation().getWorldRegion()==WorldRegion.DOMINION)
 ////										&& npc.isFeminine()
-////										&& npc.getFaceType().getBodyCoveringType(npc).getCategory()==BodyCoveringCategory.MAIN_SKIN
+//										&& npc.getFaceType().getBodyCoveringType(npc).getCategory()==BodyCoveringCategory.MAIN_SKIN
 ////										&& npc.isAbleToBeImpregnated()
 ////										&& npc.isFeminine()
 ////										&& (npc.getClass().getName().contains("dominion.") || npc.getClass().getName().contains("submission."))
@@ -3249,7 +3276,9 @@ public class MainController implements Initializable {
 		webviewTooltip.setMaxWidth(width);
 		webviewTooltip.setMaxHeight(height);
 		tooltip.setMaxWidth(width);
+		tooltip.setPrefWidth(width);
 		tooltip.setMaxHeight(height);
+		tooltip.setPrefHeight(height);
 		tooltipWidth = width;
 		tooltipHeight = height;
 	}

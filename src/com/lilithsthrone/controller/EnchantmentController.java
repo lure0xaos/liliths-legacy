@@ -163,7 +163,7 @@ public class EnchantmentController {
 		}
 		
 		// Choosing a primary modifier:
-		for (TFModifier tfMod : EnchantmentDialogue.getIngredient().getEnchantmentEffect().getPrimaryModifiers()) {
+		for (TFModifier tfMod : EnchantmentDialogue.getIngredient().getEnchantmentEffect().getPrimaryModifiers(EnchantmentDialogue.getIngredient())) {
 			id = "MOD_PRIMARY_"+tfMod.hashCode();
 			if (MainController.document.getElementById(id) != null) {
 				MainController.addTooltipListeners(id,

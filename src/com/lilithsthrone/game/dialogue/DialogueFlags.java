@@ -83,6 +83,11 @@ public class DialogueFlags implements XMLSaving {
 //	// Storage tiles checked:
 //	public Set<Vector2i> supplierStorageRoomsChecked = new HashSet<>();
 	
+	// Temporary variables, which are forgotten whenever a game is newly started or loaded:
+	private Map<String, Boolean> tempBooleans;
+	private Map<String, String> tempStrings;
+	private Map<String, Integer> tempIntegers;
+	
 	
 	public DialogueFlags() {
 		values = new HashSet<>();
@@ -426,6 +431,49 @@ public class DialogueFlags implements XMLSaving {
 		savedLongs.putIfAbsent(id, -1l);
 		return savedLongs.get(id);
 	}
+	
+	// Temp variables:
+
+	public void resetTemporaryVariables() {
+		tempBooleans = new HashMap<>();
+		tempStrings = new HashMap<>();
+		tempIntegers = new HashMap<>();
+	}
+	
+	public void setBool(String id, boolean value) {
+		tempBooleans.put(id, value);
+	}
+	
+	public boolean getBool(String id) {
+		if(!tempBooleans.containsKey(id)) {
+			return false;
+		}
+		return tempBooleans.get(id);
+	}
+
+	public void setString(String id, String value) {
+		tempStrings.put(id, value);
+	}
+	
+	public String getString(String id) {
+		if(!tempStrings.containsKey(id)) {
+			return "";
+		}
+		return tempStrings.get(id);
+	}
+
+	public void setInt(String id, int value) {
+		tempIntegers.put(id, value);
+	}
+	
+	public int getInt(String id) {
+		if(!tempIntegers.containsKey(id)) {
+			return Integer.MIN_VALUE;
+		}
+		return tempIntegers.get(id);
+	}
+	
+	// Misc. variables:
 	
 	public int getMuggerDemand1() {
 		return muggerDemand1;

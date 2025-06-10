@@ -732,7 +732,6 @@ public class UtilText {
 				+ "<"+tag+" style='color:"+disabledColour+";'>"+Units.number(amount)+"</"+tag+">";
 	}
 	
-
 	public static String formatAsEssences(String essences, String tag) {
 		try {
 			int essenceInt = Integer.parseInt(UtilText.parse(essences));
@@ -754,6 +753,23 @@ public class UtilText {
 				+ "<"+tag+" style='color:"+arcaneColour+";'>"+Units.number(amount)+"</"+tag+">";
 	}
 
+	public static String getEnchantmentCapacitySymbolUncoloured() {
+		return "<b style='-webkit-text-stroke: 1px;'>&#9959;</b>";
+	}
+	
+	public static String getEnchantmentCapacitySymbol() {
+		return "<b style='-webkit-text-stroke: 1px; color:#EA5D76;'>&#9959;</b>";// text-shadow: #FF385Dbb 0 2px 5px;
+	}
+	
+	public static String formatAsEnchantmentCapacityUncoloured(int amount, String tag) {
+		return getEnchantmentCapacitySymbolUncoloured() + "<"+tag+">"+Units.number(amount)+"</"+tag+">";
+	}
+	
+	public static String formatAsEnchantmentCapacity(int amount, String tag) {
+		String colour = PresetColour.GENERIC_BAD.toWebHexString();
+		return getEnchantmentCapacitySymbol() + "<"+tag+" style='color:"+colour+";'>"+Units.number(amount)+"</"+tag+">";
+	}
+	
 	// Money formatting:
 	
 	public static String formatAsItemPrice(int money) {
@@ -1517,10 +1533,29 @@ public class UtilText {
 				try {
 					secondArgument = arguments.split(", ")[1];
 				} catch(Exception ex) {
-					System.err.println("Formatting 'moneyFormat' missing second argument, so 'span' used instead.");
+					System.err.println("Formatting 'essenceFormat' missing second argument, so 'span' used instead.");
 					ex.printStackTrace();
 				}
 				return UtilText.formatAsEssences(arguments.split(", ")[0], secondArgument);
+			}
+		});
+		
+		commandsList.add(new ParserCommand(
+				Util.newArrayListOfValues("enchantmentCapacityFormat"),
+				true,
+				false,
+				"(amount, tag)",
+				"Formats the supplied number as enchantment capacity, using the tag as the html tag."){
+			@Override
+			public String parse(List<GameCharacter> specialNPCs, String command, String arguments, String target, GameCharacter character) {
+				String secondArgument = "span";
+				try {
+					secondArgument = arguments.split(", ")[1];
+				} catch(Exception ex) {
+					System.err.println("Formatting 'enchantmentCapacityFormat' missing second argument, so 'span' used instead.");
+					ex.printStackTrace();
+				}
+				return UtilText.formatAsEnchantmentCapacity(Integer.valueOf(arguments.split(", ")[0]), secondArgument);
 			}
 		});
 		
@@ -2545,7 +2580,7 @@ public class UtilText {
 				true,
 				true,
 				"",
-				"Returns 'mule', as the name of Natalya's slaves was changed from filly to mule in 0.4.11."){
+				"Returns 'mule', as the name of Natalya's slaves was changed from filly to mule in 0.4.10.10."){
 			@Override
 			public String parse(List<GameCharacter> specialNPCs, String command, String arguments, String target, GameCharacter character) {
 				try {
@@ -2565,7 +2600,7 @@ public class UtilText {
 				true,
 				true,
 				"",
-				"Returns 'mules', as the name of Natalya's slaves was changed from filly to mule in 0.4.11."){
+				"Returns 'mules', as the name of Natalya's slaves was changed from filly to mule in 0.4.10.10."){
 			@Override
 			public String parse(List<GameCharacter> specialNPCs, String command, String arguments, String target, GameCharacter character) {
 				try {

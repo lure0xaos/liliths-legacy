@@ -56,13 +56,13 @@ import com.lilithsthrone.utils.comparators.ClothingZLayerComparator;
 
 /**
  * @since 0.1.0
- * @version 0.3.9.5
+ * @version 0.4.10.10
  * @author Innoxia
  */
 public class InventoryDialogue {
 	
-	private static final int IDENTIFICATION_PRICE = 400;
-	private static final int IDENTIFICATION_ESSENCE_PRICE = 3;
+	private static final int IDENTIFICATION_PRICE = 1000;
+	private static final int IDENTIFICATION_ESSENCE_PRICE = 15;
 	
 	private static AbstractItem item;
 	private static AbstractClothing clothing;
@@ -4831,6 +4831,7 @@ public class InventoryDialogue {
 										resetClothingDyeColours();
 									}
 								};
+								
 							} else if(index >= 6 && index <= 9 && index-6<clothing.getClothingType().getEquipSlots().size()) {
 								InventorySlot slot = clothing.getClothingType().getEquipSlots().get(index-6);
 								if(clothing.isCanBeEquipped(Main.game.getPlayer(), slot)) {
@@ -4868,6 +4869,9 @@ public class InventoryDialogue {
 									return new Response("Repair (<i>1 Essence</i>)", "You can't repair condoms on the ground!", null);
 								}
 								return new Response("Sabotage", "You can't sabotage condoms on the ground!", null);
+							}
+							if(!clothing.isEnchantmentKnown()) {
+								return new Response("Identify", "You can't identify clothing during sex!", null);
 							}
 							return new Response("Enchant", "You can't enchant clothing on the ground!", null);
 
@@ -4978,8 +4982,42 @@ public class InventoryDialogue {
 								}
 								return new Response("Sabotage", "You can't sabotage condoms on the ground!", null);
 							}
+							if(!clothing.isEnchantmentKnown()) {
+								if(Main.game.getPlayer().getEssenceCount() >= IDENTIFICATION_ESSENCE_PRICE) {
+									return new Response("Identify ([style.italicsArcane("+IDENTIFICATION_ESSENCE_PRICE+" Essences)])",
+											"To identify the "+clothing.getName()+", you can either spend "+IDENTIFICATION_ESSENCE_PRICE+" arcane essences to do it yourself,"
+													+ " or go to a vendor and pay "+IDENTIFICATION_PRICE+" flames to have them do it for you.",
+											CLOTHING_INVENTORY) {
+										@Override
+										public void effects() {
+											Main.game.getPlayer().incrementEssenceCount(-IDENTIFICATION_ESSENCE_PRICE, false);
+											
+											Main.game.getPlayerCell().getInventory().removeClothing(clothing);
+											String enchantmentRemovedString = clothing.setEnchantmentKnown(owner, true);
+											Main.game.getPlayerCell().getInventory().addClothing(clothing);
+											
+//											clothing = AbstractClothing.enchantmentRemovedClothing;
+											
+											Main.game.getTextEndStringBuilder().append(
+													"<p>"
+														+ "You channel the power of "+Util.intToString(IDENTIFICATION_ESSENCE_PRICE)+" of your arcane essences into the "+clothing.getName()
+															+", and as it emits a faint purple glow, you find yourself able to detect what sort of enchantment it has!"
+													+ "</p>"
+													+ enchantmentRemovedString
+													+ "<p style='text-align:center;'>"
+														+ "Identifying the "+clothing.getName()+" has cost you [style.boldBad("+Util.intToString(IDENTIFICATION_ESSENCE_PRICE)+")] [style.boldArcane(Arcane Essences)]!"
+													+ "</p>");
+											RenderingEngine.setPage(Main.game.getPlayer(), clothing);
+										}
+									};
+								} else {
+									return new Response("Identify (<i>"+IDENTIFICATION_ESSENCE_PRICE+" Essences</i>)",
+											"To identify the "+clothing.getName()+", you can either spend "+IDENTIFICATION_ESSENCE_PRICE+" arcane essences to do it yourself ([style.italicsBad(which you don't have)]),"
+													+ " or go to a vendor and pay "+IDENTIFICATION_PRICE+" flames to have them do it for you.", null);
+								}
+							}
 							return new Response("Enchant", "You can't enchant clothing on the ground!", null);
-	
+							
 						} else if(index >= 6 && index <= 9 && index-6<clothing.getClothingType().getEquipSlots().size()) {
 							InventorySlot slot = clothing.getClothingType().getEquipSlots().get(index-6);
 							if(clothing.isCanBeEquipped(Main.game.getPlayer(), slot)) {
@@ -8784,7 +8822,10 @@ public class InventoryDialogue {
 			
 		} else {
 			return new Response("Unseal (<i>"+removalCost+" Essences</i>)",
-					"You need at least "+removalCost+" arcane essences in order to unseal this piece of clothing!",
+					"You need at least "+removalCost+" arcane essences in order to unseal this piece of clothing!"
+							+ (Main.game.getPlayer().hasFetish(Fetish.FETISH_BONDAGE_VICTIM)
+									?"<br/>[style.italicsMinorBad(This cost is)] [style.italicsBad(5 times)] [style.italicsMinorBad(more than normal due to your '"+Fetish.FETISH_BONDAGE_VICTIM.getName(Main.game.getPlayer())+"' fetish!)]"
+									:""),
 					null);
 		}
 	}

@@ -20,9 +20,9 @@ import com.lilithsthrone.utils.Util;
  * @version 0.3.5.5
  * @author Innoxia
  */
-public class SexManagerRalphDiscount extends SexManagerDefault {
+public class SMRalphDiscount extends SexManagerDefault {
 	
-	public SexManagerRalphDiscount(Map<GameCharacter, SexSlot> dominants, Map<GameCharacter, SexSlot> submissives) {
+	public SMRalphDiscount(Map<GameCharacter, SexSlot> dominants, Map<GameCharacter, SexSlot> submissives) {
 		super(false,
 				SexPositionUnique.UNDER_DESK_RALPH,
 				dominants,

@@ -3148,7 +3148,7 @@ public class CharacterUtils {
 				canEquip = false;
 				
 			} else if(character.hasFetish(Fetish.FETISH_EXHIBITIONIST)) {
-				AbstractClothing clothingExample = Main.game.getItemGen().generateClothing(ct);
+				AbstractClothing clothingExample = Main.game.getItemGen().generateClothing(ct, false);
 				for(BlockedParts bp : clothingExample.getBlockedPartsMap(character, slot)) {
 					boolean leavesAnusExposed = character.isCoverableAreaExposed(CoverableArea.ANUS) && !bp.blockedBodyParts.contains(CoverableArea.ANUS);
 					boolean leavesNipplesExposed = character.isCoverableAreaExposed(CoverableArea.NIPPLES) && !bp.blockedBodyParts.contains(CoverableArea.NIPPLES);
@@ -3162,7 +3162,7 @@ public class CharacterUtils {
 				
 				
 			} else {
-				AbstractClothing clothingExample = Main.game.getItemGen().generateClothing(ct);
+				AbstractClothing clothingExample = Main.game.getItemGen().generateClothing(ct, false);
 				for(InventorySlot is : clothingExample.getIncompatibleSlots(character, slot)) {
 					if(character.getClothingInSlot(is) != null) {
 						canEquip = false;

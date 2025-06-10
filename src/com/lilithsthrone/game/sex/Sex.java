@@ -1797,7 +1797,12 @@ public class Sex {
 		
 		@Override
 		public String getLabel() {
-			return Main.sex.initialSexManager.getSexTitle();
+			// If the manager is using the default label, then update it to reflect the current position instead of the starting one:
+			String label = Main.sex.initialSexManager.getSexTitle();
+			if(label.equalsIgnoreCase(Main.sex.initialSexManager.getDefaultSexTitle())) {
+				label = Main.sex.sexManager.getSexTitle();
+			}
+			return label;
 		}
 
 		@Override

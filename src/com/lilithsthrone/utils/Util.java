@@ -681,7 +681,9 @@ public class Util {
 		}
 		
 		if(integer>=100) {
-			if(integer>=1000 && integer%1000 != 0) {
+			if(integer>=1000
+					&& integer%1000 != 0
+					&& ((integer/100)%10!=0)) {
 				intToString+=", ";
 			}
 			integer = integer % 1000;

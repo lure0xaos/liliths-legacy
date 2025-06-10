@@ -8,21 +8,68 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	Engine/Modding:
 		Added a 'REMOVE_FROM_DRESSING_ROOM_OUTFITS' item tag to prevent weapons or clothing from being available in the dressing room outfit creator.
+		Added temporary boolean, String, and int variables to the DialogueFlags class, which can be accessed via the 'flags' parsing target, and used via getter/setter methods getBool(String id), setBool(String id, boolean value), getString(String id), setString(String id, String value), getInt(String id), setInt(String id, int value). The temporary variables which you set via these methods are forgotten whenever a game is loaded; they're intended for use across multiple conditional checks within a game's instance, not for saving data to the game's file.
 	
-	Items:
+	UI:
+		Reformatted tooltip content for clothing, weapons, items, and tattoos, to fix several issues with readability, content being cut off, and lots of wasted space.
+		When your inventory is disabled (such as in most scenes where you also can't move freely), the 'Items Present' UI panel on the right is now visibly disabled.
+		Renamed 'enchantment capacity' to 'enchantment instability' to make it clearer that it's a negative aspect when associated with enchanted items.
+		Enchantment instability is now shown in the main dialogue panel when displaying details about a selected weapon or clothing.
+		Fixed tooltip formatting of modifiers in the enchanting menu, so you can now correctly see the modifier's essence cost when hovering over them.
+		Fixed bug where very tall tooltips would cut off content at the bottom.
+	
+	Gameplay:
+		After installing Lyssieth's wardrobe in your dressing room, a short voyeur scene is unlocked on Rose's room tile (available whenever Rose and Lilaya are present there, which is between 22:00-06:00, and can be repeated after 7 days have passed since last viewing it).
+	
+	Random enchantments:
+		Random enchantment added to items of clothing found in alleyways have been reworked.
+		Negative enchantments will now be either one of 28 new themed enchantments, most of which involve transformations, or they'll be a more impactful generic enchantment (75% chance for them to be one of the uniquely-themed enchantments).
+		Positive enchantments can similarily be drawn from one fo 7 new themed enchantments, or be a more generic bonus.
+		Instead of negative & positive enchantments both having a 20% chance to spawn, negative enchantments are now 30% and positive are 10% (with a 60% chance for clothing to not be enchanted).
+		These custom-made random enchantments are defined in 'res/randomEnchantments', and can be added as mods by using the 'randomEnchantments' directory, with a fully-commented example found in 'mods/innoxia/randomEnchantments/clothing/cow.xml'.
+		
+	
+	'Filly' reference change:
+		All references to 'filly' in Natalya's content have been replaced with 'mule'.
 		The 'filly choker' now has two sticker options for the text on the choker; the default is now 'mule', and the alternative is 'filly'.
+		If you change the mule choker's sticker from 'mule' to 'filly', all references to 'mule' within the game will revert to 'filly', so if you don't like this 'mule' change, just swap the sticker on your choker to revert to the previous filly references.
+		<i>Innoxia's note: I used 'filly' as I wanted a horse-related term which would be demeaning, but I've seen feedback in several places from players saying they were uncomfortable with this term, so I thought 'mule' was an acceptable replacement.</i>
+	
+	Clothing & tattoos:
+		Added 'beanie' clothing (androgynous femininity, head slot, sold by Nyan, can spawn on generic muggers in Dominion, Submission, and Elis).
+		Added 'gender glyph' earrings (ear piercing slot) and barbells (navel and vaginal piercing slots), of the 'male', 'female', and 'herm' varieties, each with a 'circle' or 'heart' sticker variation (masculine, feminine, and andgrogynous femininity, respectively. Sold by Kate.).
+		Added tattoo types: 'male', 'female', and 'hermaphroditic' glyphs.
+		Added tattoo type: 'penetration ruler' (can only be equipped into the 'lower abdomen' slot).
+		Added two stickers to the new 'latex hood' clothing item, which allow you to remove the eye and mouth holes.
+		When enchanting clothing, the 'Vibration' and 'Orgasm prevention' enchantment modifiers are now accessed via selecting a new 'sexual effects' enchantment modifier as the primary modifier, instead of 'Special effects'. (This change is to make it more obvious when the vibration & orgasm denial effects are available, as they're not available/visible on all clothing items.)
+		If clothing has multiple seal enchantments on it, the cost to unseal it will now be the sum of all of them.
+		Randomly-spawned clothing of the rarities 'uncommon', 'rare', and 'epic' now also have a chance to spawn with a random enchantment.
 	
 	Sex:
 		Natalya and Thunder (the centaur involved in her training scenes) no longer allow you to use items or equip condoms on them in their sex scenes.
+		If an NPC's condom will break when orgasming, then they can now use all available orgasm actions (before this change, NPCs would not make use of the fact that their condom breaks, and were likely to use a generic orgasm action instead of one drawn from their preferences).
 	
 	Other:
 		You can now only have one dressing room upgrade at a time, and after paying to have Lyssieth's wardrobe re-enchanted, it will be automatically installed if you remove your dressing room and then add it again.
 		Added an 'On the pill' status effect to Alexandria (the female NPC in the prologue), as well as a brief line for her to mention it, thereby giving a reason for why you're always told that there's no chance of getting her pregnant if you creampie her.
-		
+		You can now find 'epic' rarity clothing in alleyways, at a lower chance than other rarities.
+		Increased the cost of identifying clothing from 400 flames (at a shop) or 3 essences (to do it yourself), to 1000 flames or 15 essences.
+		You can now identify unidentified clothing when it's on the ground.
+	
 	Bugs:
+		Typo and parsing fixes.
 		Fixed incorrect description when ending an ongoing tongue-to-nipple sex action, where the tongue was described as being taken 'out' of the target's nipple even if the nipple was not penetrable.
 		Added in a line to give a brief, generic description when changing position in sex via the positioning menu.
 		Fixed a bug where Kate was supposed to prevent you from using condoms on yourself during her sex scenes, but the conditional check was always bypassed.
+		Fixed bug where Thunder (the centaur involved in Natalya's training scenes) could sometimes spawn with a lisp.
+		The title at the top of the UI in sex scenes will now update to display the name of the currently selected sex position, instead of always displaying the initial position's name (unless the sex scene has a unique title, in which case it will continue to display that).
+		In Ralph's 'big discount' sex scene, the positions will correctly update to show that you're bent over his desk, instead of always saying you're kneeling under it.
+		Fixed postfixes added to default clothing names based on fetish enchantments to read 'of the X' instead of 'of X' (e.g. An enchanted ring now reads 'Silver ring of the submissive' instead of 'Silver ring of submissive').
+		Fixed bug where if an arcane storm started on the same turn that you met a random mugger, the option to pay them off would appear available but not actually work.
+		Fixed the clothing names in the 'Items Present' panel being displayed as their generic name even if they had a custom name.
+		Fixed bug where attempting to enchant an item of clothing with crotch-boob creampie retention would throw background errors and make the enchanting UI break.
+		Fixed issue in the new floor inventory UI, where an extra page would be available to be viewed when the previous page was full, even if this new page was empty.
+		
 		
 	
 	[x] dressing room needs to be limited to 1
@@ -38,8 +85,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[x] handle Natalya condom equip
 		[x] and pills?
 	[x] Kate self-condom equip check
-		
-	[] filly name is not liked, so change it
+	[x] filly name is not liked, so change it
 		[x] mule or pony?
 		[x] go with mule and put it as a variable so players can switch back if they want to
 		[x] replacements:
@@ -50,125 +96,173 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[x] Filly
 			[x] fillies
 			[x] Fillies
-			[] check Quest log parsing
+			[x] check Quest log parsing
 			[x] clothing file
 				[x] change to stickers
 				[x] handle loading
 		[x] remove mule references before romance quest started
-				
-	[] when condom breaks (in Natalya park scene), no cum on body?
+	[x] when condom breaks (in Natalya park scene), no cum on body?
+	[x] add voyeur scene of Lilaya in kitty lingerie
+		[x] if wardrobe installed, on Rose's room tile at night you hear frantic meowing (doors are quite thick and well sound-proofed, so whoever is making that noise is putting some real effort into it)
+		[x] Peek through keyhole
+			[x] Rose wearing lingerie, sitting on chair drinking wine
+			[x] Lilaya on all fours wearing kitty lingerie, making meowing noises
+			[x] Rose calls her a good kitty, says she can have her reward now
+				[x] gets her to eat her out
+			[x] Rose has a smug, triumphant look on her face as she grabs your aunt's horns and grinds her face into her pussy
+			[x] can watch sex scene or leave
+			[x] add sex scene
+		[x] full test
+			[x] leave
+			[x] sex
+				[x] stop clothing removals
+				[x] orgasm testing
+			[x] add a 7 day timer before repeating the scene
+	[x] Sterope feral ending time is not accurate?
+		[x] change timing to a few minutes for an hour of feral, with the beast stone placed next to you so you can touch it to extend your feral time if need be		
+	[x] When shared encyclopedia setting on, make sure clothing is still unlocked for the active game's save file			
+	[x] Ralph big discount make him kick off trousers
+	[x] also he doesn't swap position
+	[x] tattoos
+		[x-] test tattoo outline black & white
+		[x-] test drop shadow
+			 style='filter:drop-shadow(0 0 8px #fff);'
+			 [x] add as class and put within <svg>
+			 [x] renders on top of image, webview bug?
+		[x-] test background as slot skin colour
+			background-color:"+Main.game.getPlayer().getCovering(Main.game.getPlayer().getTorsoCovering()).getPrimaryColour().toWebHexString()+";
+		[x] male/female symbols
+		[x] insertion ruler (groin)
+	[x] clothing
+		[x] male/female/herm symbols
+			[x] earring
+				[x] sticker for heart or normal circle
+			[x] navel barbell
+				[x] stickers for circle or heart
+				[x] male
+				[x] female
+				[x] herm
+		[x] beanie
+		[x] add eye & mouth stickers to hood
+			[x] add to description that it reforms to cover anthro muzzles
+	[-] snow in Elis
+	[x] Items present hash-out when unavailable
+		[x] use same style for map - add tooltip?
+	[x] Move sexual enchantment effects to new primary modifier
+		 [x] primary sexual, secondary vibration and denial
+	[-] Lubricate fingers disable if fingers already lubricated
+	[x] int to string adding "and" to thousands with no millions: 1,090 "One thousand, and ninety"
+	[x] also make it so random cursed clothing can have TF effects
+		[x] add file for defining these
+			[x] each entry has:
+				[x] spawn weighting (use conditional parsing to return weight)
+				[x] seal strength (blank for default generation)
+				[x] effects
+					[x] conditional (needed for respecting content preferences)
+					[x] effect
+				[x] item naming (applies when enchantment revealed)
+			[x] implement from file
+				[x] remember to reset timer to 0
+			[x] apply naming changes
+		[x] add mod files
+		[x] name application on reveal
+		[x] add these TF effects:
+			[x] Transformations:
+				[x] cow: breast++, fem+
+				[x] sissy: penis-, fem+
+					[x] sort out seals
+				[x] femboy's: fem+, grow cock, penis-, remove vagina, breast-, 
+				[x] hercules: breast--, fem-, grow cock, cock++, muscle++, body size++
+				[x] broodmother: preg fetish, grow pussy, pussy wetness++, fertility++
+				[x] stud: preg fetish, grow pussy, pussy wetness++, fertility++
+				[x] size queen: size queen fetish, pussy capacity++
+				[x] rapunzel: hair length+++
+				[x] Mistress: dom fetish, penis++, fem++, breasts++
+				[x] short-stack: height--, breasts++, hips & ass ++
+				[x] oral fiend: lips++, tongue++, oral fetish, cock & vagina fetishes
+				[x] MILF's muff: grow vagina, hairy, loose, slimy, big labia
+				[x] living condom: creampie retention in all orifices
+				[x] buttslut: anal & penis fetishes
+				[x] of the yeti: hair++ in all areas
+				[x] pit slut's: armpit and oral fetishes
+				[x] boot licker's: foot and oral fetishes
+				[x] Binding of the bimbo queen: bimbo fetish, fem+++, lip size++, breast size++, hip & ass++, hair+, remove cock, grow pussy, pussy wetness
+				[x] Binding of the bimbo femboy: bimbo fetish, fem+++, lip size++, breast size++, hip & ass++, hair+, grow cock, cock--, remove pussy
+			[x] Attributes:
+				[x] Lilith's: corruption+++, lust damage++, lust shielding--
+				[x] brawler's: unarmed damage++, melee&ranged---
+				[x] of the wimp: physique--, all resistances--
+				[x] nausea: health---, physique---
+				[x] breeder's desperation: fertility+++, lust shielding---
+				[x] stud's: virility+++, lust shielding---
+				[x] arcane-dampening: spell damage---, spell efficiency---, arcane---, aura---
+				[x] unlucky: critical power-----
+				[x] short-sighted: ranged damage---
+				[x] butterfingers: melee damage---
+		[x] undo probabilities: Jinxed: //TODO 20
+	[x] TFModifier tooltips too long
+	[x] when revealing enchantment, combine attributes
+	[x] in clothing information, need to append enchantment instability
+		[x] weapon and clothing look at again please "a value of:"
+	[x] fetish enchantment postfixes improvement "of dominant" -> "of dominance"
+	[x] tooltips
+		[x] need to fix enchantment cutoff in tooltip
+		[x] remove bold from weapon & item as well
+		[x] also, when enchantment unknown, do not expand tooltip height
+		[x] enforcer bowler hat too high for some reason
+			[x] sticker cap badge added extra effects which were duplicated?
+		[x] check height of horse dildo
+	[x] weapon tooltip same changes
+		[x] check spells
+		[x] weapon inspection dialogue too much bold
+	[x] item tooltip same changes
+	[x] tattoo changes too? x_x pls no more css........
+	[x] what if !Main.game.isEnchantmentCapacityEnabled() for tooltips
+	[x] taur trousers too long description
+	[x] pusspuss character details
+	[x] find out if spawns anywhere are randomly enchanted when not meant to be
+		[x] make 1-argument method deprecated
+	[x] generateAlleywayClothing() needs to weight based on rarity
+		[x] also use in Encounter.java
+	[x] if an arcane storm starts on the same turn that you meet a random mugger, the option to pay them off will appear available but not actually work
+	[x] raptor energy bar tooltip cutoff...
+	[x] body TF effects don't go onto new lines
+	[x] tooltip for clothing with seal says 'Sealed' even if not equipped on someone...
+	[-] test tooltip effects arcane colour edges
+	[x] items present displays clothing with colour even if custom name
+	[x] sort effects for tooltip
+	[x] random enchantments add field for negative or positive
+	[x] "Limit: flat-cup"
+	[x] enchantments above
+		[x] what if an item has a seal by default?
+		[x] make it so items with effects have a small chance to be randomly enchanted instead
+		[x] run through a test of all
+		[x] patch notes modding mention
+	[x] strip effects from EPIC if random enchantment applied?
+	[x] post
+	[x] make TFs hourly?
+	[x] improve tooltip effect sorting (wimp's ring)
+	[x] make enchantment conditional preparsing also affect naming parsing
+		[x] add comment to mod folder 
+	[-] on tattoos, add white outline to writing text so black is readable
+	[x] floor inventory page expands when second page is empty...	
+	[x] improve positive enchantments
+	[x] better RNG for truly random ones
+	[x] allow identify when on ground
+	[x] increase identify cost
+	[x] add positive enchantments
+		[x] fire
+		[x] ice
+		[x] poison
+		[x] physical
+		[x] physique
+		[x] arcane
+		[x] seduction
+	[x] FAF poll
 	
-	[] add voyeur scene of Lilaya in kitty lingerie
-		[] Rose wearing latex thigh-high boots and gloves, sitting on chair smirking at Lilaya
-		[] Lilaya on all fours wearing kitty lingerie
-		[] Rose makes her say 'Meow', then gets her to eat her out
-		[] can watch
-	
-	[] Sterope expansion
-		[] need to prolong sub sex
-			[] left tied up while dom drinks/toilet/fetches gf to watch
-			[] then one of:
-				[] 33% toys:
-					[] pussy toy play then anal fuck
-					[] anal toy play then pussy fuck
-				[] 33% fuck
-				[] 33% special
-					[] eat Sterope's creampie (or just oral) while being fucked
-					[] reversed
-					[] anilingus while partner goes balls-deep in Sterope
-					[] reversed
-				
-	
-	[] artwork
-		[] Monica
-		
-	[] clothing
-		[] male/female/herm earrings
-		[] beanie
-		[] add eye & mouth stickers to hood
-			[] add to description that it reforms to cover anthro muzzles
-	
-	[] tattoos
-		[] test tattoo outline black & white
-		[] male/female symbols
-		[] insertion ruler (groin)
-	
-	[] When shared encyclopedia setting on, make sure clothing is still unlocked for the active game's save file			
-	
-	[] Ralph big discount make him kick off trousers
-	
-	[] pusspuss character details
-		
-	[] Rose encounter
-		[] if had sex with Lilaya >3 times in one day
-			OR if impregnated Lilaya >3 times
-			OR masturbate in hallway of mansion
-		[] Rose ambushes player and says that they're taking too much of Lilaya's time
-		[] offers to help relieve the player
-			[] handjob/fingering
-			[] afterwards, says to call for her if you're feeling horny so you don't bother Lilaya
-	
-	[] Enchanting expansion
-		[] Can combine a huge number of essences (something obscene like 100k) into a prime essence
-		[] Also get a prime essence after defeating each lilin
-		[] Can apply prime essence to an item to make its enchantments cost 25% of normal capacity
-		
-	[] Sterope endings
-		[] sub BE route
-			[] If double feral sex once, spawn unique centaur
-				[] as encounter when in taur tavern and Sterope is present
-			[] unique centaur Helios
-				[] Lunette's son
-				[] glowing red/yellow hair and cock
-			[] drags you over to Sterope and says that he's heard how the two of you like being fucked as mares, he's going to rut you
-			[] have to feral TF for him
-			[] after sex, he leads the two of you through the tavern and makes you give a double blowjob while he drinks at the bar
-				[] Kheiron eventually asks to leave
-			[] mounts you both in public square, huge creampies leaking as trot back to stables
-			[] invites you both to his manor in the fields for a weekend, but says that you'll have to spend the whole time as ferals
-				[] get 'trained' in his stable until the next evening
-				[] a dozen other ferals, half of them pregnant, call you the new girls
-				[] get fucked a lot and give double blowjob during dinner party
-			[] tells you at the end that he'll add you to his harem, doesn't take no for an answer
-				[] refuse, cannot re-encounter
-				[] accept, BE
-				[] stable floor is an enchanted beast stone to make sure you stay as ferals
-		[] dom Sterope mare route
-			[] After fuck as feral, next time she defaults to wanting to feral TF
-			[] After second feral sex, she opens up about how much she loves it
-				[] Wishes that she could quit job and live as a feral
-			[] Can then talk to Astrapi about getting a mare to help with transport
-				[] she agrees, saying that she's got goods that need transporting, so although a mare would make people uncomfortable (feral aversion for most people), she'd be suitable for that
-				[] trouble is, marauders would attack a mare
-			[] Next time with Sterope, say you've got a job for a mare lined up
-				[] Convince her to remain as feral
-				[] She quits as Enforcer and beast stone is kept in transport warehouse, sleeps while touching it
-				[] Becomes known throughout fields as a willing cock-sleeve for marauders
-			[] can visit and fuck at Elis transport warehouse
-			[] encounter in fields where she's being mounted
-				
-	[] make it possible to impreg Belle and Daphne
-		[] after impregnating Farah, the other two get a little jealous or something and you can convince them to try it too
-		
 	
 	MAXIS PR MERGES
-		
-	WIKI
-		
-	[] add toy use in sex
-		[] use generic tags to determine available sex actions
-			[] dildo
-			[] beads
-			[] clamps
 	
-	[] snow in Elis
-	
-	[] Items present hash-out when unavailable
-		[] use same style for map - add tooltip?
-	
-	[] Move sexual enchantment effects to new primary modifier
-	
-	[] Lubricate fingers disable if fingers already lubricated
 	
 	[] PRs
 		[] 1785
@@ -181,6 +275,40 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] PR 1438
 			[] collar glow as extra
 			[] naming/description for tape?
+	
+	
+	[] Bug reports, running backwards
+		[] New reports
+		[] Old reports
+	
+	[] Add 'Mystery potion' which is unidentified and contains random effects
+	
+	[] add handbags as weapons
+		[] clutch
+		[] satchel
+		[] Tote
+		[] briefcase
+		
+	
+	#### 
+	
+	[] I'm a bit annoyed that the new content with the demon spider lady limits itself to one fuck per night every Monday/Wednesday.
+		It would be better, in my humble opinion, to provide a continue and skip night  button after the first client.
+				
+	[] make it possible to impreg Belle and Daphne
+		[] after impregnating Farah, the other two get a little jealous or something and you can convince them to try it too
+		
+	[] artwork
+		[] Monica
+		
+	WIKI
+		
+	[] add toy use in sex
+		[] use generic tags to determine available sex actions
+			[] dildo
+			[] beads
+			[] clamps
+	
 	
 	[] old bugs
 	
@@ -249,15 +377,19 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] Need Hotel restaurant tile?
 		[] Helena-Scarlett threesome option?
 		
-		Add nice way to lose virginity for Helena (and other pure virgins?)
-		Public fucking of broken Helena
-		
-		Helena sex without her becoming a total slut
-		Suggestion: When non-sadistically deflowering Helena, she should get the Size Queen Fetish if the player is big enough that it's necessary for her comfort.
-		Make a non-sloot Helena ending
-			like pretending like nothing happened to others but when she sees you her plume slowly puffs or something like that then go all lovey dovey in private
-			
+		[] Helena virginity loss
+			[] she should get the Size Queen Fetish if the player is big enough that it's necessary for her comfort.
+			[] loving - she gets attached
+				[] like pretending like nothing happened to others but when she sees you her plume slowly puffs or something like that then go all lovey dovey in private
+				[] loving sex
+				[] fly to forest she owns on outskirts of Dominion, in middle of lake she has a small house
+					[] spend weekend there loving sex and enjoying being with one another
+			[] rough - breaks her
+				[] Scarlett threesome, Scarlett roughly doms
+				[] random harpies group sex
+				[] public fucking
 		[] Helena mentions "I can always have you transformed later on if need be", is this implemented?
+		
 		
 	[] Need pure virginity loss to someone they love variation
 		[] remove fetish if virginity loss is to someone they at least love
@@ -390,8 +522,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] if player has TF (self) fetish, make sealing gear that bondage kink npcs apply on defeat have some kind of slow transformative effect
 	
-	[] also make it so random cursed clothing can have TF effects
-	
 	[] gential slit option
 	
 	[] feral wolves too small?
@@ -401,14 +531,31 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] Add a 'restrict partner's self actions' for NPCs for X turns if they can't access?
 		
 	[] Demon TF content
-		[] If Lilaya is also demon, she approaches player and expresses an interest in socialising with demons
+		[] If Lilaya is also demon, you can talk to her about her new form
+			[] she loves it, says she wishes mommy had given her this form years ago
+			[] she's reluctantly gone to a few demonic social events (being a recognised daughter of an elder lilin, she was often invited even though she was only a half-demon)
+			[] now she's a real demon, she wants to go to them all
+			[] wants you to come too
+			[] can also invite Meraxis if Meraxis is a full demon too
 		[] Can join her and go to demonic events
+			[] events are scheduled for a time and date, usually in the range of 3-7 days from when asked about
+			[] performing well at events increases your reputation, which influences & unlocks scenes in subsequent events and finally unlocks the ability to host a demonic party at Lilaya's mansion
+			[] Saellatrix party event
+				[] Meraxis & Angelixx fight over player
+					[] can support one to make other suffer humiliation
+						[] Angelixx's suggestion - the two of them fuck, and whoever orgasms the most loses (Meraxis inevitably loses)
+						[] Meraxis's suggestion - the two of them duel (Meraxis inevitably wins)
+					[] the loser has to obey the winner for the rest of the evening
+						[] Meraxis cock-sleeve for Sleip and Nir
+						[] Angelixx dog pet play
+				[] party games
+					[] impregnation game
+					[] transformation game
+				[] hook up with random demons or their slaves
+				[] orgy event
 			[] Tea party
 			[] Dinner party
 			[] Evening of gambling
-			[] Saellatrix party event
-				[] Meraxis & Angelixx fight over player
-				[] can support one to make other suffer humiliation
 			[] Zaranix event
 			[] After raising demon reputation can host party at mansion
 				[] Invite named demons
@@ -465,11 +612,44 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] Meet ex (human futa)
 		[] Can date her
 	
+	[] Sterope BE route
+		[] If double feral sex once, spawn unique NPC
+			[] as encounter when in taur tavern and Sterope is present
+		[] unique nightmare Helios
+			[] Lunette's son
+			[] glowing red/yellow hair and cock
+		[] drags you over to Sterope and says that he's heard how the two of you like being fucked as mares, he's going to rut you
+		[] Sterope says she only fucks taurs
+			[] Helios slaps his massive horse-cock on the table in front of her and says he's bigger than most centaurs, and will fuck her harder than she's ever been fucked before
+			[] says his cock's been inside two elder lilin, a dozen lilin, and countless demons. it was good enough for every single one of them, so it'll be good enough for a nobody like her
+			[] she agrees
+		[] he says he's going to get a drink; you two had better be feral mares by the time he's finished
+		[] indefatigable, he fucks you both for hours
+			[] intense, rough sex, making each of you cum multiple times before he creampies you
+		[] after sex, he leads the two of you through the tavern and makes you give a double blowjob while he drinks at the bar
+			[] Kheiron says he appreciates Helios's business, and doesn't want to offend, but ferals are putting off some other customers
+			[] Helios laughs and says mares should be outside, true, and he was planning on taking you both for a different kind of ride anyway
+			[] jumps up on your back and kicks your flanks, rides you around Elis, then swaps to Sterope and rides her
+			[] ends in public square, where he fucks you both, huge creampies leaking as trot back to stables
+			[] plays with your crotch boobs as he invites you both to his manor in the fields for a weekend, but says that you'll have to spend the whole time as ferals
+		[] meet Helios in public square on a Friday morning
+			[] taken to manor
+			[] get 'trained' in his stable until the next evening
+			[] a dozen other ferals, half of them pregnant, call you the new girls
+			[] get dressed up and told that the two of you are the main event during tonight's party
+			[] get fucked non-stop during the night
+		[] at the end, you and Sterope are led up onto a stage
+			[] Helios announces to crowd that the two of you are joining his harem as his slaves
+			[] asks guests to witness your willing submission and legally-binding pledge to become his enslaved broodmares
+			[] refuse, escape from party, Helios cannot be re-encountered
+				[] Sterope says she'll get the Enforcers after him for what he tried to pull, but as he's such a well-connected demon, all that'll happen is that he'll be unable to show his face in Elis again
+			[] accept, get sun branding on ass as enslaved
+			[] stable floor is an enchanted beast stone to make sure you stay as ferals
+			[] when Helios isn't breeding you, you're fucked by guests to the manor
+	
 	[] Ralph's player-orgasm sex action dirties Ralph's underwear
 	
 	[] Silence scream post-Shadow defeat is parsed to ...
-	
-	[x] revisit desryth, reject him, stuck in his apartment
 	
 	[] penile virginity loss to Aurokaris apparently ended up being to Harely in Diana's nest
 	
@@ -743,7 +923,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[] 'Fallen Stars'
 				[] Tired-looking older whores
 				[] Despite being a bit shabby, it's very popular
-				[] Young rabbit-boy promises to make you a star
+				[] If over 40, young rabbit-boy promises to make you a star
 					[] Can go along with it to get transformed into MILF-like body
 					[] rabbit-boy fucks you after every TF, getting more into it the further along you are
 			[] 'Princess palace'
@@ -1017,6 +1197,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] In sheep dialogue, she offers player job (if have prostitution license)
 			[] can wait to massage clients
 			[] get fucked
+	[] Penelope romance
+		[] dates where she wears her outfits
 	
 	[] bondage applier fetishists should apply bdsm gear during sex
 	

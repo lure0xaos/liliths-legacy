@@ -178,7 +178,7 @@ public abstract class AbstractItemEffectType {
 		return new HashMap<>();
 	}
 	
-	public List<TFModifier> getPrimaryModifiers() {
+	public List<TFModifier> getPrimaryModifiers(AbstractCoreItem targetItem) {
 		return new ArrayList<>();
 	}
 	
@@ -664,7 +664,8 @@ public abstract class AbstractItemEffectType {
 			case TF_BREASTS:
 				switch(secondaryModifier) {
 					case TF_MOD_SIZE:
-						descriptions.add(getClothingTFChangeDescriptionEntry(potency, "cup size", CupSize.getCupSizeFromInt(limit).getCupSizeName()+"-cup"));
+						CupSize cupSize = CupSize.getCupSizeFromInt(limit);
+						descriptions.add(getClothingTFChangeDescriptionEntry(potency, "cup size", cupSize.getCupSizeName()+(cupSize==CupSize.FLAT?"":"-cup")));
 						break;
 					case TF_MOD_SIZE_SECONDARY:
 						descriptions.add(getClothingTFChangeDescriptionEntry(potency, "nipple size", NippleSize.getNippleSizeFromInt(limit).getName()));

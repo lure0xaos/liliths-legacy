@@ -101,14 +101,15 @@ public class GenericOrgasms {
 				&& penetrator.hasPenisIgnoreDildo();
 	}
 
-	public static boolean isCumTargetRequirementsMet(OrgasmCumTarget cumTarget) {
+	public static boolean isCumTargetRequirementsMet(SexActionInterface sexAction, OrgasmCumTarget cumTarget) {
 		OrgasmCumTarget preferredPulloutTarget = Main.sex.getInitialSexManager().getCharacterPullOutOrgasmCumTarget(Main.sex.getCharacterPerformingAction(), Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction()));
 		
 		if(!Main.sex.getAvailableCumTargets(Main.sex.getCharacterPerformingAction()).contains(cumTarget)
 				|| (Main.sex.getSexPositionSlot(Main.sex.getCharacterPerformingAction())==SexSlotGeneric.MISC_WATCHING && cumTarget.isRequiresPartner())
 				|| !Main.sex.getCharacterPerformingAction().hasPenisIgnoreDildo()
 				|| !Main.sex.getCharacterPerformingAction().isCoverableAreaExposed(CoverableArea.PENIS)
-				|| Main.sex.getCharacterPerformingAction().isWearingCondom()
+				|| (Main.sex.getCharacterPerformingAction().isWearingCondom()
+						&& sexAction.getCondomFailure(Main.sex.getCharacterPerformingAction(), Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction()))==CondomFailure.NONE)
 				|| (!Main.sex.getCharacterPerformingAction().isPlayer() && Main.sex.getRequestedPulloutWeighting(Main.sex.getCharacterPerformingAction())<0)
 				|| (preferredPulloutTarget!=null && preferredPulloutTarget!=cumTarget)) {
 			return false;
@@ -4644,7 +4645,7 @@ public class GenericOrgasms {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.FLOOR);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.FLOOR);
 		}
 		
 		@Override
@@ -4692,7 +4693,7 @@ public class GenericOrgasms {
 	public static final SexAction GENERIC_ORGASM_WALL = new SexAction(GENERIC_ORGASM_FLOOR) {
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.WALL);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.WALL);
 		}
 		
 		@Override
@@ -4735,7 +4736,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.ASS);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.ASS);
 		}
 		
 		@Override
@@ -4799,7 +4800,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.GROIN);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.GROIN);
 		}
 		
 		@Override
@@ -4860,7 +4861,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.SELF_GROIN);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.SELF_GROIN);
 		}
 		
 		@Override
@@ -4920,7 +4921,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.BREASTS);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.BREASTS);
 		}
 		
 		@Override
@@ -4974,7 +4975,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.SELF_BREASTS);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.SELF_BREASTS);
 		}
 		
 		@Override
@@ -5031,7 +5032,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.FACE);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.FACE);
 		}
 		
 		@Override
@@ -5079,7 +5080,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.SELF_FACE);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.SELF_FACE);
 		}
 		
 		@Override
@@ -5127,7 +5128,7 @@ public class GenericOrgasms {
 
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.SELF_HANDS);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.SELF_HANDS);
 		}
 
 		@Override
@@ -5179,7 +5180,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.HAIR);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.HAIR);
 		}
 		
 		@Override
@@ -5231,7 +5232,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.STOMACH);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.STOMACH);
 		}
 		
 		@Override
@@ -5279,7 +5280,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.SELF_STOMACH);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.SELF_STOMACH);
 		}
 		
 		@Override
@@ -5331,7 +5332,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.LEGS);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.LEGS);
 		}
 		
 		@Override
@@ -5379,7 +5380,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.SELF_LEGS);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.SELF_LEGS);
 		}
 		
 		@Override
@@ -5432,7 +5433,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction()).hasFeet() && isCumTargetRequirementsMet(OrgasmCumTarget.FEET);
+			return Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction()).hasFeet() && isCumTargetRequirementsMet(this, OrgasmCumTarget.FEET);
 		}
 		
 		@Override
@@ -5480,7 +5481,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Main.sex.getCharacterPerformingAction().hasFeet() && isCumTargetRequirementsMet(OrgasmCumTarget.SELF_FEET);
+			return Main.sex.getCharacterPerformingAction().hasFeet() && isCumTargetRequirementsMet(this, OrgasmCumTarget.SELF_FEET);
 		}
 		
 		@Override
@@ -5532,7 +5533,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return isCumTargetRequirementsMet(OrgasmCumTarget.BACK);
+			return isCumTargetRequirementsMet(this, OrgasmCumTarget.BACK);
 		}
 		
 		@Override
@@ -5584,7 +5585,7 @@ public class GenericOrgasms {
 		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return Main.game.isArmpitContentEnabled() && isCumTargetRequirementsMet(OrgasmCumTarget.ARMPITS);
+			return Main.game.isArmpitContentEnabled() && isCumTargetRequirementsMet(this, OrgasmCumTarget.ARMPITS);
 		}
 		
 		@Override

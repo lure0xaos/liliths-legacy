@@ -972,7 +972,7 @@ public class MiscController {
 						}, false);
 						// Warn player if this clothing is incompatible with any of the outfit's currently selected clothing
 						List<AbstractClothing> incompatibleClothing = new ArrayList<>();
-						for(InventorySlot slot : Main.game.getItemGen().generateClothing(clothingType).getIncompatibleSlots(LilayaDressingRoomDialogue.getDoll(), LilayaDressingRoomDialogue.getSelectedSlot())) {
+						for(InventorySlot slot : Main.game.getItemGen().generateClothing(clothingType, false).getIncompatibleSlots(LilayaDressingRoomDialogue.getDoll(), LilayaDressingRoomDialogue.getSelectedSlot())) {
 							if(LilayaDressingRoomDialogue.getDoll().getClothingInSlot(slot)!=null) {
 								incompatibleClothing.add(LilayaDressingRoomDialogue.getDoll().getClothingInSlot(slot));
 							}
@@ -1285,7 +1285,7 @@ public class MiscController {
 		}
 		
 		// Choosing a primary modifier:
-		for (TFModifier tfMod : LilayaDressingRoomDialogue.getSelectedItem().getEnchantmentEffect().getPrimaryModifiers()) {
+		for (TFModifier tfMod : LilayaDressingRoomDialogue.getSelectedItem().getEnchantmentEffect().getPrimaryModifiers(LilayaDressingRoomDialogue.getSelectedItem())) {
 			id = "MOD_PRIMARY_"+tfMod.hashCode();
 			if (MainController.document.getElementById(id) != null) {
 				MainController.addTooltipListeners(id,
