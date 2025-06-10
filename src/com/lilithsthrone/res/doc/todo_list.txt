@@ -6,6 +6,9 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	Patch notes:
 	
+	Contributions:
+		Consolidated the TF race methods and layout dialogues in the BodyChanging class. (PR#1808 by Maxis010)
+	
 	Engine/Modding:
 		Added a 'REMOVE_FROM_DRESSING_ROOM_OUTFITS' item tag to prevent weapons or clothing from being available in the dressing room outfit creator.
 		Added temporary boolean, String, and int variables to the DialogueFlags class, which can be accessed via the 'flags' parsing target, and used via getter/setter methods getBool(String id), setBool(String id, boolean value), getString(String id), setString(String id, String value), getInt(String id), setInt(String id, int value). The temporary variables which you set via these methods are forgotten whenever a game is loaded; they're intended for use across multiple conditional checks within a game's instance, not for saving data to the game's file.
@@ -20,6 +23,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	Gameplay:
 		After installing Lyssieth's wardrobe in your dressing room, a short voyeur scene is unlocked on Rose's room tile (available whenever Rose and Lilaya are present there, which is between 22:00-06:00, and can be repeated after 7 days have passed since last viewing it).
+		You can now only self-transform slimes and elementals (either yourself or NPCs) into races which you've previously discovered (which takes into account your 'shared encyclopedia' setting).
 	
 	Random enchantments:
 		Random enchantment added to items of clothing found in alleyways have been reworked.
@@ -263,6 +267,37 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	MAXIS PR MERGES
 	
+	[x] 1808
+		[x] added getMostCommonWorldRegions() back to AbstractSubspecies (not sure why it was removed? It was used in two places, so made more sense as a method rather than using the exact same code directly in Library.java)
+		[x] test
+			[x] self
+				[x] debug
+				[x] demon
+				[x] slime
+					[x] not giving all options
+					[x] due to addition of isAdvancedRaceKnowledgeDiscovered(race)...
+					[x] good idea, player needs to be told this
+						[x] add to slime initial TF
+						[x] add to slime race tooltip
+						[x] add to TF menu
+					[x] do not limit NPCs in the same way
+						[x] revert
+					[x] change to races which you've met, don't need advanced knowledge
+				[x] youko
+			[x] target
+				[x] slime
+				[x] demon
+				[x] elemental
+					[-] elementals need access to all races?
+					[x] separate them from slimes in the if block
+						[x] revert
+					[x] add same text at top to tell player about race limitations
+			[x] NPC targeting in debug
+				great addition
+				[x] add to race resets as well
+	
+	[] encyclopedia needs to show which races you have fully unlocked
+	[] slime TF from item should definitely break out of inventory
 	
 	[] PRs
 		[] 1785

@@ -263,7 +263,7 @@ public class BodyChanging {
 				index-=2;
 			}
 
-			if (index >= Main.game.getCharactersPresent().size()) {
+			if (index >= Main.game.getCharactersPresent().size() || index<0) {
 				return null;
 			}
 			GameCharacter gc = Main.game.getCharactersPresent().get(index);
@@ -330,9 +330,9 @@ public class BodyChanging {
 		} else if(target.isYouko()) {
 			allowedRaces.add(Race.FOX_MORPH);
 			allowedRaces.add(Race.HUMAN);
-		} else if (isSlimeTFMenu() || target.isElemental()) {
+		} else if(isSlimeTFMenu() || target.isElemental()) {
 			for (AbstractRace race : allRaces) {
-				if (race!=Race.NONE && Main.getProperties().isAdvancedRaceKnowledgeDiscovered(AbstractSubspecies.getMainSubspeciesOfRace(race))) {
+				if (race!=Race.NONE && Main.getProperties().isRaceDiscovered(AbstractSubspecies.getMainSubspeciesOfRace(race))) {
 					allowedRaces.add(race);
 				}
 			}
@@ -447,23 +447,31 @@ public class BodyChanging {
 
 		sb.append("<div class='container-full-width' style='text-align:center;'>");
 			if(isDemonTFMenu()) {
-				sb.append(UtilText.parse(getTarget(), "<i>[npc.Name] can harness the power of [npc.her] demonic form to self-transform aspects of [npc.her] "+area+".</i>"));
+				sb.append("<i>[npc.Name] can harness the power of [npc.her] demonic form to self-transform aspects of [npc.her] "+area+".</i>");
 
 			} else if(isSelfTFMenu()) {
-				sb.append(UtilText.parse(getTarget(), "<i>[npc.Name] can harness [npc.her] innate powers to self-transform aspects of [npc.her] "+area+".</i>"));
+				sb.append("<i>[npc.Name] can harness [npc.her] innate powers to self-transform aspects of [npc.her] "+area+".</i>");
+				if(target.isElemental()) {
+					sb.append("<br/>[style.italicsMinorBad(You can only transform [npc.name] into races which you've previously encountered.)]");
+				}
 
 			} else if(isDebugMenu()) {
-				sb.append(UtilText.parse(getTarget(), "<i>[npc.Name] can harness the power of the debugging tool to self-transform aspects of [npc.her] "+area+".</i>"));
+				sb.append("<i>[npc.Name] can harness the power of the debugging tool to self-transform aspects of [npc.her] "+area+".</i>");
 
 			} else if(getTarget().isDoll()) {
-				sb.append(UtilText.parse(getTarget(), "<i>With the D.E.C.K.'s cable plugged into the port on the rear of [npc.namePos] neck, you're able to customise [npc.her] "+area+"...</i>"));
+				sb.append("<i>With the D.E.C.K.'s cable plugged into the port on the rear of [npc.namePos] neck, you're able to customise [npc.her] "+area+"...</i>");
 
 			} else {
-				sb.append(UtilText.parse(getTarget(), "<i>[npc.Name] can take advantage of [npc.her] morphable, slimy body to self-transform aspects of [npc.her] "+area+".</i>"));
+				sb.append("<i>[npc.NamePos] morphable, slimy body [npc.verb(allow)] [npc.herHim] to self-transform aspects of [npc.her] "+area+".</i>");
+				if(getTarget().isPlayer()) {
+					sb.append("<br/>[style.italicsMinorBad(You can only self-transform into races which you've previously encountered.)]");
+				} else {
+					sb.append("<br/>[style.italicsMinorBad(You can only transform [npc.name] into races which you've previously encountered.)]");
+				}
 			}
 		sb.append("</div>");
 
-		return sb.toString();
+		return UtilText.parse(getTarget(), sb.toString());
 	}
 
 	public static final DialogueNode BODY_CHANGING_CORE = new DialogueNode("Core", "", true) {
@@ -487,8 +495,8 @@ public class BodyChanging {
 							+"</div>"
 
 							+"<div style='clear:left;'>"
-							+CharacterModificationUtils.getSelfTransformFemininityChoiceDiv()
-							+CharacterModificationUtils.getHeightChoiceDiv()
+								+CharacterModificationUtils.getSelfTransformFemininityChoiceDiv()
+								+CharacterModificationUtils.getHeightChoiceDiv(false)
 							+"</div>");
 
 			if (getTarget().isElemental()) {
@@ -591,14 +599,14 @@ public class BodyChanging {
 				AbstractBodyCoveringType bct = entry.getKey();
 				AbstractRace race = entry.getValue().getKey();
 
-				Value<String, String> titleDescription = SuccubisSecrets.getCoveringTitleDescription(target, bct, entry.getValue().getValue());
+				Value<String, String> titleDescription = SuccubisSecrets.getCoveringTitleDescription(getTarget(), bct, entry.getValue().getValue());
 
 				UtilText.nodeContentSB.append(CharacterModificationUtils.getKatesDivCoveringsNew(
 						false,
 						race,
 						bct,
 						titleDescription.getKey(),
-						UtilText.parse(target, titleDescription.getValue()),
+						UtilText.parse(getTarget(), titleDescription.getValue()),
 						true,
 						true));
 			}

@@ -3,7 +3,6 @@ package com.lilithsthrone.game.dialogue.places.dominion.lilayashome;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import com.lilithsthrone.game.character.npc.NPC;
@@ -12,7 +11,6 @@ import com.lilithsthrone.game.character.quests.QuestLine;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
 import com.lilithsthrone.game.character.race.Race;
 import com.lilithsthrone.game.character.race.Subspecies;
-import com.lilithsthrone.game.character.race.SubspeciesSpawnRarity;
 import com.lilithsthrone.game.combat.spells.Spell;
 import com.lilithsthrone.game.dialogue.DialogueFlagValue;
 import com.lilithsthrone.game.dialogue.DialogueManager;
@@ -23,7 +21,6 @@ import com.lilithsthrone.game.inventory.item.AbstractItemType;
 import com.lilithsthrone.game.inventory.item.ItemType;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.RenderingEngine;
-import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.world.Cell;
 import com.lilithsthrone.world.WorldRegion;
 import com.lilithsthrone.world.WorldType;
@@ -50,17 +47,7 @@ public class Library {
 		Set<AbstractSubspecies> aisleSubspecies = new HashSet<>();
 
 		for(AbstractSubspecies subspecies : Subspecies.getAllSubspecies()) {
-			List<WorldRegion> mostCommonRegion = Util.newArrayListOfValues();
-			SubspeciesSpawnRarity highestRarity = SubspeciesSpawnRarity.ONE;
-			for(Map.Entry<WorldRegion, SubspeciesSpawnRarity> entry : subspecies.getRegionLocations().entrySet()) {
-				if(entry.getValue().getChanceMultiplier()>=highestRarity.getChanceMultiplier()) {
-					if(entry.getValue().getChanceMultiplier()>highestRarity.getChanceMultiplier()) {
-						mostCommonRegion.clear();
-					}
-					mostCommonRegion.add(entry.getKey());
-					highestRarity = entry.getValue();
-				}
-			}
+			List<WorldRegion> mostCommonRegion = subspecies.getMostCommonWorldRegions();
 			if(mostCommonRegion.isEmpty()) {
 				mostCommonRegion.add(WorldRegion.DOMINION);
 			}

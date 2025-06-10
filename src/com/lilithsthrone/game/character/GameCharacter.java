@@ -27858,12 +27858,13 @@ public abstract class GameCharacter implements XMLSaving {
 							+ " Similarly, you restore your senses of hearing, taste, touch, and smell to their original homes, leaving you as very much the person you were before this alarming transformation, albeit now being composed entirely of slime."
 						+ "</p>"
 						+ "<p>"
-							+ "Your entire being is now condensed into a [style.boldSlime(slime core)]!<br/><i>"
-							+ "- You have complete control over all of the slime which surrounds you, allowing you to morph your body parts at will!<br/>"
-							+ "- The wetness of your pussy and asshole can never be anything less than "+Wetness.SEVEN_DROOLING.getDescriptor()+"!<br/>"
-							+ "- You are unable to apply any makeup to your slimy body!<br/>"
-							+ "- You can now be impregnated through any orifice, even if you lack a vagina!<br/>"
-							+ "- Your orifices are able to accommodate significantly longer penetrations than before!"
+							+ "Your entire being is now condensed into a [style.boldSlime(slime core)]!<i>"
+							+ "<br/>- You have complete control over all of the slime which surrounds you, allowing you to morph your body parts at will!"
+								+ " [style.italicsMinorBad(You can only self-transform into races which you've previously encountered.)]" // Also referenced in BodyChanging
+							+ "<br/>- The wetness of your pussy and asshole can never be anything less than "+Wetness.SEVEN_DROOLING.getDescriptor()+"!"
+							+ "<br/>- You are unable to apply any makeup to your slimy body!"
+							+ "<br/>- You can now be impregnated through any orifice, even if you lack a vagina!"
+							+ "<br/>- Your orifices are able to accommodate significantly longer penetrations than before!"
 							+ "</i>"
 						+ "</p>";
 				
