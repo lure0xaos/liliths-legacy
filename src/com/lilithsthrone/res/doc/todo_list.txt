@@ -349,16 +349,9 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	
 	
-	[] encyclopedia needs to show which races you have fully unlocked
-	[] slime TF from item should definitely break out of inventory
-	
-	[] make it so addictions can be cured by waiting them out, but add content setting to make them permanent
-	
-	[] urethra depth is far too long?
-	
 	[] PRs
 		[x] 1785
-		[] 1799
+		[x] 1799
 		[] 1789
 		[] 1782
 			[] add NPC preference behaviour
@@ -367,6 +360,13 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] PR 1438
 			[] collar glow as extra
 			[] naming/description for tape?
+	
+	[] encyclopedia needs to show which races you have fully unlocked
+	[] slime TF from item should definitely break out of inventory
+	
+	[] make it so addictions can be cured by waiting them out, but add content setting to make them permanent
+	
+	[] urethra depth is far too long?
 	
 	
 	[] Bug reports, running backwards
