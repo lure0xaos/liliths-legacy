@@ -17,7 +17,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Slightly increased the amount of flames generated from milking slaves, by rounding the number of flames earned per hour up to the nearest integer instead of down.
 		Added a null check to subspecies loading to fix a potential softlock when loading a subspecies that had incorrectly-defined attributes for its associated status effect.
 		Added a warning to the main menu if the game detects that you're running it from within a temporary directory (which indicates that you haven't unpacked the .zip file). (Innoxia: I also made a slight change to the 'Last Save' formatting on the main menu.)
-		Lyssieth is now level 1000.
 		Fixed some typos and made a few descriptions in the options screen a little clearer.
 		Added a small java version warning to the main menu if the game is being run in a java version other than 1.8.0_172.
 		Bondage fetishists can now spawn with items from the Latex set (and won't spawn with slave collars anymore).
@@ -283,10 +282,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[x] arcane
 		[x] seduction
 	[x] FAF poll
-	
-	
-	MAXIS PR MERGES
-	
+	[x] MAXIS PR MERGES
 	[x] 1808
 		[x] added getMostCommonWorldRegions() back to AbstractSubspecies (not sure why it was removed? It was used in two places, so made more sense as a method rather than using the exact same code directly in Library.java)
 		[x] test
@@ -315,9 +311,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[x] NPC targeting in debug
 				great addition
 				[x] add to race resets as well
-	
-	
-	
 	Multiple fixes from #PR1778 (by Maxis010):
 		Added +/- 100 buttons to sex experience for character creation. (Innoxia: I also made some changes to the formatting of the sex experience dialogue.)
 		Fixed bug where characters could sometimes exceed the intended level cap.
@@ -326,7 +319,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Slightly increased the amount of flames generated from milking slaves, by rounding the number of flames earned per hour up to the nearest integer instead of down.
 		Added a null check to subspecies loading to fix a potential softlock when loading a subspecies that had incorrectly-defined attributes for its associated status effect.
 		Added a warning to the main menu if the game detects that you're running it from within a temporary directory (which indicates that you haven't unpacked the .zip file). (Innoxia: I also made a slight change to the 'Last Save' formatting on the main menu.)
-		Lyssieth is now level 1000.
 		Fixed some typos and made a few descriptions in the options screen a little clearer.
 		Added a small java version warning to the main menu if the game is being run in a java version other than 1.8.0_172.
 		Bondage fetishists can now spawn with items from the Latex set (and won't spawn with slave collars anymore).
@@ -337,7 +329,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed bug where brothel visitors would not leave.
 		Fixed bug where tails could be incorrectly marked as Suitable for Penetration in the transformation menu (which was affecting raptor and pig tails).
 		Consolidated repeating code in alleyway encounters into a single method, and added the ability to use the offspring map directly from an action (always on the second action button) while on tiles which support the offspring map. (Innoxia: Fixed a bug where the offspring map was sometimes not able to be used when it should have been available.)
-		
 	Notes:
 		Already implemented "Remove fetishes from character creation if content is disabled"
 		"Stack & Remove similar enchantments" I felt like this would clutter the UI for a feature that surely is barely ever needed?
@@ -354,6 +345,9 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		For the "Bugfix: Brothel visitors not leaving" PR, I feel like just the one line fix to correct ANGELS_KISS_GROUND_FLOOR to ANGELS_KISS_FIRST_FLOOR should fix that section? I think the slave and Occupation.NPC_PROSTITUTE checks are still needed.
 		Already fixed "Bugfix: Armpits SexAreaOrifice now has correct getRelatedCoverableArea"
 	
+	
+	
+	
 	[] encyclopedia needs to show which races you have fully unlocked
 	[] slime TF from item should definitely break out of inventory
 	
@@ -362,7 +356,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] urethra depth is far too long?
 	
 	[] PRs
-		[] 1785
+		[x] 1785
 		[] 1799
 		[] 1789
 		[] 1782
