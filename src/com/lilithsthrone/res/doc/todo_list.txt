@@ -9,6 +9,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Contributions:
 		Consolidated the TF race methods and layout dialogues in the BodyChanging class. (PR#1808 by Maxis010)
 		Fixed a lot of typos and parsing errors. (PR#1799 by CKRainbow)
+		Fixed a lot of typos and parsing errors. (PR#1789 by Simones112)
 	
 	Multiple fixes from #PR1778 (by Maxis010):
 		Added +/- 100 buttons to sex experience for character creation. (Innoxia: I also made some changes to the formatting of the sex experience dialogue.)
