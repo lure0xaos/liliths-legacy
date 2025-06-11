@@ -2571,7 +2571,10 @@ public class CharacterUtils {
 		if(character.hasFetish(Fetish.FETISH_BONDAGE_APPLIER)) {
 			maxClothingCount+=1;
 			List<InventorySlot> prohibitedSlots = Util.newArrayListOfValues(InventorySlot.VAGINA, InventorySlot.PENIS, InventorySlot.ANUS, InventorySlot.NIPPLE, InventorySlot.GROIN);
-			for(AbstractClothingType ct : ClothingType.getAllClothingInSet(SetBonus.getSetBonusFromId("innoxia_bdsm"))) {
+			List<AbstractClothingType> bondageClothing = ClothingType.getAllClothingInSet(SetBonus.getSetBonusFromId("innoxia_bdsm"));
+			bondageClothing.addAll(ClothingType.getAllClothingInSet(SetBonus.getSetBonusFromId("sage_ltxset")));
+			bondageClothing.remove(ClothingType.getClothingTypeFromId("innoxia_bdsm_metal_collar"));
+			for(AbstractClothingType ct : bondageClothing) {
 				InventorySlot defaultSlot = ct.getEquipSlots().get(0);
 				// Do not add clothing types which are sex toys, as conditionals for those are added in the next logic block, and do not add enslavement clothing as the NPC will not want to equip it.
 				if(!ct.getEffects().stream().anyMatch(ie -> ie.getSecondaryModifier()==TFModifier.CLOTHING_ENSLAVEMENT) && !prohibitedSlots.contains(defaultSlot)) {

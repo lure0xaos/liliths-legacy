@@ -6511,7 +6511,7 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 	
 	public String incrementExperience(int increment, boolean withExtraModifiers) {
-		if (getLevel() == LEVEL_CAP) {
+		if (getLevel() >= LEVEL_CAP) {
 			experience = 0;
 			return "";
 		}
@@ -10880,7 +10880,8 @@ public abstract class GameCharacter implements XMLSaving {
 	
 	public String applyLevelDrain(GameCharacter target) {
 		if(target.getTrueLevel()>1) {
-			int exp = target.getExperienceNeededForNextLevel();
+//			int exp = target.getExperienceNeededForNextLevel();
+			int exp = target.getTrueLevel()*5; // A bit of a nerf to this in v0.4.10.10, as level drain was pretty absurdly overpowered with the above code (implemented from PR#1778)
 			return UtilText.parse(target, this,
 					"<p style='text-align:center; margin:0;'>"
 						+ this.getLevelDrainDescription(target)
@@ -22468,6 +22469,9 @@ public abstract class GameCharacter implements XMLSaving {
 	}
 
 	public void setLevel(int level) {
+		if(level > LEVEL_CAP) {
+			level = LEVEL_CAP;
+		}
 		this.level = level;
 	}
 

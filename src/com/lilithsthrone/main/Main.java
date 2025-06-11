@@ -526,10 +526,18 @@ public class Main extends Application {
 		
 	}
 	
+	public static boolean CheckNotUnpacked() {
+		File dir = new File("");
+		String currentDir = dir.getAbsolutePath();
+		String tempDir = System.getProperty("java.io.tmpdir");
+//		System.err.println(currentDir);
+//		System.err.println(tempDir);
+		return currentDir.contains(tempDir);
+	}
+	
 	protected static void CheckForDataDirectory() {
 		File dir = new File("data/");
 		if(!dir.exists()) {
-			
 			Alert a = new Alert(AlertType.ERROR,
 					"Unable to find the 'data' folder ("+dir.getAbsolutePath()+"). Saving and error logging is disabled."
 							+ "\nMake sure that you've extracted the game from the zip file, and that the file has write permissions."
@@ -913,6 +921,7 @@ public class Main extends Application {
 			properties.level = game.getPlayer().getLevel();
 			properties.money = game.getPlayer().getMoney();
 			properties.arcaneEssences = game.getPlayer().getEssenceCount();
+			properties.raceColour = game.getPlayer().getSubspecies().getColour(Main.game.getPlayer()).toWebHexString();
 			if (game.getPlayer().isFeminine()) {
 				properties.race = game.getPlayer().getSubspecies().getSingularFemaleName(game.getPlayer().getBody());
 			} else {

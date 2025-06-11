@@ -23,6 +23,7 @@ import com.lilithsthrone.game.dialogue.DialogueFlagValue;
 import com.lilithsthrone.game.dialogue.DialogueManager;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.companions.OccupantDialogue;
+import com.lilithsthrone.game.dialogue.encounters.AbstractEncounter;
 import com.lilithsthrone.game.dialogue.npcDialogue.dominion.CultistDialogue;
 import com.lilithsthrone.game.dialogue.npcDialogue.dominion.ReindeerOverseerDialogue;
 import com.lilithsthrone.game.dialogue.npcDialogue.dominion.RentalMommyDialogue;
@@ -572,22 +573,12 @@ public class DominionPlaces {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index == 1) {
-				return new ResponseEffectsOnly(
-						"Explore",
-						"Explore the alleyways. Although you don't think you're any more or less likely to find anything by doing this, at least you won't have to keep travelling back and forth..."){
-						@Override
-						public int getSecondsPassed() {
-							return 30*60;
-						}
-						@Override
-						public void effects() {
-							DialogueNode dn = Main.game.getActiveWorld().getCell(Main.game.getPlayer().getLocation()).getDialogue(true, true);
-							Main.game.setContent(new Response("", "", dn));
-						}
-					};
-			} else {
-				return null;
+				return AbstractEncounter.exploreArea("the alleyways");
+			} else if(index == 2) {
+				return AbstractEncounter.useOffspringMap();
 			}
+			
+			return null;
 		}
 	};
 	
@@ -614,22 +605,11 @@ public class DominionPlaces {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index == 1) {
-				return new ResponseEffectsOnly(
-						"Explore",
-						"Explore the alleyways. Although you don't think you're any more or less likely to find anything by doing this, at least you won't have to keep travelling back and forth..."){
-						@Override
-						public int getSecondsPassed() {
-							return 30*60;
-						}
-						@Override
-						public void effects() {
-							DialogueNode dn = Main.game.getActiveWorld().getCell(Main.game.getPlayer().getLocation()).getDialogue(true, true);
-							Main.game.setContent(new Response("", "", dn));
-						}
-					};
-			} else {
-				return null;
+				return AbstractEncounter.exploreArea("the alleyways");
+			} else if(index == 2) {
+				return AbstractEncounter.useOffspringMap();
 			}
+			return null;
 		}
 	};
 	
@@ -657,22 +637,11 @@ public class DominionPlaces {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index == 1) {
-				return new ResponseEffectsOnly(
-						"Explore",
-						"Explore this area. Although you don't think you're any more or less likely to find anything by doing this, at least you won't have to keep travelling back and forth..."){
-						@Override
-						public int getSecondsPassed() {
-							return 30*60;
-						}
-						@Override
-						public void effects() {
-							DialogueNode dn = Main.game.getActiveWorld().getCell(Main.game.getPlayer().getLocation()).getDialogue(true, true);
-							Main.game.setContent(new Response("", "", dn));
-						}
-					};
-			} else {
-				return null;
+				return AbstractEncounter.exploreArea("the alleyways");
+			} else if(index == 2) {
+				return AbstractEncounter.useOffspringMap();
 			}
+			return null;
 		}
 	};
 	
@@ -923,19 +892,9 @@ public class DominionPlaces {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if(index == 1) {
-				return new ResponseEffectsOnly(
-						"Explore",
-						"Explore this area. Although you don't think you're any more or less likely to find anything by doing this, at least you won't have to keep travelling back and forth..."){
-						@Override
-						public int getSecondsPassed() {
-							return 30*60;
-						}
-						@Override
-						public void effects() {
-							DialogueNode dn = Main.game.getActiveWorld().getCell(Main.game.getPlayer().getLocation()).getDialogue(true, true);
-							Main.game.setContent(new Response("", "", dn));
-						}
-					};
+				return AbstractEncounter.exploreArea("the canals");
+			} else if(index == 2) {
+				return AbstractEncounter.useOffspringMap();
 			}
 			return null;
 		}
@@ -966,22 +925,11 @@ public class DominionPlaces {
 		@Override
 		public Response getResponse(int responseTab, int index) {
 			if (index == 1) {
-				return new ResponseEffectsOnly(
-						"Explore",
-						"Explore this area. Although you don't think you're any more or less likely to find anything by doing this, at least you won't have to keep travelling back and forth..."){
-						@Override
-						public int getSecondsPassed() {
-							return 30*60;
-						}
-						@Override
-						public void effects() {
-							DialogueNode dn = Main.game.getActiveWorld().getCell(Main.game.getPlayer().getLocation()).getDialogue(true, true);
-							Main.game.setContent(new Response("", "", dn));
-						}
-					};
-			} else {
-				return null;
+				return AbstractEncounter.exploreArea("the canals");
+			} else if(index == 2) {
+				return AbstractEncounter.useOffspringMap();
 			}
+			return null;
 		}
 	};
 

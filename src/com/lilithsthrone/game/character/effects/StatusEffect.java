@@ -8222,7 +8222,7 @@ public class StatusEffect {
 		public String getDescription(GameCharacter target) {
 			return UtilText.parse(target,
 					"Losing [npc.her] precious virginity has hit [npc.name] hard, and [npc.she] now [npc.verb(see)] [npc.herself] as nothing but a dirty slut."
-						+ " [npc.She] now often fantasises about big, thick cocks slamming deep into [npc.her] worthless cunt, before defiling [npc.her] womb with their foul cum...");
+						+ " [npc.She] now often [npc.verb(fantasise)] about big, thick cocks slamming deep into [npc.her] worthless cunt, before defiling [npc.her] womb with their foul cum...");
 		}
 		@Override
 		public boolean isConditionsMet(GameCharacter target) {
