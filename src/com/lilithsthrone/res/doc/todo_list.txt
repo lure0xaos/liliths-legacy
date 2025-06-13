@@ -10,6 +10,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Consolidated the TF race methods and layout dialogues in the BodyChanging class. (PR#1808 by Maxis010)
 		Fixed a lot of typos and parsing errors. (PR#1799 by CKRainbow)
 		Fixed a lot of typos and parsing errors. (PR#1789 by Simones112)
+		Added ability to directly parse an item within its own description. (PR#1438 by CognitiveMist)
 	
 	Multiple fixes from #PR1778 (by Maxis010):
 		Added +/- 100 buttons to sex experience for character creation. (Innoxia: I also made some changes to the formatting of the sex experience dialogue.)
@@ -38,6 +39,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Engine/Modding:
 		Added a 'REMOVE_FROM_DRESSING_ROOM_OUTFITS' item tag to prevent weapons or clothing from being available in the dressing room outfit creator.
 		Added temporary boolean, String, and int variables to the DialogueFlags class, which can be accessed via the 'flags' parsing target, and used via getter/setter methods getBool(String id), setBool(String id, boolean value), getString(String id), setString(String id, String value), getInt(String id), setInt(String id, int value). The temporary variables which you set via these methods are forgotten whenever a game is loaded; they're intended for use across multiple conditional checks within a game's instance, not for saving data to the game's file.
+		As part of PR#1438, clothing, weapon, and item mods can now parse a reference to themselves in their descriptions by using the 'thisItem' parsing target, and can also parse the owner of the item with the 'npc' target (which should use a null check to be used) - comments have been added to the example XML files to describe this.
 	
 	UI:
 		Reformatted tooltip content for clothing, weapons, items, and tattoos, to fix several issues with readability, content being cut off, and lots of wasted space.
@@ -351,14 +353,10 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Already fixed the issue you addressed in "Half-demon taur spawn fix"
 		For the "Bugfix: Brothel visitors not leaving" PR, I feel like just the one line fix to correct ANGELS_KISS_GROUND_FLOOR to ANGELS_KISS_FIRST_FLOOR should fix that section? I think the slave and Occupation.NPC_PROSTITUTE checks are still needed.
 		Already fixed "Bugfix: Armpits SexAreaOrifice now has correct getRelatedCoverableArea"
-	
-	
-	
 	Frotting actions (PR#1782 by Sightglass):
 		Added frotting as a new type of ongoing action for penis-to-penis interations.
 		Added an associated frotting orgasm, special actions for sheath-docking and prehensile-penis interactions, a couple of sadistic actions for SPH, and a speech action to compliment your partner's cock.
 		Added cloacal penetration while engaged in ongoing frotting.
-	
 	PR#1782
 		Fixed dicksTouching code to use a more reliable method to detect whether there's any ongoing penis-to-penis actions.
 		Enabled dildo-to-dildo frotting, and added some basic checks to make sure that dildos were accounted for in dialogue.
@@ -369,6 +367,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Applied changes to code to make a forced frotting orgasm possible.
 		Removed the start/stop and orgasm actions from cloacal penetration, as it's conflicting with frotting. I'll add this as a fully-implemented new sex area at some point, and until then I'll just keep the limited penetration actions you've added.
 		Added frotting to NPC preference generation, so NPCs will sometimes want to do frotting as the foreplay or main actions during sex.
+	
 	
 	[] PRs
 		[x] 1785
@@ -402,9 +401,33 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[x] quick sex test
 			[x] NPC preference behaviour
 			[x] revert nameHers removal... (after merge as I can't find them now)
-		[] PR 1438
-			[] collar glow as extra
-			[] naming/description for tape?
+		[x] PR 1438
+			[x] collar glow as extra
+			[x] how is it parsing selected item description
+				[x] it's saving to "item" -> engine.put("item", specialItem);
+				[x] this needs to be removed if no item parsed
+				[x] add item parsing to item, weapon, clothing descriptions and names
+					[x] check from tooltip
+					[x] generic item parsing?
+			[x] change parsing target to 'thisItem'
+			[x] test weapon attack parsing
+			[x] tooltips are using type descriptions, not descriptions from the item itself...
+				[x] add type description method for weapon and item (and comment it...)
+			[x] naming/description for tape?
+				[x] duct tape
+				[x] electrical tape
+			[x] need character equipped for parsing
+				[x] add owner for parsing
+				[x] add to Modding/Engine patch notes
+				[x] add to modding example files
+					[x] npc
+					[x] thisItem
+				[x] formatAsMoney parse doesn't carry over item...
+			Notes:
+				Cleared the mapping for active item in the parsing engine if there is no item passed to the parsing method.
+				Changed the parsing target from 'item' to 'thisItem' (I know it doesn't matter as much as other targets, but as I currently use 'clothing' as a parsing target that can be set from anywhere within the code, and I might add that functionality for weapons and items later, then 'item' would clash with this parsing target unless changed).
+				Additioanlly added parsing support for the owner of the clothing/weapon/item (as 'npc').
+				
 		[] smaller PRs
 			[] 1851
 			[] 1840

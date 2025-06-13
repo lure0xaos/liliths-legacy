@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.AbstractAttribute;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.enchanting.AbstractItemEffectType;
@@ -179,7 +180,11 @@ public abstract class AbstractCoreItem implements XMLSaving {
 		this.SVGString = SVGString;
 	}
 
-	public abstract String getDescription();
+	public String getDescription() {
+		return getDescription(null);
+	}
+
+	public abstract String getDescription(GameCharacter characterEquippedOn);
 
 	public abstract int getValue();
 	

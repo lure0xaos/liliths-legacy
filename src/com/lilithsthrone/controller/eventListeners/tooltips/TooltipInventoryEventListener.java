@@ -940,7 +940,7 @@ public class TooltipInventoryEventListener implements EventListener {
 								+ "</div>"
 							+ "</div>");
 			
-			tooltipSB.append(absItem.getItemType().getDescription());
+			tooltipSB.append(absItem.getTypeDescription(owner));
 			tooltipSB.append("</div>");
 		tooltipSB.append("</div>");
 		
@@ -1133,7 +1133,7 @@ public class TooltipInventoryEventListener implements EventListener {
 								+ "</div>"
 							+ "</div>");
 			
-			tooltipSB.append(absWeapon.getWeaponType().getDescription());
+			tooltipSB.append(absWeapon.getTypeDescription(owner));
 			tooltipSB.append("</div>");
 		tooltipSB.append("</div>");
 
@@ -1461,7 +1461,7 @@ public class TooltipInventoryEventListener implements EventListener {
 										+ (owner!=null && owner.getClothingCurrentlyEquipped().contains(absClothing)?absClothing.getSVGEquippedString(owner):absClothing.getSVGString())
 									+ "</div>"
 								+ "</div>");
-				tooltipSB.append(absClothing.getTypeDescription());
+				tooltipSB.append(absClothing.getTypeDescription(owner));
 			tooltipSB.append("</div>");
 		tooltipSB.append("</div>");
 		

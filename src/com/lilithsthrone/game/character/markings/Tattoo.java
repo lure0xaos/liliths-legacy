@@ -587,8 +587,8 @@ public class Tattoo extends AbstractCoreItem implements XMLSaving {
 	}
 
 	@Override
-	public String getDescription() {
-		return this.getType().getDescription();
+	public String getDescription(GameCharacter characterEquippedOn) {
+		return UtilText.parse(characterEquippedOn, this.getType().getDescription());
 	}
 
 	public String getBodyOverviewDescription() {

@@ -808,9 +808,16 @@ public class UtilText {
 	}
 	
 	public static String formatAsMoney(String money, String tag) {
-		if(!money.contains("[npc.")) { // DO not parse it out if this is a generic NPC's money
+		if(!money.contains("[npc.")) { // Do not parse it out if this is a generic NPC's money
 			try {
-				int moneyInt = Integer.parseInt(UtilText.parse(money));
+				// If 'thisItem' is not null, pass it through into the money parsing, so that [style.moneyFormat([#thisItem.getValue()], span)] will work without throwing an error
+				Object item = engine.get("thisItem");
+				int moneyInt;
+				if(item!=null) {
+					moneyInt = Integer.parseInt(UtilText.parse((AbstractCoreItem) item, money));
+				} else {
+					moneyInt = Integer.parseInt(UtilText.parse(money));
+				}
 				return formatAsMoney(moneyInt, tag, PresetColour.TEXT);
 			} catch(Exception ex) {
 			}
@@ -1028,17 +1035,20 @@ public class UtilText {
 	public static String parse(String input, ParserTag... tags) {
 		return parse(new ArrayList<>(), input, tags);
 	}
+
+	// v0.4.10.10: allowed null values in lists so that parsed content can check for null characters.
+	// It shouldn't have affected anything, but if text throughout the game starts throwing parsing errors just revert this to 'Util.newArrayListOfValues'...
 	
 	public static String parse(GameCharacter specialNPC, String input, ParserTag... tags) {
-		return parse(Util.newArrayListOfValues(specialNPC), input, tags);
+		return parse(Util.newArrayListOfValuesKeepNulls(specialNPC), input, tags);
 	}
 
 	public static String parse(GameCharacter specialNPC, AbstractCoreItem specialItem, String input, ParserTag... tags) {
-		return parse(Util.newArrayListOfValues(specialNPC), specialItem, input, tags);
+		return parse(Util.newArrayListOfValuesKeepNulls(specialNPC), specialItem, input, tags);
 	}
 	
 	public static String parse(GameCharacter specialNPC1, GameCharacter specialNPC2, String input, ParserTag... tags) {
-		return parse(Util.newArrayListOfValues(specialNPC1, specialNPC2), input, tags);
+		return parse(Util.newArrayListOfValuesKeepNulls(specialNPC1, specialNPC2), input, tags);
 	}
 
 	public static String parse(AbstractCoreItem specialItem, String input, ParserTag... tags) {
@@ -9765,7 +9775,9 @@ public class UtilText {
 			}
 			
 			if(specialItem != null) {
-				engine.put("item", specialItem);
+				engine.put("thisItem", specialItem);
+			} else {
+				engine.put("thisItem", null);
 			}
 			
 			// Companion parsing tags:
@@ -9832,7 +9844,9 @@ public class UtilText {
 			}
 
 			if(specialItem != null) {
-				engine.put("item", specialItem);
+				engine.put("thisItem", specialItem);
+			} else {
+				engine.put("thisItem", null);
 			}
 
 			// Companion parsing tags:
@@ -10484,7 +10498,7 @@ public class UtilText {
 		for(Entry<String, String> entry : conditionals.entrySet()) {
 			try {
 				if(evaluateConditional(specialNPCs, specialItem, entry.getKey(), hasXmlVariables)){
-					return UtilText.parse(specialNPCs, entry.getValue(), false);
+					return UtilText.parse(specialNPCs, specialItem, entry.getValue(), false, new ArrayList<>()); //TODO tags lost
 				}
 				
 			} catch (ScriptException e) {
@@ -10524,7 +10538,9 @@ public class UtilText {
 			}
 			
 			if(specialItem != null) {
-				engine.put("item", specialItem);
+				engine.put("thisItem", specialItem);
+			} else {
+				engine.put("thisItem", null);
 			}
 		
 

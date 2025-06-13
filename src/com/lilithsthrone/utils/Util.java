@@ -393,6 +393,18 @@ public class Util {
 		list.removeIf(e -> e==null);
 		return list;
 	}
+
+	/**
+	 * @param values The values to add to the new list.
+	 * @return A list of provided values, with nulls retained.
+	 */
+	@SafeVarargs
+	public static <U> ArrayList<U> newArrayListOfValuesKeepNulls(U... values) {
+		ArrayList<U> list = new ArrayList<>(Arrays.asList(values));
+//		list.removeIf(e -> e==null);
+		return list;
+	}
+	
 	
 	@SafeVarargs
 	/**

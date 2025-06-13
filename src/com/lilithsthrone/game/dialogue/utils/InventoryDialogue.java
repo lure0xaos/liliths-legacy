@@ -27,6 +27,7 @@ import com.lilithsthrone.game.dialogue.eventLog.EventLogEntryEncyclopediaUnlock;
 import com.lilithsthrone.game.dialogue.responses.Response;
 import com.lilithsthrone.game.dialogue.responses.ResponseEffectsOnly;
 import com.lilithsthrone.game.dialogue.story.CharacterCreation;
+import com.lilithsthrone.game.inventory.AbstractCoreItem;
 import com.lilithsthrone.game.inventory.ColourReplacement;
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.ItemTag;
@@ -984,23 +985,24 @@ public class InventoryDialogue {
 		
 		@Override
 		public String getContent() {
-			return getItemDisplayPanel(item.getSVGString(),
+			return getItemDisplayPanel(item,
+					item.getSVGString(),
 					item.getDisplayName(true),
-					item.getDescription()
-					+ item.getExtraDescription(owner, owner)
-					+ (owner!=null && owner.isPlayer()
-							? (inventoryNPC != null && interactionType == InventoryInteraction.TRADING
+					item.getDescription(owner)
+						+ item.getExtraDescription(owner, owner)
+						+ (owner!=null && owner.isPlayer()
+								? (inventoryNPC != null && interactionType == InventoryInteraction.TRADING
+										? "<p>"
+											+(inventoryNPC.willBuy(item) && item.getItemType().isAbleToBeSold()
+												?inventoryNPC.getName("The") + " will buy it for " + UtilText.formatAsMoney(item.getPrice(inventoryNPC.getBuyModifier())) + "."
+												:inventoryNPC.getName("The") + " doesn't want to buy this.")
+											+"</p>"
+										: "")
+								:(inventoryNPC != null && interactionType == InventoryInteraction.TRADING
 									? "<p>"
-										+(inventoryNPC.willBuy(item) && item.getItemType().isAbleToBeSold()
-											?inventoryNPC.getName("The") + " will buy it for " + UtilText.formatAsMoney(item.getPrice(inventoryNPC.getBuyModifier())) + "."
-											:inventoryNPC.getName("The") + " doesn't want to buy this.")
-										+"</p>"
-									: "")
-							:(inventoryNPC != null && interactionType == InventoryInteraction.TRADING
-								? "<p>"
-										+ inventoryNPC.getName("The") + " will sell it for " + UtilText.formatAsMoney(item.getPrice(inventoryNPC.getSellModifier(item))) + "."
-									+ "</p>" 
-								: "")));
+											+ inventoryNPC.getName("The") + " will sell it for " + UtilText.formatAsMoney(item.getPrice(inventoryNPC.getSellModifier(item))) + "."
+										+ "</p>" 
+									: "")));
 		}
 
 		public String getResponseTabTitle(int index) {
@@ -2697,23 +2699,24 @@ public class InventoryDialogue {
 					}
 				sb.append("</p>");
 			}
-			return getItemDisplayPanel(weapon.getSVGString(),
+			return getItemDisplayPanel(weapon,
+					weapon.getSVGString(),
 					Util.capitaliseSentence(weapon.getDisplayName(true)),
 					weapon.getDescription(owner)
-					+ sb.toString()
-					+ (owner!=null && owner.isPlayer()
-							? (inventoryNPC != null && interactionType == InventoryInteraction.TRADING
-									? "<p>" 
-										+(inventoryNPC.willBuy(weapon)
-											?inventoryNPC.getName("The") + " will buy it for " + UtilText.formatAsMoney(weapon.getPrice(inventoryNPC.getBuyModifier())) + "."
-											:inventoryNPC.getName("The") + " doesn't want to buy this.")
-										+"</p>"
-									: "")
-							:(inventoryNPC != null && interactionType == InventoryInteraction.TRADING
-								? "<p>"
-										+ inventoryNPC.getName("The") + " will sell it for " + UtilText.formatAsMoney(weapon.getPrice(inventoryNPC.getSellModifier(weapon))) + "."
-									+ "</p>" 
-								: "")));
+						+ sb.toString()
+						+ (owner!=null && owner.isPlayer()
+								? (inventoryNPC != null && interactionType == InventoryInteraction.TRADING
+										? "<p>" 
+											+(inventoryNPC.willBuy(weapon)
+												?inventoryNPC.getName("The") + " will buy it for " + UtilText.formatAsMoney(weapon.getPrice(inventoryNPC.getBuyModifier())) + "."
+												:inventoryNPC.getName("The") + " doesn't want to buy this.")
+											+"</p>"
+										: "")
+								:(inventoryNPC != null && interactionType == InventoryInteraction.TRADING
+									? "<p>"
+											+ inventoryNPC.getName("The") + " will sell it for " + UtilText.formatAsMoney(weapon.getPrice(inventoryNPC.getSellModifier(weapon))) + "."
+										+ "</p>" 
+									: "")));
 		}
 
 
@@ -3881,7 +3884,7 @@ public class InventoryDialogue {
 		@Override
 		public String getContent() {
 			StringBuilder sb = new StringBuilder();
-			sb.append(clothing.getDescription());
+			sb.append(clothing.getDescription(owner));
 			sb.append("<p>");
 				for(String s : clothing.getExtraDescriptions(null, null, true)) {
 					sb.append(s+"<br/>");
@@ -3911,8 +3914,13 @@ public class InventoryDialogue {
 						: "")));
 			
 			
-			return getItemDisplayPanel(clothing.getSVGString(), clothing.getDisplayName(true), sb.toString())
-					+(interactionType==InventoryInteraction.CHARACTER_CREATION?CharacterCreation.getCheckingClothingDescription():"");
+			return getItemDisplayPanel(clothing,
+						clothing.getSVGString(),
+						clothing.getDisplayName(true),
+						sb.toString())
+					+(interactionType==InventoryInteraction.CHARACTER_CREATION
+						?CharacterCreation.getCheckingClothingDescription()
+						:"");
 		}
 
 		public String getResponseTabTitle(int index) {
@@ -5504,7 +5512,8 @@ public class InventoryDialogue {
 					}
 				sb.append("</p>");
 			}
-			return getItemDisplayPanel(weapon.getSVGEquippedString(owner),
+			return getItemDisplayPanel(weapon,
+					weapon.getSVGEquippedString(owner),
 					Util.capitaliseSentence(weapon.getDisplayName(true)),
 					weapon.getDescription(owner)
 					 	+sb.toString());
@@ -5927,7 +5936,7 @@ public class InventoryDialogue {
 		@Override
 		public String getContent() {
 			StringBuilder sb = new StringBuilder();
-			sb.append(clothing.getDescription());
+			sb.append(clothing.getDescription(owner));
 			sb.append("<p>");
 				GameCharacter descriptionTarget = owner; //Main.game.isInSex()?owner:Main.game.getPlayer()
 				for(String s : clothing.getExtraDescriptions(descriptionTarget, null, true)) {
@@ -5939,8 +5948,13 @@ public class InventoryDialogue {
 			sb.append("</p>");
 			sb.append(Main.game.isInSex()||Main.game.isInCombat()?clothing.getDisplacementBlockingDescriptions(owner):"");
 			
-			return getItemDisplayPanel(clothing.getSVGEquippedString(owner), clothing.getDisplayName(true), sb.toString())
-						+(interactionType==InventoryInteraction.CHARACTER_CREATION?CharacterCreation.getCheckingClothingDescription():"");
+			return getItemDisplayPanel(clothing,
+						clothing.getSVGEquippedString(owner),
+						clothing.getDisplayName(true),
+						sb.toString())
+					+(interactionType==InventoryInteraction.CHARACTER_CREATION
+						?CharacterCreation.getCheckingClothingDescription()
+						:"");
 		}
 
 		public String getResponseTabTitle(int index) {
@@ -8612,7 +8626,7 @@ public class InventoryDialogue {
 				+ "</p>";
 	}
 	
-	private static String getItemDisplayPanel(String SVGString, String title, String description) {
+	private static String getItemDisplayPanel(AbstractCoreItem item, String SVGString, String title, String description) {
 		return "<div class='inventoryImage'>" // style='width: calc(50% - 4px);'
 					+ "<div class='inventoryImage-content'>"
 						+ SVGString
@@ -8620,7 +8634,7 @@ public class InventoryDialogue {
 				+ "</div>"
 				+ "<h5 style='margin-bottom:0; padding-bottom:0;'><b>"+title+"</b></h5>"
 				+ "<p style='margin-top:0; padding-top:0;'>"
-					+ description
+					+ UtilText.parse(item, description)
 				+ "</p>";
 	}
 	

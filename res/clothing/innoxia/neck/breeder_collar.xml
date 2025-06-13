@@ -6,7 +6,7 @@
 		<determiner><![CDATA[an]]></determiner>
 		<name><![CDATA[collar]]></name>
 		<namePlural pluralByDefault="false"><![CDATA[collars]]></namePlural>
-		<description><![CDATA[A [style.glowPink(glowing pink)] leather collar, with bold metal lettering attached to the front spelling out the word ]]></description>
+		<description><![CDATA[A <span style='color:[#thisItem.getColour(0).toWebHexString()];'>[style.glow(glowing [#thisItem.getColourName()])]</span> leather collar, with bold metal lettering attached to the front spelling out the word ]]></description>
 		<physicalResistance>0</physicalResistance>
 		<femininity>ANDROGYNOUS</femininity>
     <equipSlots>
