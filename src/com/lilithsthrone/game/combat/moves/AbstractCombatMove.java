@@ -623,7 +623,7 @@ public abstract class AbstractCombatMove {
      */
     public void performOnSelection(int turnIndex, GameCharacter source, GameCharacter target, List<GameCharacter> enemies, List<GameCharacter> allies) {
 		//Support for blockAmount in modded combatActions
-		DamageType dt =this.getDamageType(turnIndex, source);
+		DamageType dt = this.getDamageType(turnIndex, source);
 		if(isMod() && this.getBlock(source, false)>0) {
 			source.setShields(dt, source.getShields(dt) + getBlock(source, canCrit(turnIndex, source, target, enemies, allies)));
 		}
@@ -639,8 +639,9 @@ public abstract class AbstractCombatMove {
      */
     public void performOnDeselection(int turnIndex, GameCharacter source, GameCharacter target, List<GameCharacter> enemies, List<GameCharacter> allies) {
 		//Support for blockAmount in modded combatActions
+		DamageType dt = this.getDamageType(turnIndex, source);
 		if(isMod() && this.getBlock(source, false)>0) {
-			source.setShields(damageType, source.getShields(damageType) - getBlock(source, canCrit(turnIndex, source, target, enemies, allies)));
+			source.setShields(dt, source.getShields(dt) - getBlock(source, canCrit(turnIndex, source, target, enemies, allies)));
 		}
 
     }

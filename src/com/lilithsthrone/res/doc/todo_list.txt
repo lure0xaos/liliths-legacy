@@ -11,6 +11,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed a lot of typos and parsing errors. (PR#1799 by CKRainbow)
 		Fixed a lot of typos and parsing errors. (PR#1789 by Simones112)
 		Added ability to directly parse an item within its own description. (PR#1438 by CognitiveMist)
+		Fixed bug where modded combat moves were not implementing the blockAmount tag. (PR#1851 by miome)
 	
 	Multiple fixes from #PR1778 (by Maxis010):
 		Added +/- 100 buttons to sex experience for character creation. (Innoxia: I also made some changes to the formatting of the sex experience dialogue.)
@@ -426,10 +427,16 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			Notes:
 				Cleared the mapping for active item in the parsing engine if there is no item passed to the parsing method.
 				Changed the parsing target from 'item' to 'thisItem' (I know it doesn't matter as much as other targets, but as I currently use 'clothing' as a parsing target that can be set from anywhere within the code, and I might add that functionality for weapons and items later, then 'item' would clash with this parsing target unless changed).
-				Additioanlly added parsing support for the owner of the clothing/weapon/item (as 'npc').
+				Additionally added parsing support for the owner of the clothing/weapon/item (as 'npc').
 				
 		[] smaller PRs
-			[] 1851
+			[x] 1851
+				[x] resetting moves does not reset block amount
+			[] update tooltips
+				[] combat move
+					[] formatting
+					[] show block amount
+				[] spells
 			[] 1840
 			[] 1839
 			[] 1654
