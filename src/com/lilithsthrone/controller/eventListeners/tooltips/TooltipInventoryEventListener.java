@@ -180,7 +180,7 @@ public class TooltipInventoryEventListener implements EventListener {
 				
 			}
 			
-			Main.mainController.setTooltipContent(UtilText.parse(tooltipSB.toString()));
+			Main.mainController.setTooltipContent(UtilText.parse(dyeClothing, tooltipSB.toString()));
 
 		} else if(dyeWeapon != null) {
 			Main.mainController.setTooltipSize(TOOLTIP_WIDTH, 480);
@@ -213,7 +213,7 @@ public class TooltipInventoryEventListener implements EventListener {
 						+ "</div>");
 			}
 			
-			Main.mainController.setTooltipContent(UtilText.parse(tooltipSB.toString()));
+			Main.mainController.setTooltipContent(UtilText.parse(dyeWeapon, tooltipSB.toString()));
 
 		} else if (genericItem != null) {
 			itemTooltip(Main.game.getItemGen().generateItem(genericItem));
@@ -1026,7 +1026,7 @@ public class TooltipInventoryEventListener implements EventListener {
 			specialYIncrease += 26;
 		}
 		Main.mainController.setTooltipSize(TOOLTIP_WIDTH+80, 272 + (yIncrease * 18) + specialYIncrease);
-		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, tooltipSB.toString()));
+		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, absItem, tooltipSB.toString()));
 	}
 
 	private void weaponTooltip(AbstractWeapon absWeapon) {
@@ -1302,7 +1302,7 @@ public class TooltipInventoryEventListener implements EventListener {
 			specialYIncrease += 26;
 		}
 		Main.mainController.setTooltipSize(TOOLTIP_WIDTH+80, 300 + (yIncrease * 18) + specialYIncrease);
-		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, tooltipSB.toString()));
+		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, absWeapon, tooltipSB.toString()));
 		
 	}
 
@@ -1565,7 +1565,7 @@ public class TooltipInventoryEventListener implements EventListener {
 			specialYIncrease += 26;
 		}
 		Main.mainController.setTooltipSize(TOOLTIP_WIDTH+80, 300 + (yIncrease * 18) + specialYIncrease);
-		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, tooltipSB.toString()));
+		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, absClothing, tooltipSB.toString()));
 
 	}
 	
