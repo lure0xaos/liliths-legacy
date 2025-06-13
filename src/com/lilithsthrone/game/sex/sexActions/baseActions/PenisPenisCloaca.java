@@ -1,24 +1,8 @@
 package com.lilithsthrone.game.sex.sexActions.baseActions;
 
-import java.util.List;
 import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.game.sex.SexAreaInterface;
-import com.lilithsthrone.game.sex.SexAreaOrifice;
-import com.lilithsthrone.game.sex.sexActions.SexActionPriority;
-import com.lilithsthrone.game.sex.managers.OrgasmBehaviour;
-import com.lilithsthrone.game.character.body.valueEnums.GenitalArrangement;
-import com.lilithsthrone.game.character.body.Arm;
-import com.lilithsthrone.game.character.body.BodyPartInterface;
-import com.lilithsthrone.game.character.body.CoverableArea;
-import com.lilithsthrone.game.character.body.Leg;
-import com.lilithsthrone.game.character.body.Tail;
-import com.lilithsthrone.game.character.body.Tentacle;
-import com.lilithsthrone.game.character.body.Torso;
-import com.lilithsthrone.game.character.body.Wing;
-import com.lilithsthrone.game.character.fetishes.Fetish;
-import com.lilithsthrone.game.sex.OrgasmCumTarget;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
-import com.lilithsthrone.game.character.body.valueEnums.PenetrationModifier;
+import com.lilithsthrone.game.character.body.valueEnums.GenitalArrangement;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.sex.ArousalIncrease;
 import com.lilithsthrone.game.sex.SexAreaPenetration;
@@ -39,7 +23,9 @@ public class PenisPenisCloaca {
 	private static boolean hasCloaca(GameCharacter gc) {
 		return gc.getGenitalArrangement() == GenitalArrangement.CLOACA ||  gc.getGenitalArrangement() == GenitalArrangement.CLOACA_BEHIND;
 	}
-	
+
+	// Innoxia: I removed the start/stop actions from this class as the PenisPenis class handles penis-to-penis actions as "frotting", and so by treating them as separate ongoing actions they clash with one another.
+	/*
 	public static final SexAction SLIT_PENETRATION_START = new SexAction(
 			SexActionType.START_ONGOING,
 			ArousalIncrease.FOUR_HIGH,
@@ -67,18 +53,18 @@ public class PenisPenisCloaca {
 		@Override
 		public String getDescription() {
 			
-			UtilText.nodeContentSB.setLength(0);
+			StringBuilder sb = new StringBuilder();
 			
 			switch(Main.sex.getSexPace(Main.sex.getCharacterPerformingAction())) {
 				case DOM_GENTLE:
 				case DOM_NORMAL:
-					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+					sb.append(UtilText.returnStringAtRandom(
 							"Reaching down, [npc.name] [npc.verb(adjust)] [npc.her] [npc.cock] to line it up with [npc2.hers], before slipping past it, thrusting gently into [npc.her] genital slit.",
 							"Carefully adjusting [npc.her] [npc.hips+], [npc.name] [npc.verb(press)] [npc.her] [npc.cock] along the base of [npc2.her] [npc2.cock], slipping the tip into [npc2.her] slit.",
 							"With [npc.a_moan+], [npc.name] slowly [npc.verb(press)] [npc.her] groin in between [npc2.namePos] [npc2.legs], before starting to tease [npc.her] [npc.cock] against the opening of [npc2.her] cloaca."));
 					break;
 				case DOM_ROUGH:
-					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+					sb.append(UtilText.returnStringAtRandom(
 							"With a rough buck of [npc.her] [npc.hips+], [npc.name] forcefully [npc.verb(grind)] [npc.her] [npc.cock] against [npc2.namePos] genital slit, .",
 							"With a growl, [npc.name] roughly [npc.verb(pull)] [npc2.namePos] crotch into place around [npc.her] [npc.legs], lining up [npc.her] [npc.cock] against [npc2.hers] and starting to thrust them against each other.",
 							"With [npc.a_moan+], [npc.name] roughly [npc.verb(grind)] [npc.her] groin in between [npc2.namePos] [npc2.legs], before starting to forcefully grind [npc.her] [npc.cock] up and down over [npc2.hers]."));
@@ -86,54 +72,68 @@ public class PenisPenisCloaca {
 			}
 			switch(Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(this))) {
 				case SUB_EAGER:
-					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+					sb.append(UtilText.returnStringAtRandom(
 							" Happily bucking [npc2.her] own [npc2.hips] in response,"
 									+ " [npc2.name] [npc2.verb(let)] out [npc2.a_moan+] as [npc2.she] [npc2.verb(mirror)] the movements of [npc.name] and readily [npc2.verb(rub)] [npc2.her] [npc2.cock] against [npc.her] body as [npc.name] [npc.verb(thrust)] into [npc2.her] slit.",
 							" Responding with a happy buck of [npc2.her] own [npc2.hips], [npc2.name] [npc2.verb(start)] mirroring [npc.namePos] movements, helping to frantically drive [npc.her] [npc.cock] deeper into [npc2.her] cloaca."));
 					break;
 				case SUB_NORMAL:
-					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+					sb.append(UtilText.returnStringAtRandom(
 							" Bucking [npc2.her] own [npc2.hips] in response,"
 									+ " [npc2.name] [npc2.verb(let)] out [npc2.a_moan+] as [npc2.she] [npc2.verb(mirror)] the movements of [npc.name] and [npc2.verb(rub)] [npc2.her] [npc2.cock] against [npc.her] body as [npc.name] [npc.verb(thrust)] into [npc2.her] slit.",
 							" Responding with a buck of [npc2.her] own [npc2.hips], [npc2.name] [npc2.verb(start)] mirroring [npc.namePos] movements, helping to drive [npc.her] [npc.cock] deeper into [npc2.her] cloaca."));
 					break;
 				case SUB_RESISTING:
-					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+					sb.append(UtilText.returnStringAtRandom(
 							" Desperately trying to pull away,"
 									+ " [npc2.name] [npc2.verb(let)] out [npc2.a_moan+] as [npc2.she] [npc2.verb(plead)] for [npc.name] to get away from [npc2.herHim] and pull out.",
-							" Responding by frantically recoiling from [npc.namePos] unwanted advance, [npc2.name] [npc2.verb(start)] pleading to be left alone, all the while trying to pull [npc2.her] [npc2.cock] away from [npc.namePos]."));
+							" Responding by frantically recoiling from [npc.namePos] unwanted advance, [npc2.name] [npc2.verb(start)] pleading to be left alone, all the while trying to pull [npc2.her] [npc2.cock] away from [npc.nameHers]."));
 					break;
 			}
 			
-			return UtilText.nodeContentSB.toString();
+			return sb.toString();
 		}
 		
 	};
+	*/
 	
 	private static String getTargetedCharacterResponse(SexAction action) {
+		StringBuilder sb = new StringBuilder();
 		switch(Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(action))) {
 			case SUB_EAGER:
 			case DOM_NORMAL:
-				UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
-						" [npc2.Name] enthusiastically [npc2.verb(respond)] in kind, and [npc2.verb(let)] out [npc2.a_moan+] as [npc2.she] [npc2.verb(rub)] [npc2.her] own [npc2.cock] up and down over [npc.name].",
-						" [npc2.A_moan+] bursts out from between [npc2.namePos] [npc2.lips+], and, eagerly thrusting out [npc2.her] [npc2.hips], [npc2.she] [npc2.verb(grind)] [npc2.her] [npc2.cock] against [npc.name].",
-						" [npc2.Moaning] in delight, [npc2.name] eagerly [npc2.verb(thrust)] [npc2.her] [npc2.hips+] out, using [npc.namePos] movements to help grind [npc2.her] own [npc2.cock] against [npc.name]."));
+				sb.append(UtilText.returnStringAtRandom(
+						" [npc2.Name] enthusiastically [npc2.verb(respond)] in kind, and [npc2.verb(let)] out [npc2.a_moan+] as [npc2.she] [npc2.verb(rub)] [npc2.her] own [npc2.cock] up and down over [npc.nameHers].",
+						" [npc2.A_moan+] bursts out from between [npc2.namePos] [npc2.lips+], and, eagerly thrusting out [npc2.her] [npc2.hips], [npc2.she] [npc2.verb(grind)] [npc2.her] [npc2.cock] against [npc.nameHers].",
+						" [npc2.Moaning] in delight, [npc2.name] eagerly [npc2.verb(thrust)] [npc2.her] [npc2.hips+] out, using [npc.namePos] movements to help grind [npc2.her] own [npc2.cock] against [npc.nameHers]."));
 				break;
 			case SUB_RESISTING:
-				UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+				sb.append(UtilText.returnStringAtRandom(
 						" Desperately trying, and failing, to pull away from [npc.namePos] [npc.cock], [npc2.name] desperately [npc2.verb(beg)] for [npc.name] to get away from [npc2.him].",
 						" [npc2.A_sob+] bursts out from between [npc2.namePos] [npc2.lips] as [npc2.she] weakly [npc2.verb(try)] to push [npc.name] away from [npc2.her] groin.",
 						" [npc2.Sobbing] in distress, and with tears running down [npc2.her] [npc2.face],"
 								+ " [npc2.name] weakly [npc2.verb(struggle)] against [npc.name], pleading and crying for [npc.herHim] to get away from [npc2.her] groin."));
 				break;
 			case SUB_NORMAL:
-				UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+				sb.append(UtilText.returnStringAtRandom(
 						" [npc2.Name] [npc2.verb(respond)] in kind, and [npc2.verb(let)] out [npc2.a_moan+] as [npc2.she] [npc2.verb(rub)] [npc2.her] own [npc2.cock] up and down over [npc.her].",
 						" [npc2.A_moan+] bursts out from between [npc2.namePos] [npc2.lips+], and, thrusting out [npc2.her] [npc2.hips], [npc2.she] [npc2.verb(grind)] [npc2.her] [npc2.cock] against [npc.her].",
 						" [npc2.Moaning] in pleasure, [npc2.name] [npc2.verb(thrust)] [npc2.her] [npc2.hips+] out, using [npc.namePos] movements to help grind [npc2.her] own [npc2.cock+] against [npc.her]."));
 				break;
+			case DOM_GENTLE:
+				sb.append(UtilText.returnStringAtRandom(
+						" [npc2.Name] [npc2.verb(respond)] in kind, and [npc2.verb(let)] out [npc2.a_moan+] as [npc2.she] gently [npc2.verb(rub)] [npc2.her] own [npc2.cock] up and down over [npc.nameHers].",
+						" [npc2.A_moan+] drifts out from between [npc2.namePos] [npc2.lips+], and, gently thrusting out [npc2.her] [npc2.hips], [npc2.she] slowly [npc2.verb(grind)] [npc2.her] [npc2.cock] against [npc.nameHers].",
+						" [npc2.Moaning] in delight, [npc2.name] slowly [npc2.verb(push)] [npc2.her] [npc2.hips+] out, using [npc.namePos] movements to help press [npc2.her] own [npc2.cock] against [npc.nameHers]."));
+				break;
+			case DOM_ROUGH:
+				sb.append(UtilText.returnStringAtRandom(
+						" [npc2.Name] greedily [npc2.verb(respond)] in kind, and [npc2.verb(let)] out [npc2.a_moan+] as [npc2.she] roughly [npc2.verb(grind)] [npc2.her] own [npc2.cock] up and down over [npc.nameHers].",
+						" [npc2.A_moan+] bursts out from between [npc2.namePos] [npc2.lips+], and, roughly thrusting out [npc2.her] [npc2.hips], [npc2.she] forcefully [npc2.verb(grind)] [npc2.her] [npc2.cock] against [npc.nameHers].",
+						" [npc2.Moaning] in delight, [npc2.name] forcefully [npc2.verb(thrust)] [npc2.her] [npc2.hips+] out, using [npc.namePos] movements to help roughly grind [npc2.her] own [npc2.cock] against [npc.nameHers]."));
+				break;
 		}
-		return "";
+		return sb.toString();
 	}
 	
 	public static final SexAction SLIT_PENETRATION_DOM_GENTLE = new SexAction(
@@ -144,35 +144,32 @@ public class PenisPenisCloaca {
 			Util.newHashMapOfValues(new Value<>(SexAreaPenetration.PENIS, SexAreaPenetration.PENIS)),
 			SexParticipantType.NORMAL,
 			SexPace.DOM_GENTLE) {
-		
 		@Override
 		public String getActionTitle() {
 			return "Gentle slit penetration";
 		}
-
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return (hasCloaca(Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction()))
-				&& Main.sex.getSexPace(Main.sex.getCharacterPerformingAction()).isDom());
+			return hasCloaca(Main.sex.getCharacterTargetedForSexAction(this))
+					&& Main.sex.getCharacterTargetedForSexAction(this).hasPenisIgnoreDildo()
+					&& Main.sex.getSexPace(Main.sex.getCharacterPerformingAction()).isDom();
 		}
-		
 		@Override
 		public String getActionDescription() {
-			return "Gently thrust [npc.her] [npc.cock] into [npc2.namePos] genital slit.";
+			return "Gently thrust your [npc.cock] into [npc2.namePos] genital slit.";
 		}
-
 		@Override
 		public String getDescription() {
-			UtilText.nodeContentSB.setLength(0);
+			StringBuilder sb = new StringBuilder();
 			
-			UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
-					"Letting out a little [npc.moan] with every thrust of [npc.her] [npc.hips], [npc.name] gently [npc.verb(thrust)] [npc.her] [npc.cock+] into [npc2.her] genital slit.",
-					"[npc.Name] [npc.verb(let)] out a series of soft sighs as [npc.she] gently [npc.verb(slip)] [npc.her] [npc.cock+] in and out of [npc2.her] cloaca.",
-					"Sliding [npc.her] [npc.cock+] along [npc2.namePos] [npc2.cock+] and into [npc2.her] slit, [npc.name] [npc.verb(let)] out a little [npc.moan] with each pump of [npc.her] [npc.hips]."));
+			sb.append(UtilText.returnStringAtRandom(
+					"Letting out a little [npc.moan] with every movement of [npc.her] [npc.hips], [npc.name] gently [npc.verb(thrust)] [npc.her] [npc.cock+] into [npc2.namePos] genital slit.",
+					"[npc.Name] [npc.verb(let)] out a series of soft [npc.moans] as [npc.she] gently [npc.verb(slip)] [npc.her] [npc.cock+] into [npc2.namePos] cloaca.",
+					"Sliding [npc.her] [npc.cock+] along [npc2.namePos] [npc2.cock+] [npc.name] [npc.verb(let)] out a little [npc.moan] as [npc.she] [npc.verb(penetrate)] [npc2.namePos] cloaca."));
 
-			UtilText.nodeContentSB.append(getTargetedCharacterResponse(this));
+			sb.append(getTargetedCharacterResponse(this));
 					
-			return UtilText.nodeContentSB.toString();
+			return sb.toString();
 		}
 	};
 	
@@ -184,35 +181,32 @@ public class PenisPenisCloaca {
 			Util.newHashMapOfValues(new Value<>(SexAreaPenetration.PENIS, SexAreaPenetration.PENIS)),
 			SexParticipantType.NORMAL,
 			SexPace.DOM_NORMAL) {
-		
 		@Override
 		public String getActionTitle() {
 			return "Slit penetration";
 		}
-
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return (hasCloaca(Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction()))
-				&& Main.sex.getSexPace(Main.sex.getCharacterPerformingAction()).isDom());
+			return hasCloaca(Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction()))
+					&& Main.sex.getCharacterTargetedForSexAction(this).hasPenisIgnoreDildo()
+					&& Main.sex.getSexPace(Main.sex.getCharacterPerformingAction()).isDom();
 		}
-		
 		@Override
 		public String getActionDescription() {
-			return "Thrust [npc.her] [npc.cock] into [npc2.namePos] genital slit.";
+			return "Thrust your [npc.cock] into [npc2.namePos] genital slit.";
 		}
-
 		@Override
 		public String getDescription() {
-			UtilText.nodeContentSB.setLength(0);
+			StringBuilder sb = new StringBuilder();
 
-			UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
-					"Letting out [npc.a_moan+] with each eager thrust of [npc.her] [npc.hips], [npc.name] passionately [npc.verb(thrust)] [npc.her] [npc.cock+] into [npc2.her] genital slit.",
-					"[npc.Name] [npc.verb(let)] out a series of lewd [npc.moans] as [npc.she] desperately [npc.verb(grind)] [npc.her] [npc.cock+] along the base of [npc2.namePos] [npc2.cock+], enveloped within [npc2.her] cloaca.",
-					"Eagerly grinding [npc.her] [npc.clit+] into the snug slit holding [npc2.namePos] [npc2.cock], [npc.name] [npc.verb(let)] out [npc.a_moan+] with each frantic pump of [npc.her] [npc.hips]."));
+			sb.append(UtilText.returnStringAtRandom(
+					"Letting out [npc.a_moan+] with each eager movement of [npc.her] [npc.hips], [npc.name] passionately [npc.verb(thrust)] [npc.her] [npc.cock+] into [npc2.namePos] genital slit.",
+					"[npc.Name] [npc.verb(let)] out a series of lewd [npc.moans] as [npc.she] desperately [npc.verb(grind)] [npc.her] [npc.cock+] into [npc2.namePos] cloaca.",
+					"Eagerly grinding [npc.her] [npc.cock+] along [npc2.namePos] [npc2.cock+] [npc.name] [npc.verb(let)] out [npc.a_moan+] as [npc.she] [npc.verb(penetrate)] [npc2.namePos] snug genital slit."));
 
-			UtilText.nodeContentSB.append(getTargetedCharacterResponse(this));
+			sb.append(getTargetedCharacterResponse(this));
 			
-			return UtilText.nodeContentSB.toString();
+			return sb.toString();
 		}
 	};
 	
@@ -224,38 +218,37 @@ public class PenisPenisCloaca {
 			Util.newHashMapOfValues(new Value<>(SexAreaPenetration.PENIS, SexAreaPenetration.PENIS)),
 			SexParticipantType.NORMAL,
 			SexPace.DOM_ROUGH) {
-
 		@Override
 		public String getActionTitle() {
 			return "Rough slit penetration";
 		}
-		
 		@Override
 		public boolean isBaseRequirementsMet() {
-			return (hasCloaca(Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction()))
-				&& Main.sex.getSexPace(Main.sex.getCharacterPerformingAction()).isDom());
+			return hasCloaca(Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction()))
+					&& Main.sex.getCharacterTargetedForSexAction(this).hasPenisIgnoreDildo()
+					&& Main.sex.getSexPace(Main.sex.getCharacterPerformingAction()).isDom();
 		}
-
 		@Override
 		public String getActionDescription() {
-			return "Continue roughly grinding your [npc.cock+] into the slit holding [npc2.namePos] [npc2.cock+].";
+			return "Roughly grind your [npc.cock+] into the slit holding [npc2.namePos] [npc2.cock+].";
 		}
-		
 		@Override
 		public String getDescription() {
-			UtilText.nodeContentSB.setLength(0);
+			StringBuilder sb = new StringBuilder();
 
-			UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
-					"Letting out [npc.a_moan+] with each forceful thrust of [npc.her] [npc.hips], [npc.name] roughly [npc.verb(grind)] [npc.her] [npc.cock+] into the slit holding [npc2.namePos] [npc2.cock+].",
-					"[npc.Name] [npc.verb(let)] out a series of lewd [npc.moans] as [npc.she] roughly [npc.verb(press)] [npc.her] [npc.cock+] past [npc2.namePos] [npc2.cock+] and into [npc2.her] genital slit.",
-					"Violently grinding [npc.her] [npc.cock+] over [npc2.namePos] [npc2.cock+] and into [npc2.her] cloaca, [npc.name] [npc.verb(let)] out [npc.a_moan+] with each forceful pump of [npc.her] [npc.hips]."));
+			sb.append(UtilText.returnStringAtRandom(
+					"Letting out [npc.a_moan+] with each forceful movement of [npc.her] [npc.hips], [npc.name] roughly [npc.verb(thrust)] [npc.her] [npc.cock+] into [npc2.namePos] genital slit.",
+					"[npc.Name] [npc.verb(let)] out a series of lewd [npc.moans] as [npc.she] roughly [npc.verb(slam)] [npc.her] [npc.cock+] into [npc2.namePos] cloaca.",
+					"Violently grinding [npc.her] [npc.cock+] over [npc2.namePos] [npc2.cock+] [npc.name] [npc.verb(let)] out [npc.a_moan+] as [npc.she] forcefully [npc.verb(penetrate)] [npc2.namePos] snug genital slit."));
 
-			UtilText.nodeContentSB.append(getTargetedCharacterResponse(this));
+			sb.append(getTargetedCharacterResponse(this));
 			
-			return UtilText.nodeContentSB.toString();
+			return sb.toString();
 		}
 	};
 	
+	// Innoxia: I removed the start/stop actions from this class as the PenisPenis class handles penis-to-penis actions as "frotting", and so by treating them as separate ongoing actions they clash with one another.
+	/*
 	public static final SexAction SLIT_PENETRATION_STOP = new SexAction(
 			SexActionType.STOP_ONGOING,
 			ArousalIncrease.TWO_LOW,
@@ -283,16 +276,16 @@ public class PenisPenisCloaca {
 		@Override
 		public String getDescription() {
 			
-			UtilText.nodeContentSB.setLength(0);
+			StringBuilder sb = new StringBuilder();
 			
 			switch(Main.sex.getSexPace(Main.sex.getCharacterPerformingAction())) {
 				case DOM_ROUGH:
-					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+					sb.append(UtilText.returnStringAtRandom(
 							"With one last rough thrust, [npc.name] [npc.verb(pull)] [npc.her] groin out of [npc2.namePos] genital slit.",
 							"Roughly grinding [npc.her] [npc.cock+] over [npc2.namePos] [npc2.cock] one last time, [npc.name] then [npc.verb(pull)] back, pulling out of [npc2.namePos] cloaca."));
 					break;
 				default:
-					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+					sb.append(UtilText.returnStringAtRandom(
 							"With one last buck of [npc.her] [npc.hips], [npc.name] [npc.verb(pull)] [npc.her] groin out from [npc2.namePos] genital slit.",
 							"Rubbing [npc.her] [npc.cock+] over [npc2.namePos] [npc2.cock] one last time, [npc.name] then [npc.verb(pull)] back, pulling out of [npc2.namePos] cloaca."));
 					break;
@@ -300,21 +293,24 @@ public class PenisPenisCloaca {
 			
 			switch(Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(this))) {
 				case SUB_RESISTING:
-					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+					sb.append(UtilText.returnStringAtRandom(
 							" Although happy to have [npc2.her] slit released, [npc2.name] [npc2.verb(continue)] crying and weakly struggling against [npc.name] as [npc2.she] [npc2.verb(plead)] for [npc.herHim] to leave [npc2.herHim] alone.",
 							" With [npc2.a_sob+], [npc2.name] [npc2.verb(continue)] to struggle and protest, tears streaming down [npc2.her] [npc2.face] as [npc2.she] [npc2.verb(pull)] [npc2.her] groin away from [npc.name]."));
 					break;
 				default:
-					UtilText.nodeContentSB.append(UtilText.returnStringAtRandom(
+					sb.append(UtilText.returnStringAtRandom(
 							" [npc2.Name] [npc2.verb(let)] out [npc2.a_moan+] as [npc.name] [npc.verb(pull)] back, signalling [npc2.her] desire for more attention.",
 							" [npc2.A_moan+] escapes from between [npc2.namePos] [npc2.lips+], betraying [npc2.her] desperate desire for more of [npc.namePos] attention."));
 					break;
 			}
 			
-			return UtilText.nodeContentSB.toString();
+			return sb.toString();
 		}
 	};
+	*/
 	
+	// Innoxia: I removed the orgasm from this class as the PenisPenis class handles the penis-to-penis orgasm action, and so by treating them as separate orgasm actions they clash with one another.
+	/*
 	public static final SexAction SLIT_PENETRATION_ORGASM = new SexAction(
 			SexActionType.ORGASM,
 			ArousalIncrease.FIVE_EXTREME,
@@ -347,18 +343,18 @@ public class PenisPenisCloaca {
 		@Override
 		public boolean isBaseRequirementsMet() {
 			GameCharacter performer = Main.sex.getCharacterPerformingAction();
-			GameCharacter target = Main.sex.getCharactersHavingOngoingActionWith(Main.sex.getCharacterPerformingAction(), SexAreaPenetration.PENIS).get(0);
 			if(!performer.hasPenisIgnoreDildo()) {
 				return false;
 			}
 			
-			if(Main.sex.getCharactersHavingOngoingActionWith(Main.sex.getCharacterPerformingAction(), SexAreaPenetration.PENIS).isEmpty()) {
+			List<GameCharacter> ongoingPenis = Main.sex.getCharactersHavingOngoingActionWith(performer, SexAreaPenetration.PENIS);
+			if(ongoingPenis.isEmpty()) {
 				return false;
 			}
+			GameCharacter target = ongoingPenis.get(0);
 			
-			boolean dicksTouching = Main.sex.getCharacterOngoingSexArea(performer, SexAreaPenetration.PENIS).contains(target) 
-				&& Main.sex.getCharacterOngoingSexArea(target, SexAreaPenetration.PENIS).contains(performer);
-			if (!(dicksTouching && hasCloaca(target))) {
+			boolean dicksTouching = Main.sex.getOngoingSexAreas(performer, SexAreaPenetration.PENIS, target).contains(SexAreaPenetration.PENIS);;
+			if (!dicksTouching || !hasCloaca(target)) {
 				return false;
 			}
 			
@@ -511,6 +507,7 @@ public class PenisPenisCloaca {
 			return Main.sex.getCharacterPerformingAction().getSexActionOrgasmOverride(this, OrgasmCumTarget.GROIN, true).isEndsSex();
 		}
 	};
+	*/
 	
 	public static final SexAction MUTUAL_SLIT_PENETRATION = new SexAction(
 			SexActionType.ONGOING,
@@ -534,30 +531,44 @@ public class PenisPenisCloaca {
 		public boolean isBaseRequirementsMet() {
 			GameCharacter performer = Main.sex.getCharacterPerformingAction();
 			GameCharacter target = Main.sex.getTargetedPartner(Main.sex.getCharacterPerformingAction());
-			return hasCloaca(performer) && hasCloaca(target) && Main.sex.getSexPace(Main.sex.getCharacterPerformingAction()).isDom();
+			return hasCloaca(performer)
+					&& hasCloaca(target)
+					&& performer.hasPenisIgnoreDildo()
+					&& target.hasPenisIgnoreDildo()
+					&& Main.sex.getSexPace(Main.sex.getCharacterPerformingAction()).isDom();
 		}
 
 		@Override
 		public String getDescription() {
+			GameCharacter performer = Main.sex.getCharacterPerformingAction();
 			String start = UtilText.returnStringAtRandom(
-					"Letting out [npc.a_moan+], [npc.name] [npc.verb(slip)] the tip of [npc2.her] [npc2.cock] into the slit surrounding [npc.namePos] [npc.cock+], circling it and teasing the sensitive skin inside.",
+					"Letting out [npc.a_moan+], [npc.name] [npc.verb(slip)] the tip of [npc2.namePos] [npc2.cock] into the slit surrounding [npc.her] own [npc.cock+], circling it and teasing the sensitive skin inside.",
 					"[npc.Name] [npc.verb(let)] out [npc.a_moan+] as [npc.she] [npc.verb(reach)] down to [npc2.namePos] [npc2.cock+]."
-							+ " Guiding it to [npc.namePos] [npc.cock+], [npc.name] [npc.verb(grin)] as [npc.she] then [npc.verb(slip)] it it past [npc.her] [npc.cock+] and into [npc.her] genital slit, causing [npc2.herHim] to let out [npc2.a_moan+].",
-					"[npc.Name] [npc.verb(grin)] in delight as [npc.she] [npc.verb(guide)] [npc2.namePos] [npc2.cock] to the opening of [npc.namePos] cloaca before slipping it in. [npc2.NamePos] [npc2.cock] fits snuggly next to [npc.hers], and [npc.name] [npc.verb(start)] to slowly thrust with rhythmic undulations.",
-					"[npc.Name] [npc.verb(let)] out [npc.a_moan+] as [npc.she] [npc.verb(slip)] [npc2.her] [npc2.cock] into [npc.namePos] genital slit, teasing it with slow circles before slipping in further.");
+							+ " Guiding it past [npc.her] own [npc.cock+], [npc.name] [npc.verb(grin)] as [npc.she] then [npc.verb(slip)] it it past into [npc.her] genital slit, causing [npc2.name] to let out [npc2.a_moan+].",
+					"[npc.Name] [npc.verb(grin)] in delight as [npc.she] [npc.verb(guide)] [npc2.namePos] [npc2.cock] to the opening of [npc.her] cloaca, before slipping it inside.",
+					"[npc.Name] [npc.verb(let)] out [npc.a_moan+] as [npc.she] [npc.verb(slip)] [npc2.namePos] [npc2.cock] into [npc.her] genital slit and [npc.verb(tease)] it with slow circles.");
 			String middle1 = UtilText.returnStringAtRandom(
-				"[npc.Name] slowly [npc.verb(work)] [npc2.her] [npc2.cock] deeper into [npc.her] slit, while [npc.she] also [npc.verb(slip)] deeper into [npc2.hers].",
-				"Rather than impaling [npc.himself] deeply onto [npc2.her] [npc.cock], [npc.name] instead circle [npc.her] hips, grinding both shafts against each other in their slits.",
-				"With both cocks nestled snugly against each other, each of [npc.her] thrusts drive both deeper along the base of the other."
+				"[npc.Name] slowly [npc.verb(work)] [npc2.namePos] [npc2.cock] deeper into [npc.her] slit, while [npc.she] [npc.verb(push)] [npc.her] own [npc.cock+] into [npc2.nameHers].",
+				"Rather than impaling [npc.herself] deeply onto [npc2.namePos] [npc2.cock], [npc.name] [npc.verb(push)] [npc.her] own [npc.cock+] into [npc2.namePos] slit.",
+				"As [npc2.namePos] [npc2.cock] pushes into [npc.her] cloaca, [npc.name] [npc.verb(guide)] [npc.her] own cock into [npc2.namePos] slit."
 			);
 			String middle2 = UtilText.returnStringAtRandom(
-				"Overwhelmed by the stimulation from [npc2.her] [npc2.cock] in [npc.her] snug slit while [npc.name] [npc.verb(fuck)] [npc2.hers], all [npc2.name] [npc2.is] able to do is shudder and [npc2.moan].",
-				"The inner surface of [npc.namePos] cloaca is incredibly sensitive, and [npc.name] [npc.verb(feel)] every shudder and twitch as [npc2.her] [npc2.cock] twitches in response tight embrace. Since [npc.her] [npc.cock] is wedged against the base of [npc2.her] [npc2.cock+], [npc.name] [npc.verb(feel)] every shudder and twitch in response.",
-				"With a lusty [npc2.moan], [npc2.name] [npc2.verb(press)] in closer to [npc.name], humping gently to try to get more of [npc2.her] [npc2.cock+] inside [npc.her] slit, driving [npc.name] deeper into [npc2.hers] as well."
+				"[npc2.NameIsFull] overwhelmed by the stimulation from both [npc2.her] [npc2.cock] in [npc.namePos] snug slit and [npc.namePos] [npc.cock+] entering [npc2.hers]."
+						+ " All [npc2.she] can do is shudder and [npc2.moan] from the mind-numbing pleasure of this reciprocal penetration.",
+				"The inner surface of [npc.namePos] cloaca is incredibly sensitive, and [npc.name] [npc.verb(feel)] every shudder and twitch as [npc2.namePos] [npc2.cock] responds to her slit's tight embrace."
+						+ " [npc.Her] own [npc.cock], wedged against [npc2.namePos] [npc2.cock+] as it's pushed into [npc2.her] slit, throbs and twitches in a similar manner.",
+				(Main.sex.getSexPace(Main.sex.getCharacterTargetedForSexAction(this))!=SexPace.SUB_RESISTING
+					?"With a lusty [npc2.moan], [npc2.name] [npc2.verb(press)] in closer to [npc.name], humping gently to try to get more of [npc2.her] [npc2.cock+] inside [npc.her] slit, driving [npc.name] deeper into [npc2.hers] in the process."
+					:"")
 			);
 			String end = UtilText.returnStringAtRandom(
-				"After a few last thrusts, [npc.name] carefully [npc.verb(pull)] [npc2.name] [npc2.namePos] out, [npc.name] playfully [npc.verb(slap)] [npc2.her] [npc2.cock] against [npc2.her] belly before starting to thrust against into [npc2.her] slit again.",
-				"With a sigh and a few more thrusts, [npc.name] [npc.verb(pull)] back so [npc2.namePos] [npc2.cock+] flops out of [npc.her] cloaca."
+				"After a few last thrusts, [npc.name] carefully [npc.verb(pull)] back and [npc.verb(bring)] an end to the mutual cloacal penetration."
+						+ " After playfully [npc.verb(slap)] [npc2.namePos] [npc2.cock] against [npc.her]"
+						+(performer.isVisiblyPregnant()
+								?" pregnant belly,"
+								:" stomach,")
+						+" [npc.name] [npc.verb(return)] to frotting with [npc2.herHim].",
+				"With a sigh and a few more thrusts, [npc.name] [npc.verb(pull)] back so [npc2.namePos] [npc2.cock+] flops out of [npc.her] cloaca, before continuing to frot with [npc2.herHim]."
 			);
 			return String.join(" ",start, middle1, middle2,end);
 		}
