@@ -386,11 +386,16 @@ public abstract class AbstractWeapon extends AbstractCoreItem implements XMLSavi
 
 	public abstract String onUnequip(GameCharacter character);
 
-	@Override
-	public String getDescription() {
-		return getDescription(null);
+	/**
+	 * @return A basic, parsed, description of this clothing's type. (To be used in tooltips.)
+	 */
+	public String getTypeDescription(GameCharacter characterEquippedOn) {
+		String description = this.getWeaponType().getDescription();
+		
+		return UtilText.parse(characterEquippedOn, this, description);
 	}
 	
+	@Override
 	public String getDescription(GameCharacter character) {
 		StringBuilder descriptionSB = new StringBuilder();
 		
@@ -448,7 +453,7 @@ public abstract class AbstractWeapon extends AbstractCoreItem implements XMLSavi
 		descriptionSB.append("</p>");
 
 		descriptionSB.append("<p>");
-			descriptionSB.append(weaponType.getDescription());
+			descriptionSB.append(getTypeDescription(character));
 			descriptionSB.append("<br/>");
 			descriptionSB.append((getWeaponType().isPlural()?"They have":"It has")+" a value of: "+UtilText.formatAsMoney(getValue()));
 			if(Main.game.isEnchantmentCapacityEnabled()) {
@@ -526,8 +531,8 @@ public abstract class AbstractWeapon extends AbstractCoreItem implements XMLSavi
 			descriptionSB.append("<p>" + (getWeaponType().isPlural() ? "They are" : "It is") + " part of the <span style='color:" + PresetColour.RARITY_EPIC.toWebHexString() + ";'>"
 					+ getWeaponType().getClothingSet().getName() + "</span> set." + "</p>");
 		}
-		
-		return descriptionSB.toString();
+
+		return UtilText.parse(this, descriptionSB.toString());
 	}
 
 	@Override
@@ -618,7 +623,8 @@ public abstract class AbstractWeapon extends AbstractCoreItem implements XMLSavi
 	}
 
 	public String getName(boolean withDeterminer, boolean withRarityColour) {
-		return (withDeterminer
+		return UtilText.parse(this,
+				(withDeterminer
 					?(!weaponType.getDeterminer().equalsIgnoreCase("a") && !weaponType.getDeterminer().equalsIgnoreCase("an")
 							? weaponType.getDeterminer()
 							: UtilText.generateSingularDeterminer(getWeaponType().isAppendDamageName()?damageType.getWeaponDescriptor():name))
@@ -631,23 +637,25 @@ public abstract class AbstractWeapon extends AbstractCoreItem implements XMLSavi
 						:"")
 				+ (withRarityColour
 						? (" <span style='color: "+rarity.getColour().toWebHexString()+";'>"+name+"</span>")
-						: " "+name);
+						: " "+name));
 	}
 
 	@Override
 	public String getDisplayName(boolean withRarityColour) {
-		return (getWeaponType().isAppendDamageName()
+		return UtilText.parse(this,
+				(getWeaponType().isAppendDamageName()
 					?"<span style='color:" + damageType.getMultiplierAttribute().getColour().toWebHexString() + ";'>" + Util.capitaliseSentence(damageType.getWeaponDescriptor()) + "</span> "
 					:"")
-				+ (withRarityColour ? (" <span style='color: " + rarity.getColour().toWebHexString() + ";'>" + name + "</span>") : name);
+				+ (withRarityColour ? (" <span style='color: " + rarity.getColour().toWebHexString() + ";'>" + name + "</span>") : name));
 	}
 	
 	@Override
 	public String getDisplayNamePlural(boolean withRarityColour) {
-		return (getWeaponType().isAppendDamageName()
+		return UtilText.parse(this,
+				(getWeaponType().isAppendDamageName()
 					?"<span style='color:" + damageType.getMultiplierAttribute().getColour().toWebHexString() + ";'>" + Util.capitaliseSentence(damageType.getWeaponDescriptor()) + "</span> "
 					:"")
-				+ (withRarityColour ? (" <span style='color: " + rarity.getColour().toWebHexString() + ";'>" + namePlural + "</span>") : namePlural);
+				+ (withRarityColour ? (" <span style='color: " + rarity.getColour().toWebHexString() + ";'>" + namePlural + "</span>") : namePlural));
 	}
 
 	@Override

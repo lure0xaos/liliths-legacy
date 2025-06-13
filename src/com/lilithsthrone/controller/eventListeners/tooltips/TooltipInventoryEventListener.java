@@ -180,7 +180,7 @@ public class TooltipInventoryEventListener implements EventListener {
 				
 			}
 			
-			Main.mainController.setTooltipContent(UtilText.parse(tooltipSB.toString()));
+			Main.mainController.setTooltipContent(UtilText.parse(dyeClothing, tooltipSB.toString()));
 
 		} else if(dyeWeapon != null) {
 			Main.mainController.setTooltipSize(TOOLTIP_WIDTH, 480);
@@ -213,7 +213,7 @@ public class TooltipInventoryEventListener implements EventListener {
 						+ "</div>");
 			}
 			
-			Main.mainController.setTooltipContent(UtilText.parse(tooltipSB.toString()));
+			Main.mainController.setTooltipContent(UtilText.parse(dyeWeapon, tooltipSB.toString()));
 
 		} else if (genericItem != null) {
 			itemTooltip(Main.game.getItemGen().generateItem(genericItem));
@@ -940,7 +940,7 @@ public class TooltipInventoryEventListener implements EventListener {
 								+ "</div>"
 							+ "</div>");
 			
-			tooltipSB.append(absItem.getItemType().getDescription());
+			tooltipSB.append(absItem.getTypeDescription(owner));
 			tooltipSB.append("</div>");
 		tooltipSB.append("</div>");
 		
@@ -1026,7 +1026,7 @@ public class TooltipInventoryEventListener implements EventListener {
 			specialYIncrease += 26;
 		}
 		Main.mainController.setTooltipSize(TOOLTIP_WIDTH+80, 272 + (yIncrease * 18) + specialYIncrease);
-		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, tooltipSB.toString()));
+		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, absItem, tooltipSB.toString()));
 	}
 
 	private void weaponTooltip(AbstractWeapon absWeapon) {
@@ -1133,7 +1133,7 @@ public class TooltipInventoryEventListener implements EventListener {
 								+ "</div>"
 							+ "</div>");
 			
-			tooltipSB.append(absWeapon.getWeaponType().getDescription());
+			tooltipSB.append(absWeapon.getTypeDescription(owner));
 			tooltipSB.append("</div>");
 		tooltipSB.append("</div>");
 
@@ -1302,7 +1302,7 @@ public class TooltipInventoryEventListener implements EventListener {
 			specialYIncrease += 26;
 		}
 		Main.mainController.setTooltipSize(TOOLTIP_WIDTH+80, 300 + (yIncrease * 18) + specialYIncrease);
-		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, tooltipSB.toString()));
+		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, absWeapon, tooltipSB.toString()));
 		
 	}
 
@@ -1461,7 +1461,7 @@ public class TooltipInventoryEventListener implements EventListener {
 										+ (owner!=null && owner.getClothingCurrentlyEquipped().contains(absClothing)?absClothing.getSVGEquippedString(owner):absClothing.getSVGString())
 									+ "</div>"
 								+ "</div>");
-				tooltipSB.append(absClothing.getTypeDescription());
+				tooltipSB.append(absClothing.getTypeDescription(owner));
 			tooltipSB.append("</div>");
 		tooltipSB.append("</div>");
 		
@@ -1565,7 +1565,7 @@ public class TooltipInventoryEventListener implements EventListener {
 			specialYIncrease += 26;
 		}
 		Main.mainController.setTooltipSize(TOOLTIP_WIDTH+80, 300 + (yIncrease * 18) + specialYIncrease);
-		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, tooltipSB.toString()));
+		Main.mainController.setTooltipContent(UtilText.parse(equippedToCharacter==null?Main.game.getPlayer():equippedToCharacter, absClothing, tooltipSB.toString()));
 
 	}
 	
