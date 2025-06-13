@@ -13,7 +13,7 @@ import com.lilithsthrone.game.character.body.Tentacle;
 import com.lilithsthrone.game.character.body.Torso;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.sex.SexActionInteractions;
-import com.lilithsthrone.game.sex.SexAreaOrifice;
+import com.lilithsthrone.game.sex.SexAreaInterface;
 import com.lilithsthrone.game.sex.positions.slots.SexSlot;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotUnique;
 import com.lilithsthrone.game.sex.sexActions.SexActionInterface;
@@ -53,7 +53,7 @@ public class SexPositionUnique {
 			return generateSlotTargetsMap(interactions);
 		}
 		@Override
-		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaOrifice>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
+		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaInterface>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
 			// The character being fucked can use their tails or tentacles to force a creampie:
 			if(Main.sex.getSexPositionSlot(cumTarget)==SexSlotUnique.PET_MOUNTING_ON_ALL_FOURS
 				&& Main.sex.getSexPositionSlot(cumProvider)==SexSlotUnique.PET_MOUNTING_HUMPING) {
@@ -98,7 +98,7 @@ public class SexPositionUnique {
 			return generateSlotTargetsMap(interactions);
 		}
 		@Override
-		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaOrifice>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
+		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaInterface>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
 			// The character taking oral can use their arms to force a creampie:
 			if(Main.sex.getSexPositionSlot(cumTarget)==SexSlotUnique.RALPH_SUB
 				&& Main.sex.getSexPositionSlot(cumProvider)==SexSlotUnique.RALPH_DOM) {
@@ -125,7 +125,7 @@ public class SexPositionUnique {
 			return generateSlotTargetsMap(interactions);
 		}
 		@Override
-		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaOrifice>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
+		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaInterface>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
 			// The character being fucked can use their legs to force a creampie:
 			if(Main.sex.getSexPositionSlot(cumTarget)==SexSlotUnique.RALPH_SUB_SEX
 					&& Main.sex.getSexPositionSlot(cumProvider)==SexSlotUnique.RALPH_DOM_SEX) {
@@ -184,7 +184,7 @@ public class SexPositionUnique {
 			return generateSlotTargetsMap(interactions);
 		}
 		@Override
-		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaOrifice>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
+		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaInterface>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
 			// The character taking oral can use their arms to force a creampie:
 			if(Main.sex.getSexPositionSlot(cumTarget)==SexSlotUnique.KNEELING_PERFORMING_ORAL_CULTIST
 				&& Main.sex.getSexPositionSlot(cumProvider)==SexSlotUnique.KNEELING_RECEIVING_ORAL_CULTIST) {
@@ -238,7 +238,7 @@ public class SexPositionUnique {
 			return generateSlotTargetsMap(interactions);
 		}
 		@Override
-		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaOrifice>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
+		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaInterface>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
 			// The character being fucked can use their legs, tails, or tentacles to force a creampie:
 			if(Main.sex.getSexPositionSlot(cumTarget)==SexSlotUnique.MISSIONARY_ALTAR_LYING_ON_ALTAR
 				&& Main.sex.getSexPositionSlot(cumProvider)==SexSlotUnique.MISSIONARY_ALTAR_STANDING_BETWEEN_LEGS) {
@@ -309,7 +309,7 @@ public class SexPositionUnique {
 			return super.isActionBlocked(performer, target, action);
 		}
 		@Override
-		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaOrifice>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
+		protected Map<Class<? extends BodyPartInterface>,  List<SexAreaInterface>> getForcedCreampieMap(GameCharacter cumTarget, GameCharacter cumProvider) {
 			// The character on top can use their body weight to force a creampie:
 			if(Main.sex.getSexPositionSlot(cumTarget)==SexSlotUnique.MISSIONARY_ALTAR_SEALED_STANDING_BETWEEN_LEGS
 					&& Main.sex.getSexPositionSlot(cumProvider)==SexSlotUnique.MISSIONARY_ALTAR_SEALED_LYING_ON_ALTAR) {

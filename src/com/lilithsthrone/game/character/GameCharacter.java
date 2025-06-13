@@ -10243,7 +10243,11 @@ public abstract class GameCharacter implements XMLSaving {
 //			addSexTypeWeighting(new SexType(SexParticipantType.NORMAL, SexAreaPenetration.TAIL, SexAreaOrifice.BREAST_CROTCH), target, request, mainSexTypes, 0.5f);
 			addSexTypeWeighting(new SexType(SexParticipantType.NORMAL, SexAreaPenetration.TAIL, SexAreaOrifice.NIPPLE_CROTCH), target, request, mainSexTypes, 0.5f);
 		}
-		
+
+		// Frotting:
+		addSexTypeWeighting(new SexType(SexParticipantType.NORMAL, SexAreaPenetration.PENIS, SexAreaPenetration.PENIS), target, request, foreplaySexTypes, 2);
+		addSexTypeWeighting(new SexType(SexParticipantType.NORMAL, SexAreaPenetration.PENIS, SexAreaPenetration.PENIS), target, request, mainSexTypes, 3);
+
 		// Anal:
 		addSexTypeWeighting(new SexType(SexParticipantType.NORMAL, SexAreaPenetration.FINGER, SexAreaOrifice.ANUS), target, request, foreplaySexTypes, 1);
 		addSexTypeWeighting(new SexType(SexParticipantType.NORMAL, SexAreaPenetration.TONGUE, SexAreaOrifice.ANUS), target, request, foreplaySexTypes, 1);
@@ -16714,13 +16718,13 @@ public abstract class GameCharacter implements XMLSaving {
 							UtilText.returnStringAtRandom(
 							"[npc.NamePos] [npc.verb(remain)] asleep as [npc.her] [npc.lips+] press against [npc2.namePos] mouth.",
 							"[npc.NamePos] [npc.do]n't show any sign of waking up as [npc.her] mouth presses against [npc2.namePos] [npc2.lips+].",
-							"Remaining deeply asleep, [npc.name] [npc.verb(press)] [npc.her] [npc.lips+] against [npc2.namePos]."));
+							"Remaining deeply asleep, [npc.name] [npc.verb(press)] [npc.her] [npc.lips+] against [npc2.nameHers]."));
 				} else {
 					return UtilText.parse(characterPenetrating, characterPenetrated,
 							UtilText.returnStringAtRandom(
 							"[npc.NamePos] [npc.verb(remain)] completely immobile as [npc.her] [npc.lips+] press against [npc2.namePos] mouth.",
 							"[npc.NamePos] [npc.do]n't move at all as [npc.her] mouth presses against [npc2.namePos] [npc2.lips+].",
-							"Acting like an inanimate sex doll, [npc.name] [npc.verb(stay)] totally still and silent as [npc.she] [npc.verb(press)] [npc.her] [npc.lips+] against [npc2.namePos]."));
+							"Acting like an inanimate sex doll, [npc.name] [npc.verb(stay)] totally still and silent as [npc.she] [npc.verb(press)] [npc.her] [npc.lips+] against [npc2.nameHers]."));
 				}
 				
 			} else {
@@ -17112,6 +17116,11 @@ public abstract class GameCharacter implements XMLSaving {
 							penetrationDescription = UtilText.returnStringAtRandom(
 									"up and down around");
 						}
+						
+					} else if(penetrationType==SexAreaPenetration.PENIS) {
+						penetrationDescription = UtilText.returnStringAtRandom(
+								"up and down against",
+								"against");
 					}
 					break;
 				case FINGER:
@@ -17483,6 +17492,10 @@ public abstract class GameCharacter implements XMLSaving {
 		boolean sleepingPenetrating = characterPenetrating.isAsleep();
 		boolean immobilePenetrated = Main.sex.isCharacterImmobilised(characterPenetrated) && Main.sex.isCharacterInanimateFromImmobilisation(characterPenetrated);
 		boolean sleepingPenetrated = characterPenetrated.isAsleep();
+		
+		if(penetrationType == SexAreaPenetration.PENIS && orifice == SexAreaPenetration.PENIS) {
+			return generateGenericPenetrationDescription(characterPenetrating, penetrationType, characterPenetrated, orifice);
+		}
 		
 		if(penetrationType == SexAreaPenetration.FINGER && orifice == SexAreaPenetration.PENIS) {
 			if(initialPenetration) {
