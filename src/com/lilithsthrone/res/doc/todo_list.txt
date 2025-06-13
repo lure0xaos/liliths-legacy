@@ -359,27 +359,22 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Added an associated frotting orgasm, special actions for sheath-docking and prehensile-penis interactions, a couple of sadistic actions for SPH, and a speech action to compliment your partner's cock.
 		Added cloacal penetration while engaged in ongoing frotting.
 	
-	
 	PR#1782
 		Fixed dicksTouching code to use a more reliable method to detect whether there's any ongoing penis-to-penis actions.
-		Enabled dildo-to-dildo frotting, and added different descriptions for ongoing actions if one or both of the penises are dildos.
-		Removed the start/stop actions from this class as the PenisPenis class handles penis-to-penis actions as "frotting", and so by treating them as separate ongoing actions they clash with one another.
-		
-	Notes:
+		Enabled dildo-to-dildo frotting, and added some basic checks to make sure that dildos were accounted for in dialogue.
 		Good sex action descriptions, nice addition of the prehensile and sheath specials.
 		Added rough variations to 'Coiled frotting' and 'Sheath docking'.
 		Disabled the double coiled frotting action if the target is resisting.
 		Added some instances of 'PenisToPenis' to StandardSexActionInteractions to enable frotting in a few more positions ('cowgirl' and 'sitting in lap', and a few others I think).
 		Applied changes to code to make a forced frotting orgasm possible.
 		Removed the start/stop and orgasm actions from cloacal penetration, as it's conflicting with frotting. I'll add this as a fully-implemented new sex area at some point, and until then I'll just keep the limited penetration actions you've added.
-		Allowed dildo-to-dildo frotting, added some basic checks to make sure that dildos were accounted for in dialogue.
 		Added frotting to NPC preference generation, so NPCs will sometimes want to do frotting as the foreplay or main actions during sex.
 	
 	[] PRs
 		[x] 1785
 		[x] 1799
 		[x] 1789
-		[] 1782
+		[x] 1782
 			[x] go through all dialogue to check
 				[x] need dialogue variations if one of them is a dildo "tease your dildo up and down over hers"
 			[x] SLIT_PENETRATION_ORGASM is throwing an error when orgasming
@@ -406,11 +401,22 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[x] implement all forced orgasm types
 			[x] quick sex test
 			[x] NPC preference behaviour
-			[] revert nameHers removal... (after merge as I can't find them now)
+			[x] revert nameHers removal... (after merge as I can't find them now)
 		[] PR 1438
 			[] collar glow as extra
 			[] naming/description for tape?
 		[] smaller PRs
+			[] 1851
+			[] 1840
+			[] 1839
+			[] 1654
+			[] 1788
+			[] 1798
+			[] 1795
+			[] 1775
+			[] 1753
+			[] 1747
+			[] 1585
 	
 	
 	[] please sort the "start ongoing" sex actions into a consistent format
@@ -431,6 +437,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] urethra depth is far too long?
 	
 	[] add placeUpgrade and quest modding
+	
+	[] AoE for special attacks
 	
 	[] Bug reports, running backwards
 		[] New reports

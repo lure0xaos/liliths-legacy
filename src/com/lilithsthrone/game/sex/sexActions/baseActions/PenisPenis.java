@@ -1042,13 +1042,13 @@ public class PenisPenis {
 			String intro = UtilText.returnStringAtRandom(
 					"Lining up [npc.her] [npc.cock+] against [npc2.hers], [npc.name] [npc.verb(take)] a moment to admire both cocks.",
 					"[npc.Name] [npc.verb(pause)] to lay [npc.her] [npc.cock+] against [npc2.namePos] [npc2.cock], giving it a few appreciative strokes.",
-					"[npc.Name] [npc.verb(take)] the time to make an extra-long thrust rubbing the entire length of [npc.her] [npc.cock+] over [npc2.namePos] [npc2.cock+], savoring the slick pleasure."
+					"[npc.Name] [npc.verb(take)] the time to make an extra-long thrust rubbing the entire length of [npc.her] [npc.cock+] over [npc2.namePos] [npc2.cock+], savouring the slick pleasure."
 			);
 			String mid = UtilText.returnStringAtRandom(
-					"[npc.Name] [npc.verb(compliment)] [npc2.him] with a playful laugh, saying ",
-					"Continuing to rub [npc.her] [npc.cock] over [npc2.her] [npc2.cock], [npc.name] [npc.verb(decide)] to [npc.verb(butter)] [npc2.him] up, saying ",
-					"[npc.Name] [npc.verb(give)] [npc2.him] a chuckle, saying ",
-					"With a cheeky grin, [npc.name] [npc.verb(give)] [npc2.her] [npc2.cock+] an appreciative tap with [npc.her] own, saying "
+					"[npc.Name] [npc.verb(compliment)] [npc2.him] with a playful laugh, saying, ",
+					"Continuing to rub [npc.her] [npc.cock] over [npc2.her] [npc2.cock], [npc.name] [npc.verb(decide)] to [npc.verb(butter)] [npc2.him] up, saying, ",
+					"[npc.Name] [npc.verb(give)] [npc2.him] a chuckle, saying, ",
+					"With a cheeky grin, [npc.name] [npc.verb(give)] [npc2.her] [npc2.cock+] an appreciative tap with [npc.her] own, saying, "
 			);
 			String quote;
 			switch (target.getPenisSize()) {
@@ -1071,7 +1071,7 @@ public class PenisPenis {
 						"A nice meaty cock!",
 						"You've got a pretty big cock!",
 						"Nice!",
-						"I just love seeting a big cock!",
+						"I just love seeing a big cock!",
 						"I just love rubbing up against a big cock!"
 					);
 					break;
