@@ -4005,6 +4005,11 @@ public abstract class GameCharacter implements XMLSaving {
 		setArtworkIndex(this.artworkIndex + increment);
 	}
 	
+	public boolean showWinged() {
+		AbstractSubspecies subspecies = getBodyMaterial() == BodyMaterial.FLESH ? getSubspecies() : getFleshSubspecies();
+		return (hasWings() || isArmWings()) && !subspecies.isWinged();
+	}
+	
 	public String getName(String determiner) {
 		char firstChar = getName(true).charAt(0);
 		if (Character.isUpperCase(firstChar) || !Character.isAlphabetic(firstChar) || determiner.isEmpty()) { //|| getName().equals(this.getGenericName())
@@ -4014,8 +4019,7 @@ public abstract class GameCharacter implements XMLSaving {
 			return getName(true);
 			
 		} else {
-			boolean showWinged = (hasWings() || isArmWings()) && !getFleshSubspecies().isWinged();
-			String nameText = (showWinged ? "winged " : "") + getName(true);
+			String nameText = (showWinged() ? "winged " : "") + getName(true);
 			if(this.isUnique()) {
 				determiner = "the";
 			}
