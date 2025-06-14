@@ -4014,8 +4014,7 @@ public abstract class GameCharacter implements XMLSaving {
 			return getName(true);
 			
 		} else {
-			boolean showWinged = (hasWings() || isArmWings()) && !getFleshSubspecies().isWinged();
-			String nameText = (showWinged ? "winged " : "") + getName(true);
+			String nameText = (isPrependWingedToRaceName() ? "winged " : "") + getName(true);
 			if(this.isUnique()) {
 				determiner = "the";
 			}
@@ -31616,6 +31615,11 @@ public abstract class GameCharacter implements XMLSaving {
 	
 	// ------------------------------ Wings: ------------------------------ //
 
+	
+	public boolean isPrependWingedToRaceName() {
+		AbstractSubspecies subspecies = getBodyMaterial() == BodyMaterial.FLESH ? getSubspecies() : getFleshSubspecies();
+		return (hasWings() || isArmWings()) && !subspecies.isWinged();
+	}
 	public boolean hasWings() {
 		return body.hasWings();
 	}
