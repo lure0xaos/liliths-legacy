@@ -102,7 +102,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed the clothing names in the 'Items Present' panel being displayed as their generic name even if they had a custom name.
 		Fixed bug where attempting to enchant an item of clothing with crotch-boob creampie retention would throw background errors and make the enchanting UI break.
 		Fixed issue in the new floor inventory UI, where an extra page would be available to be viewed when the previous page was full, even if this new page was empty.
-		
+		Fixed a bug where if you had the maximum number of slaves working as dairy cows, the ability to assign their working hour slots would become unavailable.
 		
 	
 	[x] dressing room needs to be limited to 1
@@ -437,7 +437,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 					[] formatting
 					[] show block amount
 				[] spells
-			[] 1840
+			[-] 1840 (fixed in a different way)
 			[] 1839
 			[] 1654
 			[] 1788
