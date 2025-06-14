@@ -17,7 +17,8 @@
 		<effects/>
 		
 		<stickers>
-			<category id="Ponytail" priority="1">
+			<category id="ponytail" priority="1">
+				<categoryName><![CDATA[Ponytail]]></categoryName>
 				<sticker id="present" priority="1" defaultSticker="true" zLayer="1" colourDisabled="" colourSelected="">
 					<stickerName><![CDATA[Present]]></stickerName>
 					<namePrefix/>
@@ -40,7 +41,8 @@
 					<availabilityText/>
 				</sticker>
 			</category>
-			<category id="Eye holes" priority="2">
+			<category id="eyes" priority="2">
+				<categoryName><![CDATA[Eye holes]]></categoryName>
 				<sticker id="present" priority="1" defaultSticker="true" zLayer="1" colourDisabled="" colourSelected="">
 					<stickerName><![CDATA[Present]]></stickerName>
 					<namePrefix/>
@@ -66,7 +68,8 @@
 					<availabilityText/>
 				</sticker>
 			</category>
-			<category id="Mouth hole" priority="3">
+			<category id="mouth" priority="3">
+				<categoryName><![CDATA[Mouth holes]]></categoryName>
 				<sticker id="present" priority="1" defaultSticker="true" zLayer="1" colourDisabled="" colourSelected="">
 					<stickerName><![CDATA[Present]]></stickerName>
 					<namePrefix/>

@@ -63,7 +63,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Instead of negative & positive enchantments both having a 20% chance to spawn, negative enchantments are now 30% and positive are 10% (with a 60% chance for clothing to not be enchanted).
 		These custom-made random enchantments are defined in 'res/randomEnchantments', and can be added as mods by using the 'randomEnchantments' directory, with a fully-commented example found in 'mods/innoxia/randomEnchantments/clothing/cow.xml'.
 		
-	
 	'Filly' reference change:
 		All references to 'filly' in Natalya's content have been replaced with 'mule'.
 		The 'filly choker' now has two sticker options for the text on the choker; the default is now 'mule', and the alternative is 'filly'.
@@ -79,6 +78,10 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		When enchanting clothing, the 'Vibration' and 'Orgasm prevention' enchantment modifiers are now accessed via selecting a new 'sexual effects' enchantment modifier as the primary modifier, instead of 'Special effects'. (This change is to make it more obvious when the vibration & orgasm denial effects are available, as they're not available/visible on all clothing items.)
 		If clothing has multiple seal enchantments on it, the cost to unseal it will now be the sum of all of them.
 		Randomly-spawned clothing of the rarities 'uncommon', 'rare', and 'epic' now also have a chance to spawn with a random enchantment.
+		Moved all remaining torso clothing from being hard-coded into xml files (into the 'res/clothing/innoxia/torso' folder).
+		The 'cami top' is now correctly marked as leaving the wearer's stomach exposed.
+		Increased values of some clothing: skater dress 250 -> 400, virgin killer sweater 100 -> 800, frontal-zip dress 350 -> 500.
+		The default enchantment on the 'Mega Milk T-shirt' has been changed from '+3 to physique' to hourly increases to breast, nipple, and areolae size, and to lactation amount and lactation regeneration.
 	
 	Sex:
 		Natalya and Thunder (the centaur involved in her training scenes) no longer allow you to use items or equip condoms on them in their sex scenes.
@@ -105,8 +108,32 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed bug where attempting to enchant an item of clothing with crotch-boob creampie retention would throw background errors and make the enchanting UI break.
 		Fixed issue in the new floor inventory UI, where an extra page would be available to be viewed when the previous page was full, even if this new page was empty.
 		Fixed a bug where if you had the maximum number of slaves working as dairy cows, the ability to assign their working hour slots would become unavailable.
+		When creating outfits in Lyssieth's wardrobe, liquids enchantment limits now correctly increment by 500 instead of 5 when the large limit change button is pressed.
+		Fixed bug where the stickers on clothing within saved outfits in Lyssieth's wardrobe were not being initialised correctly, so if you edit an item with stickers, the buttons should no longer all be greyed-out.
+		Fixed minor error in sticker definitions within the new latex hood clothing item.
+		Fixed parsing error in post-combat loss scene with bandits in the Foloi Fields.
+		Fixed buggy comparison function in TattooType.getAllTattooTypes().
 		
 	
+	[] Bug reports
+		[x] While creating outfits in warderobe, liquids enchants have +/-5 instead of +/-500 when limit++/-- is clicked
+		[x] wardrobe, sticker buttons not initialised correctly. saved outfit, select sticker item, go back and sticker buttons not selected
+		[x] res/txt/encounters/fields/bandix.xml contains the line #IF(attacker.isPostCombatWantsSex(pc)) which throws a TypeError because isPostCombatWantsSex does not take any arguments
+		[x] TattooType.getAllTattooTypes has a buggy comparison function
+			[x] got this error on startup intermittently, and I haven't tried to troubleshoot (including by uninstalling mods) but when I look at TattooType.getAllTattooTypes, there's:
+				allTattoos.sort((t1, t2) -> t1.equals(TattooType.getTattooTypeFromId("innoxia_misc_none"))?-1:(t1.getName().compareTo(t2.getName())));
+		[x] the descriptions for equipping Lyssieth's Signet Ring on an NPC have the characters reversed ("npc slides the signet ring on/off your finger" instead of you putting it on their finger) 
+			[x] convert hard-coded torso clothing to XML files
+				[x] cami top stomach now correctly exposed
+				[x] increased value of skater dress 250 -> 400, virgin killer sweater 100 -> 800, frontal-zip dress 350 -> 500
+				[x] test skater dress (remove duplicate BREAST areas? same for peplos)
+				[x] mega milk T-shirt give milk and cup size enchantment
+		[x] "default effects are marked with a 'D'" should only show if there are default effects
+		[-] if you equip unique/quest-rarity clothing on an NPC, then "Unequip all (them)" does not return the unique clothing to your inventory or to theirs, losing it forever
+		[] Another Mis-type when using Astrapi to go to Dominion. Says Player wants to leave to Elis when we're leaving Elis.
+		
+		
+		
 	[x] dressing room needs to be limited to 1
 	[x] "You slide your tongue out of Alexandria's teats.​" should be different if nipples are non-pen
 		[x] check udders as well
@@ -370,9 +397,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Applied changes to code to make a forced frotting orgasm possible.
 		Removed the start/stop and orgasm actions from cloacal penetration, as it's conflicting with frotting. I'll add this as a fully-implemented new sex area at some point, and until then I'll just keep the limited penetration actions you've added.
 		Added frotting to NPC preference generation, so NPCs will sometimes want to do frotting as the foreplay or main actions during sex.
-	
-	
-	[] PRs
+	[x] PRs
 		[x] 1785
 		[x] 1799
 		[x] 1789
@@ -430,27 +455,23 @@ Not everything in this file is up-to-date, and everything is subject to change a
 				Cleared the mapping for active item in the parsing engine if there is no item passed to the parsing method.
 				Changed the parsing target from 'item' to 'thisItem' (I know it doesn't matter as much as other targets, but as I currently use 'clothing' as a parsing target that can be set from anywhere within the code, and I might add that functionality for weapons and items later, then 'item' would clash with this parsing target unless changed).
 				Additionally added parsing support for the owner of the clothing/weapon/item (as 'npc').
-				
-		[] smaller PRs
+		[x] smaller PRs
 			[x] 1851
 				[x] resetting moves does not reset block amount
-			[] update tooltips
-				[] combat move
-					[] formatting
-					[] show block amount
-				[] spells
 			[-] 1840 (fixed in a different way)
 			[x] 1839
-			[] 1654
 			[x] 1788
-			[] 1798
-			[] 1795
-			[] 1775
-			[] 1753
-			[] 1747
-			[] 1585
 	
 	
+	[] FAF character details!
+	
+	
+	[] update tooltips
+		[] combat move
+			[] formatting
+			[] show block amount
+		[] spells
+				
 	[] please sort the "start ongoing" sex actions into a consistent format
 	
 	[] The 'X cums so much, Y is covered by it!' is triggering far too often - perhaps add a modifier to penis to give explosive orgasm to give this effect instead
@@ -467,18 +488,17 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] make it so addictions can be cured by waiting them out, but add content setting to make them permanent
 	
 	[] urethra depth is far too long?
+		[] do the other penis PRs with this for a collection of updates for penis
 	
 	[] add placeUpgrade and quest modding
 	
 	[] AoE for special attacks
 	
-	[] Bug reports, running backwards
-		[] New reports
-		[] Old reports
-	
 	[] add simple herm random enchantment
 	
 	[] elementals feral forms as active
+	
+	[] loosen PENT_UP requirement for triggering slaves having sleep sex with player
 	
 	[] Add 'Mystery potion' which is unidentified and contains random effects
 	
@@ -488,6 +508,14 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] Tote
 		[] briefcase
 		
+	[] Small PRs
+		[] 1654
+		[] 1798
+		[] 1795
+		[] 1775
+		[] 1753
+		[] 1747
+		[] 1585
 	
 	#### 
 	

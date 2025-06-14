@@ -1697,7 +1697,7 @@ public class TooltipInventoryEventListener implements EventListener {
 				}
 				StringBuilder counterSB = new StringBuilder();
 				if (tattoo.getCounter()!=null && tattoo.getCounter().getType()!=TattooCounterType.NONE) {
-					counterSB.append("an enchanted, "+tattoo.getCounter().getColour().getName()+" "+tattoo.getCounter().getType().getName()+" counter");
+					counterSB.append("an enchanted, '"+tattoo.getCounter().getColour().getName()+" "+tattoo.getCounter().getType().getName()+"' counter");
 				}
 				if(writingSB.length()>0) {
 					tooltipSB.append(" <i>");

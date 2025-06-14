@@ -861,14 +861,21 @@ public abstract class AbstractClothing extends AbstractCoreItem implements XMLSa
 			} catch(Exception ex) {
 			}
 		}
-		
+
+		boolean handleHoodStickers = Main.isVersionOlderThan(Game.loadingVersion, "0.4.10.12") && clothing.getClothingType()==ClothingType.getClothingTypeFromId("innoxia_latex_hood");
 		// Load stickers:
 		Element stickersElement = (Element) parentElement.getElementsByTagName("stickers").item(0);
 		if(stickersElement!=null) {
 			NodeList nodes = stickersElement.getElementsByTagName("sticker");
 			for(int i=0; i<nodes.getLength(); i++) {
 				Element stickerElement = (Element) nodes.item(i);
-				clothing.setSticker(stickerElement.getAttribute("category").toLowerCase(), stickerElement.getTextContent().toLowerCase());
+				String categoryString = stickerElement.getAttribute("category").toLowerCase();
+				String categoryIDString = stickerElement.getTextContent().toLowerCase();
+				if(handleHoodStickers) {
+					categoryString = categoryString.replace("mouth hole", "mouth");
+					categoryString = categoryString.replace("eye holes", "eyes");
+				}
+				clothing.setSticker(categoryString, categoryIDString);
 			}
 		}
 		

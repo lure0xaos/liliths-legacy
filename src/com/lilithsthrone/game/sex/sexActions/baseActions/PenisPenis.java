@@ -627,6 +627,11 @@ public class PenisPenis {
 			null,
 			SexParticipantType.NORMAL) {
 		private GameCharacter getCharacterToBeCreampied() {
+			if(Main.sex.getCharactersHavingOngoingActionWith(Main.sex.getCharacterPerformingAction(), SexAreaPenetration.PENIS).isEmpty()) {
+				new Exception().printStackTrace();
+				return null;
+			}
+			
 			GameCharacter characterPenetrated = Main.sex.getCharactersHavingOngoingActionWith(Main.sex.getCharacterPerformingAction(), SexAreaPenetration.PENIS).get(0);
 			
 			if(Main.sex.getCreampieLockedBy().containsKey(Main.sex.getCharacterPerformingAction())) {
@@ -650,12 +655,12 @@ public class PenisPenis {
 		@Override
 		public boolean isBaseRequirementsMet() {
 			GameCharacter performer = Main.sex.getCharacterPerformingAction();
-			GameCharacter target = Main.sex.getCharactersHavingOngoingActionWith(Main.sex.getCharacterPerformingAction(), SexAreaPenetration.PENIS).get(0);
-			if(!performer.hasPenisIgnoreDildo()) {
+			if(Main.sex.getCharactersHavingOngoingActionWith(performer, SexAreaPenetration.PENIS).isEmpty()) {
 				return false;
 			}
 			
-			if(Main.sex.getCharactersHavingOngoingActionWith(Main.sex.getCharacterPerformingAction(), SexAreaPenetration.PENIS).isEmpty()) {
+			GameCharacter target = Main.sex.getCharactersHavingOngoingActionWith(Main.sex.getCharacterPerformingAction(), SexAreaPenetration.PENIS).get(0);
+			if(!performer.hasPenisIgnoreDildo()) {
 				return false;
 			}
 			

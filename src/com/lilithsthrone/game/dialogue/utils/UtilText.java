@@ -693,6 +693,10 @@ public class UtilText {
 	public static String getPentagramSymbol() {
 		return "&#9956;";//"&#9737;"; // Java doesn't support unicode 6 ;_;   No pentagram for me... ;_;  "&#9956";
 	}
+
+	public static String getEssenceSymbol(Colour colour) {
+		return "<b style='color:"+colour.toWebHexString()+"; -webkit-text-stroke: 1px "+colour.toWebHexString()+";'>"+getPentagramSymbol()+"</b>";
+	}
 	
 	public static String getShieldSymbol() {
 		return "&#9930;";
@@ -729,7 +733,7 @@ public class UtilText {
 //				"<div class='item-inline'>"
 //					+ SVGImages.SVG_IMAGE_PROVIDER.getEssenceUncoloured() + (withOverlay?"<div class='overlay no-pointer' id='ESSENCE_ICON'></div>":"")
 //				+"</div>"
-				"<b style='color:"+disabledColour+"; -webkit-text-stroke: 1px "+disabledColour+"; padding-right:2px;'>"+getPentagramSymbol()+"</b>"
+				getEssenceSymbol(PresetColour.TEXT_GREY)//+"<b style='color:"+disabledColour+"; -webkit-text-stroke: 1px "+disabledColour+";'>"+getPentagramSymbol()+"</b>"
 				+ "<"+tag+" style='color:"+disabledColour+";'>"+Units.number(amount)+"</"+tag+">";
 	}
 	
@@ -750,7 +754,7 @@ public class UtilText {
 //				+"</div>"
 //				 "<b style='color:"+arcaneColour+"; text-shadow: "+PresetColour.BASE_PINK_LIGHT.toWebHexString()+" 0 0 16px;'>&#9956;</b>"
 
-				 "<b style='color:"+arcaneColour+"; -webkit-text-stroke: 1px "+arcaneColour+"; padding-right:2px;'>"+getPentagramSymbol()+"</b>"
+				getEssenceSymbol(PresetColour.GENERIC_ARCANE)// "<b style='color:"+arcaneColour+"; -webkit-text-stroke: 1px "+arcaneColour+";'>"+getPentagramSymbol()+"</b>"
 				+ "<"+tag+" style='color:"+arcaneColour+";'>"+Units.number(amount)+"</"+tag+">";
 	}
 

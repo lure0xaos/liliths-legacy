@@ -6289,7 +6289,7 @@ public class Game implements XMLSaving {
 	
 	public void generateAlleywayClothing() {
 		if(Math.random()<0.01f) {
-			randomItem = Main.game.getItemGen().generateClothing(ClothingType.MEGA_MILK, false);
+			randomItem = Main.game.getItemGen().generateClothing("innoxia_torso_tshirt_megamilk", false);
 			Main.game.getPlayerCell().getInventory().addClothing((AbstractClothing) randomItem);
 			
 		} else {

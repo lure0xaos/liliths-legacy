@@ -1785,7 +1785,7 @@ public class LilayaDressingRoomDialogue {
 													+ "<b style='color:" + PresetColour.TEXT_GREY.toWebHexString() + ";'>" + Util.capitaliseSentence(sticker.getName()) + (specialSticker?"*":"") + "</b>"
 											+ "</div>");
 									
-								} else if(clothingSelected.getStickers().get(cat.getId())==sticker.getId()) {
+								} else if(clothingSelected.getStickers().get(cat.getId()).equalsIgnoreCase(sticker.getId())) {
 									stickerSB.append(
 											"<div id='"+id+"' class='cosmetics-button active'>"
 													+ "<b style='color:" + sticker.getColourSelected().toWebHexString() + ";'>" + Util.capitaliseSentence(sticker.getName()) + (specialSticker?"*":"") + "</b>"
@@ -2532,7 +2532,9 @@ public class LilayaDressingRoomDialogue {
 				if(effects.isEmpty()) {
 					inventorySB.append("<br/><span style='color:"+PresetColour.TEXT_GREY.toWebHexString()+";'>No effects added</span>");
 				} else {
-					inventorySB.append("<br/><i>Default effects are marked with a [style.boldDisabled('D')], and are free.</i>");
+					if(!Collections.disjoint(effects, defaultEffects)) {
+						inventorySB.append("<br/>[style.italicsMinorGood(Default effects are marked as "+UtilText.getEssenceSymbol(PresetColour.TEXT_GREY)+"[style.boldDisabled(D)], and are free.)]");
+					}
 					int capcityCost = 0;
 					
 					int it = 0;
@@ -2563,11 +2565,11 @@ public class LilayaDressingRoomDialogue {
 											+ " style='background:"+RenderingEngine.getEntryBackgroundColour(it%2==0)+"; width:98%; margin:0 1%; padding:0;'>");
 
 								inventorySB.append("<div style='width:calc(100% - 94px); line-height:22px; margin:0; padding:0; float:left;'>");
-									if(isDefaultEffect) {
-										inventorySB.append("<div style='position:absolute; left:0; margin-right:24px;'>"
-													+ "<i>[style.boldDisabled(D)]</i>"
-												+ "</div>");
-									}
+//									if(isDefaultEffect) {
+//										inventorySB.append("<div style='position:absolute; left:-18px;'>"
+//													+ "<i>[style.boldDisabled(D)]</i>"
+//												+ "</div>");
+//									}
 									inventorySB.append(Util.capitaliseSentence(s));
 								inventorySB.append("</div>");
 								if(i==0) {
@@ -2582,7 +2584,12 @@ public class LilayaDressingRoomDialogue {
 											}
 										}
 										if(essenceCost==0) {
-											inventorySB.append(UtilText.formatAsEssencesUncoloured(essenceCost, "b", false));
+											if(isDefaultEffect) {
+												inventorySB.append(UtilText.getEssenceSymbol(PresetColour.TEXT_GREY));
+												inventorySB.append("[style.boldDisabled(D)]");
+											} else {
+												inventorySB.append(UtilText.formatAsEssencesUncoloured(essenceCost, "b", false));
+											}
 										} else {
 											inventorySB.append(UtilText.formatAsEssences(essenceCost, "b", false));
 										}
