@@ -908,8 +908,8 @@ public class TooltipInformationEventListener implements EventListener {
 								:"")
 							+ "<b style='color:"+owner.getSubspecies().getColour(owner).toWebHexString()+";'>"
 								+ (owner.isFeminine()
-										?Util.capitaliseSentence((owner.showWinged() ? "winged " : "") + owner.getSubspecies().getSingularFemaleName(owner.getBody()))
-										:Util.capitaliseSentence((owner.showWinged() ? "winged " : "") + owner.getSubspecies().getSingularMaleName(owner.getBody())))
+										?Util.capitaliseSentence((owner.isPrependWingedToRaceName() ? "winged " : "") + owner.getSubspecies().getSingularFemaleName(owner.getBody()))
+										:Util.capitaliseSentence((owner.isPrependWingedToRaceName() ? "winged " : "") + owner.getSubspecies().getSingularMaleName(owner.getBody())))
 							+ "</b>"
 							+ "</div>");
 					

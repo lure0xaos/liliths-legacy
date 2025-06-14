@@ -12,6 +12,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed a lot of typos and parsing errors. (PR#1789 by Simones112)
 		Added ability to directly parse an item within its own description. (PR#1438 by CognitiveMist)
 		Fixed bug where modded combat moves were not implementing the blockAmount tag. (PR#1851 by miome)
+		Fixed some races being incorrectly named 'winged-race'. (PR#1839 by Stadler76)
 	
 	Multiple fixes from #PR1778 (by Maxis010):
 		Added +/- 100 buttons to sex experience for character creation. (Innoxia: I also made some changes to the formatting of the sex experience dialogue.)
@@ -438,7 +439,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 					[] show block amount
 				[] spells
 			[-] 1840 (fixed in a different way)
-			[] 1839
+			[x] 1839
 			[] 1654
 			[] 1788
 			[] 1798
