@@ -1460,9 +1460,15 @@ public abstract class AbstractClothing extends AbstractCoreItem implements XMLSa
 					+ (withRarityColour
 						? (" <span style='color: " + c.toWebHexString() + "; "+(this.isVibrator()?"text-shadow: 2px 2px "+c.getShades()[0]+";":"")+"'>" + (this.isVibrator()?"vibrating ":"")+getName() + "</span>")
 						: " "+(this.isVibrator()?UtilText.applyVibration("vibrating "+getName(), c):getName()))
-					+ ((withEnchantmentPostFix && !this.getEffects().isEmpty() && this.isEnchantmentKnown() && this.getRarity()!=Rarity.QUEST && this.getRarity()!=Rarity.LEGENDARY && this.getRarity()!=Rarity.EPIC)
-							? " "+getEnchantmentPostfix(withRarityColour, "span")
-							: "")
+					+ ((withEnchantmentPostFix
+							&& !this.getEffects().isEmpty()
+							&& this.getClothingType().isAppendEnchantmentPostfix()
+							&& this.isEnchantmentKnown()
+							&& this.getRarity()!=Rarity.QUEST
+							&& this.getRarity()!=Rarity.LEGENDARY
+							&& this.getRarity()!=Rarity.EPIC)
+								? " "+getEnchantmentPostfix(withRarityColour, "span")
+								: "")
 				));
 	}
 

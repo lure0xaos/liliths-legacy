@@ -4,7 +4,7 @@
 	<coreAttributes>
 		<value>400</value> 
 		<determiner><![CDATA[a]]></determiner>
-		<name><![CDATA['Mega Milk' T-shirt]]></name>
+		<name appendColourName="false" appendEnchantmentPostfix="false"><![CDATA['Mega Milk' T-shirt]]></name>
 		<namePlural pluralByDefault="false"><![CDATA['Mega Milk' T-shirts]]></namePlural>
 		<description><![CDATA[A T-shirt with the words 'Mega Milk' written on the front.]]></description>
 		<physicalResistance>0</physicalResistance>
@@ -20,7 +20,7 @@
 			<effect limit="3" mod1="TF_BREASTS" mod2="TF_MOD_SIZE_SECONDARY" potency="MAJOR_BOOST" timer="0" type="CLOTHING"/>
 			<effect limit="3" mod1="TF_BREASTS" mod2="TF_MOD_SIZE_TERTIARY" potency="MAJOR_BOOST" timer="0" type="CLOTHING"/>
 			<effect limit="1000" mod1="TF_BREASTS" mod2="TF_MOD_WETNESS" potency="MAJOR_BOOST" timer="0" type="CLOTHING"/>
-			<effect limit="500000" mod1="TF_BREASTS" mod2="TF_MOD_REGENERATION" potency="MAJOR_BOOST" timer="0" type="CLOTHING"/>
+			<effect limit="10000" mod1="TF_BREASTS" mod2="TF_MOD_REGENERATION" potency="MAJOR_BOOST" timer="0" type="CLOTHING"/>
 		</effects>
 		
 		<blockedPartsList> 

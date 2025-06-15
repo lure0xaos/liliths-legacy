@@ -43,6 +43,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Added a 'REMOVE_FROM_DRESSING_ROOM_OUTFITS' item tag to prevent weapons or clothing from being available in the dressing room outfit creator.
 		Added temporary boolean, String, and int variables to the DialogueFlags class, which can be accessed via the 'flags' parsing target, and used via getter/setter methods getBool(String id), setBool(String id, boolean value), getString(String id), setString(String id, String value), getInt(String id), setInt(String id, int value). The temporary variables which you set via these methods are forgotten whenever a game is loaded; they're intended for use across multiple conditional checks within a game's instance, not for saving data to the game's file.
 		As part of PR#1438, clothing, weapon, and item mods can now parse a reference to themselves in their descriptions by using the 'thisItem' parsing target, and can also parse the owner of the item with the 'npc' target (which should use a null check to be used) - comments have been added to the example XML files to describe this.
+		Added 'appendEnchantmentPostfix' as an optional attribute to clothing's name element (defaults to true if omitted), which when set to false will prevent an automatically-generated enchantment naming postfix from being appended to the end of the clothing's name.
 	
 	UI:
 		Reformatted tooltip content for clothing, weapons, items, and tattoos, to fix several issues with readability, content being cut off, and lots of wasted space.
@@ -113,9 +114,15 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed minor error in sticker definitions within the new latex hood clothing item.
 		Fixed parsing error in post-combat loss scene with bandits in the Foloi Fields.
 		Fixed buggy comparison function in TattooType.getAllTattooTypes().
-		
+		Fixed incorrect sex positioning when giving a blowjob to Vronti.
+		In the Vronti handjob scene, you can no longer switch to giving him a blowjob unless the 'blowjob' action has already been unlocked in the previous scene.
+		The maximum amount of unique clothing and weapons sold by Vicky are no longer limited by the number of unique items, essences, and spell books which she sells in her 'item' tab.
+		Fixed bug where you could not interact with the three demonic leaders of the fortresses in Submission after defeating Meraxis.
+		The the character creation process at the start of the game, the colour of your equipped piercings will be preserved if you leave the inventory dialogue and then return to it.
+		Fixed bug where if you had clothing equipped which prevented orgasms, then using the 'quick sex' action would cause the game to crash.
 	
-	[] Bug reports
+	
+	[x] Bug reports
 		[x] While creating outfits in warderobe, liquids enchants have +/-5 instead of +/-500 when limit++/-- is clicked
 		[x] wardrobe, sticker buttons not initialised correctly. saved outfit, select sticker item, go back and sticker buttons not selected
 		[x] res/txt/encounters/fields/bandix.xml contains the line #IF(attacker.isPostCombatWantsSex(pc)) which throws a TypeError because isPostCombatWantsSex does not take any arguments
@@ -130,10 +137,21 @@ Not everything in this file is up-to-date, and everything is subject to change a
 				[x] mega milk T-shirt give milk and cup size enchantment
 		[x] "default effects are marked with a 'D'" should only show if there are default effects
 		[-] if you equip unique/quest-rarity clothing on an NPC, then "Unequip all (them)" does not return the unique clothing to your inventory or to theirs, losing it forever
-		[] Another Mis-type when using Astrapi to go to Dominion. Says Player wants to leave to Elis when we're leaving Elis.
-		
-		
-		
+		[x] Another Mis-type when using Astrapi to go to Dominion. Says Player wants to leave to Elis when we're leaving Elis.
+		[x] Mis-type when you go to the Amazonian camp to check in on Lunexis; this says it's Lunexis yapping in the second paragraph about Lunexis's wailing, when it's Ursa
+		[-] In 0.4.10.7, 69ing with Nyan on my first date with her resulted in me getting stuck with her "Prepare"ing for her to orgasm
+		[x] In 4.10.7 when performing a dominant blowjob on the centaur Vronti the game registers it as he is the one performing oral, but the scene is written that the player is the one performing oral
+		[x] Vronti handjob should limit player to just handjob, but it allows blowjob...
+		[x] When Vicky's goods for sale get refreshed every day, there is a check to ensure that the total number of items does not exceed her inventory space.
+		 However, the Arcane Arts shop splits goods into 3 separate categories, meaning this limit is unnecessarily restrictive.
+		  The end result is that adding too many race mods (and therefore essence items) will reduce Vicky's weapon and clothing stock, despite having plenty of inventory space in those sections
+		[x] Mega milk T-shirt "of transformation"
+		[x] "You've already taken Nyan and Leotie..." even though just finished solo date
+		[x] in 0.4.10.7, after defeating the imp fortresses and the dark siren, once the fortress leaders eventually return, they cannot be interacted with, the game dialogue continues to say they will return eventually, and the imp gangs never return either
+		[x] while creating a new character, if change the color of any of the equipped piercings, go forward to the next screen and then back, the piercings has changed to the original color
+		[x] in 0.4.10.7, if you have clothing that prevents orgasm, and then start a rape scene with multiple partners, then use the "quick sex" option, the game will hang
+			To reproduce, explore the alleyways until you meet an enforcer patrol, ensure they aren't attracted to you, defeat and rape them, then use "quick sex"
+	
 	[x] dressing room needs to be limited to 1
 	[x] "You slide your tongue out of Alexandria's teats.​" should be different if nipples are non-pen
 		[x] check udders as well
@@ -471,6 +489,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[] formatting
 			[] show block amount
 		[] spells
+		[] status effects
 				
 	[] please sort the "start ongoing" sex actions into a consistent format
 	
@@ -502,6 +521,11 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	
 	[] Add 'Mystery potion' which is unidentified and contains random effects
 	
+	[] Imp fortresses
+		[] For all of them, split their dialogues into separate files and check through dialogue to make sure it makes sense
+		[] Male
+			[] Need checks to see if player is demon, in which case remove references to imp breeding
+		
 	[] add handbags as weapons
 		[] clutch
 		[] satchel
@@ -1504,6 +1528,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] rework furry setting levels so each is selectable to allow/disable spawning of that furry level
 		
 	Ashley
+	
+	[] tail pussy
 	
 	[] 4 person guest rooms
 	

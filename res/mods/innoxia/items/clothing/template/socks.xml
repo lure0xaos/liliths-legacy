@@ -28,8 +28,12 @@
 		<determiner><![CDATA[a pair of]]></determiner>
 		
 		<!-- The *singular* name of this clothing.
-			- Example: I've named this "template sock", as the singular for "template socks" is of course "sock"... -->
-		<name appendColourName="true"><![CDATA[template sock]]></name> <!-- You can leave out the 'appendColourName' attribute, but if you never want this clothing to be described by its colour, then set it as false. (i.e. If set to false, this clothing would always be called 'template socks' instead of, for example, 'white template socks')-->
+			- Example: I've named this "template sock", as the singular for "template socks" is of course "sock"...
+			You can leave out the 'appendColourName' attribute, but if you never want this clothing to be described by its colour, then set it as false.
+				i.e. If set to false, this clothing would always be called 'template socks' instead of, for example, 'white template socks' 
+			The 'appendEnchantmentPostfix' attribute works in the same way; you can omit it to default to true, but if you set it to false then this clothing type will never automatically append an automatically-generated enchantment postfix.
+				An example of this would be if a normal item was enchanted with an enslavement enchantment, that item would be have "of enslavement" added to the end of its name. -->
+		<name appendColourName="true" appendEnchantmentPostfix="true"><![CDATA[template sock]]></name>
 		
 		<!-- The plural form of the name. The attribute 'pluralByDefault' determines whether this item is naturally referred to as a plural (use true for things like socks or gloves).
 			- Example: I've named the plural as "template socks", and defined pluralByDefault as true, so that this item will be referred to by this plural name in all but extremely exceptional circumstances. -->

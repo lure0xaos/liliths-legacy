@@ -246,7 +246,13 @@
 	
 	<htmlContent tag="ASTRAPI_START"><![CDATA[
 	<p>
-		Deciding to take up Astrapi's offer, you tell her that you'd like a ride to Elis, before paying her the two hundred and fifty flames she's asked for. Flashing you a big smile, she stores the money in a sturdy lock-box attached to her carriage, before happily exclaiming, [astrapi.speech(Right, if you'd like to climb aboard, we'll set off right now!)]
+		Deciding to take up Astrapi's offer, you tell her that you'd like a ride to
+		#IF(flags.hasFlag(FLAG_innoxia_centaur_travel_to_elis))
+			 Elis,
+		#ELSE
+			 Dominion,
+		#ENDIF
+		 before paying her the two hundred and fifty flames she's asked for. Flashing you a big smile, she stores the money in a sturdy lock-box attached to her carriage, before happily exclaiming, [astrapi.speech(Right, if you'd like to climb aboard, we'll set off right now!)]
 	</p>
 	<p>
 		Doing as you're instructed, you climb aboard the carriage and make yourself comfortable on the padded seats. Trotting over to fully open the barn's door, Astrapi
@@ -959,7 +965,13 @@
 	
 	<htmlContent tag="VRONTI_START"><![CDATA[
 	<p>
-		Deciding to take up Vronti's offer, you tell him that you'd like a ride to Elis, before paying him the two hundred and fifty flames he's asked for. Silently nodding to you, he stores the money in a sturdy lock-box attached to his carriage, before motioning towards it and briefly saying in his deep voice, [vronti.speech(Let's go.)]
+		Deciding to take up Vronti's offer, you tell him that you'd like a ride to
+		#IF(flags.hasFlag(FLAG_innoxia_centaur_travel_to_elis))
+			 Elis,
+		#ELSE
+			 Dominion,
+		#ENDIF
+		 before paying him the two hundred and fifty flames he's asked for. Silently nodding to you, he stores the money in a sturdy lock-box attached to his carriage, before motioning towards it and briefly saying in his deep voice, [vronti.speech(Let's go.)]
 	</p>
 	<p>
 		Happy to get started on your journey, you climb aboard the carriage and make yourself comfortable on the padded seats. Trotting over to fully open the barn's door, Vronti
@@ -1122,7 +1134,7 @@
 		Instead of using your hands or mouth to solve the problem, however, you [pc.walk] around in front of the centaur and expose your pussy to him, before getting down on all fours and telling him to do what he wants. Although Vronti spends a moment trying to resist, a graphic description of how hungry your cunt is for horse-cock, combined with your exposed pussy being physically presented to him, gets him to step forwards and mount you.
 	</p>
 	<p>
-		[vronti.speech(Don't tell Astrapi about this... Please...)] he grunts as he moves around until the flared head of his cock is prodding experimentally at your [pc.labia+]. Promising him that this can be your little secret, you push your hips back and press your hungry pussy back against his cock. Vronti lets out a shocked grunt as he feels this pressure on the head of his cock, and being unable to resist his natural urges, he thrusts forwards sinks his massive horse-cock into your [pc.pussy+].
+		[vronti.speech(Don't tell Astrapi about this... Please...)] he grunts as he moves around until the flared head of his cock is prodding experimentally at your [pc.labia+]. Promising him that this can be your little secret, you push your hips back and press your hungry pussy back against his cock. Vronti lets out a shocked grunt as he feels this pressure on the head of his cock, and being unable to resist his natural urges, he thrusts forwards and sinks his massive horse-cock into your [pc.pussy+].
 	</p>
 	<p>
 		[vronti.speech(Fuck...)] he grunts, and after you've let out an eager moan and told him to rut you like an animal, he does as you say and begins to desperately pound your hot pussy...
@@ -1173,7 +1185,7 @@
 		Instead of using your hands or mouth to solve the problem, however, you [pc.walk] around in front of the centaur and expose your ass to him, before getting down on all fours and telling him to do what he wants. Although Vronti spends a moment trying to resist, a graphic description of how hungry your back-door is for horse-cock, combined with your exposed asshole being physically presented to him, gets him to step forwards and mount you.
 	</p>
 	<p>
-		[vronti.speech(Don't tell Astrapi about this... Please...)] he grunts as he moves around until the flared head of his cock is prodding experimentally at your [pc.asshole+]. Promising him that this can be your little secret, you push your hips back and press your hungry butt back against his cock. Vronti lets out a shocked grunt as he feels this pressure on the head of his cock, and being unable to resist his natural urges, he thrusts forwards sinks his massive horse-cock into your [pc.asshole+].
+		[vronti.speech(Don't tell Astrapi about this... Please...)] he grunts as he moves around until the flared head of his cock is prodding experimentally at your [pc.asshole+]. Promising him that this can be your little secret, you push your hips back and press your hungry butt back against his cock. Vronti lets out a shocked grunt as he feels this pressure on the head of his cock, and being unable to resist his natural urges, he thrusts forwards and sinks his massive horse-cock into your [pc.asshole+].
 	</p>
 	<p>
 		[vronti.speech(Fuck...)] he grunts, and after you've let out [pc.a_moan+] and told him to rut you like an animal, he does as you say and begins to desperately pound your hot ass...
