@@ -2012,7 +2012,7 @@ public class CharacterUtils {
 				dayOfMonth = Math.min(dayOfMonth, 28);
 			}
 			if(character.getSubspeciesOverride()!=null && character.getSubspeciesOverride().isDoesNotAge()) {
-				character.setBirthday(LocalDateTime.of(Main.game.getDateNow().getYear()-(Util.random.nextInt(101)-GameCharacter.MINIMUM_AGE), character.getBirthMonth(), dayOfMonth, 12, 0));
+				character.setBirthday(LocalDateTime.of(Main.game.getDateNow().getYear()-Util.random.nextInt(101), character.getBirthMonth(), dayOfMonth, 12, 0));
 			} else {
 				character.setBirthday(LocalDateTime.of(Main.game.getDateNow().getYear()-(AgeCategory.getAgeFromPreferences(character.getGender())-GameCharacter.MINIMUM_AGE), character.getBirthMonth(), dayOfMonth, 12, 0));
 			}

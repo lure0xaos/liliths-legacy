@@ -239,7 +239,7 @@ public class RalphsSnacks {
 							+ " Glancing down, you see a distinctive bulge forming between his legs, but before you can react to the sight of Ralph's growing erection, he steps forwards, pinning you back against the wall."
 						+ "</p>"
 						+ "<p>"
-							+ "[ralph.speech(Fancy another taste?)] he slyly asks, before grinning deviously at you and leaning in a little closer."
+							+ "[ralph.speech(Fancy a taste?)] he slyly asks, before grinning deviously at you and leaning in a little closer."
 							+ " As you feel his hot breath on your face, the horse-boy continues, "
 							+ "[ralph.speech(Let me blow a load down that pretty little throat of yours, and I'll give you twenty-five percent off everything I have in stock for a few days.)]"
 						+ "</p>"

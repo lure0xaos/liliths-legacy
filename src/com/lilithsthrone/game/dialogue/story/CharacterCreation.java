@@ -657,7 +657,7 @@ public class CharacterCreation {
 					}
 					@Override
 					public void effects() {
-						getDressed();
+//						getDressed();
 					}
 				};
 				
@@ -780,7 +780,7 @@ public class CharacterCreation {
 							Main.game.getPlayerCell().resetInventory();
 							Main.game.getPlayer().moveToAdjacentMatchingCellType(false, PlaceType.MUSEUM_LOBBY);
 							Main.game.setContent(new Response("" ,"", CHOOSE_ADVANCED_APPEARANCE));
-//							getDressed();
+							getDressed();
 						}
 					}
 				};

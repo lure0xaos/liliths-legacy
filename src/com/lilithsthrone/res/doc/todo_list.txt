@@ -87,6 +87,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Sex:
 		Natalya and Thunder (the centaur involved in her training scenes) no longer allow you to use items or equip condoms on them in their sex scenes.
 		If an NPC's condom will break when orgasming, then they can now use all available orgasm actions (before this change, NPCs would not make use of the fact that their condom breaks, and were likely to use a generic orgasm action instead of one drawn from their preferences).
+		Sex actions should now have a more consistent ordering, especially for start/stop ongoing actions.
 	
 	Other:
 		You can now only have one dressing room upgrade at a time, and after paying to have Lyssieth's wardrobe re-enchanted, it will be automatically installed if you remove your dressing room and then add it again.
@@ -120,37 +121,10 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		Fixed bug where you could not interact with the three demonic leaders of the fortresses in Submission after defeating Meraxis.
 		The the character creation process at the start of the game, the colour of your equipped piercings will be preserved if you leave the inventory dialogue and then return to it.
 		Fixed bug where if you had clothing equipped which prevented orgasms, then using the 'quick sex' action would cause the game to crash.
+		Fixed some parsing errors in the 'mag dump' special moves which would occur if you didn't have enough essences to use the special move.
+		Fixed bug where demons and other races which don't age could sometimes spawn with a birthday in the future.
+		Fixed bug where when applying outfits to yourself or your slaves, clothing which should be discarded upon unequipping it (such as the tape items) would instead be placed on the floor.
 	
-	
-	[x] Bug reports
-		[x] While creating outfits in warderobe, liquids enchants have +/-5 instead of +/-500 when limit++/-- is clicked
-		[x] wardrobe, sticker buttons not initialised correctly. saved outfit, select sticker item, go back and sticker buttons not selected
-		[x] res/txt/encounters/fields/bandix.xml contains the line #IF(attacker.isPostCombatWantsSex(pc)) which throws a TypeError because isPostCombatWantsSex does not take any arguments
-		[x] TattooType.getAllTattooTypes has a buggy comparison function
-			[x] got this error on startup intermittently, and I haven't tried to troubleshoot (including by uninstalling mods) but when I look at TattooType.getAllTattooTypes, there's:
-				allTattoos.sort((t1, t2) -> t1.equals(TattooType.getTattooTypeFromId("innoxia_misc_none"))?-1:(t1.getName().compareTo(t2.getName())));
-		[x] the descriptions for equipping Lyssieth's Signet Ring on an NPC have the characters reversed ("npc slides the signet ring on/off your finger" instead of you putting it on their finger) 
-			[x] convert hard-coded torso clothing to XML files
-				[x] cami top stomach now correctly exposed
-				[x] increased value of skater dress 250 -> 400, virgin killer sweater 100 -> 800, frontal-zip dress 350 -> 500
-				[x] test skater dress (remove duplicate BREAST areas? same for peplos)
-				[x] mega milk T-shirt give milk and cup size enchantment
-		[x] "default effects are marked with a 'D'" should only show if there are default effects
-		[-] if you equip unique/quest-rarity clothing on an NPC, then "Unequip all (them)" does not return the unique clothing to your inventory or to theirs, losing it forever
-		[x] Another Mis-type when using Astrapi to go to Dominion. Says Player wants to leave to Elis when we're leaving Elis.
-		[x] Mis-type when you go to the Amazonian camp to check in on Lunexis; this says it's Lunexis yapping in the second paragraph about Lunexis's wailing, when it's Ursa
-		[-] In 0.4.10.7, 69ing with Nyan on my first date with her resulted in me getting stuck with her "Prepare"ing for her to orgasm
-		[x] In 4.10.7 when performing a dominant blowjob on the centaur Vronti the game registers it as he is the one performing oral, but the scene is written that the player is the one performing oral
-		[x] Vronti handjob should limit player to just handjob, but it allows blowjob...
-		[x] When Vicky's goods for sale get refreshed every day, there is a check to ensure that the total number of items does not exceed her inventory space.
-		 However, the Arcane Arts shop splits goods into 3 separate categories, meaning this limit is unnecessarily restrictive.
-		  The end result is that adding too many race mods (and therefore essence items) will reduce Vicky's weapon and clothing stock, despite having plenty of inventory space in those sections
-		[x] Mega milk T-shirt "of transformation"
-		[x] "You've already taken Nyan and Leotie..." even though just finished solo date
-		[x] in 0.4.10.7, after defeating the imp fortresses and the dark siren, once the fortress leaders eventually return, they cannot be interacted with, the game dialogue continues to say they will return eventually, and the imp gangs never return either
-		[x] while creating a new character, if change the color of any of the equipped piercings, go forward to the next screen and then back, the piercings has changed to the original color
-		[x] in 0.4.10.7, if you have clothing that prevents orgasm, and then start a rape scene with multiple partners, then use the "quick sex" option, the game will hang
-			To reproduce, explore the alleyways until you meet an enforcer patrol, ensure they aren't attracted to you, defeat and rape them, then use "quick sex"
 	
 	[x] dressing room needs to be limited to 1
 	[x] "You slide your tongue out of Alexandria's teats.​" should be different if nipples are non-pen
@@ -479,9 +453,64 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[-] 1840 (fixed in a different way)
 			[x] 1839
 			[x] 1788
+	[x] Bug reports
+		[x] While creating outfits in warderobe, liquids enchants have +/-5 instead of +/-500 when limit++/-- is clicked
+		[x] wardrobe, sticker buttons not initialised correctly. saved outfit, select sticker item, go back and sticker buttons not selected
+		[x] res/txt/encounters/fields/bandix.xml contains the line #IF(attacker.isPostCombatWantsSex(pc)) which throws a TypeError because isPostCombatWantsSex does not take any arguments
+		[x] TattooType.getAllTattooTypes has a buggy comparison function
+			[x] got this error on startup intermittently, and I haven't tried to troubleshoot (including by uninstalling mods) but when I look at TattooType.getAllTattooTypes, there's:
+				allTattoos.sort((t1, t2) -> t1.equals(TattooType.getTattooTypeFromId("innoxia_misc_none"))?-1:(t1.getName().compareTo(t2.getName())));
+		[x] the descriptions for equipping Lyssieth's Signet Ring on an NPC have the characters reversed ("npc slides the signet ring on/off your finger" instead of you putting it on their finger) 
+			[x] convert hard-coded torso clothing to XML files
+				[x] cami top stomach now correctly exposed
+				[x] increased value of skater dress 250 -> 400, virgin killer sweater 100 -> 800, frontal-zip dress 350 -> 500
+				[x] test skater dress (remove duplicate BREAST areas? same for peplos)
+				[x] mega milk T-shirt give milk and cup size enchantment
+		[x] "default effects are marked with a 'D'" should only show if there are default effects
+		[-] if you equip unique/quest-rarity clothing on an NPC, then "Unequip all (them)" does not return the unique clothing to your inventory or to theirs, losing it forever
+		[x] Another Mis-type when using Astrapi to go to Dominion. Says Player wants to leave to Elis when we're leaving Elis.
+		[x] Mis-type when you go to the Amazonian camp to check in on Lunexis; this says it's Lunexis yapping in the second paragraph about Lunexis's wailing, when it's Ursa
+		[-] In 0.4.10.7, 69ing with Nyan on my first date with her resulted in me getting stuck with her "Prepare"ing for her to orgasm
+		[x] In 4.10.7 when performing a dominant blowjob on the centaur Vronti the game registers it as he is the one performing oral, but the scene is written that the player is the one performing oral
+		[x] Vronti handjob should limit player to just handjob, but it allows blowjob...
+		[x] When Vicky's goods for sale get refreshed every day, there is a check to ensure that the total number of items does not exceed her inventory space.
+		 However, the Arcane Arts shop splits goods into 3 separate categories, meaning this limit is unnecessarily restrictive.
+		  The end result is that adding too many race mods (and therefore essence items) will reduce Vicky's weapon and clothing stock, despite having plenty of inventory space in those sections
+		[x] Mega milk T-shirt "of transformation"
+		[x] "You've already taken Nyan and Leotie..." even though just finished solo date
+		[x] in 0.4.10.7, after defeating the imp fortresses and the dark siren, once the fortress leaders eventually return, they cannot be interacted with, the game dialogue continues to say they will return eventually, and the imp gangs never return either
+		[x] while creating a new character, if change the color of any of the equipped piercings, go forward to the next screen and then back, the piercings has changed to the original color
+		[x] in 0.4.10.7, if you have clothing that prevents orgasm, and then start a rape scene with multiple partners, then use the "quick sex" option, the game will hang
+			To reproduce, explore the alleyways until you meet an enforcer patrol, ensure they aren't attracted to you, defeat and rape them, then use "quick sex"
+		[x] in all the "mag dump" combat moves, there are several instances of [#npc.getEssenceCount] appearing without parentheses, which throws an error if that part ever gets parsed
+			 (happens when there are not enough essences for a full mag dump); after depleting all essences, there is an additional error
+	[x] FAF character details!
+		[x] Evelyx
+			[x] check details
+			[x] TF methods
+	[x] Hammer pupils incorrect pattern
+	[x] NPCs can spawn with birth dates in the future? (15 years in the future)
+	[x] please sort the "start ongoing" sex actions into a consistent format
+	[-] remove masochist requirement from Yui's tower and instead give a warning in the dialogue
+		Search for: "#IF(flags.hasFlag(FLAG_innoxia_yui_dungeon_unavailable_today) || !game.isHourBetween(20, 23) || (game.getDayOfWeek()!=DOW_MONDAY && game.g"
+	[x] add simple herm random enchantment
 	
 	
-	[] FAF character details!
+	[] !!! reduce file size of images
+	
+	
+	[] The 'X cums so much, Y is covered by it!' is triggering far too often - perhaps add a modifier to penis to give explosive orgasm to give this effect instead
+		Search for: "almost completely coated"
+	
+	[] fix "private static String getTargetedCharacterResponse" returning empty String and not a new StringBuilder
+	
+	[] encyclopedia needs to show which races you have fully unlocked
+	[] slime TF from item should definitely break out of inventory
+	
+	[] loosen PENT_UP requirement for triggering slaves having sleep sex with player
+	
+	[] elementals feral forms as active
+	
 	
 	
 	[] update tooltips
@@ -491,19 +520,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] spells
 		[] status effects
 				
-	[] please sort the "start ongoing" sex actions into a consistent format
-	
-	[] The 'X cums so much, Y is covered by it!' is triggering far too often - perhaps add a modifier to penis to give explosive orgasm to give this effect instead
-		Search for: "almost completely coated"
-	
-	[] fix "private static String getTargetedCharacterResponse" returning empty String and not a new StringBuilder
-	
-	[] remove masochist requirement from Yui's tower and instead give a warning in the dialogue
-		Search for: "#IF(flags.hasFlag(FLAG_innoxia_yui_dungeon_unavailable_today) || !game.isHourBetween(20, 23) || (game.getDayOfWeek()!=DOW_MONDAY && game.g"
-	
-	[] encyclopedia needs to show which races you have fully unlocked
-	[] slime TF from item should definitely break out of inventory
-	
 	[] make it so addictions can be cured by waiting them out, but add content setting to make them permanent
 	
 	[] urethra depth is far too long?
@@ -512,12 +528,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] add placeUpgrade and quest modding
 	
 	[] AoE for special attacks
-	
-	[] add simple herm random enchantment
-	
-	[] elementals feral forms as active
-	
-	[] loosen PENT_UP requirement for triggering slaves having sleep sex with player
 	
 	[] Add 'Mystery potion' which is unidentified and contains random effects
 	
@@ -930,6 +940,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[] Salamander sex
 		[] Swimming pool
 			[] Shark race, pool sex
+				[] see grey outline under water doing lengths without coming up to breathe
+				[] when swimming, can stray into their lane
 		[] post-workout changing room
 			[] get hit on
 			[] sex in changing room

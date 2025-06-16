@@ -22853,10 +22853,12 @@ public abstract class GameCharacter implements XMLSaving {
 			
 			Map<InventorySlot, AbstractClothing> removed = this.unequipAllClothing(this, true, false, new ArrayList<>(outfit.getIgnoredSlots()));
 			for(Entry<InventorySlot, AbstractClothing> c : removed.entrySet()) {
-				if(oldClothingAndWeaponsSentTo==OutfitSource.CELL) {
-					this.getCell().getInventory().addClothing(c.getValue());
-				} else {
-					this.addClothing(c.getValue(), false);
+				if(!c.getValue().isDiscardedOnUnequip(c.getKey())) {
+					if(oldClothingAndWeaponsSentTo==OutfitSource.CELL) {
+						this.getCell().getInventory().addClothing(c.getValue());
+					} else {
+						this.addClothing(c.getValue(), false);
+					}
 				}
 			}
 		}

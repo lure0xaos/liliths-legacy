@@ -1059,7 +1059,7 @@ public class LilayaDressingRoomDialogue {
 						
 						if(outfitObtainedViaPurchase) {
 							for(Entry<InventorySlot, AbstractCoreItem> entry: failureToEquipMap.entrySet()) {
-								if(entry.getValue() instanceof AbstractClothing) {
+								if(entry.getValue() instanceof AbstractClothing && !((AbstractClothing)entry.getValue()).isDiscardedOnUnequip(entry.getKey())) {
 									Main.game.getPlayerCell().getInventory().addClothing((AbstractClothing)entry.getValue());
 								} else if(entry.getValue() instanceof AbstractWeapon) {
 									Main.game.getPlayerCell().getInventory().addWeapon((AbstractWeapon)entry.getValue());
@@ -1161,7 +1161,7 @@ public class LilayaDressingRoomDialogue {
 
 							if(outfitObtainedViaPurchase) {
 								for(Entry<InventorySlot, AbstractCoreItem> entry: failureToEquipMap.entrySet()) {
-									if(entry.getValue() instanceof AbstractClothing) {
+									if(entry.getValue() instanceof AbstractClothing && !((AbstractClothing)entry.getValue()).isDiscardedOnUnequip(entry.getKey())) {
 										Main.game.getPlayerCell().getInventory().addClothing((AbstractClothing)entry.getValue());
 									} else if(entry.getValue() instanceof AbstractWeapon) {
 										Main.game.getPlayerCell().getInventory().addWeapon((AbstractWeapon)entry.getValue());
