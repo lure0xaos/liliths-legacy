@@ -87,6 +87,7 @@ import com.lilithsthrone.game.character.body.valueEnums.NippleShape;
 import com.lilithsthrone.game.character.body.valueEnums.OrificeModifier;
 import com.lilithsthrone.game.character.body.valueEnums.PenetrationModifier;
 import com.lilithsthrone.game.character.body.valueEnums.TongueModifier;
+import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.effects.StatusEffect;
 import com.lilithsthrone.game.character.fetishes.AbstractFetish;
 import com.lilithsthrone.game.character.fetishes.Fetish;
@@ -2965,10 +2966,89 @@ public class CharacterUtils {
 		equipClothingFromOutfit(character, OutfitType.getOutfitTypeFromId(outfitId), settings);
 	}
 	
+	/**
+	 * If the character is short sighted and is not wearing any prescription glasses, then this method will equip glasses onto them, trying not to remove any clothing in the process.
+	 */
+	public void applyGlasses(GameCharacter character) {
+		if(character.hasPerkAnywhereInTree(Perk.SPECIAL_SHORT_SIGHTED) && !character.hasClothingWithTag(ItemTag.PRESCRIPTION_GLASSES, true, false)) {
+			AbstractClothingType equipTheseGlasses = null;
+			InventorySlot intoSlot = null;
+			
+			if(Math.random()<0.8f) { // A good chance of having normal glasses
+				equipTheseGlasses = ClothingType.getClothingTypeFromId("innoxia_eye_glasses");
+				if(Math.random()<0.66f) {
+					equipTheseGlasses = ClothingType.getClothingTypeFromId("innoxia_eye_glasses");
+				} else {
+					equipTheseGlasses = ClothingType.getClothingTypeFromId("innoxia_eye_thick_rim_glasses");
+				}
+				intoSlot = InventorySlot.EYES;
+			}
+			
+			// If no normal glasses were selected, choose any (including normal glasses...):
+			if(equipTheseGlasses==null) {
+				// Create a map of all glasses mapped to a list of slots it can be equipped into
+				Map<AbstractClothingType, List<InventorySlot>> glasses = new HashMap<>();
+				for(AbstractClothingType ct : ClothingType.getAllClothing()) {
+					if(!ct.getDefaultItemTags().contains(ItemTag.SILLY_MODE)
+							&& !ct.getDefaultItemTags().contains(ItemTag.NO_RANDOM_SPAWN)
+							&& !ct.getDefaultItemTags().contains(ItemTag.CONTRABAND_LIGHT)
+							&& !ct.getDefaultItemTags().contains(ItemTag.CONTRABAND_MEDIUM)
+							&& !ct.getDefaultItemTags().contains(ItemTag.CONTRABAND_HEAVY)
+							&& ct.getRarity()==Rarity.COMMON) {
+						for(InventorySlot is : ct.getEquipSlots()) {
+							if(ct.getItemTags(is).contains(ItemTag.PRESCRIPTION_GLASSES)) {
+								glasses.putIfAbsent(ct, new ArrayList<>());
+								glasses.get(ct).add(is);
+							}
+						}
+					}
+				}
+				
+				// Create a filtered map of only those glasses which can actually be equipped and which are not going to remove any currently equipped clothing to do so
+				Map<AbstractClothingType, List<InventorySlot>> equippableGlasses = new HashMap<>(glasses);
+				for(Entry<AbstractClothingType, List<InventorySlot>> entry : glasses.entrySet()) {
+					for(InventorySlot potentialSlot : entry.getValue()) {
+						if(character.getClothingInSlot(potentialSlot)!=null || !character.isAbleToEquip(Main.game.getItemGen().generateClothing(entry.getKey(), false), potentialSlot, true, character)) {
+							equippableGlasses.get(entry.getKey()).remove(potentialSlot);
+						}
+						if(equippableGlasses.get(entry.getKey()).isEmpty()) {
+							equippableGlasses.remove(entry.getKey());
+						}
+					}
+				}
+				
+				// If the filtered list is empty, fall back on the original list of all glasses
+				Map<AbstractClothingType, List<InventorySlot>> finalGlasses;
+				if(equippableGlasses.isEmpty()) {
+					finalGlasses = new HashMap<>(glasses);
+				} else {
+					finalGlasses = new HashMap<>(equippableGlasses);
+				}
+				
+				// Randomly choose a pair of glasses and then select a slot to put them into, preferring the EYES slot
+				equipTheseGlasses = Util.randomItemFrom(finalGlasses.keySet());
+				intoSlot = finalGlasses.get(equipTheseGlasses).contains(InventorySlot.EYES)?InventorySlot.EYES:Util.randomItemFrom(finalGlasses.get(equipTheseGlasses));
+			}
+			
+			try {
+				// Clear the slot
+				if(character.getClothingInSlot(intoSlot)!=null) {
+					character.forceUnequipClothingIntoVoid(character, character.getClothingInSlot(intoSlot));
+				}
+				// Equip the glasses
+				character.equipClothingOverride(Main.game.getItemGen().generateClothing(equipTheseGlasses, false), intoSlot, true, false);
+			} catch(Exception ex) {
+				System.err.println("ERROR: applyGlasses() Oopsie!");
+				ex.printStackTrace();
+			}
+		}
+	}
+	
 	public void equipClothingFromOutfit(GameCharacter character, AbstractOutfit outfit, List<EquipClothingSetting> settings) {
 		if(outfit!=null) {
 			try {
 				outfit.applyOutfit(character, settings);
+				applyGlasses(character);
 				return;
 			} catch (XMLLoadException e) {
 				System.err.println("Outfit '"+outfit.getName()+"' could not be applied in CharacterUtils equipClothing(). Proceeding to randomly generate outfit...");
@@ -3101,6 +3181,7 @@ public class CharacterUtils {
 				}
 			}
 		}
+		applyGlasses(character);
 	}
 	
 	public void equipPiercings(GameCharacter character, boolean replaceUnsuitableClothing) {

@@ -1621,7 +1621,7 @@ public class TooltipInformationEventListener implements EventListener {
 			tooltipSB.setLength(0);
 
 			String percentageTransfer;
-			int transferAmount;
+			long transferAmount;
 			
 			if(this.moneyTransferPercentage==1) {
 				tooltipSB.append("<div class='title'>[style.colourMinorGood(Small Flames Transfer)]</div>");
@@ -1640,7 +1640,7 @@ public class TooltipInformationEventListener implements EventListener {
 						+ "</div>");
 				
 			} else if(owner==null) {
-				transferAmount = (int) Math.max(1, Main.game.getPlayerCell().getInventory().getMoney()*(moneyTransferPercentage/100f));
+				transferAmount = (long) Math.max(1, Main.game.getPlayerCell().getInventory().getMoney()*(moneyTransferPercentage/100f));
 				tooltipSB.append("<div class='subtitle'>"
 						+ (Main.game.getPlayerCell().getInventory().getMoney()==0
 								?"[style.italicsBad(There are no flames in this area...)]"
@@ -1650,7 +1650,7 @@ public class TooltipInformationEventListener implements EventListener {
 						+"</div>");
 				
 			} else if(owner.isPlayer()) {
-				transferAmount = (int) Math.max(1, owner.getMoney()*(moneyTransferPercentage/100f));
+				transferAmount = (long) Math.max(1, owner.getMoney()*(moneyTransferPercentage/100f));
 				tooltipSB.append("<div class='subtitle'>"
 						+ (owner.getMoney()==0
 								?"[style.italicsBad(You do not have any flames, so cannot transfer any money...)]"
@@ -1664,7 +1664,7 @@ public class TooltipInformationEventListener implements EventListener {
 						+"</div>");
 				
 			} else {
-				transferAmount = (int) Math.max(1, owner.getMoney()*(moneyTransferPercentage/100f));
+				transferAmount = (long) Math.max(1, owner.getMoney()*(moneyTransferPercentage/100f));
 				tooltipSB.append("<div class='subtitle'>"
 						+ UtilText.parse(owner,
 								(owner.getMoney()==0

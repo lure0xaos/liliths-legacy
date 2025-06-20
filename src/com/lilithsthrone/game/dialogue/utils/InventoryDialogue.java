@@ -2608,7 +2608,7 @@ public class InventoryDialogue {
 									return new Response("Buy (All) ("+UtilText.formatAsMoneyUncoloured(sellPrice*count, "span")+")", "Your inventory is already full!", null);
 								}
 								if(Main.game.getPlayer().getMoney() < sellPrice*count) {
-									int affordableCount = Main.game.getPlayer().getMoney() / sellPrice;
+									int affordableCount = (int)(Main.game.getPlayer().getMoney() / sellPrice);
 									if(affordableCount > 0) {
 										return new Response("Buy (Max " + affordableCount + ") (" + UtilText.formatAsMoney(sellPrice * affordableCount, "span") + ")",
 												"Buy the " + item.getName() + " for " + UtilText.formatAsMoney(sellPrice * affordableCount) + ".", INVENTORY_MENU) {
@@ -3801,7 +3801,7 @@ public class InventoryDialogue {
 									return new Response("Buy (All) ("+UtilText.formatAsMoneyUncoloured(sellPrice*count, "span")+")", "Your inventory is already full!", null);
 								}
 								if(Main.game.getPlayer().getMoney() < sellPrice*count) {
-									int affordableCount = Main.game.getPlayer().getMoney() / sellPrice;
+									int affordableCount = (int)(Main.game.getPlayer().getMoney() / sellPrice);
 									if(affordableCount > 0) {
 										return new Response("Buy (Max " + affordableCount + ") (" + UtilText.formatAsMoney(sellPrice * affordableCount, "span") + ")",
 												"Buy the " + weapon.getName() + " for " + UtilText.formatAsMoney(sellPrice * affordableCount) + ".", INVENTORY_MENU) {
@@ -5421,7 +5421,7 @@ public class InventoryDialogue {
 									return new Response("Buy (All) ("+UtilText.formatAsMoneyUncoloured(sellPrice*count, "span")+")", "Your inventory is already full!", null);
 								}
 								if(Main.game.getPlayer().getMoney() < sellPrice*count) {
-									int affordableCount = Main.game.getPlayer().getMoney() / sellPrice;
+									int affordableCount = (int)(Main.game.getPlayer().getMoney() / sellPrice);
 									if(affordableCount > 0) {
 										return new Response("Buy (Max " + affordableCount + ") (" + UtilText.formatAsMoney(sellPrice * affordableCount, "span") + ")",
 												"Buy the " + clothing.getName() + " for " + UtilText.formatAsMoney(sellPrice * affordableCount) + ".", INVENTORY_MENU) {

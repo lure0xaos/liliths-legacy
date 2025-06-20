@@ -1899,7 +1899,8 @@ public abstract class AbstractClothing extends AbstractCoreItem implements XMLSa
 			
 		} else {
 			tagsToBeDescribed = new HashSet<>(this.getItemTags(slotToBeEquippedTo));
-			tagsToBeDescribed.removeIf((it) -> universalTags.contains(it) && it!=ItemTag.DILDO_SELF);
+			// Commented-out in v0.4.11.2 as it seems to make sense to continue to give the player information from 'universalTags' while equipped
+//			tagsToBeDescribed.removeIf((it) -> universalTags.contains(it) && it!=ItemTag.DILDO_SELF);
 		}
 		
 		for(ItemTag tag : tagsToBeDescribed) {

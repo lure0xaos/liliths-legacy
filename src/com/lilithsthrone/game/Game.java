@@ -3550,6 +3550,20 @@ public class Game implements XMLSaving {
 		return getWeather();
 	}
 	
+	public String getBodyStyle() {
+		try {
+			if(Main.game.isStarted()
+					&& Main.game.isSillyMode()
+					&& StatusEffect.SHORT_SIGHTED.isConditionsMet(Main.game.getPlayer())) {
+				return "filter:blur(1px);";
+			}
+		} catch(Exception ex) {
+			System.err.println("ERROR: Silly mode vision blur failed to load correctly!");
+			ex.printStackTrace();
+		}
+		return "";
+	}
+	
 	/**
 	 * Sets the content of the main WebView based on the response of the current Dialogue Node's index.
 	 * 
@@ -3788,9 +3802,9 @@ public class Game implements XMLSaving {
 //				Main.mainController.unbindListeners();
 				setMainContentRegex(
 						((node.isContinuesDialogue() || response.isForceContinue()) && isContentScroll(response, node)
-							?"<body onLoad='scrollToElement()'>"
+							?"<body onLoad='scrollToElement()' style='"+getBodyStyle()+"'>"
 								+ "<script>function scrollToElement() {document.getElementById('content-block').scrollTop = document.getElementById('position" + (positionAnchor) + "').offsetTop -64;}</script>"
-							:"<body>"),
+							:"<body style='"+getBodyStyle()+"'>"),
 						currentDialogue);
 				
 				textEndStringBuilder.setLength(0);
@@ -3919,7 +3933,9 @@ public class Game implements XMLSaving {
 						positionAnchor++;
 					}
 					
-					pastDialogueSB.append(UtilText.parse("<hr id='position" + positionAnchor + "'><p class='option-disabled'>&gt " + node.getLabel() + "</p>"));
+					String displayActionString = response.getTitle(); // node.getLabel()
+					
+					pastDialogueSB.append(UtilText.parse("<hr id='position" + positionAnchor + "'><p class='option-disabled'>&gt " + displayActionString + "</p>"));
 				}
 				
 				dialogueParsed = UtilText.parse(
@@ -4043,13 +4059,13 @@ public class Game implements XMLSaving {
 		//-------------------- MEMORY LEAK PROBLEM
 		setMainContentRegex(node.isContinuesDialogue() || response.isForceContinue()
 				?(isContentScroll(response, node)
-					?"<body onLoad='scrollToElement()'>"
+					?"<body onLoad='scrollToElement()' style='"+getBodyStyle()+"'>"
 						+ "<script>function scrollToElement() {document.getElementById('content-block').scrollTop = document.getElementById('position" + (positionAnchor) + "').offsetTop -64;}</script>"
-					:"<body>")
+					:"<body style='"+getBodyStyle()+"'>")
 				:(isContentScroll(response, node)
-					?"<body onLoad='scrollToElement()'>"
+					?"<body onLoad='scrollToElement()' style='"+getBodyStyle()+"'>"
 						+ "<script>function scrollToElement() {document.getElementById('content-block').scrollTop = "+currentPosition+";}</script>"
-					:"<body>"),
+					:"<body style='"+getBodyStyle()+"'>"),
 				currentDialogue);
 		//--------------------
 		
@@ -4719,9 +4735,9 @@ public class Game implements XMLSaving {
 		
 		setMainContentRegex(
 				(savedDialogueNode.getDialogueNodeType()!=DialogueNodeType.PHONE && savedDialogueNode.getDialogueNodeType()!=DialogueNodeType.CHARACTERS_PRESENT
-					?"<body onLoad='scrollToElement()'>"
+					?"<body onLoad='scrollToElement()' style='"+getBodyStyle()+"'>"
 						+ "<script>function scrollToElement() {document.getElementById('content-block').scrollTop = document.getElementById('position" + (positionAnchor) + "').offsetTop -64;}</script>"
-					:"<body>"),
+					:"<body style='"+getBodyStyle()+"'>"),
 			currentDialogue);
 
 		textEndStringBuilder.setLength(0);

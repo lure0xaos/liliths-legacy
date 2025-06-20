@@ -9905,13 +9905,11 @@ public abstract class GameCharacter implements XMLSaving {
 								switch(cumProduction) {
 									case FOUR_LARGE:
 									case FIVE_HUGE:
-										ingestFluidSB.append(" splattered all over by it!");
-										break;
 									case SIX_EXTREME:
-										ingestFluidSB.append(" almost completely coated by it!");
+										ingestFluidSB.append(" covered in [npc.her] [npc.cum+]!");
 										break;
 									case SEVEN_MONSTROUS:
-										ingestFluidSB.append(" absolutely drenched in it!");
+										ingestFluidSB.append(" absolutely drenched in [npc.her] [npc.cum+]!");
 										break;
 									case THREE_AVERAGE:
 									case TWO_SMALL_AMOUNT:
@@ -9974,13 +9972,11 @@ public abstract class GameCharacter implements XMLSaving {
 								switch(cumProduction) {
 									case FOUR_LARGE:
 									case FIVE_HUGE:
-										ingestFluidSB.append(" splattered all over by it!");
-										break;
 									case SIX_EXTREME:
-										ingestFluidSB.append(" almost completely coated by it!");
+										ingestFluidSB.append(" covered in [npc.her] [npc.cum+]!");
 										break;
 									case SEVEN_MONSTROUS:
-										ingestFluidSB.append(" absolutely drenched in it!");
+										ingestFluidSB.append(" absolutely drenched in [npc.her] [npc.cum+]!");
 										break;
 									case THREE_AVERAGE:
 									case TWO_SMALL_AMOUNT:
@@ -22745,16 +22741,16 @@ public abstract class GameCharacter implements XMLSaving {
 		return getEnchantmentPointsUsedFromWeapons() + getEnchantmentPointsUsedFromClothing() + getEnchantmentPointsUsedFromTattoos();
 	}
 	
-	public int getMoney() {
+	public long getMoney() {
 		return inventory.getMoney();
 	}
 
-	public void setMoney(int money) {
+	public void setMoney(long money) {
 		inventory.setMoney(money);
 	}
 	
-	public String incrementMoney(int money) {
-		int moneyLoss = Math.min(-money, this.getMoney());
+	public String incrementMoney(long money) {
+		long moneyLoss = Math.min(-money, this.getMoney());
 		
 		inventory.incrementMoney(money);
 		
@@ -24120,6 +24116,32 @@ public abstract class GameCharacter implements XMLSaving {
 				return true;
 			}
 		}
+		return false;
+	}
+
+	/**
+	 * @param tag The ItemTag which must be present on a weapon.
+	 * @param includeEquipped true if you want to check equipped weapons.
+	 * @param includeInInventory true if you want to check weapons in the character's inventory.
+	 * @return true if this character has a weapon with the tag specified.
+	 */
+	public boolean hasClothingWithTag(ItemTag tag, boolean includeEquipped, boolean includeInInventory) {
+		if(includeInInventory) {
+			for(AbstractClothing clothing : inventory.getAllClothingInInventory().keySet()) {
+				if(clothing.getItemTags().contains(tag)) {
+					return true;
+				}
+			}
+		}
+		
+		if(includeEquipped) {
+			for(AbstractClothing clothing : inventory.getClothingCurrentlyEquipped()) {
+				if(clothing!=null && clothing.getItemTags().contains(tag)) {
+					return true;
+				}
+			}
+		}
+		
 		return false;
 	}
 	

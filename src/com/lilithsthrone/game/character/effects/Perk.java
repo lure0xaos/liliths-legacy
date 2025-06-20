@@ -2126,6 +2126,7 @@ public class Perk {
 			}
 		}
 	};
+	
 
 	public static AbstractPerk HEAVY_SLEEPER = new AbstractPerk(60,
 			true,
@@ -3067,6 +3068,44 @@ public class Perk {
 		@Override
 		public String getDescription(GameCharacter owner) {
 			return UtilText.parse(owner, "[npc.NameHasFull] spent a lot of time training [npc.her] body for combat, and as a result, [npc.sheIs] far stronger than the average person.");
+		}
+		@Override
+		public boolean isHiddenPerk() {
+			return true;
+		}
+		@Override
+		public boolean isBackgroundPerk() {
+			return true;
+		}
+	};
+
+	public static AbstractPerk SPECIAL_SHORT_SIGHTED = new AbstractPerk(60,
+			false,
+			"visual impairment",
+			PerkCategory.PHYSICAL,
+			"statusEffects/short_sighted",
+			Util.newArrayListOfValues(
+					PresetColour.BASE_BLACK,
+					PresetColour.GENERIC_BAD,
+					PresetColour.GENERIC_BAD),
+			Util.newHashMapOfValues(),
+			Util.newArrayListOfValues(
+					"While [style.colourMinorBad(not wearing prescription glasses)], suffer from [style.colourTerrible(blurry vision)]",
+					"While [style.colourMinorGood(wearing prescription glasses)], benefit from [style.colourExcellent(perfect vision)]"),
+			null, null, null) {
+		@Override
+		public String applyPerkGained(GameCharacter character) {
+			return UtilText.parsePlayerThought("");
+		}
+		@Override
+		public String applyPerkLost(GameCharacter character) {
+			return UtilText.parsePlayerThought("");
+		}
+		@Override
+		public String getDescription(GameCharacter owner) {
+			return UtilText.parse(owner,
+					"[npc.Name] [npc.verb(suffer)] from visual impairment, and as a result [npc.she] [npc.verb(struggle)] to see without wearing prescription glasses."
+					+ " When [npc.she] [npc.is] wearing corrective eyewear, however, [npc.her] vision is nothing less than perfect.");
 		}
 		@Override
 		public boolean isHiddenPerk() {

@@ -1879,7 +1879,60 @@ public class StatusEffect {
 			return target.getCell().isDark() && !target.isInDarkness();
 		}
 	};
-	
+
+
+	public static AbstractStatusEffect SHORT_SIGHTED = new AbstractStatusEffect(90,
+			"impaired vision",
+			"short_sighted",
+			PresetColour.BASE_BLACK,
+			PresetColour.GENERIC_TERRIBLE,
+			PresetColour.GENERIC_TERRIBLE,
+			false,
+			Util.newHashMapOfValues(
+					new Value<>(Attribute.ACTION_POINTS, -1f),
+					new Value<>(Attribute.CRITICAL_DAMAGE, -50f),
+					new Value<>(Attribute.DAMAGE_RANGED_WEAPON, -50f)),
+			Util.newArrayListOfValues()) {
+		@Override
+		public String getDescription(GameCharacter target) {
+			if(target!=null) {
+				return UtilText.parse(target,
+						"[npc.Name] can't see very well without wearing prescription glasses...");
+			}
+			return "";
+		}
+		@Override
+		public boolean isConditionsMet(GameCharacter target) {
+			return target.hasPerkAnywhereInTree(Perk.SPECIAL_SHORT_SIGHTED)
+					&& !target.isDoll()
+					&& !target.hasClothingWithTag(ItemTag.PRESCRIPTION_GLASSES, true, false);
+		}
+	};
+	public static AbstractStatusEffect PERFECT_VISION = new AbstractStatusEffect(90,
+			"perfect vision",
+			"perfect_vision",
+			PresetColour.BASE_BLACK,
+			PresetColour.GENERIC_EXCELLENT,
+			PresetColour.GENERIC_EXCELLENT,
+			true,
+			Util.newHashMapOfValues(
+					new Value<>(Attribute.CRITICAL_DAMAGE, 10f),
+					new Value<>(Attribute.DAMAGE_RANGED_WEAPON, 10f)),
+			Util.newArrayListOfValues()) {
+		@Override
+		public String getDescription(GameCharacter target) {
+			if(target!=null) {
+				return UtilText.parse(target,
+						"Unlike the majority of the population, [npc.name] [npc.has] perfect vision, thanks to the prescription lenses in [npc.her] glasses.");
+			}
+			return "";
+		}
+		@Override
+		public boolean isConditionsMet(GameCharacter target) {
+			return target.hasPerkAnywhereInTree(Perk.SPECIAL_SHORT_SIGHTED)
+					&& target.hasClothingWithTag(ItemTag.PRESCRIPTION_GLASSES, true, false);
+		}
+	};
 	
 	// RACES:
 	// HUMAN:
@@ -1949,7 +2002,7 @@ public class StatusEffect {
 						new Value<>(1,
 								UtilText.parse(target,
 										"[npc.NameIsFull] "
-										+"<span style='color:"+target.getSubspeciesOverride().getColour(target).toWebHexString()+";'>"+UtilText.addDeterminer(target.getSubspeciesOverride().getName(target.getBody()))+"</span>"
+										+"<span style='color:"+target.getSubspeciesOverride().getColour(target).toWebHexString()+";'>"+UtilText.addDeterminer(target.getSubspeciesOverride().getName(null))+"</span>"
 										+ " but [npc.she] [npc.verb(appear)] to be "
 										+"<span style='color:"+target.getSubspecies().getColour(target).toWebHexString()+";'>"+UtilText.addDeterminer(subspeciesName)+"</span>!")));
 			}

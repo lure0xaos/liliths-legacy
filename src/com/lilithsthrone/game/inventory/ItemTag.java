@@ -139,6 +139,11 @@ public enum ItemTag {
 	
 	DRESS, // For helping to generate clothing in CharacterUtils
 	SWIMWEAR, // For helping to generate clothing in CharacterUtils
+	
+	PRESCRIPTION_GLASSES(  // Negates the blurry vision status effect
+			Util.newArrayListOfValues(
+					"[style.colourGood(Prescription lenses correct poor vision)]"),
+			false),
 
 	PROVIDES_KEY( // The person who equips this clothing will get an unlock key, making the unsealing cost 0
 			Util.newArrayListOfValues(

@@ -2837,17 +2837,15 @@ public class Sex {
 					List<CoverableArea> extraCoverableAreasHit = new ArrayList<>();
 					if(extraDirtySlots>0) {
 						dirtiedSlotsSB.append("<p style='text-align:center;'>[style.boldSex(");
-						dirtiedSlotsSB.append(UtilText.parse(cumProvider, cumTarget, "[npc.Name] [npc.verb(cum)] so much that [npc2.nameIsFull]"));
+						dirtiedSlotsSB.append(UtilText.parse(cumProvider, cumTarget, "[npc.Name] [npc.verb(cum)] so much that"));
 						switch(cumProduction) {
 							case FOUR_LARGE:
 							case FIVE_HUGE:
-								dirtiedSlotsSB.append(" splattered all over by it!");
-								break;
 							case SIX_EXTREME:
-								dirtiedSlotsSB.append(" almost completely coated by it!");
+								dirtiedSlotsSB.append(" [npc.her] [npc.cum+] splatters all over [npc2.name]!");
 								break;
 							case SEVEN_MONSTROUS:
-								dirtiedSlotsSB.append(" absolutely drenched in it!");
+								dirtiedSlotsSB.append(" [npc2.nameIsFull] absolutely drenched in [npc.her] [npc.cum+]!");
 								break;
 							case THREE_AVERAGE:
 							case TWO_SMALL_AMOUNT:

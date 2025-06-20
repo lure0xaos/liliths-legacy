@@ -800,7 +800,7 @@ public class OccupantController {
 							Main.game.setContent(new Response("", "", Main.game.getCurrentDialogueNode()) {
 								@Override
 								public void effects() {
-									Main.game.getPlayer().incrementMoney((int) (slave.getValueAsSlave(true)*Main.game.getDialogueFlags().getSlaveTrader().getBuyModifier()));
+									Main.game.getPlayer().incrementMoney((long) (slave.getValueAsSlave(true)*Main.game.getDialogueFlags().getSlaveTrader().getBuyModifier()));
 									Main.game.getDialogueFlags().getSlaveTrader().addSlave(slave);
 									slave.setLocation(Main.game.getDialogueFlags().getSlaveTrader().getWorldLocation(), Main.game.getDialogueFlags().getSlaveTrader().getLocation(), true);
 								}
