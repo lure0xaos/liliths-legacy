@@ -21,6 +21,10 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Items:
 		Using the 'bioslime canister' now breaks out of your inventory, making it easier to see the full transformation text.
 	
+	Sex:
+		Added 'lying on front' as an alternative slot to 'lying on back' in the 'Lying down' sex position, which allows partners to perform oral, receive oral, or have sex in the 'prone bone' position.
+		The 'beside' slots in the 'Lying down' sex position now have correct interaction availability with characters lying down and those in non-lying-down slots.
+	
 	Other:
 		Increased the threshold for additional inventory slots being dirtied by cum when a character orgasms onto their partner; additional slots being dirtied now starts at 30ml of cum instead of 16ml, and not as many slots are dirtied (but the maximum cum bracket of 1,000-10,000ml is unchanged at 8 slots dirtied).
 	
@@ -48,8 +52,22 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		and "getAdditionalSlotsDirtiedUponOrgasm"	
 	[x] convert money int to long
 		[x] test intToString
+	[x] FAF email
+	[x] Still no prone-bone
+		[x] add lying on front to Lying down position
+			[x] positioning handling
+			[x] add oral position
+		[x] lying down errors
+			[x] when beside a lying down target, it describes you as lying down
+			[x] incorrect interactions for beside?
+		[x] add 'prone bone' to quick positioning
+		[x] allow interaction between receiving oral and prone bone
+	
+	
+	[] enchanting stacks remains a click-fest (even just an 'enchant 5' would be good)
 	
 	[] temp variables, but no saved ones?
+		[] option to make temp variables persist
 	
 	[] allow kids birthed at home to stay home
 	
@@ -59,8 +77,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] slimes can spawn as any subspecies morph, and when turned to flesh, you get that subspecies unlocked
 		[] maybe make it so slimes always TF back into humans or override subspecies?
 			[] That would be kind of lame...
-	
-	[] Still no prone-bone and enchanting stacks remains a click-fest (even just an 'enchant 5' would be good), but momentum takes time to gather.
 	
 	[] fetish max xp unlocks actions (+oral?):
 		[] penis
@@ -95,6 +111,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] also essence quest text should mention her essences
 	
 	[] trophy wall
+		[] after sex, claim underwear
 		[] can pin underwear to it
 	
 	[] Imp fortresses
@@ -106,7 +123,7 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] Jules
 		[] After meeting Kruger, can tell Jules that you have the ear of Kruger, who'd like to hear about his behaviour
 		[] Jules doesn't want to get fired, asks what you want
-			[] A date -> can be taken on a date on Mon/Tues/Wed
+			[] A date -> can be taken on a date on Mon/Tues/Wed (Jules's colleague warns player that Jules is a scumbag - Jules says some girls/guys are into that)
 				[] cheap restaurant
 					[] fucked in alley
 				[] different club
@@ -114,11 +131,15 @@ Not everything in this file is up-to-date, and everything is subject to change a
 				[] arcade
 					[] fucked in Jules's apartment
 				[] earn affection points
-					[] Jules wants player to 
+					[] Jules wants player to be exposed
+					[] Then gets player to allow strangers to grope in exchange for paying Jules
+					[] Finally, pimps player out
 			[] His submission
 				[] can fuck his ass
 					[] train him to submit
-					[] other zebra-boy suggests TF'ing him
+					[] wear buttplug
+					[] caged cock
+					[] tattooed at Kate's
 	[] Ralph
 		[] discount alternative
 			[] purchase membership
@@ -142,13 +163,13 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] 1747
 		[] 1585
 	
-	#### 
-	
 	[] make it possible to impreg Belle and Daphne
 		[] after impregnating Farah, the other two get a little jealous or something and you can convince them to try it too
 		
 	[] artwork
 		[] Monica
+		[] Saellatrix
+		[] sheep girls
 		
 	WIKI
 		
@@ -164,9 +185,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	[] Investigate half-demon essence necessity
 	
 	[] emails
-	
-	[] TFGS
-	[] blog
 	
 	[] Innocent/lewd/prude should affect dirty talk
 	[] character creation penis size should be variable instead of buttons

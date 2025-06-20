@@ -1368,6 +1368,99 @@ public class GenericPositioning {
 		}
 	};
 	
+	public static final SexAction POSITION_PRONE_BONE = new SexAction(
+			SexActionType.POSITIONING,
+			ArousalIncrease.ONE_MINIMUM,
+			ArousalIncrease.ONE_MINIMUM,
+			CorruptionLevel.ZERO_PURE,
+			null,
+			SexParticipantType.NORMAL) {
+		
+		private PositioningData data = new PositioningData(
+				SexPosition.LYING_DOWN,
+				Util.newArrayListOfValues(SexSlotLyingDown.MISSIONARY),
+				Util.newArrayListOfValues(SexSlotLyingDown.LYING_DOWN_FRONT));
+		
+		@Override
+		public boolean isBaseRequirementsMet() {
+			return checkBaseRequirements(data, false);
+		}
+		@Override
+		public String getActionTitle() {
+			return "Prone bone";
+		}
+		@Override
+		public String getActionDescription() {
+			return "Push [npc2.name] down onto [npc2.her] front and kneel between [npc2.her] [npc2.legs], ready to fuck [npc2.herHim] in the prone bone position.";
+		}
+		@Override
+		public String getDescription() {
+			if(Main.sex.getCharacterTargetedForSexAction(this).hasLegs()) {
+				return "Taking hold of [npc2.namePos] shoulders, [npc.name] [npc.verb(push)] [npc2.herHim] down so that [npc2.sheIs] lying on [npc2.her] front."
+						+ " Kneeling down between [npc2.her] [npc2.legs], [npc.she] [npc.moansVerb] as [npc.she] [npc.verb(prepare)] to fuck [npc2.herHim],"
+						+ " [npc.speech(Lie still and enjoy this...)]";
+			} else {
+				return "Taking hold of [npc2.namePos] shoulders, [npc.name] [npc.verb(push)] [npc2.herHim] down so that [npc2.sheIs] lying on [npc2.her] front."
+						+ " Pulling up [npc2.her] [npc2.legs], [npc.she] [npc.verb(gain)] access to [npc2.her] groin and [npc.moansVerb],"
+						+ " [npc.speech(Lie still and enjoy this...)]";
+			}
+		}
+		@Override
+		public void applyEffects() {
+			GenericPositioning.setNewSexManager(data, false);
+		}
+		@Override
+		public SexActionPriority getPriority() {
+			if((Main.sex.getCharacterPerformingAction() instanceof NPC)
+					&& ((NPC)Main.sex.getCharacterPerformingAction()).getCurrentSexPreference(Main.sex.getCharacterTargetedForSexAction(this))!=null
+					&& ((NPC)Main.sex.getCharacterPerformingAction()).getCurrentSexPreference(Main.sex.getCharacterTargetedForSexAction(this)).isPenetrating()) {
+				return SexActionPriority.HIGH;
+			}
+			return SexActionPriority.NORMAL;
+		}
+	};
+	
+	public static final SexAction REQUEST_POSITION_PRONE_BONE = new SexAction(
+			SexActionType.POSITIONING,
+			ArousalIncrease.ONE_MINIMUM,
+			ArousalIncrease.ONE_MINIMUM,
+			CorruptionLevel.ONE_VANILLA,
+			null,
+			SexParticipantType.NORMAL) {
+		
+		private PositioningData data = new PositioningData(
+				SexPosition.LYING_DOWN,
+				Util.newArrayListOfValues(SexSlotLyingDown.MISSIONARY),
+				Util.newArrayListOfValues(SexSlotLyingDown.LYING_DOWN_FRONT));
+		
+		@Override
+		public boolean isBaseRequirementsMet() {
+			return checkBaseRequirements(data, true);
+		}
+		@Override
+		public String getActionTitle() {
+			return "Prone bone (R)";
+		}
+		@Override
+		public String getActionDescription() {
+			if(Main.sex.getCharacterTargetedForSexAction(this).hasLegs()) {
+				return "Try to get [npc2.name] to lie down on [npc2.her] front and spread [npc2.her] [npc2.legs] so that you can fuck [npc2.herHim] in the prone bone position.<br/>"
+							+ getRequestTooltipText();
+			} else {
+				return "Try to get [npc2.name] to lie down on [npc2.her] front and present you with [npc2.her] groin so that you can fuck [npc2.herHim] in the prone bone position.<br/>"
+							+ getRequestTooltipText();
+			}
+		}
+		@Override
+		public String getDescription() {
+			return "You reach up to take hold of [npc2.namePos] shoulders, and, pushing down, you try to get [npc2.herHim] to lie down on [npc2.her] front.";
+		}
+		@Override
+		public void applyEffects() {
+			Main.sex.setPositionRequest(data);
+		}
+	};
+	
 	public static final SexAction POSITION_MISSIONARY_ON_BACK = new SexAction(
 			SexActionType.POSITIONING,
 			ArousalIncrease.ONE_MINIMUM,
@@ -1464,6 +1557,85 @@ public class GenericPositioning {
 				return "[npc.Name] [npc.verb(lie)] down on [npc.her] back before [npc2.name],"
 						+ " letting out a little [npc.moan] as [npc.she] [npc.verb(present)] [npc.her] groin to try and encourage [npc2.name] to have sex with [npc.herHim] in the missionary position.";
 			}
+		}
+		@Override
+		public void applyEffects() {
+			Main.sex.setPositionRequest(data);
+		}
+	};
+	
+	public static final SexAction POSITION_PRONE_BONE_ON_FRONT = new SexAction(
+			SexActionType.POSITIONING,
+			ArousalIncrease.ONE_MINIMUM,
+			ArousalIncrease.ONE_MINIMUM,
+			CorruptionLevel.ZERO_PURE,
+			null,
+			SexParticipantType.NORMAL) {
+		private PositioningData data = new PositioningData(
+				SexPosition.LYING_DOWN,
+				Util.newArrayListOfValues(SexSlotLyingDown.LYING_DOWN_FRONT),
+				Util.newArrayListOfValues(SexSlotLyingDown.MISSIONARY));
+		@Override
+		public boolean isBaseRequirementsMet() {
+			return checkBaseRequirements(data, false);
+		}
+		@Override
+		public String getActionTitle() {
+			return "Prone bone (on front)";
+		}
+		@Override
+		public String getActionDescription() {
+			return "Lie down on your front and present your [npc.ass+] and groin to [npc2.name] so that [npc2.she] can fuck you in the prone bone position.";
+		}
+		@Override
+		public String getDescription() {
+			return "Taking hold of [npc2.namePos] shoulders, [npc.name] [npc.verb(push)] [npc2.herHim] down into a kneeling position."
+					+ " [npc.She] then [npc.verb(lie)] down on [npc.her] front before [npc2.name], and as [npc.she] [npc.verb(present)] [npc.her] [npc.ass+] and groin, [npc.she] [npc.moanVerb],"
+					+ " [npc.speech(Come and take me!)]";
+		}
+		@Override
+		public void applyEffects() {
+			GenericPositioning.setNewSexManager(data, false);
+		}
+		@Override
+		public SexActionPriority getPriority() {
+			if((Main.sex.getCharacterPerformingAction() instanceof NPC)
+					&& ((NPC)Main.sex.getCharacterPerformingAction()).getCurrentSexPreference(Main.sex.getCharacterTargetedForSexAction(this))!=null
+					&& ((NPC)Main.sex.getCharacterPerformingAction()).getCurrentSexPreference(Main.sex.getCharacterTargetedForSexAction(this)).isBeingPenetrated()) {
+				return SexActionPriority.HIGH;
+			}
+			return SexActionPriority.NORMAL;
+		}
+	};
+	
+	public static final SexAction REQUEST_POSITION_PRONE_BONE_ON_FRONT = new SexAction(
+			SexActionType.POSITIONING,
+			ArousalIncrease.ONE_MINIMUM,
+			ArousalIncrease.ONE_MINIMUM,
+			CorruptionLevel.ONE_VANILLA,
+			null,
+			SexParticipantType.NORMAL) {
+		private PositioningData data = new PositioningData(
+				SexPosition.LYING_DOWN,
+				Util.newArrayListOfValues(SexSlotLyingDown.LYING_DOWN_FRONT),
+				Util.newArrayListOfValues(SexSlotLyingDown.MISSIONARY));
+		@Override
+		public boolean isBaseRequirementsMet() {
+			return checkBaseRequirements(data, true);
+		}
+		@Override
+		public String getActionTitle() {
+			return "Prone bone (on front) (R)";
+		}
+		@Override
+		public String getActionDescription() {
+			return "Lie down on your front and present your [npc.ass+] and groin to try and encourage [npc2.name] to have sex with you in the prone bone position.<br/>"
+						+ getRequestTooltipText();
+		}
+		@Override
+		public String getDescription() {
+			return "[npc.Name] [npc.verb(lie)] down on [npc.her] front before [npc2.name],"
+					+ " letting out a little [npc.moan] as [npc.she] [npc.verb(present)] [npc.her] [npc.ass+] and groin to try and encourage [npc2.name] to have sex with [npc.herHim] in the prone bone position.";
 		}
 		@Override
 		public void applyEffects() {
@@ -2924,7 +3096,7 @@ public class GenericPositioning {
 							+ "[npc.speech(What do you think you're doing?! Don't you <i>dare</i> try that again!)]";
 				}
 				
-			} if(Main.sex.getPositionRequest().getPartnerSlots().get(0)==SexSlotLyingDown.LYING_DOWN
+			} else if(Main.sex.getPositionRequest().getPartnerSlots().get(0)==SexSlotLyingDown.LYING_DOWN
 					&& Main.sex.getPositionRequest().getPerformerSlots().get(0)==SexSlotLyingDown.MISSIONARY) {
 				if(isHappy) {
 					switch(Main.sex.getSexPace(Main.sex.getCharacterPerformingAction())) {
@@ -2962,6 +3134,22 @@ public class GenericPositioning {
 					}
 				} else {
 					return "Grabbing one of your [pc.arms], [npc.name] pulls you back into your old position as [npc.she] angrily scolds you, "
+							+ "[npc.speech(What do you think you're doing?! Don't you <i>dare</i> try that again!)]";
+				}
+				
+			} else if(Main.sex.getPositionRequest().getPartnerSlots().get(0)==SexSlotLyingDown.LYING_DOWN_FRONT
+					&& Main.sex.getPositionRequest().getPerformerSlots().get(0)==SexSlotLyingDown.MISSIONARY) {
+				if(isHappy) {
+					switch(Main.sex.getSexPace(Main.sex.getCharacterPerformingAction())) {
+						case DOM_ROUGH:
+							return "Much to your delight, [npc.name] allows [npc.herself] to be pushed down onto [npc.her] front, but as [npc.she] presents you with [npc.her] [npc.ass+] and groin, [npc.she] growls in a menacing tone,"
+									+ " [npc.speech(Don't get carried away, bitch! I'm still the one in charge here!)]";
+						default:
+							return "Much to your delight, [npc.name] allows [npc.herself] to be pushed down onto [npc.her] front, and as [npc.she] presents you with [npc.her] [npc.ass+] and groin, [npc.she] [npc.moansVerb],"
+									+ " [npc.speech(I like it when my partner shows a bit of initiative! Come take me!)]";
+					}
+				} else {
+					return "Slapping your [pc.hands] away, [npc.name] pushes you back into your old position as [npc.she] angrily scolds you, "
 							+ "[npc.speech(What do you think you're doing?! Don't you <i>dare</i> try that again!)]";
 				}
 				
