@@ -185,6 +185,7 @@ import com.lilithsthrone.game.character.npc.misc.NPCOffspring;
 import com.lilithsthrone.game.character.npc.misc.OffspringSeed;
 import com.lilithsthrone.game.character.npc.misc.PrologueFemale;
 import com.lilithsthrone.game.character.npc.misc.PrologueMale;
+import com.lilithsthrone.game.character.npc.misc.SlaveForSale;
 import com.lilithsthrone.game.character.npc.misc.SlaveImport;
 import com.lilithsthrone.game.character.npc.submission.Axel;
 import com.lilithsthrone.game.character.npc.submission.Claire;
@@ -2145,6 +2146,21 @@ public class Game implements XMLSaving {
 					}
 				}
 				
+				// Add cafe slaves to Finch's owned slaves:
+				if(Main.isVersionOlderThan(loadingVersion, "0.4.11.3")) {
+					for(NPC npc :Main.game.getAllNPCs()) {
+						if(npc instanceof SlaveForSale
+								&& !npc.isSlave()
+								&& !Main.game.getPlayer().getFriendlyOccupants().contains(npc.getId())
+								&& (npc.getLocationPlaceType()==PlaceType.SLAVER_ALLEY_CAFE
+									|| npc.getLocationPlaceType()==PlaceType.SLAVER_ALLEY_CAFE_2
+									|| npc.getLocationPlaceType()==PlaceType.SLAVER_ALLEY_CAFE_3
+									|| npc.getLocationPlaceType()==PlaceType.SLAVER_ALLEY_CAFE_4)) {
+							Main.game.getNpc(Finch.class).addSlave(npc);
+						}
+					}
+				}
+				
 				
 				if(debug) {
 					System.out.println("New NPCs finished");
@@ -3551,16 +3567,17 @@ public class Game implements XMLSaving {
 	}
 	
 	public String getBodyStyle() {
-		try {
-			if(Main.game.isStarted()
-					&& Main.game.isSillyMode()
-					&& StatusEffect.SHORT_SIGHTED.isConditionsMet(Main.game.getPlayer())) {
-				return "filter:blur(1px);";
-			}
-		} catch(Exception ex) {
-			System.err.println("ERROR: Silly mode vision blur failed to load correctly!");
-			ex.printStackTrace();
-		}
+		// I thought that this would be funny, but after giving it some thought, the novelty would wear off quickly and end up being extremely annoying...
+//		try {
+//			if(Main.game.isStarted()
+//					&& Main.game.isSillyMode()
+//					&& StatusEffect.SHORT_SIGHTED.isConditionsMet(Main.game.getPlayer())) {
+//				return "filter:blur(1px);";
+//			}
+//		} catch(Exception ex) {
+//			System.err.println("ERROR: Silly mode vision blur failed to load correctly!");
+//			ex.printStackTrace();
+//		}
 		return "";
 	}
 	

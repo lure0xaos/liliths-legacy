@@ -1111,8 +1111,12 @@ public abstract class AbstractClothing extends AbstractCoreItem implements XMLSa
 			}
 			description += st.getDescription();
 		}
-
-		return UtilText.parse(characterEquippedOn, this, description);
+//		if(characterEquippedOn==null) {
+//			System.err.println("ERROR: null character in getTypeDescription() for "+this.getClothingType().getName());
+//			new Exception().printStackTrace();
+//		}
+		
+		return UtilText.parse(characterEquippedOn==null?Main.game.getPlayer():characterEquippedOn, this, description);
 	}
 	
 	@Override
@@ -1899,8 +1903,7 @@ public abstract class AbstractClothing extends AbstractCoreItem implements XMLSa
 			
 		} else {
 			tagsToBeDescribed = new HashSet<>(this.getItemTags(slotToBeEquippedTo));
-			// Commented-out in v0.4.11.2 as it seems to make sense to continue to give the player information from 'universalTags' while equipped
-//			tagsToBeDescribed.removeIf((it) -> universalTags.contains(it) && it!=ItemTag.DILDO_SELF);
+			tagsToBeDescribed.removeIf((it) -> universalTags.contains(it) && it!=ItemTag.DILDO_SELF);
 		}
 		
 		for(ItemTag tag : tagsToBeDescribed) {
@@ -2258,6 +2261,9 @@ public abstract class AbstractClothing extends AbstractCoreItem implements XMLSa
 		for(ItemEffect effect : this.getEffects()) {
 			if(effect.getSecondaryModifier()==TFModifier.CLOTHING_SEALING) {
 				switch(effect.getPotency()) {
+					case SPECIAL:
+						cost += ItemEffect.SEALED_COST_SPECIAL;
+						break;
 					case BOOST:
 						break;
 					case DRAIN:

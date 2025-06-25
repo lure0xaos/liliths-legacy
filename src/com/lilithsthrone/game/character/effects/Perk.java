@@ -1648,7 +1648,7 @@ public class Perk {
 			Util.newHashMapOfValues(
 					new Value<>(Attribute.CRITICAL_DAMAGE, 15)),
 			Util.newArrayListOfValues(
-					"[style.colourExcellent(Unlocks)] autofellatio and autocunnilingus [style.colourSex(sex actions)] while in a non-taur form")) {
+					"[style.colourExcellent(Unlocks)] autofellatio and autocunnilingus [style.colourSex(sex actions)]")) {
 
 		@Override
 		public String getDescription(GameCharacter owner) {
@@ -2067,7 +2067,8 @@ public class Perk {
 			Util.newHashMapOfValues(
 					new Value<>(Attribute.MANA_MAXIMUM, -25)),
 			Util.newArrayListOfValues(
-					"[style.colourExcellent(Absorb 50%)] of any combatant's remaining [style.colourMana("+Attribute.MANA_MAXIMUM.getName()+")] when they are defeated")) {
+					"[style.colourExcellent(Absorb 50%)] of any combatant's remaining [style.colourMana("+Attribute.MANA_MAXIMUM.getName()+")]",
+					 "when they are defeated")) {
 
 		@Override
 		public String getDescription(GameCharacter owner) {
@@ -2537,10 +2538,8 @@ public class Perk {
 			Util.newArrayListOfValues(
 					"[style.boldTerrible(-95% to all)] [style.boldExperience(experience gains)]",
 					"In all [style.boldSex(sex scenes)]:",
-					"Can choose to [style.boldTerrible(drain 1 level)]",
-					"from orgasming partners",
-					"You gain [style.boldExcellent(5)] [style.boldExperience(experience)]",
-					"multiplied by the level drained"),
+					"Can choose to [style.boldTerrible(drain 1 level)] from orgasming partners",
+					"You gain [style.boldExcellent(5)] [style.boldExperience(experience)] multiplied by the level drained"),
 			null, null, null) {
 
 		@Override
@@ -3090,8 +3089,7 @@ public class Perk {
 					PresetColour.GENERIC_BAD),
 			Util.newHashMapOfValues(),
 			Util.newArrayListOfValues(
-					"While [style.colourMinorBad(not wearing prescription glasses)], suffer from [style.colourTerrible(blurry vision)]",
-					"While [style.colourMinorGood(wearing prescription glasses)], benefit from [style.colourExcellent(perfect vision)]"),
+					"While [style.colourMinorBad(not wearing prescription glasses)], suffer from [style.colourTerrible(blurry vision)]"),
 			null, null, null) {
 		@Override
 		public String applyPerkGained(GameCharacter character) {
@@ -3103,6 +3101,10 @@ public class Perk {
 		}
 		@Override
 		public String getDescription(GameCharacter owner) {
+			if(owner.isPerfectVision()) {
+				return UtilText.parse(owner,
+						"[npc.Name] would ordinarily suffer from visual impairment, but thanks to [npc.her] [npc.eyeRace] [npc.eyes], [npc.she] can see perfectly without needing prescription glasses.");
+			}
 			return UtilText.parse(owner,
 					"[npc.Name] [npc.verb(suffer)] from visual impairment, and as a result [npc.she] [npc.verb(struggle)] to see without wearing prescription glasses."
 					+ " When [npc.she] [npc.is] wearing corrective eyewear, however, [npc.her] vision is nothing less than perfect.");

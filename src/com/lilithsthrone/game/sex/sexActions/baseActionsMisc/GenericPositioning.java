@@ -26,6 +26,7 @@ import com.lilithsthrone.game.sex.positions.slots.SexSlotAllFours;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotLyingDown;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotSitting;
 import com.lilithsthrone.game.sex.positions.slots.SexSlotStanding;
+import com.lilithsthrone.game.sex.positions.slots.SexSlotTag;
 import com.lilithsthrone.game.sex.sexActions.PositioningData;
 import com.lilithsthrone.game.sex.sexActions.SexAction;
 import com.lilithsthrone.game.sex.sexActions.SexActionPriority;
@@ -82,6 +83,9 @@ public class GenericPositioning {
 
 		@Override
 		public String getDescription() {
+			if(Main.sex.getCharacterTargetedForSexAction(this).isAsleep()) {
+				return "Gently taking hold of [npc2.name], you take care not to wake [npc2.herHim] as you move [npc2.herHim] around and swap position with [npc2.herHim].";
+			}
 			return "Taking hold of [npc2.name], you move [npc2.herHim] around and swap position with [npc2.herHim], before [npc.moaning],"
 					+ " [npc.speech(It'll be more fun like this!)]";
 		}
@@ -1302,6 +1306,15 @@ public class GenericPositioning {
 		}
 		@Override
 		public String getDescription() {
+			if(Main.sex.getCharacterTargetedForSexAction(this).isAsleep()) {
+				return "Carefully moving around so as not to wake [npc2.name] up, [npc.name]"
+						+ (Main.sex.getCharacterTargetedForSexAction(this).hasLegs()
+								?" [npc.verb(position)] [npc.herself] between [npc2.her] [npc2.legs]."
+								:" [npc.verb(kneel)] down over [npc2.her] groin.")
+						+ " With a lewd grin on [npc.her] [npc.face+], [npc.she] quietly [npc.verb(whisper)],"
+						+ " <i>[npc.speech(That's right, stay asleep and let me fuck you...)]</i>";
+			}
+			
 			if(Main.sex.getCharacterTargetedForSexAction(this).hasLegs()) {
 				return "Taking hold of [npc2.namePos] shoulders, [npc.name] [npc.verb(push)] [npc2.herHim] down onto [npc2.her] back."
 						+ " Kneeling down between [npc2.her] [npc2.legs], [npc.she] [npc.moansVerb] as [npc.she] [npc.verb(look)] down into [npc2.her] [npc2.eyes+],"
@@ -1395,6 +1408,18 @@ public class GenericPositioning {
 		}
 		@Override
 		public String getDescription() {
+			if(Main.sex.getCharacterTargetedForSexAction(this).isAsleep()) {
+				boolean rollsOver = !Main.sex.getSexPositionSlot(Main.sex.getCharacterTargetedForSexAction(this)).hasTag(SexSlotTag.LYING_DOWN_ON_FRONT);
+				return "Carefully moving around so as not to wake [npc2.name] up, [npc.name]"
+						+(rollsOver
+								?" slowly [npc.verb(roll)] [npc2.herHim] over onto [npc2.her] stomach and then"
+								:"")
+						+ (Main.sex.getCharacterTargetedForSexAction(this).hasLegs()
+								?" [npc.verb(position)] [npc.herself] between [npc2.her] [npc2.legs]."
+								:" [npc.verb(lift)] up [npc2.her] [npc2.legs] to gain access to [npc2.her] groin.")
+						+ " With a lewd grin on [npc.her] [npc.face+], [npc.she] quietly [npc.verb(whisper)],"
+						+ " <i>[npc.speech(Don't wake up...)]</i>";
+			}
 			if(Main.sex.getCharacterTargetedForSexAction(this).hasLegs()) {
 				return "Taking hold of [npc2.namePos] shoulders, [npc.name] [npc.verb(push)] [npc2.herHim] down so that [npc2.sheIs] lying on [npc2.her] front."
 						+ " Kneeling down between [npc2.her] [npc2.legs], [npc.she] [npc.moansVerb] as [npc.she] [npc.verb(prepare)] to fuck [npc2.herHim],"
@@ -1670,6 +1695,16 @@ public class GenericPositioning {
 		}
 		@Override
 		public String getDescription() {
+			if(Main.sex.getCharacterTargetedForSexAction(this).isAsleep()) {
+				boolean rollsOver = Main.sex.getSexPositionSlot(Main.sex.getCharacterTargetedForSexAction(this)).hasTag(SexSlotTag.LYING_DOWN_ON_FRONT);
+				return "Carefully moving around so as not to wake [npc2.name] up, [npc.name]"
+						+(rollsOver
+								?" slowly [npc.verb(roll)] [npc2.herHim] over onto [npc2.her] back and then"
+								:"")
+						+ " [npc.verb(lower)] [npc.herself] over [npc2.herHim] to get into the sixty-nine position."
+						+ " After hungrily licking [npc.her] [npc.lips+], [npc.she] softly [npc.verb(whisper)],"
+						+ " <i>[npc.speech(Let me give you some sweet dreams...)]</i>";
+			}
 			return "Taking hold of [npc2.namePos] shoulders, [npc.name] [npc.verb(push)] [npc2.herHim] down onto [npc2.her] back."
 					+ " Quickly lowering [npc.herself] down onto all fours over the top of [npc2.herHim],"
 						+ " [npc.she] [npc.verb(drop)] [npc.her] crotch down over [npc2.her] face as [npc.she] similarly [npc.verb(position)] [npc.her] own head over [npc2.her] groin."
@@ -1823,6 +1858,16 @@ public class GenericPositioning {
 		}
 		@Override
 		public String getDescription() {
+			if(Main.sex.getCharacterTargetedForSexAction(this).isAsleep()) {
+				boolean rollsOver = Main.sex.getSexPositionSlot(Main.sex.getCharacterTargetedForSexAction(this)).hasTag(SexSlotTag.LYING_DOWN_ON_FRONT);
+				return "Carefully moving around so as not to wake [npc2.name] up, [npc.name]"
+						+(rollsOver
+								?" slowly [npc.verb(roll)] [npc2.herHim] over onto [npc2.her] back and then"
+								:"")
+						+ " [npc.verb(straddle)] [npc2.herHim] in the cowgirl position."
+						+ " Once [npc.sheHas] made [npc.herself] comfortable, [npc.she] [npc.verb(grin)] down at [npc2.name] and softly [npc.verb(whisper)],"
+						+ " <i>[npc.speech(Stay asleep while I ride you...)]</i>";
+			}
 			return "Taking hold of [npc2.namePos] shoulders, [npc.name] [npc.verb(push)] [npc2.herHim] down onto [npc2.her] back."
 					+ " [npc.She] then lowers [npc.herself] down on top of [npc2.herHim], bringing [npc.her] crotch down to bump against [npc2.hers] as [npc.she] [npc.verb(straddle)] [npc2.herHim] in the cowgirl position."
 					+ " Once [npc.sheHas] made [npc.herself] comfortable, [npc.she] [npc.verb(grin)] down at [npc2.name] and [npc.moansVerb],"
@@ -1991,6 +2036,17 @@ public class GenericPositioning {
 		}
 		@Override
 		public String getDescription() {
+			if(Main.sex.getCharacterTargetedForSexAction(this).isAsleep()) {
+				boolean rollsOver = Main.sex.getSexPositionSlot(Main.sex.getCharacterTargetedForSexAction(this)).hasTag(SexSlotTag.LYING_DOWN_ON_FRONT);
+				return "Carefully moving around so as not to wake [npc2.name] up, [npc.name]"
+						+(rollsOver
+								?" slowly [npc.verb(roll)] [npc2.herHim] over onto [npc2.her] back and then"
+								:"")
+						+ " [npc.verb(lower)] [npc.herself] down onto [npc2.her] face."
+						+ " [npc.She] then gradually [npc.verb(allow)] [npc.her] [npc.legs] to give way and firmly [npc.verb(plant)] [npc.her] groin down against [npc2.namePos] mouth."
+						+ " With a big grin on [npc.her] [npc.face+], [npc.she] softly whispers,"
+						+ " <i>[npc.speech(You're such a deep sleeper... Now let me ride your face...)]</i>";
+			}
 			return "Taking hold of [npc2.namePos] shoulders, [npc.name] [npc.verb(push)] [npc2.herHim] down onto [npc2.her] back."
 					+ " [npc.She] then [npc.verb(lower)] [npc.herself] down over the top of [npc2.herHim], such that [npc.her] crotch is hovering just above [npc2.her] [npc2.face]."
 					+ " Once [npc.sheHas] made [npc.herself] comfortable, [npc.she] [npc.verb(allow)] [npc.her] [npc.legs] to give way, firmly planting [npc.her] groin down against [npc2.namePos] mouth.";

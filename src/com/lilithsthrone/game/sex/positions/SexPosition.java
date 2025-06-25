@@ -45,7 +45,7 @@ import com.lilithsthrone.game.sex.sexActions.baseActionsMisc.PlayerTalk;
 import com.lilithsthrone.game.sex.sexActions.dominion.MasturbationPanties;
 import com.lilithsthrone.game.sex.sexActions.universal.ChairSex;
 import com.lilithsthrone.game.sex.sexActions.universal.Cowgirl;
-import com.lilithsthrone.game.sex.sexActions.universal.DoggyStyle;
+import com.lilithsthrone.game.sex.sexActions.universal.DoggyStyleAndProneBone;
 import com.lilithsthrone.game.sex.sexActions.universal.FaceSitting;
 import com.lilithsthrone.game.sex.sexActions.universal.GloryHole;
 import com.lilithsthrone.game.sex.sexActions.universal.KneelingOral;
@@ -2294,7 +2294,7 @@ public class SexPosition {
 			8,
 			true,
 			SexActionPresets.positioningActionsNew,
-			Util.newArrayListOfValues(DoggyStyle.class)) {
+			Util.newArrayListOfValues(DoggyStyleAndProneBone.class)) {
 		@Override
 		public Value<Boolean, String> isSlotUnlocked(GameCharacter characterToTakeSlot, SexSlot slot, Map<GameCharacter, SexSlot> positioningSlots) {
 			List<List<SexSlot>> mutuallyExclusiveSlots = new ArrayList<>();
@@ -2718,7 +2718,7 @@ public class SexPosition {
 			8,
 			true,
 			SexActionPresets.positioningActionsNew,
-			Util.newArrayListOfValues(Cowgirl.class, FaceSitting.class, MatingPress.class, Missionary.class, SixtyNine.class)) {
+			Util.newArrayListOfValues(Cowgirl.class, FaceSitting.class, MatingPress.class, Missionary.class, SixtyNine.class, DoggyStyleAndProneBone.class)) {
 		
 		private List<SexSlot> position1 = Util.newArrayListOfValues(
 				SexSlotLyingDown.LYING_DOWN, SexSlotLyingDown.LYING_DOWN_FRONT, //0-1

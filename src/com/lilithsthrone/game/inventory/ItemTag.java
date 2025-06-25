@@ -142,7 +142,7 @@ public enum ItemTag {
 	
 	PRESCRIPTION_GLASSES(  // Negates the blurry vision status effect
 			Util.newArrayListOfValues(
-					"[style.colourGood(Prescription lenses correct poor vision)]"),
+					"[style.colourGood(Enchanted prescription lenses enhance the wearer's vision)]"),
 			false),
 
 	PROVIDES_KEY( // The person who equips this clothing will get an unlock key, making the unsealing cost 0

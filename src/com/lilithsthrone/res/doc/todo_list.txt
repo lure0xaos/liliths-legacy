@@ -7,32 +7,63 @@ Not everything in this file is up-to-date, and everything is subject to change a
 	Patch notes:
 	
 	Engine/Modding:
-		Added 'PRESCRIPTION_GLASSES' as an ItemTag, which negates the 'short sighted' status effect.
+		Added 'PRESCRIPTION_GLASSES' as an ItemTag, which grants any wearer a small status effect buff ('enhanced vision'), and also negates the 'impaired vision' effect which affects characers with the 'visual impairment' perk.
+		Added 'EYE_PERFECT_VISION' as a BodyPartTag, which makes the character immune to the negative effects of the 'impaired vision' perk. (Demon, angel, dragon, gryphon, and raptor eyes have this tag.)
 		Added 'breakOutOfInventory' element to item types, which is false by default, but when true it causes the inventory to close when using the item (commented element in 'res/items/innoxia/pills/fertility.xml').
 		Converted money from integer values to longs (in case the player manages to somehow earn more than 2.1 billion flames).
+		Added a new TFPotency, 'SPECIAL', which when used as the potency on an item of clothing's sealed item effect will make it impossible to unseal. See the 'game/inventory/enchanting/TFPotency.java' file for comments on this and application details. (This will not be present nor available in a normal game; it's been added for use on special modded clothing.)
+		Added support to combat moves for hitting multiple targets and improved the formatting for several elements (the old formatting still works, so there's no need to update moves to the new format); a fully commented example is in 'res/combatMove/innoxia/quadruped_kick.xml'.
 	
 	UI:
-		Improved the appearance of the race page in the encyclopedia.
+		Improved the appearance of the race page in the encyclopedia and added ability to click on race entries to open their subspecies info page.
 		Additional descriptions in clothing tooltips (things like 'sex equip enabled' or 'fits arm-wings') now continue to be shown when the clothing is equipped.
+		Improved character's quick overview tooltip (when hovering over your race icon or an NPC's race icon in the 'Characters present' panel) to show femininity, body shape, and height at the top underneath their race's name, and also neatly cut off text overflow with an ellipsis.
 	
 	Gameplay:
-		Added 'visual impairment' as a new unique perk, with randomly-spawned NPCs having a 2.5% chance to have it (there is no way for the player to get this perk at the moment but I might add a way to get it later on). If you give it to yourself via the debug menu and have silly mode on, the screen will blur unless you're wearing glasses.
+		Slime and elemental transformations now require advanced knowledge of races (obtained from race books) in order to transform into them.
+		The subspecies which newly-spawned slimes decide to mimic are now limited to the subspecies found within their region (e.g. slimes spawned in Submission will spawn as subspecies which can ordinarily be found in the region of Dominion, which encompasses all of Dominion and Submission).
+	
+	Impaired vision:
+		Added 'visual impairment' as a new unique perk, which gives a negative status effect while not wearing clothing with the 'PRESCRIPTION_GLASSES' tag (i.e. glasses).
+		randomly-spawned NPCs having a 2.5% chance to have it (there is no way for the player to get this perk at the moment but I might add a way to get it later on).
+		Nizhoni, Vanessa (Ms. Cunningham), and Ziva (Ms. Levine) now have the 'visual impairment' perk.
+		If a character has the 'visual impairment' perk, any clothing with the 'PRESCRIPTION_GLASSES' tag (i.e. glasses), will not be removed at the start of sex if 'Automatic stripping' is enabled, and selecting 'unequip all' in their inventory will also ignore any clothing with the 'PRESCRIPTION_GLASSES' tag.
 	
 	Items:
 		Using the 'bioslime canister' now breaks out of your inventory, making it easier to see the full transformation text.
-	
+		
 	Sex:
 		Added 'lying on front' as an alternative slot to 'lying on back' in the 'Lying down' sex position, which allows partners to perform oral, receive oral, or have sex in the 'prone bone' position.
 		The 'beside' slots in the 'Lying down' sex position now have correct interaction availability with characters lying down and those in non-lying-down slots.
-	
-	Other:
-		Increased the threshold for additional inventory slots being dirtied by cum when a character orgasms onto their partner; additional slots being dirtied now starts at 30ml of cum instead of 16ml, and not as many slots are dirtied (but the maximum cum bracket of 1,000-10,000ml is unchanged at 8 slots dirtied).
-	
-	Bugs:
-		Parsing fixes.
-		Removed the 'Back' button from the initial dialogue when starting a new game, as returning to the main menu and then trying to resume from there would throw errors.
+		Added the new 'prone bone' position as an option to switch to during sleep sex.
+		Improved dirty talk lines and positioning descriptions for when used in sleep sex.
+		Removed the Hypermobility perk's non-taur requirement for being able to perform autofellatio & autocunnilingus (so taurs can now perform those actions if they have the hypermobility perk).
 		
-	
+	Other:
+		Added 'Craft x5' and 'Craft all' options to the enchantment menu to make bulk enchanting a little less tedious.
+		Increased the threshold for additional inventory slots being dirtied by cum when a character orgasms onto their partner; additional slots being dirtied now starts at 30ml of cum instead of 16ml, and not as many slots are dirtied (but the maximum cum bracket of 1,000-10,000ml is unchanged at 8 slots dirtied).
+		Slaves assigned to your bedroom, who are attracted to you, and who have permission to sue you, will now engage in sleep sex with you (if you have the heavy sleeper perk) at least once in each block of bedroom work they're assigned to (a block being any number of consecutive hourly slots).
+		Increased maximum height in character creation screen from 200cm to 215cm (so you can start as 7 feet tall).
+		
+	Bugs:
+		Parsing and typo fixes.
+		Removed the 'Back' button from the initial dialogue when starting a new game, as returning to the main menu and then trying to resume from there would throw errors.
+		You can no longer unequip/equip/unseal clothing nor use items in a sex scene in which you are immobilised.
+		Fixed bug with frotting, where if you were targeting a different character to the one you were frotting with and selected the 'Frotting orgasm', the cum effects would be applied to the targeted character instead of the one you were frotting with.
+		Fixed bug in the encyclopedia, where if the horse shoes were discovered, the 'feet' clothing section would display an error message (if this bug was occurring in other pages, they all should be fixed now).
+		Fixed job selection perk tooltips displaying the player's currently selected occupation instead of the perk's associated occupation.
+		Fixed bug where you could get stuck in an infinitely-looping menu if you opened your phone while in the Enchantment save/load dialogue.
+		Fixed incorrect orgasm description in group sex which occurred when character_A gave character_B a creampie while targeting character_C.
+		Fixed game-breaking bug where the game would lock up if any sex actions were started with a character who had an ovipositor penis or an ovipositor clit.
+		Fixed bug where NPCs who transform you after sex would alternate between shrinking and growing your breasts and/or crotch-boobs.
+		When setting an unemployed friendly occupant to a job within the manor, the occupant/slave overview list will now show the same income information which is in their job dialogue, instead of always showing 0/day.
+		Fixed bug where opening a friendly occupant's inventory via the overview menu's inventory button would sometimes cause the inventory to get stuck, soft-lock your game, and throw background errors.
+		Fixed clothing tooltips not displaying all of the clothing's extra information.
+		Fixed the 'slaves' in Slaver Alley's cafes not actually being set to being slaves, and having incorrect descriptions as a result.
+		Corrected multiple inconsistent pregnancy descriptions for if you're a taur.
+		Fixed bug where dolls (including the player) would have their aura set to NaN (also fixed the same bug for health values).
+		Fixed some formatting bugs in the newly updated tooltips.
+		Fixed nipple and crotch-nipple creampie retention enchantments not working.
 	
 	
 	[x] going back from character creation in new game doesn't work?
@@ -62,21 +93,131 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[x] incorrect interactions for beside?
 		[x] add 'prone bone' to quick positioning
 		[x] allow interaction between receiving oral and prone bone
+	[x] loosen PENT_UP requirement for triggering slaves having sleep sex with player
+	[x] positioning and dirty talk in sleep sex should whisper
+	[x] allow prone bone in sleep sex
+	[x] allow look back for on front prone bone
+	[x] can manage clothing while sleeping in sex...
+		[x] and while immobilised...
+	[x] more bugs!
+		[-] I had my pc's pussy sealed, quick sex still penetrate it
+		[x] Bug with frotting.  Think there's something fucky going on with positioning during group sex
+		[x] encyclopedia feet broken
+		[x] Second line of the tooltip for job selection uses the currently selected job, not the hovered job.
+		[x] Found a hardlock in the menus
+			Have exactly 1 of a transformative consumable, unenchanted, in your inventory.
+			Open the inventory, select the consumable, and click "Enchant".
+			Add at least one effect to the item but do not craft it.
+			Click "Save/Load".
+			While on the save enchantment menu, click your race icon on the left sidebar, which should open the "Selfie picture" screen.
+			Click "Back" three times, which should exit "Selfie picture" and go to "Phone home screen", then "Save enchantment files", and finally return you to "Enchanting".
+			Craft the item, which should close the enchanting screen and dump you back to your inventory.
+			Click "Close Inventory".
+			You're now on the save enchantment screen and you can't leave, the back button does nothing (presumably because it's trying to return you to the enchant item screen but you no longer have the item you were going to enchant). You can access your phone or craft items you've previously saved if you have all the components, but both dump you back out to this same bugged save enchantment screen.
+			This is only one way to replicate, just about anything that lets you open your phone while on the save enchantment files screen will end up in a similar lock.
+		[x] weird interaction when doing submissive reverse face sitting and a dominant cowgirl
+		[-] I'm getting a weirdly huge amount of slime species in the slaver alley, even after doing the relevant sidequest. It's like 90%
+		[x] Game keeps freezing/losing buttons when I try to use any sex options from one of my slaves
+			java.lang.StackOverflowError
+			at java.util.Arrays.hashCode(Unknown Source)
+			at java.util.Objects.hash(Unknown Source)
+			at com.lilithsthrone.game.character.GameCharacter.hashCode(GameCharacter.java:31791)
+			at java.util.HashMap.hash(Unknown Source)
+			at java.util.HashMap.containsKey(Unknown Source)
+			at java.util.LinkedHashMap$LinkedKeySet.contains(Unknown Source)
+			at com.lilithsthrone.game.sex.Sex.getSexPositionSlot(Sex.java:5971)
+			at com.lilithsthrone.game.sex.Sex.getAllParticipants(Sex.java:4822)
+			at com.lilithsthrone.game.sex.Sex.isMasturbation(Sex.java:4816)
+			at com.lilithsthrone.game.sex.Sex.getTargetedPartner(Sex.java:4771)
+			at com.lilithsthrone.game.sex.Sex.getCharacterTargetedForSexAction(Sex.java:4804)
+			at com.lilithsthrone.game.sex.sexActions.baseActionsMisc.GenericActions$56.getCharacterToBeEgged(GenericActions.java:4310)
+			at com.lilithsthrone.game.sex.sexActions.baseActionsMisc.GenericActions$56.getAreaToBeEgged(GenericActions.java:4313)
+			at com.lilithsthrone.game.sex.sexActions.baseActionsMisc.GenericActions$56.getCharacterToBeEgged(GenericActions.java:4310)
+			at com.lilithsthrone.game.sex.sexActions.baseActionsMisc.GenericActions$56.getAreaToBeEgged(GenericActions.java:4313)
+			at com.lilithsthrone.game.sex.sexActions.baseActionsMisc.GenericActions$56.getCharacterToBeEgged(GenericActions.java:4310)
+	[-] Unequipping bug
+			Exception in thread "JavaFX Application Thread" java.util.ConcurrentModificationException
+			at java.util.HashMap$HashIterator.nextNode(Unknown Source)
+			at java.util.HashMap$EntryIterator.next(Unknown Source)
+			at java.util.HashMap$EntryIterator.next(Unknown Source)
+			at com.lilithsthrone.game.inventory.CharacterInventory.isAbleToUnequip(CharacterInventory.java:1740)
+			at com.lilithsthrone.game.inventory.CharacterInventory.isAbleToUnequip(CharacterInventory.java:1612)
+			at com.lilithsthrone.game.character.GameCharacter.unequipClothingIntoVoid(GameCharacter.java:24907)
+			at com.lilithsthrone.game.character.GameCharacter.unequipAllClothing(GameCharacter.java:25035)
+			at com.lilithsthrone.game.character.GameCharacter.unequipAllClothing(GameCharacter.java:25007)
+			at com.lilithsthrone.game.character.GameCharacter.unequipAllClothingIntoHoldingInventory(GameCharacter.java:24984)
+			at com.lilithsthrone.game.dialogue.places.dominion.warehouseDistrict.DominionExpress$34.applyPreParsingEffects(DominionExpress.java:1821)
+			at com.lilithsthrone.game.Game.setContent(Game.java:3588)
+	[x] add special seal TFPotency for mods
+		[x] inventory dialogue
+	[x] sealed clothing unequip tooltip: "You can't unequip the X, as your X is blocking you from doing so!"
+	[x] add body shape to quick view
+		[x] apply to both tooltips
+		[x] test loadedBody
+	[x] breast TFs still broken
+	[x] When setting a friendly occupant to a job, it shows correct income, but in the overview list it says unemployed and 0 flames per day
+	[x] in slavery overview, if inspect via button, go back, then inventory inspect, cannot exit inventory
+	[x] "Tonya has had two eggs implanted in her stomach!" is at the end of all actions, should be under the egg-laying action
+	[x] NPCs with glasses should have vision impairment
+	[x] strip in sex should not remove glasses if they have visual impairment
+	[x] clothing tooltips fine, but when clicked on the full description repeats... (change made to descriptions repeating)
+		[x] also doesn't say Sealed anymore...
+	[x] enchanting stacks remains a click-fest (even just an 'enchant 5' would be good)
+	[x] slave got himself pregnant by finger self insemination -> "NAME got me pregnant, but I won't let it..." NAME should be more "I got myself"
+	[x] When doing autofellatio but with a partner, character name gets replaced by partner name in the 2nd part of the orgasm text
+	[x] in Slaver Alley cafes, the waiters are not set to be slaves, and their descriptions say "After a period of being your slave, they are now your trusted friend" despite the player never having owned them
+		[x] handle Finch slave ownership descriptions
+		[x] retroactively apply enslavement
+	[x] inconsistent pregnancy text -> image compilation
+		[x] search for "your pregnant" "your swollen/rounded/distended/heavily"
+			[x] 1, 2, 3, 4, 5, 6, 7, 8, 8.1, 8.2, 9
+	[x] Upon finishing the dollified quest, on being turned back from being a doll, my Aura is incorrectly shown as being 0.
+		[x] setting mana to NaN
+	[x] Make slime TF availability require advanced knowledge? That way dragon TFs and such aren't able to be cheesed
+	[x] slimes can spawn as any subspecies morph, and when turned to flesh, you get that subspecies unlocked
+		[x] limit slime TF subspecies to common morphs
+	[x] AoE for special attacks (combat moves)
+		[x] implement
+			[x] SE handling
+		[x] test
+			[x] tooltips when on cooldown in SE panel are too short
+		[x] add SE definitions for AoE
+			[x] new formatting
+			[x] effects not working correctly on crit...
+			[x] test shielding 
+	[x] creampie retention not working
+	[x] mark which eyes are immune to visual impairment in TF menu
 	
 	
-	[] enchanting stacks remains a click-fest (even just an 'enchant 5' would be good)
+	[] brief overview should also show age
 	
+	[] demonstone lore talk with Lilaya
+		[] Lyssieth demonstone creation
+	
+	[] combat move action tooltips suck
+	
+	[] Lilaya's first sex scene should have the option for sub
+		[] also essence quest text should mention her essences
+		
 	[] temp variables, but no saved ones?
 		[] option to make temp variables persist
+		
+	[] improve attribute tooltips
+	
+	[] add Dominion safe encounters (add action to ignore encounters)
+		[] slave breeding offer
+		[] public sex offer
+		[] feral encounter
+		[] food sample
+		[] potion offer
 	
 	[] allow kids birthed at home to stay home
+		[] when pregnant, can ask Lilaya about housing
+		[] If have a room available, can get kids to move in
+		[] add dormitory place upgrade for multiple friendly occupants
 	
 	[] how about let us choose to retain some slave-slave kids, like I understand that keeping all of them could alg the game...
 		but if there was an option to keep them or to have them removed permanently from the game we could keep some of our slave's kids even if we are not the parents
-	
-	[] slimes can spawn as any subspecies morph, and when turned to flesh, you get that subspecies unlocked
-		[] maybe make it so slimes always TF back into humans or override subspecies?
-			[] That would be kind of lame...
 	
 	[] fetish max xp unlocks actions (+oral?):
 		[] penis
@@ -86,32 +227,21 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] vagina
 			[] pussy worship
 	
-	[] add modding ability to modify Lilaya's mansion rooms (get some kind of hook to them)
-	
-	[] loosen PENT_UP requirement for triggering slaves having sleep sex with player
-	
-	[] elementals feral forms as active
-	
-	[] slave got himself pregnant by finger self insemination -> "NAME got me pregnant, but I won't let it..." NAME should be more "I got myself"
+	[] Modding
+		[] add placeUpgrade and quest modding
+			[] PR for quest modding
+		[] add modding ability to modify Lilaya's mansion rooms (get some kind of hook to them)
+		[] add functionality for selecting an item of equipped clothing, and there would be an option to 'use' it (which would then execute whatever script & text you define)
+			[] as a default action, have vibrating clothing have an on/off option
 	
 	[] make it so addictions can be cured by waiting them out, but add content setting to make them permanent
 	
 	[] urethra depth is far too long?
 		[] do the other penis PRs with this for a collection of updates for penis
 	
-	[] add placeUpgrade and quest modding
-	
-	[] AoE for special attacks
-	
 	[] Add 'Mystery potion' which is unidentified and contains random effects
 	
-	[] Make slime TF availability require advanced knowledge? That was dragon TFs and such aren't able to be cheesed
-	
-	[] Lilaya's first sex scene should have the option for sub
-		[] also essence quest text should mention her essences
-	
 	[] trophy wall
-		[] after sex, claim underwear
 		[] can pin underwear to it
 	
 	[] Imp fortresses
@@ -119,33 +249,6 @@ Not everything in this file is up-to-date, and everything is subject to change a
 		[] Male
 			[] Need checks to see if player is demon, in which case remove references to imp breeding
 		
-	[x] Vronti anal
-	[] Jules
-		[] After meeting Kruger, can tell Jules that you have the ear of Kruger, who'd like to hear about his behaviour
-		[] Jules doesn't want to get fired, asks what you want
-			[] A date -> can be taken on a date on Mon/Tues/Wed (Jules's colleague warns player that Jules is a scumbag - Jules says some girls/guys are into that)
-				[] cheap restaurant
-					[] fucked in alley
-				[] different club
-					[] fucked in toilets
-				[] arcade
-					[] fucked in Jules's apartment
-				[] earn affection points
-					[] Jules wants player to be exposed
-					[] Then gets player to allow strangers to grope in exchange for paying Jules
-					[] Finally, pimps player out
-			[] His submission
-				[] can fuck his ass
-					[] train him to submit
-					[] wear buttplug
-					[] caged cock
-					[] tattooed at Kate's
-	[] Ralph
-		[] discount alternative
-			[] purchase membership
-		[] if have discount and purchased a total value of over 10k items, Ralph laments that you're costing him too much
-			[] can agree to revoke the discount to fuck his ass
-	
 	[] add handbags as weapons
 		[] clutch
 		[] satchel
@@ -179,6 +282,10 @@ Not everything in this file is up-to-date, and everything is subject to change a
 			[] beads
 			[] clamps
 	
+	[] add asphyxiation -> unconscious as immobilisation type
+		[] tighten collar
+		[] choke
+		
 	
 	[] old bugs
 	
@@ -421,7 +528,8 @@ Not everything in this file is up-to-date, and everything is subject to change a
 						[] double breastfeed
 						[] in staff room:
 							[] milked & fucked
-					
+	
+	[] gold mule collar should unlock Natalya dating	
 		
 	[] Demon TF content
 		[] If Lilaya is also demon, you can talk to her about her new form
@@ -676,11 +784,17 @@ Not everything in this file is up-to-date, and everything is subject to change a
 				[] Criminal tagged
 				[] Dispute resolution
 				[] Enforcer backup
-			[] Unique
+			[] Shadow & Silence, Wolfgang & Karl
+				[] can team up and do difficult missions with them
+				[] taking one of their routes locks the other
+				[] when doing missions, encounter other couple you didn't choose
+				[] can fight over bounty
+			[] Unique - take job posters and travel to meet client
 				[] incubus who tries to corrupt player
-					[] has harem of bimbo humans, one escaped
+					[] has harem of bimbo humans
 						[] sits naked with humans licking cock/balls
-					[] find her and return her
+					[] find escaped bimbo and return her
+						[] repeat quests are to track down runaway slaves (marked for new ownership on capture) so he can TF them into dumb bimbos and sell them for a profit
 					[] incubus offers more work of a different kind
 						[] asks player to test potions, pays extremely well plus gold jewellery
 						[] slowly turns player into bimbo over stages
@@ -688,14 +802,30 @@ Not everything in this file is up-to-date, and everything is subject to change a
 							[] makes player strip
 							[] makes player suck cock
 							[] can sign slave contract and added to his harem
-				[] arrogant fox-boy model
+				[] arrogant, handsome fox-boy model (have to fight crazes fans and competition)
 					[] hires player as bodyguard for events
 					[] witness him fucking fans and treating them like dirt
 					[] he says that he'll fuck you, as though it's a huge favour to you
-					[] magazine wants a softer look, he refuses
+					[] magazine wants a softer look, he refuses, magazine agent offers triple your fee if you betray him
 						[] can slip feminising potion in his drink
 						[] or continue as normal
-				[] harpy nest monitoring
+				[] harpy nest servant (harpies fight player to try and take client down a peg or two)
+					[] a shy harpy wants a servant for the day - she can't progress in the heriarchy but wants someone to pamper her like the other harpies
+					[] can get her more prestige as you work for her
+					[] she gets more confident, turns into a complete bitch as the power goes to her head
+				[] sadistic rich, spoiled cat-girl
+					[] wants to beat up escaped slaves
+					[] indulge her for good rewards
+					[] if non-con, get bonuses for raping slaves for the cat-girl's amusement
+				[] Scarred & burn-scarred rabbit-boy wants help
+					[] paid to attack criminal gangs, rabbit-boy violent during search for someone
+					[] doesn't want to talk, just wants to use you as muscle
+					[] gang illegally enslaving people, free victims
+					[] find evidence of where rabbit-boy's target is
+					[] daughter, enslaved in illegal brothel
+						[] free her & take out gang leader
+						[] take gang leader's offer and enslave rabbit-boy
+					
 	
 	[] Finch
 	

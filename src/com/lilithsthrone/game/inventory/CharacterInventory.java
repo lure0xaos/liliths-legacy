@@ -1744,8 +1744,9 @@ public class CharacterInventory implements XMLSaving {
 				removalTextMap.put(c,
 						(equipTextSB.length() == 0 ? "" : "<br/>")
 						+ (dt == DisplacementType.REMOVE_OR_EQUIP
-							? (c == clothing ? c.onUnequipApplyEffects(characterClothingOwner, characterRemovingClothing, (Main.game.isInSex()?Main.sex.getSexPace(characterRemovingClothing)==SexPace.DOM_ROUGH:false))
-									: c.onUnequipText(characterClothingOwner, characterRemovingClothing, (Main.game.isInSex()?Main.sex.getSexPace(characterRemovingClothing)==SexPace.DOM_ROUGH:false)))
+							? (c == clothing
+								? c.onUnequipApplyEffects(characterClothingOwner, characterRemovingClothing, (Main.game.isInSex()?Main.sex.getSexPace(characterRemovingClothing)==SexPace.DOM_ROUGH:false))
+								: c.onUnequipText(characterClothingOwner, characterRemovingClothing, (Main.game.isInSex()?Main.sex.getSexPace(characterRemovingClothing)==SexPace.DOM_ROUGH:false)))
 							: c.getClothingType().displaceText(
 									characterClothingOwner,
 									characterRemovingClothing,

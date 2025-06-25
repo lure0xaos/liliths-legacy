@@ -141,6 +141,7 @@ import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.ColourListPresets;
 import com.lilithsthrone.utils.colours.PresetColour;
+import com.lilithsthrone.world.WorldRegion;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
 
@@ -1232,14 +1233,34 @@ public class CharacterUtils {
 		if(isHalfDemon && (linkedCharacter==null || !linkedCharacter.isUnique())) {
 			List<AbstractSubspecies> potentialSubspecies = new ArrayList<>();
 			for(AbstractSubspecies subspecies : Subspecies.getAllSubspecies()) {
-				// Special races that half-demons do not spawn as are slimes and any Subspecies which sets an override (so demons, elementals, or Youko):
-				if(subspecies!=Subspecies.SLIME && subspecies.getSubspeciesOverridePriority()==0) {
+				/** Special races that slimes do not spawn as are:
+				 * - slimes themselves
+				 * - any Subspecies which sets an override (so demons, elementals, or Youko)
+				 * - races not associated with the linkedCharacter's region (if no linkedCharacter, ones that don't regularly spawn in Dominion/Submission/Elis)
+				*/
+				boolean correctRegion = subspecies.isAbleToNaturallySpawnInLocation(WorldType.DOMINION, PlaceType.DOMINION_BACK_ALLEYS)
+						|| subspecies.isAbleToNaturallySpawnInLocation(WorldType.SUBMISSION, PlaceType.SUBMISSION_TUNNELS)
+						|| subspecies.isAbleToNaturallySpawnInLocation(WorldType.getWorldTypeFromId("innoxia_fields_elis_town"), PlaceType.getPlaceTypeFromId("innoxia_fields_elis_town_alley"));
+				if(linkedCharacter!=null) {
+					List<WorldRegion> dominionRegions = Util.newArrayListOfValues(WorldRegion.DOMINION, WorldRegion.HARPY_NESTS, WorldRegion.SUBMISSION);
+					WorldRegion linkedCharacterRegion = linkedCharacter.getWorldLocation().getWorldRegion();
+					if(dominionRegions.contains(linkedCharacterRegion)) {
+						correctRegion = !Collections.disjoint(subspecies.getRegionLocations().keySet(), dominionRegions);
+					} else {
+						correctRegion = subspecies.getRegionLocations().containsKey(linkedCharacter.getWorldLocation().getWorldRegion());
+					}
+				}
+				
+				if(subspecies!=Subspecies.SLIME
+						&& subspecies.getSubspeciesOverridePriority()==0
+						&& correctRegion) {
 					if(startingGender.isFeminine()) {
 						for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesFeminineFurryPreferencesMap().entrySet()) {
 							if(entry.getValue() != FurryPreference.HUMAN) {
 								potentialSubspecies.add(subspecies);
 							}
 						}
+						
 					} else {
 						for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesMasculineFurryPreferencesMap().entrySet()) {
 							if(entry.getValue() != FurryPreference.HUMAN) {
@@ -1267,14 +1288,34 @@ public class CharacterUtils {
 				
 			} else {
 				for(AbstractSubspecies subspecies : Subspecies.getAllSubspecies()) {
-					// Special races that slimes do not spawn as are slimes any Subspecies which sets an override (so demons, elementals, or Youko):
-					if(subspecies!=Subspecies.SLIME && subspecies.getSubspeciesOverridePriority()==0) {
+					/** Special races that slimes do not spawn as are:
+					 * - slimes themselves
+					 * - any Subspecies which sets an override (so demons, elementals, or Youko)
+					 * - races not associated with the linkedCharacter's region (if no linkedCharacter, ones that don't regularly spawn in Dominion/Submission/Elis)
+					*/
+					boolean correctRegion = subspecies.isAbleToNaturallySpawnInLocation(WorldType.DOMINION, PlaceType.DOMINION_BACK_ALLEYS)
+							|| subspecies.isAbleToNaturallySpawnInLocation(WorldType.SUBMISSION, PlaceType.SUBMISSION_TUNNELS)
+							|| subspecies.isAbleToNaturallySpawnInLocation(WorldType.getWorldTypeFromId("innoxia_fields_elis_town"), PlaceType.getPlaceTypeFromId("innoxia_fields_elis_town_alley"));
+					if(linkedCharacter!=null) {
+						List<WorldRegion> dominionRegions = Util.newArrayListOfValues(WorldRegion.DOMINION, WorldRegion.HARPY_NESTS, WorldRegion.SUBMISSION);
+						WorldRegion linkedCharacterRegion = linkedCharacter.getWorldLocation().getWorldRegion();
+						if(dominionRegions.contains(linkedCharacterRegion)) {
+							correctRegion = !Collections.disjoint(subspecies.getRegionLocations().keySet(), dominionRegions);
+						} else {
+							correctRegion = subspecies.getRegionLocations().containsKey(linkedCharacter.getWorldLocation().getWorldRegion());
+						}
+					}
+					
+					if(subspecies!=Subspecies.SLIME
+							&& subspecies.getSubspeciesOverridePriority()==0
+							&& correctRegion) {
 						if(startingGender.isFeminine()) {
 							for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesFeminineFurryPreferencesMap().entrySet()) {
 								if(entry.getValue() != FurryPreference.HUMAN) {
 									potentialSubspecies.add(subspecies);
 								}
 							}
+							
 						} else {
 							for(Entry<AbstractSubspecies, FurryPreference> entry : Main.getProperties().getSubspeciesMasculineFurryPreferencesMap().entrySet()) {
 								if(entry.getValue() != FurryPreference.HUMAN) {
