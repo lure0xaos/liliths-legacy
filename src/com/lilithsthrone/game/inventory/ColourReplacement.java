@@ -1,12 +1,12 @@
 package com.lilithsthrone.game.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.ColourListPresets;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.3.7.7

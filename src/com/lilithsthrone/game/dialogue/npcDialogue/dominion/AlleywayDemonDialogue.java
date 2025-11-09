@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.dialogue.npcDialogue.dominion;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.lilithsthrone.game.PropertyValue;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.AffectionLevel;
@@ -39,6 +36,9 @@ import com.lilithsthrone.world.Cell;
 import com.lilithsthrone.world.Weather;
 import com.lilithsthrone.world.places.AbstractPlaceType;
 import com.lilithsthrone.world.places.PlaceType;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @since 0.2.10

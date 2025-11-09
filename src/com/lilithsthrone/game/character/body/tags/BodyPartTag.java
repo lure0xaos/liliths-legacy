@@ -1,11 +1,11 @@
 package com.lilithsthrone.game.character.body.tags;
 
+import com.lilithsthrone.utils.Util;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.lilithsthrone.utils.Util;
 
 /**
  * @since 0.4

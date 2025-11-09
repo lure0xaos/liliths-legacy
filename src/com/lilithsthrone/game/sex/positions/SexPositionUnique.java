@@ -1,9 +1,5 @@
 package com.lilithsthrone.game.sex.positions;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.Arm;
 import com.lilithsthrone.game.character.body.BodyPartInterface;
@@ -28,6 +24,10 @@ import com.lilithsthrone.game.sex.sexActions.dominion.RoseHandHolding;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 

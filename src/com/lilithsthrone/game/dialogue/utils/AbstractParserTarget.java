@@ -1,8 +1,8 @@
 package com.lilithsthrone.game.dialogue.utils;
 
-import java.util.List;
-
 import com.lilithsthrone.game.character.GameCharacter;
+
+import java.util.List;
 
 /**
  * @since 0.4.1

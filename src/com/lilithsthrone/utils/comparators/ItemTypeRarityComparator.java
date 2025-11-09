@@ -1,8 +1,8 @@
 package com.lilithsthrone.utils.comparators;
 
-import java.util.Comparator;
-
 import com.lilithsthrone.game.inventory.item.AbstractItemType;
+
+import java.util.Comparator;
 
 /**
  * Compares by rarity.

@@ -1,7 +1,5 @@
 package com.lilithsthrone.game.dialogue.places.dominion.enforcerHQ;
 
-import java.util.stream.Collectors;
-
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
@@ -35,6 +33,8 @@ import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
+
+import java.util.stream.Collectors;
 
 /**
  * @since 0.1.0

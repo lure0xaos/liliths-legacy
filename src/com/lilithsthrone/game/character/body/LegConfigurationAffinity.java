@@ -2,6 +2,7 @@ package com.lilithsthrone.game.character.body;
 
 import com.lilithsthrone.game.character.body.valueEnums.Affinity;
 import com.lilithsthrone.game.character.body.valueEnums.LegConfiguration;
+
 import java.util.HashMap;
 
 /**

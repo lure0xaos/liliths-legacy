@@ -1,11 +1,5 @@
 package com.lilithsthrone.game.character.race;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.w3c.dom.Document;
-
 import com.lilithsthrone.controller.xmlParsing.Element;
 import com.lilithsthrone.game.character.attributes.AbstractAttribute;
 import com.lilithsthrone.game.character.attributes.Attribute;
@@ -21,6 +15,11 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+import org.w3c.dom.Document;
+
+import com.lilithsthrone.utils.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @since 0.3.9.1

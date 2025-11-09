@@ -1,7 +1,5 @@
 package com.lilithsthrone.game.sex.managers.dominion.cultist;
 
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
 import com.lilithsthrone.game.sex.SexControl;
@@ -9,6 +7,8 @@ import com.lilithsthrone.game.sex.managers.SexManagerDefault;
 import com.lilithsthrone.game.sex.positions.SexPositionUnique;
 import com.lilithsthrone.game.sex.positions.slots.SexSlot;
 import com.lilithsthrone.main.Main;
+
+import java.util.Map;
 
 /**
  * @since 0.1.88

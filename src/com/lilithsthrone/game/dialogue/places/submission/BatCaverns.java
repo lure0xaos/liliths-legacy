@@ -1,7 +1,5 @@
 package com.lilithsthrone.game.dialogue.places.submission;
 
-import java.time.DayOfWeek;
-
 import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.quests.Quest;
@@ -21,6 +19,8 @@ import com.lilithsthrone.utils.Vector2i;
 import com.lilithsthrone.world.Cell;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
+
+import java.time.DayOfWeek;
 
 /**
  * @since 0.2.3

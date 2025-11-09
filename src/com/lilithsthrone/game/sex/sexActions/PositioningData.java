@@ -1,9 +1,9 @@
 package com.lilithsthrone.game.sex.sexActions;
 
-import java.util.List;
-
 import com.lilithsthrone.game.sex.positions.AbstractSexPosition;
 import com.lilithsthrone.game.sex.positions.slots.SexSlot;
+
+import java.util.List;
 
 /**
  * For use in position request SexActions.

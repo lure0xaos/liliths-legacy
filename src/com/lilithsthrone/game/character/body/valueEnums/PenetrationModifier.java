@@ -1,11 +1,11 @@
 package com.lilithsthrone.game.character.body.valueEnums;
 
+import com.lilithsthrone.game.sex.SexAreaPenetration;
+import com.lilithsthrone.utils.Util;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.lilithsthrone.game.sex.SexAreaPenetration;
-import com.lilithsthrone.utils.Util;
 
 /**
  * @since 0.1.83

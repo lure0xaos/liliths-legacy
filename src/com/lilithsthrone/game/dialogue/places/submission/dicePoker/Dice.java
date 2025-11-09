@@ -1,10 +1,10 @@
 package com.lilithsthrone.game.dialogue.places.submission.dicePoker;
 
+import com.lilithsthrone.utils.Util;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.lilithsthrone.utils.Util;
 
 /**
  * @since 0.2.6

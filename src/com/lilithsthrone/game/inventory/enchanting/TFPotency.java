@@ -1,11 +1,11 @@
 package com.lilithsthrone.game.inventory.enchanting;
 
+import com.lilithsthrone.utils.colours.Colour;
+import com.lilithsthrone.utils.colours.PresetColour;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.lilithsthrone.utils.colours.Colour;
-import com.lilithsthrone.utils.colours.PresetColour;
 
 /**
  * @since 0.1.83

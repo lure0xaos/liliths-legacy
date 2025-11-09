@@ -1,6 +1,16 @@
 package com.lilithsthrone.game.character.body.coverings;
 
-import java.io.File;
+import com.lilithsthrone.controller.xmlParsing.Element;
+import com.lilithsthrone.game.character.GameCharacter;
+import com.lilithsthrone.game.character.body.valueEnums.CoveringModifier;
+import com.lilithsthrone.game.character.body.valueEnums.CoveringPattern;
+import com.lilithsthrone.main.Main;
+import com.lilithsthrone.utils.colours.Colour;
+import com.lilithsthrone.utils.colours.ColourListPresets;
+import com.lilithsthrone.utils.colours.PresetColour;
+import org.w3c.dom.Document;
+
+import com.lilithsthrone.utils.io.File;
 import java.rmi.AccessException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,17 +20,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
-
-import org.w3c.dom.Document;
-
-import com.lilithsthrone.controller.xmlParsing.Element;
-import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.game.character.body.valueEnums.CoveringModifier;
-import com.lilithsthrone.game.character.body.valueEnums.CoveringPattern;
-import com.lilithsthrone.main.Main;
-import com.lilithsthrone.utils.colours.Colour;
-import com.lilithsthrone.utils.colours.ColourListPresets;
-import com.lilithsthrone.utils.colours.PresetColour;
 
 /**
  * @since 0.4

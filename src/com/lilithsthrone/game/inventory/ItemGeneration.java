@@ -1,9 +1,5 @@
 package com.lilithsthrone.game.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map.Entry;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.FluidCum;
 import com.lilithsthrone.game.character.body.FluidMilk;
@@ -28,6 +24,10 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.ColourListPresets;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
 
 
 /**

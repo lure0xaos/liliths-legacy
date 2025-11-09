@@ -1,14 +1,14 @@
 package com.lilithsthrone.game.dialogue;
 
-import java.io.File;
+import com.lilithsthrone.utils.Util;
+
+import com.lilithsthrone.utils.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.lilithsthrone.utils.Util;
 
 /**
  * Yes, this is horrible. I refactored it into this to easily allow modded flags.

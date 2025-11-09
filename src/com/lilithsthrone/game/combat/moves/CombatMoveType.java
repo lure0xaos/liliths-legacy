@@ -1,11 +1,11 @@
 package com.lilithsthrone.game.combat.moves;
 
+import com.lilithsthrone.utils.colours.Colour;
+import com.lilithsthrone.utils.colours.PresetColour;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.lilithsthrone.utils.colours.Colour;
-import com.lilithsthrone.utils.colours.PresetColour;
 
 /**
  * Move type used in combat. Determines certain interactions, but doesn't have inherent power to itself.

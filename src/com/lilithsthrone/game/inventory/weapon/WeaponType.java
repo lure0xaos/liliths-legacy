@@ -1,14 +1,14 @@
 package com.lilithsthrone.game.inventory.weapon;
 
-import java.io.File;
+import com.lilithsthrone.game.inventory.AbstractSetBonus;
+import com.lilithsthrone.utils.Util;
+
+import com.lilithsthrone.utils.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.lilithsthrone.game.inventory.AbstractSetBonus;
-import com.lilithsthrone.utils.Util;
 
 /**
  * @since 0.1.84

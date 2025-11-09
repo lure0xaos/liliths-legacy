@@ -1,15 +1,15 @@
 package com.lilithsthrone.game.character.markings;
 
-import java.io.File;
+import com.lilithsthrone.game.character.GameCharacter;
+import com.lilithsthrone.utils.Util;
+
+import com.lilithsthrone.utils.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.utils.Util;
 
 /**
  * @since 0.2.6

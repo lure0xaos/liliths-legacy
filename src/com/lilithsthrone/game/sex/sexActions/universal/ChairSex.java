@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.sex.sexActions.universal;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.npc.NPC;
@@ -20,6 +17,9 @@ import com.lilithsthrone.game.sex.sexActions.SexActionType;
 import com.lilithsthrone.game.sex.sexActions.baseActionsMisc.GenericPositioning;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @since 0.2.8

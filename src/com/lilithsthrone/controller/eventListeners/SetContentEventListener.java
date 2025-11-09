@@ -1,10 +1,9 @@
 package com.lilithsthrone.controller.eventListeners;
 
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-
 import com.lilithsthrone.controller.MainController;
 import com.lilithsthrone.main.Main;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 
 /**
  * Sets the MainController's content.

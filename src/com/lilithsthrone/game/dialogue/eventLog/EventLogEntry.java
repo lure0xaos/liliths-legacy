@@ -1,10 +1,9 @@
 package com.lilithsthrone.game.dialogue.eventLog;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import com.lilithsthrone.controller.xmlParsing.XMLUtil;
 import com.lilithsthrone.utils.XMLSaving;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * @since 0.1.85

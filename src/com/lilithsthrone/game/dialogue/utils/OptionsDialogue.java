@@ -1,18 +1,5 @@
 package com.lilithsthrone.game.dialogue.utils;
 
-import java.awt.Toolkit;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-
 import com.lilithsthrone.controller.eventListeners.tooltips.TooltipInformationEventListener;
 import com.lilithsthrone.game.Game;
 import com.lilithsthrone.game.PropertyValue;
@@ -56,6 +43,21 @@ import com.lilithsthrone.utils.Units;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.awt.Toolkit;
+import com.lilithsthrone.utils.io.File;
+import com.lilithsthrone.utils.io.FileInputStream;
+import com.lilithsthrone.utils.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 /**
  * @since 0.1.0
@@ -845,7 +847,7 @@ public class OptionsDialogue {
 			File presetFolder = new File("res/keybinds");
 			if (presetFolder.exists() && presetFolder.isDirectory()) {
 				for (File f : presetFolder.listFiles((dir, name) -> name.endsWith(".txt"))) {
-					try (FileInputStream input = new FileInputStream(f)) {
+					try (InputStream input = new FileInputStream(f)) {
 						Properties preset = new Properties();
 						preset.load(input);
 						presets.add(preset);
@@ -893,7 +895,7 @@ public class OptionsDialogue {
 			}
 
 			// Write properties to file
-			try (FileOutputStream output = new FileOutputStream("res/keybinds/custom" + index + ".txt")) {
+			try (OutputStream output = new FileOutputStream("res/keybinds/custom" + index + ".txt")) {
 				preset.store(output, "");
 			} catch (IOException e) {
 				e.printStackTrace();

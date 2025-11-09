@@ -1,10 +1,10 @@
 package com.lilithsthrone.game.combat;
 
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.effects.AbstractStatusEffect;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
+
+import java.util.Map;
 
 
 /**

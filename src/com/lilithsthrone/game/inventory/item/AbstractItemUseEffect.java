@@ -1,9 +1,9 @@
 package com.lilithsthrone.game.inventory.item;
 
-import java.util.List;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.inventory.enchanting.ItemEffect;
+
+import java.util.List;
 
 /**
  * @since 0.3.1

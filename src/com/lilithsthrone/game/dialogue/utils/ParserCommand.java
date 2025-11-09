@@ -1,10 +1,10 @@
 package com.lilithsthrone.game.dialogue.utils;
 
-import java.util.List;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.types.BodyPartType;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.List;
 
 /**
  * @since 0.1.?

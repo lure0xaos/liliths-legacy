@@ -1,5 +1,8 @@
 package com.lilithsthrone.utils;
 
+import com.lilithsthrone.game.PropertyValue;
+import com.lilithsthrone.main.Main;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
@@ -11,9 +14,6 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
-import com.lilithsthrone.game.PropertyValue;
-import com.lilithsthrone.main.Main;
 
 /**
  * Collection of utility functions for date, time and number format conversion.

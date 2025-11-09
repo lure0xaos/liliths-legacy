@@ -1,10 +1,10 @@
 package com.lilithsthrone.game.sex;
 
+import com.lilithsthrone.utils.Util;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.lilithsthrone.utils.Util;
 
 /**
  * @since 0.2.0

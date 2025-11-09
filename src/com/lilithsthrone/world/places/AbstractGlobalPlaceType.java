@@ -1,8 +1,5 @@
 package com.lilithsthrone.world.places;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.dialogue.encounters.AbstractEncounter;
 import com.lilithsthrone.utils.SvgUtil;
@@ -11,6 +8,9 @@ import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.AbstractWorldType;
 import com.lilithsthrone.world.WorldRegion;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @since 0.3.1

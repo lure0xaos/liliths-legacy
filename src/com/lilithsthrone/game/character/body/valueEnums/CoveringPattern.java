@@ -1,9 +1,9 @@
 package com.lilithsthrone.game.character.body.valueEnums;
 
+import com.lilithsthrone.game.character.GameCharacter;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.lilithsthrone.game.character.GameCharacter;
 
 /**
  * @since 0.1.83

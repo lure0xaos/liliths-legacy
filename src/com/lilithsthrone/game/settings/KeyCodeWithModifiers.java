@@ -1,11 +1,10 @@
 package com.lilithsthrone.game.settings;
 
-import java.util.regex.Pattern;
-
 import com.lilithsthrone.utils.Util;
-
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+
+import java.util.regex.Pattern;
 
 /**
  * @since 0.1.83

@@ -1,7 +1,5 @@
 package com.lilithsthrone.game.dialogue.places.dominion;
 
-import java.time.Month;
-
 import com.lilithsthrone.game.character.npc.dominion.Daddy;
 import com.lilithsthrone.game.character.npc.dominion.Felicia;
 import com.lilithsthrone.game.character.npc.dominion.Fiammetta;
@@ -23,6 +21,8 @@ import com.lilithsthrone.world.Season;
 import com.lilithsthrone.world.Weather;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
+
+import java.time.Month;
 
 /**
  * @since 0.1.0

@@ -1,12 +1,12 @@
 package com.lilithsthrone.game.sex.positions;
 
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.sex.SexActionInteractions;
 import com.lilithsthrone.game.sex.positions.slots.SexSlot;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util.Value;
+
+import java.util.Map;
 
 /**
  * @since 0.3.1

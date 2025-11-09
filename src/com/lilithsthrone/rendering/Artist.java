@@ -1,9 +1,9 @@
 package com.lilithsthrone.rendering;
 
-import java.io.File;
-import java.util.List;
-
 import com.lilithsthrone.utils.colours.Colour;
+
+import com.lilithsthrone.utils.io.File;
+import java.util.List;
 
 /**
  * @since 0.2.2

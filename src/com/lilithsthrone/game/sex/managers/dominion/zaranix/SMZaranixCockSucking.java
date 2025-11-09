@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.sex.managers.dominion.zaranix;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.CoverableArea;
 import com.lilithsthrone.game.character.npc.dominion.Zaranix;
@@ -18,6 +15,9 @@ import com.lilithsthrone.game.sex.positions.slots.SexSlot;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 0.1.95

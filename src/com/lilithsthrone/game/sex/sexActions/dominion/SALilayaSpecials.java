@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.sex.sexActions.dominion;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.ArousalLevel;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
@@ -18,6 +15,9 @@ import com.lilithsthrone.game.sex.sexActions.SexAction;
 import com.lilithsthrone.game.sex.sexActions.SexActionPriority;
 import com.lilithsthrone.game.sex.sexActions.SexActionType;
 import com.lilithsthrone.main.Main;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @since 0.1.7

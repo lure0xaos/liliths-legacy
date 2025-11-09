@@ -1,13 +1,13 @@
 package com.lilithsthrone.game.sex.positions.slots;
 
+import com.lilithsthrone.utils.Util;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.lilithsthrone.utils.Util;
 
 /**
  * Handles the id generation of SexSlots from internal files.

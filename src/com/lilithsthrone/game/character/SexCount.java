@@ -1,16 +1,15 @@
 package com.lilithsthrone.game.character;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
+import com.lilithsthrone.controller.xmlParsing.XMLUtil;
+import com.lilithsthrone.game.sex.SexType;
+import com.lilithsthrone.utils.XMLSaving;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.lilithsthrone.controller.xmlParsing.XMLUtil;
-import com.lilithsthrone.game.sex.SexType;
-import com.lilithsthrone.utils.XMLSaving;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @since 0.2.9

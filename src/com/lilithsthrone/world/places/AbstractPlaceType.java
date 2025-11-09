@@ -1,19 +1,5 @@
 package com.lilithsthrone.world.places;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.w3c.dom.Document;
-
 import com.lilithsthrone.controller.xmlParsing.Element;
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.dialogue.DialogueManager;
@@ -38,6 +24,19 @@ import com.lilithsthrone.world.population.AbstractPopulationType;
 import com.lilithsthrone.world.population.Population;
 import com.lilithsthrone.world.population.PopulationDensity;
 import com.lilithsthrone.world.population.PopulationType;
+import org.w3c.dom.Document;
+
+import com.lilithsthrone.utils.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import com.lilithsthrone.utils.nio.file.Files;
+import com.lilithsthrone.utils.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @since 0.3.1

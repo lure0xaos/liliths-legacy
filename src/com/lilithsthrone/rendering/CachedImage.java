@@ -1,14 +1,13 @@
 package com.lilithsthrone.rendering;
 
+import com.lilithsthrone.utils.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import com.lilithsthrone.utils.io.File;
 import java.io.IOException;
 import java.util.Base64;
-
-import javax.imageio.ImageIO;
 
 /**
  * @since 0.2.5.5

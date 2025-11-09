@@ -1,5 +1,9 @@
 package com.lilithsthrone.game.character.body.coverings;
 
+import com.lilithsthrone.game.character.body.valueEnums.StartingSkinTone;
+import com.lilithsthrone.utils.Util;
+import com.lilithsthrone.utils.colours.Colour;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashSet;
@@ -7,10 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import com.lilithsthrone.game.character.body.valueEnums.StartingSkinTone;
-import com.lilithsthrone.utils.Util;
-import com.lilithsthrone.utils.colours.Colour;
 
 /**
  * @since 0.2.8

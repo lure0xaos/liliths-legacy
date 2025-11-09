@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.inventory.enchanting;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.game.character.markings.AbstractTattooType;
 import com.lilithsthrone.game.character.markings.Tattoo;
 import com.lilithsthrone.game.dialogue.utils.EnchantmentDialogue;
@@ -14,6 +11,9 @@ import com.lilithsthrone.game.inventory.item.AbstractItemType;
 import com.lilithsthrone.game.inventory.weapon.AbstractWeapon;
 import com.lilithsthrone.game.inventory.weapon.AbstractWeaponType;
 import com.lilithsthrone.main.Main;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.2.5

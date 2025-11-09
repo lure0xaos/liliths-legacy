@@ -1,12 +1,5 @@
 package com.lilithsthrone.controller;
 
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.w3c.dom.events.EventTarget;
-
 import com.lilithsthrone.controller.eventListeners.tooltips.TooltipInformationEventListener;
 import com.lilithsthrone.controller.eventListeners.tooltips.TooltipInventoryEventListener;
 import com.lilithsthrone.game.Game;
@@ -37,8 +30,13 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.Artwork;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.PresetColour;
-
 import javafx.stage.FileChooser;
+import org.w3c.dom.events.EventTarget;
+
+import com.lilithsthrone.utils.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @since 0.4.6.4
@@ -64,10 +62,10 @@ public class FileController {
 				chooser.setTitle("Add Images");
 				chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Images", "*.jpg", "*.png", "*.gif"));
 				if (lastOpened != null) {
-					chooser.setInitialDirectory(lastOpened);
+					chooser.setInitialDirectory(lastOpened.toFile());
 				}
 				
-				List<File> files = chooser.showOpenMultipleDialog(Main.primaryStage);
+				List<File> files = File.mapFrom(chooser.showOpenMultipleDialog((Main.primaryStage)));
 				if (files != null && !files.isEmpty()) {
 					lastOpened = files.get(0).getParentFile();
 					

@@ -1,7 +1,5 @@
 package com.lilithsthrone.game.dialogue.utils;
 
-import java.util.List;
-
 import com.lilithsthrone.game.character.EquipClothingSetting;
 import com.lilithsthrone.game.character.npc.NPC;
 import com.lilithsthrone.game.character.npc.misc.NPCOffspring;
@@ -19,6 +17,8 @@ import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.world.AbstractWorldType;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.AbstractPlaceType;
+
+import java.util.List;
 
 /**
  * @since 0.3.2

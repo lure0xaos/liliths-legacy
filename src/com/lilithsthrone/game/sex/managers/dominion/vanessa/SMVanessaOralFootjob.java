@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.sex.managers.dominion.vanessa;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.ArousalLevel;
 import com.lilithsthrone.game.character.body.CoverableArea;
@@ -19,6 +16,9 @@ import com.lilithsthrone.game.sex.sexActions.baseActions.PenisFeet;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 0.3.2

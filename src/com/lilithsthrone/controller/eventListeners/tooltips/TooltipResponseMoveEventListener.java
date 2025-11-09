@@ -1,11 +1,10 @@
 package com.lilithsthrone.controller.eventListeners.tooltips;
 
+import com.lilithsthrone.controller.MainController;
+import com.lilithsthrone.main.Main;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.MouseEvent;
-
-import com.lilithsthrone.controller.MainController;
-import com.lilithsthrone.main.Main;
 
 /**
  * @since 0.1.61

@@ -1,8 +1,8 @@
 package com.lilithsthrone.utils.comparators;
 
-import java.util.Comparator;
-
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
+
+import java.util.Comparator;
 
 /**
  * Compares by rarity, using the InventorySlot in index 0 of available equip slots.

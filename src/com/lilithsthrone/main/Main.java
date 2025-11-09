@@ -1,24 +1,5 @@
 package com.lilithsthrone.main;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerFactory;
-
 import com.lilithsthrone.controller.MainController;
 import com.lilithsthrone.controller.TooltipUpdateThread;
 import com.lilithsthrone.game.Game;
@@ -46,7 +27,6 @@ import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.Generation;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
-
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -61,6 +41,25 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import com.lilithsthrone.utils.xml.parsers.DocumentBuilder;
+import com.lilithsthrone.utils.xml.parsers.DocumentBuilderFactory;
+import com.lilithsthrone.utils.xml.parsers.ParserConfigurationException;
+import com.lilithsthrone.utils.xml.transform.TransformerFactory;
+import com.lilithsthrone.utils.io.File;
+import com.lilithsthrone.utils.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import com.lilithsthrone.utils.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @since 0.1.0
@@ -528,7 +527,7 @@ public class Main extends Application {
 	}
 	
 	public static boolean CheckNotUnpacked() {
-		File dir = new File("");
+		java.io.File dir = new java.io.File("");
 		String currentDir = dir.getAbsolutePath();
 		String tempDir = System.getProperty("java.io.tmpdir");
 //		System.err.println(currentDir);
@@ -645,7 +644,7 @@ public class Main extends Application {
 				continue;
 			}
 
-			try (FileInputStream fis = new FileInputStream(file)) {
+			try (InputStream fis = new FileInputStream(file)) {
 				String contentHTML = Util.inputStreamToString(fis);
 				switch (matcher.group(1).toLowerCase()) {
 					case "preface":
@@ -682,7 +681,7 @@ public class Main extends Application {
 		if(!DEBUG) {
 			System.out.println("Printing to error.log");
 			try {
-				PrintStream stream = new PrintStream("data/error.log");
+				PrintStream stream = new com.lilithsthrone.utils.log.LoggerPrintStream("data/error.log");
 				System.setErr(stream);
 				System.err.println("Game Version: "+VERSION_NUMBER+" ("+System.getProperty("build.type", "jar")+")");
 				System.err.println("Java: "+System.getProperty("java.version")+" ("+System.getProperty("java.vendor")+")");

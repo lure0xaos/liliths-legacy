@@ -1,8 +1,8 @@
 package com.lilithsthrone.utils.comparators;
 
-import java.util.Comparator;
-
 import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
+
+import java.util.Comparator;
 
 /**
  * @since 0.1.66

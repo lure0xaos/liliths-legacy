@@ -1,11 +1,11 @@
 package com.lilithsthrone.game.occupantManagement.slave;
 
-import java.util.List;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.List;
 
 /**
  * @since 0.1.87

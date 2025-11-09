@@ -1,9 +1,5 @@
 package com.lilithsthrone.controller;
 
-import java.util.Map;
-
-import org.w3c.dom.events.EventTarget;
-
 import com.lilithsthrone.controller.eventListeners.tooltips.TooltipInformationEventListener;
 import com.lilithsthrone.game.Properties;
 import com.lilithsthrone.game.PropertyValue;
@@ -35,6 +31,9 @@ import com.lilithsthrone.utils.Units;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+import org.w3c.dom.events.EventTarget;
+
+import java.util.Map;
 
 /**
  * @since 0.4.6.4

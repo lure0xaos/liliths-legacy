@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.dialogue.places.dominion.zaranixHome;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.body.CoverableArea;
@@ -40,6 +37,9 @@ import com.lilithsthrone.world.Cell;
 import com.lilithsthrone.world.Weather;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 0.2.2

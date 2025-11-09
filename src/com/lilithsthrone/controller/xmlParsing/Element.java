@@ -1,13 +1,13 @@
 package com.lilithsthrone.controller.xmlParsing;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import com.lilithsthrone.main.Main;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
+
+import com.lilithsthrone.utils.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author BlazingMagpie@gmail.com (or ping BlazingMagpie in Discord)

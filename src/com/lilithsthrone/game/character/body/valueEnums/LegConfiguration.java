@@ -1,9 +1,5 @@
 package com.lilithsthrone.game.character.body.valueEnums;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.Anus;
 import com.lilithsthrone.game.character.body.Ass;
@@ -26,6 +22,10 @@ import com.lilithsthrone.game.inventory.ItemTag;
 import com.lilithsthrone.game.inventory.clothing.BodyPartClothingBlock;
 import com.lilithsthrone.game.inventory.enchanting.TFModifier;
 import com.lilithsthrone.utils.Util;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @since 0.3.1

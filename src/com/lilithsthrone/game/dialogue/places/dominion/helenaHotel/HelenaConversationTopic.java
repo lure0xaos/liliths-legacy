@@ -1,11 +1,11 @@
 package com.lilithsthrone.game.dialogue.places.dominion.helenaHotel;
 
+import com.lilithsthrone.main.Main;
+import com.lilithsthrone.utils.Util;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.lilithsthrone.main.Main;
-import com.lilithsthrone.utils.Util;
 
 /**
  * @since 0.3.7

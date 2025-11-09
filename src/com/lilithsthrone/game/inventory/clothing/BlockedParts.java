@@ -1,18 +1,17 @@
 package com.lilithsthrone.game.inventory.clothing;
 
+import com.lilithsthrone.game.character.body.CoverableArea;
+import com.lilithsthrone.game.inventory.InventorySlot;
+import com.lilithsthrone.utils.XMLSaving;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import com.lilithsthrone.game.character.body.CoverableArea;
-import com.lilithsthrone.game.inventory.InventorySlot;
-import com.lilithsthrone.utils.XMLSaving;
 
 /**
  * @since 0.1.6?

@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.sex.managers.dominion;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.CoverableArea;
 import com.lilithsthrone.game.character.npc.dominion.Kruger;
@@ -16,6 +13,9 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 0.1.69.9

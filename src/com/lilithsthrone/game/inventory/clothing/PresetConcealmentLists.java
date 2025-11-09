@@ -1,10 +1,10 @@
 package com.lilithsthrone.game.inventory.clothing;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.utils.Util;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.2.7

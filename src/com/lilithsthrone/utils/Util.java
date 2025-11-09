@@ -1,12 +1,26 @@
 package com.lilithsthrone.utils;
 
+import com.lilithsthrone.controller.xmlParsing.Element;
+import com.lilithsthrone.game.character.GameCharacter;
+import com.lilithsthrone.game.character.body.CoverableArea;
+import com.lilithsthrone.game.character.race.AbstractSubspecies;
+import com.lilithsthrone.game.dialogue.utils.UtilText;
+import com.lilithsthrone.game.inventory.InventorySlot;
+import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
+import com.lilithsthrone.game.inventory.clothing.DisplacementType;
+import com.lilithsthrone.main.Main;
+import com.lilithsthrone.utils.colours.Colour;
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import org.w3c.dom.Document;
+
 import java.awt.Desktop;
-import java.io.File;
+import com.lilithsthrone.utils.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Files;
+import com.lilithsthrone.utils.nio.file.Files;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,22 +42,6 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.w3c.dom.Document;
-
-import com.lilithsthrone.controller.xmlParsing.Element;
-import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.game.character.body.CoverableArea;
-import com.lilithsthrone.game.character.race.AbstractSubspecies;
-import com.lilithsthrone.game.dialogue.utils.UtilText;
-import com.lilithsthrone.game.inventory.InventorySlot;
-import com.lilithsthrone.game.inventory.clothing.AbstractClothing;
-import com.lilithsthrone.game.inventory.clothing.DisplacementType;
-import com.lilithsthrone.main.Main;
-import com.lilithsthrone.utils.colours.Colour;
-
-import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
-
 /**
  * This is just a big mess of utility classes that I wanted to throw somewhere.
  * 
@@ -52,6 +50,11 @@ import javafx.scene.paint.Color;
  * @author Innoxia, CognitiveMist
  */
 public class Util {
+
+	static {
+        File.mountResources("res", name -> Util.class.getClassLoader().getResource(name));
+		File.mountMeta("data");
+	}
 	
 	public static Random random = new Random();
 

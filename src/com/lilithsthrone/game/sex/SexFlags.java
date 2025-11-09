@@ -1,11 +1,11 @@
 package com.lilithsthrone.game.sex;
 
+import com.lilithsthrone.game.character.GameCharacter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.lilithsthrone.game.character.GameCharacter;
 
 /**
  * @since 0.1.69.1

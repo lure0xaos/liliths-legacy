@@ -1,6 +1,6 @@
 package com.lilithsthrone.controller.xmlParsing;
 
-import java.io.File;
+import com.lilithsthrone.utils.io.File;
 
 /**
  * @author BlazingMagpie@gmail.com (or ping BlazingMagpie in Discord)

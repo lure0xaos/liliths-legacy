@@ -1,10 +1,10 @@
 package com.lilithsthrone.utils.comparators;
 
-import java.util.Comparator;
-
 import com.lilithsthrone.game.inventory.enchanting.AbstractItemEffectType;
 import com.lilithsthrone.game.inventory.enchanting.ItemEffect;
 import com.lilithsthrone.game.inventory.enchanting.ItemEffectType;
+
+import java.util.Comparator;
 
 /**
  * @since 0.4.10.10

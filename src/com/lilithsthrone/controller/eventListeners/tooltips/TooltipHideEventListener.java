@@ -1,10 +1,9 @@
 package com.lilithsthrone.controller.eventListeners.tooltips;
 
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-
 import com.lilithsthrone.controller.TooltipUpdateThread;
 import com.lilithsthrone.main.Main;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
 
 /**
  * Hides the tooltip.

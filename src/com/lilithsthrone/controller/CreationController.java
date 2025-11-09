@@ -1,11 +1,5 @@
 package com.lilithsthrone.controller;
 
-import java.time.Month;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.w3c.dom.events.EventTarget;
-
 import com.lilithsthrone.controller.eventListeners.tooltips.TooltipInformationEventListener;
 import com.lilithsthrone.controller.eventListeners.tooltips.TooltipInventoryEventListener;
 import com.lilithsthrone.game.PropertyValue;
@@ -117,6 +111,11 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.Colour;
+import org.w3c.dom.events.EventTarget;
+
+import java.time.Month;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @since 0.4.6.4

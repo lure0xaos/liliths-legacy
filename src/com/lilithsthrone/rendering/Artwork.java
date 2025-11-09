@@ -1,19 +1,18 @@
 package com.lilithsthrone.rendering;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.main.Main;
+import com.lilithsthrone.utils.Util;
+import com.lilithsthrone.utils.colours.Colour;
+import com.lilithsthrone.utils.colours.PresetColour;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.lilithsthrone.game.character.GameCharacter;
-import com.lilithsthrone.utils.Util;
-import com.lilithsthrone.utils.colours.Colour;
-import com.lilithsthrone.utils.colours.PresetColour;
+import com.lilithsthrone.utils.io.File;
+import com.lilithsthrone.utils.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.2.2

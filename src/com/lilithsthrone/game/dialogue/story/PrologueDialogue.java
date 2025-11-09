@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.dialogue.story;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.controller.MainController;
 import com.lilithsthrone.game.Game;
 import com.lilithsthrone.game.character.attributes.Attribute;
@@ -35,6 +32,9 @@ import com.lilithsthrone.utils.colours.PresetColour;
 import com.lilithsthrone.world.Weather;
 import com.lilithsthrone.world.WorldType;
 import com.lilithsthrone.world.places.PlaceType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.1.0

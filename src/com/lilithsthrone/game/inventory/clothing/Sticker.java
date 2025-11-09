@@ -1,12 +1,12 @@
 package com.lilithsthrone.game.inventory.clothing;
 
-import java.util.List;
-import java.util.Map;
-
 import com.lilithsthrone.game.inventory.InventorySlot;
 import com.lilithsthrone.game.inventory.ItemTag;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.colours.Colour;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 0.3.9.5

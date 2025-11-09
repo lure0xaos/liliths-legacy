@@ -1,13 +1,13 @@
 package com.lilithsthrone.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.game.inventory.ColourReplacement;
 import com.lilithsthrone.rendering.Pattern;
 import com.lilithsthrone.utils.colours.BaseColour;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Put any static util methods related to .svg files in here.

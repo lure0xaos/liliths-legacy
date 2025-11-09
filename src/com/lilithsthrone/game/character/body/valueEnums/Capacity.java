@@ -1,13 +1,13 @@
 package com.lilithsthrone.game.character.body.valueEnums;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Measured in cm of <b>diameter</b> of a penetrative object which could fit comfortably within an orifice.

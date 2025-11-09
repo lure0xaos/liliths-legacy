@@ -1,14 +1,14 @@
 package com.lilithsthrone.game.character.persona;
 
-import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.effects.AbstractPerk;
 import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.main.Main;
+
+import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.1.0

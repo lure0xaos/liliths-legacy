@@ -1,11 +1,11 @@
 package com.lilithsthrone.game.sex.managers.universal;
 
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.sex.managers.SexManagerDefault;
 import com.lilithsthrone.game.sex.positions.SexPosition;
 import com.lilithsthrone.game.sex.positions.slots.SexSlot;
+
+import java.util.Map;
 
 /**
  * @since 0.1.69.9

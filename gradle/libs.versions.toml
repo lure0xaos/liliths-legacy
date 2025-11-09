@@ -1,0 +1,46 @@
+[versions]
+org-openjdk-nashorn-nashorn-core = "15.7"
+org-openjfx-javafx = "25.0.2"
+org-openjfx-javafxplugin = "0.1.0"
+junit-jupiter = "5.14.0"
+org-beryx-runtime = "2.0.1"
+
+[plugins]
+org-openjfx-javafxplugin = { id = "org.openjfx.javafxplugin", version.ref = "org-openjfx-javafxplugin" }
+org-beryx-runtime = { id = "org.beryx.runtime", version.ref = "org-beryx-runtime" }
+
+[libraries]
+org-openjdk-nashorn-nashorn-core = { module = "org.openjdk.nashorn:nashorn-core", version.ref = "org-openjdk-nashorn-nashorn-core" }
+
+org-openjfx-javafx-base = { module = "org.openjfx:javafx-base", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-controls = { module = "org.openjfx:javafx-controls", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-fxml = { module = "org.openjfx:javafx-fxml", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-graphics = { module = "org.openjfx:javafx-graphics", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-media = { module = "org.openjfx:javafx-media", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-web = { module = "org.openjfx:javafx-web", version.ref = "org-openjfx-javafx" }
+
+org-openjfx-javafx-base-win = { module = "org.openjfx:javafx-base", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-controls-win = { module = "org.openjfx:javafx-controls", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-fxml-win = { module = "org.openjfx:javafx-fxml", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-graphics-win = { module = "org.openjfx:javafx-graphics", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-media-win = { module = "org.openjfx:javafx-media", version.ref = "org-openjfx-javafx" }
+org-openjfx-javafx-web-win = { module = "org.openjfx:javafx-web", version.ref = "org-openjfx-javafx" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit-jupiter" }
+
+[bundles]
+org-openjfx-javafx-win = [
+    "org-openjfx-javafx-base-win",
+    "org-openjfx-javafx-controls-win",
+    "org-openjfx-javafx-fxml-win",
+    "org-openjfx-javafx-graphics-win",
+    "org-openjfx-javafx-media-win",
+    "org-openjfx-javafx-web-win",
+]
+org-openjfx-javafx-linux = [
+    "org-openjfx-javafx-base",
+    "org-openjfx-javafx-controls",
+    "org-openjfx-javafx-fxml",
+    "org-openjfx-javafx-graphics",
+    "org-openjfx-javafx-media",
+    "org-openjfx-javafx-web",
+]

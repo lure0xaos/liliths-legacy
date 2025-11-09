@@ -1,10 +1,10 @@
 package com.lilithsthrone.game.character.race;
 
+import com.lilithsthrone.utils.time.DayPeriod;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.lilithsthrone.utils.time.DayPeriod;
 
 /**
  * @since 0.4.7.1

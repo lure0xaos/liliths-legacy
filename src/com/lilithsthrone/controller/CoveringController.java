@@ -1,7 +1,5 @@
 package com.lilithsthrone.controller;
 
-import org.w3c.dom.events.EventTarget;
-
 import com.lilithsthrone.game.character.body.coverings.AbstractBodyCoveringType;
 import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.coverings.Covering;
@@ -22,6 +20,7 @@ import com.lilithsthrone.game.dialogue.utils.MiscDialogue;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+import org.w3c.dom.events.EventTarget;
 
 /**
  * @since 0.4.6.4

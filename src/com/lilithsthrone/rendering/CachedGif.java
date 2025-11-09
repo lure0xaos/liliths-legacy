@@ -1,8 +1,8 @@
 package com.lilithsthrone.rendering;
 
-import java.io.File;
+import com.lilithsthrone.utils.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import com.lilithsthrone.utils.nio.file.Files;
 import java.util.Base64;
 
 /**

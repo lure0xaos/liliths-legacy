@@ -1,10 +1,10 @@
 package com.lilithsthrone.game.character.body.valueEnums;
 
-import java.util.List;
-
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.List;
 
 /**
  * @since 0.2.?

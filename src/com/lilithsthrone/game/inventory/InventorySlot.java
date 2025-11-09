@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.BodyPartInterface;
 import com.lilithsthrone.game.character.body.coverings.Covering;
@@ -10,6 +7,9 @@ import com.lilithsthrone.game.dialogue.utils.UtilText;
 import com.lilithsthrone.game.inventory.clothing.BodyPartClothingBlock;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.1.0

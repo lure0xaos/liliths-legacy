@@ -1,14 +1,14 @@
 package com.lilithsthrone.game.character.gender;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
 import com.lilithsthrone.game.settings.ContentPreferenceValue;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @since 0.1.0

@@ -1,7 +1,6 @@
 package com.lilithsthrone.utils.colours;
 
 import com.lilithsthrone.utils.Util;
-
 import javafx.scene.paint.Color;
 
 /**

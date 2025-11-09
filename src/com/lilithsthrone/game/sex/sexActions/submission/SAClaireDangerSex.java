@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.sex.sexActions.submission;
 
-import java.util.Map;
-import java.util.Set;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.npc.submission.Claire;
@@ -18,6 +15,9 @@ import com.lilithsthrone.game.sex.sexActions.SexActionPriority;
 import com.lilithsthrone.game.sex.sexActions.SexActionType;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.world.WorldType;
+
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @since 0.3.5

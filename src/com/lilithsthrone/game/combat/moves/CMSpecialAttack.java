@@ -1,9 +1,5 @@
 package com.lilithsthrone.game.combat.moves;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.attributes.Attribute;
 import com.lilithsthrone.game.character.body.CoverableArea;
@@ -25,6 +21,10 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 0.1.0

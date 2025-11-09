@@ -1,8 +1,5 @@
 package com.lilithsthrone.game.dialogue.places.submission.ratWarrens;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.coverings.BodyCoveringType;
 import com.lilithsthrone.game.character.body.coverings.Covering;
@@ -40,6 +37,9 @@ import com.lilithsthrone.game.settings.ForcedTFTendency;
 import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util;
 import com.lilithsthrone.utils.colours.PresetColour;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @since 0.3.5.5

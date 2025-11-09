@@ -1,8 +1,5 @@
 package com.lilithsthrone.world.places;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.lilithsthrone.game.character.effects.Perk;
 import com.lilithsthrone.game.dialogue.DialogueNode;
 import com.lilithsthrone.game.sex.ImmobilisationType;
@@ -10,6 +7,9 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.utils.Util.Value;
 import com.lilithsthrone.utils.colours.Colour;
 import com.lilithsthrone.world.Cell;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @since 0.3.9

@@ -1,10 +1,5 @@
 package com.lilithsthrone.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.w3c.dom.events.EventTarget;
-
 import com.lilithsthrone.controller.eventListeners.InventorySelectedItemEventListener;
 import com.lilithsthrone.controller.eventListeners.tooltips.TooltipInformationEventListener;
 import com.lilithsthrone.controller.eventListeners.tooltips.TooltipInventoryEventListener;
@@ -26,6 +21,10 @@ import com.lilithsthrone.main.Main;
 import com.lilithsthrone.rendering.Pattern;
 import com.lilithsthrone.rendering.RenderingEngine;
 import com.lilithsthrone.utils.colours.Colour;
+import org.w3c.dom.events.EventTarget;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 0.4.6.4

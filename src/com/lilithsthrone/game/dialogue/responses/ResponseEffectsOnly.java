@@ -1,12 +1,12 @@
 package com.lilithsthrone.game.dialogue.responses;
 
-import java.util.List;
-
 import com.lilithsthrone.game.character.attributes.CorruptionLevel;
 import com.lilithsthrone.game.character.body.valueEnums.Femininity;
 import com.lilithsthrone.game.character.effects.AbstractPerk;
 import com.lilithsthrone.game.character.fetishes.AbstractFetish;
 import com.lilithsthrone.game.character.race.AbstractSubspecies;
+
+import java.util.List;
 
 /**
  * A Response class that does not progress to a new DialogueNode.<br/><br/>

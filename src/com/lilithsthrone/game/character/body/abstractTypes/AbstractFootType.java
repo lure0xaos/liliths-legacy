@@ -1,10 +1,10 @@
 package com.lilithsthrone.game.character.body.abstractTypes;
 
-import java.util.List;
-
 import com.lilithsthrone.game.character.GameCharacter;
 import com.lilithsthrone.game.character.body.valueEnums.FootStructure;
 import com.lilithsthrone.game.character.body.valueEnums.LegConfiguration;
+
+import java.util.List;
 
 /**
  * @since 0.3.1
