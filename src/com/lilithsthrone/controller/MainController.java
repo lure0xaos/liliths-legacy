@@ -218,6 +218,8 @@ public class MainController implements Initializable {
 		tooltip.setMaxHeight(400);
 		tooltip.setAutoHide(true);
 		tooltip.setConsumeAutoHidingEvents(false);
+		
+		webviewTooltip.setOnMouseEntered(e -> tooltip.hide());
 
 		vBoxLeft.getStyleClass().add("vbox");
 
