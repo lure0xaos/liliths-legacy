@@ -1213,6 +1213,36 @@ public class MainController implements Initializable {
 	static SetContentEventListener nextResponsePageListener = new SetContentEventListener().nextPage();
 	static SetContentEventListener previousResponsePageListener = new SetContentEventListener().previousPage();
 	
+	private static List<org.w3c.dom.Element> getClickedElements(WebEngine engine, org.w3c.dom.events.MouseEvent event) {
+		List<org.w3c.dom.Element> elementList = new ArrayList<>();
+		Object result = engine.executeScript("document.elementsFromPoint(" + event.getClientX() + ", " + event.getClientY() + ")");
+		if (result instanceof netscape.javascript.JSObject) {
+			netscape.javascript.JSObject elements = (netscape.javascript.JSObject) result;
+			int length = (Integer) elements.getMember("length");
+			for (int i = 0; i < length; i++) {
+				Object element = elements.getSlot(i);
+				if (element instanceof org.w3c.dom.Element) elementList.add((org.w3c.dom.Element) element);
+			}
+		}
+		return elementList;
+	}
+	
+	private static WebEngine findEngine(Document document) {
+		if (null != MainController.webEngine && document == MainController.webEngine.getDocument())
+			return MainController.webEngine;
+		else if (null != Main.mainController.webEngineAttributes && document == Main.mainController.webEngineAttributes.getDocument())
+			return Main.mainController.webEngineAttributes;
+		else if (null != Main.mainController.webEngineButtonsLeft && document == Main.mainController.webEngineButtonsLeft.getDocument())
+			return Main.mainController.webEngineButtonsLeft;
+		else if (null != Main.mainController.webEngineButtonsRight && document == Main.mainController.webEngineButtonsRight.getDocument())
+			return Main.mainController.webEngineButtonsRight;
+		else if (null != Main.mainController.webEngineRight && document == Main.mainController.webEngineRight.getDocument())
+			return Main.mainController.webEngineRight;
+		else if (null != Main.mainController.webEngineTooltip && document == Main.mainController.webEngineTooltip.getDocument())
+			return Main.mainController.webEngineTooltip;
+		else return null;
+	}
+	
 	// Temporary ones to clear:
 	static Map<Document, List<EventListenerData>> EventListenerDataMap = new HashMap<>();
 	
@@ -1220,8 +1250,8 @@ public class MainController implements Initializable {
 		cookieManager.getCookieStore().removeAll();
 		if(document!=null) {
 			for(EventListenerData data : EventListenerDataMap.get(document)) {
-				((EventTarget) document.getElementById(data.ID)).removeEventListener(data.type, data.listener, data.useCapture);
-			}
+                ((EventTarget) document.getDocumentElement()).removeEventListener(data.type, data.listener, true);
+            }
 			EventListenerDataMap.get(document).clear();
 			
 			EventListenerDataMap.remove(document);
@@ -1229,8 +1259,19 @@ public class MainController implements Initializable {
 	}
 	
 	static void addEventListener(Document document, String ID, String type, EventListener listener, boolean useCapture) {
-		((EventTarget) document.getElementById(ID)).addEventListener(type, listener, useCapture);
-		EventListenerDataMap.get(document).add(new EventListenerData(ID, type, listener, useCapture));
+        ((EventTarget) document.getDocumentElement()).addEventListener(type, e -> {
+			org.w3c.dom.Element elementById = document.getElementById(ID);
+            WebEngine engine = findEngine(document);
+            if (engine != null) {
+                for (org.w3c.dom.Element clickedElement : getClickedElements(engine, (org.w3c.dom.events.MouseEvent) e)) {
+                    if (elementById == clickedElement) {
+                        listener.handleEvent(e);
+                        e.stopPropagation();
+                    }
+                }
+            }
+        }, true);
+        EventListenerDataMap.get(document).add(new EventListenerData(ID, type, listener, useCapture));
 	}
 	
 	public static void addTooltipListeners(String id, EventListener tooltip) {
