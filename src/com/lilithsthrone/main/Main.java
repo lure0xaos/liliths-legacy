@@ -498,6 +498,11 @@ public class Main extends Application {
 
 		mainController = loader.getController();
 		Main.primaryStage.setScene(mainScene);
+		
+		primaryStage.setOnCloseRequest(e -> {
+			if (!CloseDialog.showDialog()) e.consume();
+		});
+		
 		Main.primaryStage.show();
 		Main.game = new Game();
 		Main.sex = new Sex();
